@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="css/minimalGenomeBrowser.css" type="text/css" />
+
+  <!-- Remote D3.js -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+
+  <!-- Local minimalGenomeBrowser -->
+  <script src="lib/minimalGenomeBrowser.js"></script>
+</head>
+
+<body>
+  <div id="genomeBrowser"></div>
+  <div id="genomeBrowser2"></div>
+  <script>
+    (function() {
+    genomeBrowser().searchBox(false).div("genomeBrowser").species("human").gene("ENSG00000139618");
+    genomeBrowser().searchBox(true).div("genomeBrowser2").species("human").from(140322601).to(141323700).start();
+    })()
+  </script>
+</body>
+</html>

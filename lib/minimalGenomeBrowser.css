@@ -1,0 +1,59 @@
+svg text {
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+ */
+    cursor: default;
+}
+
+.genomeBrowserDiv {
+    position : relative;
+}
+
+.genomeBrowserDiv p {
+    font-size: 14px;
+}
+
+.genomeBrowserDiv input {
+    font-size: 12px;
+}
+
+.genomeBrowser {
+    font-size: 8px;
+    background-color : #F8FBEF;
+}
+rect.pane {
+    cursor: move;
+    fill: none;
+    pointer-events: all;
+}
+.gene {
+    filter: alpha(opacity=60);
+    opacity: 0.6;
+}
+
+.gene_info {
+    position : absolute;
+    height : 200px;
+    top : 60px;
+    left : 0px;
+    pointer-events: none;
+}
+
+.gene_info_searchBox {
+    position : absolute;
+    top : 100px;
+    left : 0px;
+    pointer-events: none;
+}
+
+.gene_info_searchBox p {
+    font-size : 10px;
+}
+
+.gene_info p {
+    font-size : 10px;
+}
+
