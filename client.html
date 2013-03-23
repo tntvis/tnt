@@ -15,10 +15,12 @@
 <body>
   <div id="genomeBrowser"></div>
   <div id="genomeBrowser2"></div>
+  <div id="genomeBrowser3"></div>
   <script>
     (function() {
-    genomeBrowser().searchBox(false).div("genomeBrowser").species("human").gene("ENSG00000139618");
-    genomeBrowser().searchBox(true).div("genomeBrowser2").species("human").from(140322601).to(141323700).start();
+    genomeBrowser().searchBox(true).div("genomeBrowser").species("human").gene("ENSG00000139618");
+    genomeBrowser().searchBox(true).div("genomeBrowser2").species("human").gene("SNORD73");
+    genomeBrowser().searchBox(true).div("genomeBrowser3").species("human").from(140322601).to(141323700).start();
     })()
   </script>
 </body>
