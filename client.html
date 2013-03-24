@@ -2,6 +2,14 @@
 <meta charset="utf-8">
 <html>
 <head>
+</head>
+
+<body>
+  <div id="genomeBrowser"></div>
+  <div id="genomeBrowser2"></div>
+  <div id="genomeBrowser3"></div>
+
+
   <!-- Local CSS -->
   <link rel="stylesheet" href="lib/minimalGenomeBrowser.css" type="text/css" />
 
@@ -10,12 +18,7 @@
 
   <!-- Local minimalGenomeBrowser -->
   <script src="lib/minimalGenomeBrowser.js"></script>
-</head>
 
-<body>
-  <div id="genomeBrowser"></div>
-  <div id="genomeBrowser2"></div>
-  <div id="genomeBrowser3"></div>
   <script>
     (function() {
 <!--    genomeBrowser().width(800).searchBox(true).div("genomeBrowser").species("human").gene("ENSG00000139618"); -->
@@ -24,7 +27,7 @@
         var gB = genomeBrowser().searchBox(true).species("human").gene("SNORD73");
         gB(document.getElementById("genomeBrowser"));
 
-        var gB2 = genomeBrowser().searchBox(false).species("human").from(140322601).to(141323700);
+        var gB2 = genomeBrowser().searchBox(true).species("human").from(140322601).to(141323700);
         gB2(document.getElementById("genomeBrowser2"));
     })()
   </script>
