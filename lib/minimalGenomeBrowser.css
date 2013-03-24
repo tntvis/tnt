@@ -8,10 +8,6 @@ svg text {
     cursor: default;
 }
 
-.genomeBrowserDiv {
-/*    position : relative; *//* needed? */
-}
-
 .genomeBrowserDiv p {
     font-size: 14px;
 }
@@ -54,7 +50,3 @@ rect.pane {
     font-size : 10px;
 }
 
-.ensGene_selection {
-/*    height : 22px; */
-/*    position : relative; */
-}
