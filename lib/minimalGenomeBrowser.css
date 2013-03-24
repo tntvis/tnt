@@ -37,14 +37,7 @@ rect.pane {
 .gene_info {
     position : absolute;
     height : 200px;
-    top : 60px;
-    left : 0px;
-    pointer-events: none;
-}
-
-.gene_info_searchBox {
-    position : absolute;
-    top : 100px;
+/*    top : 60px; */
     left : 0px;
     pointer-events: none;
 }
