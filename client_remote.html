@@ -7,8 +7,6 @@
 <body>
   <p>This is my gene:</p>
   <div id="genomeBrowser"></div>
-  <p>And this is another gene:</p>
-  <div id="genomeBrowser2"></div>
 
 
 <!-- minimalGenomeBrowser code -->
@@ -20,9 +18,6 @@
     (function() {
         var gB = genomeBrowser().searchBox(true).species("human").gene("SNORD73");
         gB(document.getElementById("genomeBrowser"));
-
-        var gB2 = genomeBrowser().searchBox(false).species("human").from(140322601).to(141323700);
-        gB2(document.getElementById("genomeBrowser2"));
     })()
   </script>
 <!-- END -->
