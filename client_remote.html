@@ -5,25 +5,19 @@
 </head>
 
 <body>
+  <p>This is my gene:</p>
   <div id="genomeBrowser"></div>
+  <p>And this is another gene:</p>
   <div id="genomeBrowser2"></div>
-  <div id="genomeBrowser3"></div>
 
 
-  <!-- Local CSS -->
-  <link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser.css" type="text/css" />
-
-  <!-- Remote D3.js -->
+<!-- minimalGenomeBrowser code -->
   <script src="http://d3js.org/d3.v3.min.js"></script>
-
-  <!-- Local minimalGenomeBrowser -->
+  <link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser.css" type="text/css" />
   <script src="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser_min.js"></script>
 
   <script>
     (function() {
-<!--    genomeBrowser().width(800).searchBox(true).div("genomeBrowser").species("human").gene("ENSG00000139618"); -->
-<!--    genomeBrowser().searchBox(true).div("genomeBrowser2").species("human").gene("SNORD73"); -->
-<!--    genomeBrowser().searchBox(true).div("genomeBrowser3").species("human").from(140322601).to(141323700).start(); -->
         var gB = genomeBrowser().searchBox(true).species("human").gene("SNORD73");
         gB(document.getElementById("genomeBrowser"));
 
@@ -31,5 +25,8 @@
         gB2(document.getElementById("genomeBrowser2"));
     })()
   </script>
+<!-- END -->
+
+
 </body>
 </html>
