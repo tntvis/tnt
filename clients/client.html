@@ -10,17 +10,17 @@
 
 
   <!-- Local CSS -->
-  <link rel="stylesheet" href="lib/minimalGenomeBrowser.css" type="text/css" />
+  <link rel="stylesheet" href="../lib/minimalGenomeBrowser.css" type="text/css" />
 
   <!-- Remote D3.js -->
   <script src="http://d3js.org/d3.v3.min.js"></script>
 
   <!-- Local minimalGenomeBrowser -->
-  <script src="lib/minimalGenomeBrowser.js"></script>
+  <script src="../lib/minimalGenomeBrowser.js"></script>
 
   <script>
     (function() {
-        var gB = genomeBrowser().searchBox(true).orthologues(true).species("mouse").gene("BRCA2");
+        var gB = genomeBrowser().localREST().searchBox(true).orthologues(true).species("human").gene("BRCA2");
         gB(document.getElementById("genomeBrowser"));
     })()
   </script>
