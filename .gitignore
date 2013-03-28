@@ -7,6 +7,5 @@
 .DS_Store
 .~*
 node_modules/
-jqtouch-*/
 npm-debug.log
 build/
