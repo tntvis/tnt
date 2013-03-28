@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <title>The Minimal Genome Browser</title>
+
+    <!-- Remote JQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!-- Local JQuery-URL-Parser -->
+    <script src="../lib/jQuery-URL-Parser/purl.js"></script>
+
+    <!-- Remote D3.js -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <!-- Local jqTouch -->
+    <style type="text/css" media="screen">@import "../lib/jqtouch-1.0-b4-rc/themes/css/jqtouch.css";</style>
+    <script src="../lib/jqtouch-1.0-b4-rc/src/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../lib/jqtouch-1.0-b4-rc/src/jqtouch-jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript">
+      var jQT = $.jQTouch({
+      statusBar: 'black'
+      });
+</script>
+  </head>
+
+  <body>
+    <div id="Options">
+      <div class="toolbar">
+	<h1>Options</h1>
+      </div>
+      <ul class="edgetoedge">
+	<li class="arrow"><a href="#search">Search</a></li>
+	<li class="arrow"><a href="#ensGenes">Ensembl Genes</a></li>
+	<li class="arrow"><a href="#orthologues">Orthologues</a></li>
+	<li class="arrow"><a href="#browser">Browser</a></li>
+      </ul>
+    </div>
+
+    <div id="browser">
+      <div class="toolbar">
+	<h1>Genome Browser</h1>
+	<a class="button back" href="#">Options</a>
+      </div>
+      <ul class="egetoedge">
+	<li><div id="GenomeBrowser"></div></li>
+      </ul>
+    </div>
+
+    <link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser.css" type="text/css" />
+    <script src="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser_min.js"></script>
+
+    <script>
+      (function() {
+      var gB = genomeBrowser();
+      gB(document.getElementById("GenomeBrowser"));
+      })();
+    </script>
+
+  </body>
+  
+</html>
+
