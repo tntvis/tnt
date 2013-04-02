@@ -8,48 +8,29 @@ svg text {
     cursor: default;
 }
 
-.genomeBrowserDiv p {
-    font-size: 14px;
-}
-
-.groupDiv {
+.ePeek_groupDiv {
     position : relative;
 }
 
-.genomeBrowserDiv input {
-    font-size: 12px;
-}
-
-.genomeBrowser {
-    font-size: 8px;
+.ePeek_genomeBrowser {
     background-color : #F8FBEF;
 }
-rect.pane {
+
+rect.ePeek_pane {
     cursor: move;
     fill: none;
     pointer-events: all;
 }
-.gene {
+.ePeek_gene {
     filter: alpha(opacity=60);
     opacity: 0.6;
 }
 
-.gene_info {
+.ePeek_gene_info {
     position : absolute;
     height : 200px;
-/*    top : 60px; */
+/*    top : 60px; */ /* Now this is dynamically generated */
     left : 0px;
     pointer-events: none;
 }
 
-.gene_info_searchBox p {
-    font-size : 10px;
-}
-
-.gene_info p {
-    font-size : 10px;
-}
-
-.loc_row span {
-    font-size : 12px;
-}
