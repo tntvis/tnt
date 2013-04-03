@@ -20,7 +20,7 @@
 
   <script>
     (function() {
-        var gB = genomeBrowser().localREST().searchBox(true).orthologues(true).species("human").gene("BRCA2");
+        var gB = genomeBrowser().localREST().show_options(true).species("human").gene("BRCA2");
         gB(document.getElementById("genomeBrowser"));
     })()
   </script>

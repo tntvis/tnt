@@ -38,12 +38,31 @@
       </ul>
     </div>
 
+    <div id="search">
+      <div class="toolbar">
+	<h1>Search</h1>
+	<a class="button back" href="#">Back</a>
+      </div>
+      <form method="get"> <!-- Needed?? -->
+	<ul>
+	  <li><input type="text" placeholder="BRCA2" name="location" id="ePeek_loc"  autocapitalize="off" autocorrect="off" autocomplete="off" /></li>
+	  <li><input type="submit" class="submit" name="action" value="Jump!" onclick="var val=$('#ePeek_loc').val(); window.location.href='test1.html?loc=' + val + '#browser'"/></li>
+	</ul>
+      </form>
+      <ul class="edgetoedge">
+	<li>Examples:</li>
+	<li>ENSG00000139618</li>
+	<li>SNORD73</li>
+	<li>human:5:1533225-1555555</li>
+      </ul>
+    </div>
+
     <div id="browser">
       <div class="toolbar">
-    	<h1>Genome Browser</h1>
+    	<h1>e!Peek</h1>
     	<a class="button back" href="#">Options</a>
       </div>
-      <ul class="egetoedge">
+      <ul class="edgetoedge">
     	<li><div id="GenomeBrowser"></div></li>
       </ul>
     </div>
@@ -53,7 +72,7 @@
 
     <script>
       (function() {
-      var gB = genomeBrowser().species("human").gene("BRCA2");
+      gB = genomeBrowser().species("human").gene("BRCA2").show_options(false).show_title(false);
       gB(document.getElementById("GenomeBrowser"));
       })();
     </script>
