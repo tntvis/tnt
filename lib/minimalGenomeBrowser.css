@@ -8,48 +8,61 @@ svg text {
     cursor: default;
 }
 
-.genomeBrowserDiv p {
-    font-size: 14px;
-}
-
-.groupDiv {
+.ePeek_groupDiv {
     position : relative;
 }
 
-.genomeBrowserDiv input {
-    font-size: 12px;
+.ePeek_svg {
+    background-color : #DDDDDD; /*#F8FBEF;*/
 }
 
-.genomeBrowser {
-    font-size: 8px;
-    background-color : #F8FBEF;
-}
-rect.pane {
+rect.ePeek_pane {
     cursor: move;
     fill: none;
     pointer-events: all;
 }
-.gene {
+.ePeek_gene {
     filter: alpha(opacity=60);
     opacity: 0.6;
 }
 
-.gene_info {
+.ePeek_gene_info {
     position : absolute;
     height : 200px;
-/*    top : 60px; */
+/*    top : 60px; */ /* Now this is dynamically generated */
     left : 0px;
     pointer-events: none;
 }
 
-.gene_info_searchBox p {
-    font-size : 10px;
+#ePeek_options_pane {
+    display : block;
+    /* position : absolute; */
+    /* z-index : 1000; */
+    background-color : #DDDDDD;
 }
 
-.gene_info p {
-    font-size : 10px;
+.ePeek {
+/*    position : relative;*/
 }
 
-.loc_row span {
-    font-size : 12px;
+.ePeek_option {
+    display : none;
+    transition:  all 0.5s;
+    -webkit-transition: all 0.5s ease-out;  
+    -moz-transition: all 0.5s ease-out;  
+    -o-transition: all 0.5s ease-out;  
+}
+
+.ePeek_options_list {
+    display: block;
+    transition:  all 0.5s;
+    -webkit-transition: all 0.5s ease-out;  
+    -moz-transition: all 0.5s ease-out;  
+    -o-transition: all 0.5s ease-out;  
+    opacity : 0;
+    height  : 0px;
+}
+
+.ePeek_search_p {
+    height : 0px;
 }

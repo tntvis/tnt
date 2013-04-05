@@ -28,32 +28,51 @@
   <body>
     <div id="Options">
       <div class="toolbar">
-	<h1>Options</h1>
+    	<h1>Options</h1>
       </div>
       <ul class="edgetoedge">
-	<li class="arrow"><a href="#search">Search</a></li>
-	<li class="arrow"><a href="#ensGenes">Ensembl Genes</a></li>
-	<li class="arrow"><a href="#orthologues">Orthologues</a></li>
-	<li class="arrow"><a href="#browser">Browser</a></li>
+    	<li class="arrow"><a href="#search">Search</a></li>
+    	<li class="arrow"><a href="#ensGenes">Ensembl Genes</a></li>
+    	<li class="arrow"><a href="#orthologues">Orthologues</a></li>
+    	<li class="arrow"><a href="#browser">Browser</a></li>
+      </ul>
+    </div>
+
+    <div id="search">
+      <div class="toolbar">
+	<h1>Search</h1>
+	<a class="button back" href="#">Back</a>
+      </div>
+      <form method="get"> <!-- Needed?? -->
+	<ul>
+	  <li><input type="text" placeholder="BRCA2" name="location" id="ePeek_loc"  autocapitalize="off" autocorrect="off" autocomplete="off" /></li>
+	  <li><input type="submit" class="submit" name="action" value="Jump!" onclick="var val=$('#ePeek_loc').val(); window.location.href='test1.html?loc=' + val + '#browser'"/></li>
+	</ul>
+      </form>
+      <ul class="edgetoedge">
+	<li>Examples:</li>
+	<li>ENSG00000139618</li>
+	<li>SNORD73</li>
+	<li>human:5:1533225-1555555</li>
       </ul>
     </div>
 
     <div id="browser">
       <div class="toolbar">
-	<h1>Genome Browser</h1>
-	<a class="button back" href="#">Options</a>
+    	<h1>e!Peek</h1>
+    	<a class="button back" href="#">Options</a>
       </div>
-      <ul class="egetoedge">
-	<li><div id="GenomeBrowser"></div></li>
+      <ul class="edgetoedge">
+    	<li><div id="GenomeBrowser"></div></li>
       </ul>
     </div>
 
-    <link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser.css" type="text/css" />
-    <script src="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser_min.js"></script>
+    <link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/tests/minimalGenomeBrowser.css" type="text/css" />
+    <script src="http://www.ebi.ac.uk/~mp/tests/minimalGenomeBrowser.js"></script>
 
     <script>
       (function() {
-      var gB = genomeBrowser();
+      gB = genomeBrowser().species("human").gene("BRCA2").show_options(false).show_title(false);
       gB(document.getElementById("GenomeBrowser"));
       })();
     </script>
