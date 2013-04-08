@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <html>
   <head>
-    <title>The Minimal Genome Browser</title>
+    <title>e!Peek</title>
 
     <!-- Remote JQuery -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -72,7 +72,42 @@
 
     <script>
       (function() {
-      gB = genomeBrowser().species("human").gene("BRCA2").show_options(false).show_title(false);
+      var gB = genomeBrowser().show_options(false).show_title(false);
+
+      var url = $.url();
+      if (url.param("species") !== undefined) {
+        gB = gB.species(url.param("species")); // Is it needed the new gB?
+      }
+
+      if (url.param("chr") !== undefined) {
+        var chr  = url.param("chr");
+        var from = url.param("from");
+        var to   = url.param("to");
+        gB = gB.chr(chr).from(from).to(to);
+      }
+
+      if (url.param("gene") !== undefined) {
+        gB = gB.gene(url.param("gene"));
+      }
+
+      if (url.param("show_options") !== undefined) {
+        var show_options = url.param("show_options");
+        if (show_options === "false") {
+          gB = gB.show_options(false);
+        }
+        if (show_options === "true") {
+          gB = gB.show_options(true);
+        }
+      }
+      if (url.param("loc") !== undefined) {
+        var loc = url.param("loc");
+        if (gB.isLocation(loc)) {
+          gB.parseLocation(loc);
+        } else {
+          gB.gene(loc);
+        }
+      }
+
       gB(document.getElementById("GenomeBrowser"));
       })();
     </script>
