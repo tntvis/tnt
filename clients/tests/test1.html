@@ -57,6 +57,26 @@
       </ul>
     </div>
 
+    <div id="ensGenes">
+      <div class="toolbar">
+	<h1>Ensembl Genes</h1>
+	<a class="button back" href="#">Back</a>
+      </div>
+      <ul class="edgetoedge">
+	<li><div id="ePeek_ext_ensGenes_select"></div></li>
+      </ul>
+    </div>
+      
+    <div id="orthologues">
+      <div class="toolbar">
+	<h1>Orthologues</h1>
+	<a class="button back" href="#">Back</a>
+      </div>
+      <ul class="edgetoedge">
+	<li><div id="ePeek_ext_orth_select"></div></li>
+      </ul>
+    </div>
+
     <div id="browser">
       <div class="toolbar">
     	<h1>e!Peek</h1>
@@ -67,12 +87,18 @@
       </ul>
     </div>
 
-    <link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/tests/minimalGenomeBrowser.css" type="text/css" />
-    <script src="http://www.ebi.ac.uk/~mp/tests/minimalGenomeBrowser.js"></script>
+<!--     <link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/tests/minimalGenomeBrowser.css" type="text/css" /> -->
+<!--     <script src="http://www.ebi.ac.uk/~mp/tests/minimalGenomeBrowser.js"></script> -->
+    <link rel="stylesheet" href="../../lib/minimalGenomeBrowser.css" type="text/css" />
+    <script src="../../lib/minimalGenomeBrowser.js"></script>
 
     <script>
       (function() {
-      var gB = genomeBrowser().show_options(false).show_title(false);
+      var gB = genomeBrowser()
+          .show_options(false)
+          .show_title(false)
+          .orthologues_div_id("ePeek_ext_orth_select")
+          .ensGenes_div_id("ePeek_ext_ensGenes_select");
 
       var url = $.url();
       if (url.param("species") !== undefined) {
@@ -90,15 +116,6 @@
         gB = gB.gene(url.param("gene"));
       }
 
-      if (url.param("show_options") !== undefined) {
-        var show_options = url.param("show_options");
-        if (show_options === "false") {
-          gB = gB.show_options(false);
-        }
-        if (show_options === "true") {
-          gB = gB.show_options(true);
-        }
-      }
       if (url.param("loc") !== undefined) {
         var loc = url.param("loc");
         if (gB.isLocation(loc)) {
