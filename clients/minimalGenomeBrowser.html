@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <html>
 <head>
-<title>The Minimal Genome Browser</title>
+<title>e!Peek</title>
 
 <!-- Remote JQuery -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -13,9 +13,8 @@
 <!-- Remote D3.js -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
-<!-- Local jqTouch -->
-<style type="text/css" media="screen">@import "lib/jqtouch-1.0-b4-rc/themes/css/jqtouch.css";</style>
-<script src="lib/jqtouch-1.0-b4-rc/src/jqtouch-jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<!-- Remote QRTag -->
+<script type="text/javascript" src="http://api.qrtag.net/js"></script>
 
 </head>
 
@@ -23,8 +22,8 @@
 <div id="genomeBrowser"></div>
 
 <!-- minimalGenomeBrowser -->
-<link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser.css" type="text/css" />
-<script src="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser_min.js"></script>
+<link rel="stylesheet" href="../lib/minimalGenomeBrowser.css" type="text/css" />
+<script src="../lib/minimalGenomeBrowser.js"></script>
 
 <script>
   (function() {
@@ -32,26 +31,29 @@
   if ($.url().param("species") !== undefined) {
     gB = gB.species($.url().param("species"));
   }
+
   if ($.url().param("chr") !== undefined) {
     var chr = $.url().param("chr");
     var from = $.url().param("from");
     var to = $.url().param("to");
     gB = gB.chr(chr).from(from).to(to);
   }
+
   // This means that we are giving preference to genes over locations
   if ($.url().param("gene") !== undefined) {
     gB = gB.gene($.url().param("gene"));
   }
-  if ($.url().param("searchBox") !== undefined) {
-    var searchBox = $.url().param("searchBox");
-    if (searchBox === "false") {
-      console.log ("SETTING SEARCHBOX TO FALSE");
-      gB = gB.searchBox(false);
+
+  if ($.url().param("show_options") !== undefined) {
+    var options = $.url().param("show_options");
+    if (options === "false") {
+      gB = gB.show_options(false);
     }
-    if (searchBox === "true") {
-      gB = gB.searchBox(true);
+    if (options === "true") {
+      gB = gB.show_options(true);
     }
   }
+
   if ($.url().param("orthologues") !== undefined) {
     var orthologues = $.url().param("orthologues");
     if (orthologues === "false") {
