@@ -28,6 +28,12 @@
 <script>
   (function() {
   var gB = genomeBrowser();
+
+  if ($.url().param("loc") !== undefined) {
+    console.log("LOC FOUND: " + $.url().param("loc"));
+    gB = gB.parseLocation($.url().param("loc"));
+  }
+
   if ($.url().param("species") !== undefined) {
     gB = gB.species($.url().param("species"));
   }
@@ -42,6 +48,16 @@
   // This means that we are giving preference to genes over locations
   if ($.url().param("gene") !== undefined) {
     gB = gB.gene($.url().param("gene"));
+  }
+
+  if ($.url().param("show_links") !== undefined) {
+    var links = $.url().param("show_links");
+    if (links === "false") {
+     gB = gB.show_links(false);
+    }
+    if (links === "true") {
+     gB = gB.show_links(true);
+    }
   }
 
   if ($.url().param("show_options") !== undefined) {
