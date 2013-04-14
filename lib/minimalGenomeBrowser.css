@@ -34,7 +34,7 @@ rect.ePeek_pane {
     pointer-events: none;
 }
 
-#ePeek_options_pane {
+.ePeek_options_pane {
     display : block;
     /* position : absolute; */
     /* z-index : 1000; */
