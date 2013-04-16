@@ -57,24 +57,33 @@ rect.ePeek_dark_pane {
 /*    position : relative;*/
 }
 
-.ePeek_option {
-    display : none;
-    transition:  all 0.5s;
-    -webkit-transition: all 0.5s ease-out;  
-    -moz-transition: all 0.5s ease-out;  
-    -o-transition: all 0.5s ease-out;  
-}
-
-.ePeek_options_list {
-    display: block;
-    transition:  all 0.5s;
-    -webkit-transition: all 0.5s ease-out;  
-    -moz-transition: all 0.5s ease-out;  
-    -o-transition: all 0.5s ease-out;  
-    opacity : 0;
-    height  : 0px;
-}
-
 .ePeek_search_p {
     height : 0px;
+}
+
+.ePeek_TabBlock {
+    display : block;
+    height  : 40px;
+    position : absolute;
+    transition : all 0.5s;
+    -webkit-transition : all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition : all 0.5s;
+    opacity : 0;
+}
+
+.ePeek_TabBlock_active {
+    opacity : 1;
+    z-index : 1000;
+}
+
+/* The other TabBlock elements are also inline elements (selects) */
+.ePeek_search_p {
+    display : inline;
+}
+
+.ePeek_orth_select, .ePeek_ensGene_select, .ePeek_search_p {
+    position : absolute;
+    top      : 50%;
+    margin-top : -10px;
 }
