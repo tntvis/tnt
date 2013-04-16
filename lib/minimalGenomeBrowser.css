@@ -12,9 +12,9 @@ svg text {
     position : relative;
 }
 
-.ePeek_svg {
-    background-color : #DDDDDD; /*#F8FBEF;*/
-}
+/* .ePeek_svg { */
+/*     background-color : #DDDDDD; /\*#F8FBEF;*\/ */
+/* } */
 
 rect.ePeek_pane {
     cursor: move;
