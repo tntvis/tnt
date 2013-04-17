@@ -301,11 +301,11 @@ slides > slide.dark {
 /* line 171, ../scss/default.scss */
 slides > slide:not(.nobackground):before {
   font-size: 12pt;
-  content: "The minimal genome browser";
+  content: "#yourhashtag";
   position: absolute;
   bottom: 20px;
   left: 60px;
-  background: url(../../../../ePeek_logo_white.png) no-repeat 0 50%;
+  background: url(../../images/google_developers_icon_128.png) no-repeat 0 50%;
   -webkit-background-size: 30px 30px;
   -moz-background-size: 30px 30px;
   -o-background-size: 30px 30px;

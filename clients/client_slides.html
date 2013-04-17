@@ -275,25 +275,29 @@ URL: https://code.google.com/p/io-2012-slides
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
 
+      // ePeeks
       (function() {
       // 1
       d3.select("#geneName1")
-        .on("change", function(){d3.selectAll("#genomeBrowser1 div").remove();var gB=genomeBrowser().species("human").gene(this.value).show_links(false).show_options(false);
+        .on("change", function(){d3.selectAll("#genomeBrowser1 div").remove();var gB=genomeBrowser().species("human").gene(this.value).show_links(false).show_options(false).width(920);
         gB(document.getElementById("genomeBrowser1"));
         });
 
       // 2
       d3.select("#display1")
-        .on("click", function(){var gB = genomeBrowser().species("human").gene("BRCA2").show_links(false).show_options(true); gB(document.getElementById("genomeBrowser2"))});
+        .on("click", function(){var gB = genomeBrowser().species("human").gene("BRCA2").show_links(false).show_options(true).width(920);
+        gB(document.getElementById("genomeBrowser2"))});
 
       // 3
       d3.select("#display2")
-        .on("click", function(){var gB = genomeBrowser().species("chimpanzee").chr(10).from(3123962).to(3245555).show_links(false).show_options(false); gB(document.getElementById("genomeBrowser3"))});
+        .on("click", function(){var gB = genomeBrowser().species("chimpanzee").chr(10).from(3123962).to(3245555).show_links(false).show_options(false).width(920);
+        gB(document.getElementById("genomeBrowser3"))});
       })();
 
       // 4
       d3.select("#display3")
-        .on("click", function(){var gB = genomeBrowser().species("human").gene("BRCA1").show_options(false); gB(document.getElementById("genomeBrowser4"))});
+        .on("click", function(){var gB = genomeBrowser().species("human").gene("BRCA1").show_options(false).width(920);
+        gB(document.getElementById("genomeBrowser4"))});
 
     </script>
 

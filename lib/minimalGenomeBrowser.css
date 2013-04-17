@@ -87,3 +87,13 @@ rect.ePeek_dark_pane {
     top      : 50%;
     margin-top : -10px;
 }
+
+
+.ePeek_locRow span, .tick text {
+    font-size : 12px;
+}
+
+.ePeek_options_pane span, .ePeek_links_pane span, .ePeek_name {
+    font-size : 14px;
+}
+
