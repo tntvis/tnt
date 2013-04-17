@@ -1,8 +1,9 @@
 @import "base";
 @import "compass/css3/columns";
 @import "compass/css3/user-interface";
+@import "ePeek";
 
-$social-tags: '#yourhashtag';
+$social-tags: 'e!Peek';
 $brand-small-icon-size: 30px;
 
 $gray-1: #e6e6e6;
@@ -174,7 +175,9 @@ slides > slide {
       position: absolute;
       bottom: $slide-top-bottom-padding / 2;
       left: $slide-left-right-padding;
-      background: url(../../images/google_developers_icon_128.png) no-repeat 0 50%;
+
+      // The following is the logo at the buttom of the page
+//      background: url(../../images/google_developers_icon_128.png) no-repeat 0 50%;
       @include background-size($brand-small-icon-size $brand-small-icon-size);
       padding-left: $brand-small-icon-size + 10;
       height: $brand-small-icon-size;
@@ -680,6 +683,11 @@ article.smaller {
     width: 60%;
     padding: 2em;
   }
+}
+
+// ePeek keyword
+.keyword {
+	 @include keyword;
 }
 
 // Speaker notes only show the current slide.

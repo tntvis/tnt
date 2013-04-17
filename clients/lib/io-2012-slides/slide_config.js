@@ -1,7 +1,7 @@
 var SLIDE_CONFIG = {
   // Slide settings
     settings: {
-	title: 'Introducing e!Peek',
+	title: 'Introducing <span style="color:black">e!Peek</span>',
 	subtitle: 'The Mininal Genome Browser',
     //eventInfo: {
     //  title: 'Google I/O',
