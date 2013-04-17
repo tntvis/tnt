@@ -1,8 +1,8 @@
 var SLIDE_CONFIG = {
   // Slide settings
-  settings: {
-    title: 'Title Goes Here<br>Up To Two Lines',
-    subtitle: 'Subtitle Goes Here',
+    settings: {
+	title: 'Introducing e!Peek',
+	subtitle: 'The Mininal Genome Browser',
     //eventInfo: {
     //  title: 'Google I/O',
     //  date: '6/x/2013'
@@ -22,12 +22,11 @@ var SLIDE_CONFIG = {
 
   // Author information
   presenters: [{
-    name: 'Firstname Lastname',
-    company: 'Job Title, Google',
-    gplus: 'http://plus.google.com/1234567890',
-    twitter: '@yourhandle',
-    www: 'http://www.you.com',
-    github: 'http://github.com/you'
+    name: 'Miguel Pignatelli',
+    company: 'Software developer, Ensembl, EBI',
+    gplus: 'https://plus.google.com/111225444277358003374/posts',
+    www: 'http://www.ebi.ac.uk/~mp/',
+    github: 'https://github.com/emepyc'
   }/*, {
     name: 'Second Name',
     company: 'Job Title, Google',
