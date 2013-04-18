@@ -27,7 +27,7 @@
 
 <script>
   (function() {
-  var gB = genomeBrowser();
+  var gB = genomeBrowser().width(700);
 
   if ($.url().param("loc") !== undefined) {
     console.log("LOC FOUND: " + $.url().param("loc"));
