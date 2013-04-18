@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 
+## This started as a test to see if we can insert the ePeek plug-in via a cgi-bin
+## For now, this has been discontinued because I don't see a real benefit for it
 use strict;
 use warnings;
 
