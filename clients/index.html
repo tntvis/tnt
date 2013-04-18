@@ -85,18 +85,19 @@
 		<h1>e!Peek - The Minimal Genome Browser</h1>
 
 		<h2>What is e!Peek?</h2>
-		<p style="width:400px">e!Peek is a javascript plug-in that allows you to insert a simple genome browser in any web page or document where javascript is allowed.</p>
-		<p style="width:400px">It is very simple to embed and configure. You only need to insert a few javascript lines in your page and that's all. Check the <a href="">e!Peek documentation</a> for more details.</p>
+		<p style="width:600px">e!Peek is a javascript plug-in that allows you to insert a simple genome browser in any web page or document where javascript is allowed.</p>
+		<p style="width:600px">It is very simple to embed and configure. You only need to insert a few javascript lines in your page and that's all. Check the <a href="">e!Peek documentation</a> for more details.</p>
 		<p style="width:400px">e!Peek is written in javascript, using the <a target="_blank" href="http://d3js.org">D3</a> library for svg rendering and is powered by the <a target="_blank" target="http://beta.rest.ensembl.org/">Ensembl REST API</a></p>
 		<h2>How does it look like?</h2>
-		<p style="width=400px">Well, check for youself!</p>
-		<div id="genomeBrowser"></div>
+		<p style="width=600px">Well, check for youself! The genome track is zoomable and pannable. You can jump to orthologues, etc... And you can link to the <a href="">e!Peek iOS compatible web app</a> through the "QR code" link</p>
+		<div style="padding-top:30px; padding-bottom:30px" id="genomeBrowser"></div>
 		<script>
 		  (function() {
 		  var gB = genomeBrowser().show_options(true).species("human").gene("BRCA2").width(1100).background_color("#EDF6F5").foreground_color("#006666");
 		  gB(document.getElementById("genomeBrowser"));
 		  })();
 		</script>
+		<p style="width:600px">The genome track is zoomable and pannable. You can jump to orthologues, etc...</p>
 
 		<!-- end contents here -->					
 		<!-- InstanceEndEditable -->
