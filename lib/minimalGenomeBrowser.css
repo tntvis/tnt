@@ -41,6 +41,7 @@ rect.ePeek_dark_pane {
 .ePeek_gene_info {
     position : absolute;
     height : 200px;
+    width  : 400px;
 /*    top : 60px; */ /* Now this is dynamically generated */
     left : 0px;
     pointer-events: none;
@@ -89,7 +90,7 @@ rect.ePeek_dark_pane {
 }
 
 
-.ePeek_locRow span, .tick text {
+.ePeek_locRow span, .tick text, .ePeek_gene_info {
     font-size : 12px;
 }
 
