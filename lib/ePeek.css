@@ -20,7 +20,7 @@ rect.ePeek_pane {
   -ms-transition: opacity 2s ease;
   transition: opacity 2s ease; }
 rect.ePeek_dark_pane {
-  opacity: 0.6; }
+  opacity: 0.9; }
 
 .ePeek_groupDiv {
   position: relative; }
