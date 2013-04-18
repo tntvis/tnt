@@ -1,0 +1,72 @@
+svg text {
+  -webkit-user-select: none;
+  /* Chrome/Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+ */
+  cursor: default; }
+
+.ePeek_groupDiv {
+  position: relative; }
+
+rect.ePeek_pane {
+  cursor: move;
+  opacity: 0;
+  pointer-events: all;
+  -webkit-transition: opacity 2s ease;
+  -moz-transition: opacity 2s ease;
+  -o-transition: opacity 2s ease;
+  -ms-transition: opacity 2s ease;
+  transition: opacity 2s ease; }
+rect.ePeek_dark_pane {
+  opacity: 0.6; }
+
+.ePeek_groupDiv {
+  position: relative; }
+
+.ePeek_gene {
+  filter: alpha(opacity=60);
+  opacity: 0.6; }
+
+.ePeek_gene_info {
+  position: absolute;
+  height: 150px;
+  width: 400px;
+  left: 0px;
+  pointer-events: none; }
+
+/* OPTIONS */
+.ePeek_options_pane {
+  display: block; }
+  .ePeek_options_pane span {
+    font-size: 14px; }
+
+div .ePeek_TabBlock {
+  display: block;
+  height: 40px;
+  position: absolute;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease; }
+div .ePeek_TabBlock_active {
+  opacity: 1;
+  z-index: 1000; }
+
+.ePeek_top_option {
+  display: inline;
+  position: absolute;
+  top: 50%;
+  margin-top: -10px; }
+
+.tick text {
+  font-size: 10px; }
+
+.ePeek_locRow span, .ePeek_gene_info {
+  font-size: 12px; }
+
+.ePeek_options_pane span, .ePeek_links_pane span, .ePeek_name {
+  font-size: 14px; }

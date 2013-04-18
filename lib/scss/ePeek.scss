@@ -1,0 +1,134 @@
+
+//
+// VARIABLES
+//
+// Fonts sizes
+$tiny-font   : 10px;
+$small-font  : 12px;
+$normal-font : 14px;
+
+// svg
+$min-width   : 400px;
+$height      : 200px;
+
+// Genes
+$gene-opacity : 0.6;
+
+
+// 
+// MIXINS
+//
+//
+@mixin tiny-font {
+    font-size : $tiny-font;
+}
+
+@mixin small-font {
+    font-size : $small-font;
+}
+
+@mixin normal-font {
+    font-size : $normal-font;
+}
+
+@mixin transition ($target, $duration) {
+    -webkit-transition: $target $duration ease;
+    -moz-transition: $target $duration ease;
+    -o-transition: $target $duration ease;
+    -ms-transition: $target $duration ease;
+    transition: $target $duration ease;
+}
+
+//
+// ELEMENTS
+//
+//
+svg {
+    text {
+	-webkit-user-select: none;
+	/* Chrome/Safari */
+	-moz-user-select: none;
+	/* Firefox */
+	-ms-user-select: none;
+	/* IE10+ */
+	cursor: default;
+    }
+}
+
+.ePeek_groupDiv {
+    position : relative;
+}
+
+rect {
+    &.ePeek_pane {
+	cursor : move;
+	opacity : 0;
+	pointer-events : all;
+
+	@include transition(opacity, 2s);
+    }
+    &.ePeek_dark_pane {
+	opacity : 0.6;
+    }
+}
+
+.ePeek_groupDiv {
+    position : relative;
+}
+
+.ePeek_gene {
+    filter: alpha(opacity=60);
+    opacity: $gene-opacity;
+}
+
+.ePeek_gene_info {
+    position       : absolute;
+    height         : $height - 50;
+    width          : $min-width;
+    left           : 0px;
+    pointer-events : none; // !
+}
+
+
+/* OPTIONS */
+.ePeek_options_pane {
+    display : block;
+    span {
+	@include normal-font;
+    }
+}
+
+div {
+    .ePeek_TabBlock {
+	display  : block;
+	height   : 40px;
+	position : absolute;
+	opacity  : 0;
+
+	@include transition(all, 0.5s);
+    }
+    .ePeek_TabBlock_active {
+	opacity : 1;
+	z-index : 1000;
+    }
+}
+
+.ePeek_top_option {
+    display    : inline;
+    position   : absolute;
+    top        : 50%;
+    margin-top : -10px;
+}
+
+.tick text {
+    @include tiny-font;
+}
+
+.ePeek_locRow span, .ePeek_gene_info {
+    @include small-font;
+}
+
+.ePeek_options_pane span, .ePeek_links_pane span, .ePeek_name {
+    @include normal-font;
+}
+

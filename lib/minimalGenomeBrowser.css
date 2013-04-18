@@ -12,10 +12,6 @@ svg text {
     position : relative;
 }
 
-/* .ePeek_svg { */
-/*     background-color : #DDDDDD; /\*#F8FBEF;*\/ */
-/* } */
-
 rect.ePeek_pane {
     cursor: move;
 //    fill: none;
@@ -40,7 +36,7 @@ rect.ePeek_dark_pane {
 
 .ePeek_gene_info {
     position : absolute;
-    height : 200px;
+    height : 200px; 
     width  : 400px;
 /*    top : 60px; */ /* Now this is dynamically generated */
     left : 0px;
@@ -54,15 +50,11 @@ rect.ePeek_dark_pane {
 /*    background-color : #DDDDDD; */
 }
 
-.ePeek {
-/*    position : relative;*/
-}
+/* .ePeek_search_p { */
+/*     height : 0px; */
+/* } */
 
-.ePeek_search_p {
-    height : 0px;
-}
-
-.ePeek_TabBlock {
+div .ePeek_TabBlock {
     display : block;
     height  : 40px;
     position : absolute;
@@ -73,17 +65,13 @@ rect.ePeek_dark_pane {
     opacity : 0;
 }
 
-.ePeek_TabBlock_active {
+div .ePeek_TabBlock_active {
     opacity : 1;
     z-index : 1000;
 }
 
-/* The other TabBlock elements are also inline elements (selects) */
-.ePeek_search_p {
-    display : inline;
-}
-
-.ePeek_orth_select, .ePeek_ensGene_select, .ePeek_search_p {
+.ePeek_top_option {
+    display  : inline;
     position : absolute;
     top      : 50%;
     margin-top : -10px;
