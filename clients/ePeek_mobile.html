@@ -99,26 +99,38 @@
     <script src="../lib/minimalGenomeBrowser.js"></script>
 
     <script>
-      (function() {
+      var changes = 0;
 
-      var gB = genomeBrowser()
+      function getLoc() {
+        var url = document.createElement("a");
+        url.href=document.URL;
+        var loc = url.search;
+        if (loc.indexOf("loc=") === 1) {   <!-- Search term starts by "loc=" -->
+          loc = loc.substring(5);
+          console.log("LOC TO PARSE IS: " + loc);
+        }
+        return loc;
+      }
+
+      function getGB(w) {
+        var gB = genomeBrowser()
           .show_options(false)
           .show_title(false)
           .show_links(false)
-          .background_color("#fff")
+          .background_color("#FFFFFF")
           .foreground_color("#7389A5")
-          .width(615)
+          .width(w-20)
           .orthologues_div_id("ePeek_ext_orth_select")
           .ensGenes_div_id("ePeek_ext_ensGenes_select");
-
-
-      var url = document.createElement("a");
-      url.href=document.URL;
-      var loc = url.search;
-      if (loc.indexOf("loc=") === 1) { <!-- Search term starts by "loc=" -->
-         loc = loc.substring(5);
-         console.log("LOC TO PARSE IS: " + loc);
+        return gB;
       }
+
+      (function() {
+
+      var w = document.documentElement.clientWidth;;
+
+      var gB = getGB(w);
+      var loc = getLoc();
 
       if (gB.isLocation(loc)) {
           gB.parseLocation(loc);
@@ -127,7 +139,35 @@
       }
 
       gB(document.getElementById("GenomeBrowser"));
+
+      window.onorientationchange = function() {
+        changes = changes + 1;
+        if (changes == 1) {
+          return;
+        }
+        w = document.documentElement.clientWidth;
+
+        var species = gB.species();
+        var chr     = gB.chr();
+        var from    = gB.from();
+        var to      = gB.to();
+
+        var gB2 = getGB(w);
+        d3.selectAll("#GenomeBrowser div").remove();
+        gB2(document.getElementById("GenomeBrowser"));
+        gB2.gene(undefined);
+        gB2.species(species);
+        gB2.chr(chr);
+        gB2.from(from);
+        gB2.to(to);
+        gB2.start();
+
+      };
+
+
       })();
+
+
     </script>
 
   </body>
