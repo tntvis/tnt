@@ -154,14 +154,14 @@
 
         var gB2 = getGB(w);
         d3.selectAll("#GenomeBrowser div").remove();
-        gB2(document.getElementById("GenomeBrowser"));
+
         gB2.gene(undefined);
         gB2.species(species);
         gB2.chr(chr);
         gB2.from(from);
         gB2.to(to);
-        gB2.start();
 
+        gB2(document.getElementById("GenomeBrowser"));
       };
 
 
