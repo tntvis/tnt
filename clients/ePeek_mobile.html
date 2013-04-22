@@ -145,6 +145,7 @@
         if (changes == 1) {
           return;
         }
+
         w = document.documentElement.clientWidth;
 
         var species = gB.species();
@@ -152,16 +153,16 @@
         var from    = gB.from();
         var to      = gB.to();
 
-        var gB2 = getGB(w);
+        gB = getGB(w);
         d3.selectAll("#GenomeBrowser div").remove();
 
-        gB2.gene(undefined);
-        gB2.species(species);
-        gB2.chr(chr);
-        gB2.from(from);
-        gB2.to(to);
+        gB.gene(undefined);
+        gB.species(species);
+        gB.chr(chr);
+        gB.from(from);
+        gB.to(to);
 
-        gB2(document.getElementById("GenomeBrowser"));
+        gB(document.getElementById("GenomeBrowser"));
       };
 
 
