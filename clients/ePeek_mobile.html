@@ -141,31 +141,10 @@
       gB(document.getElementById("GenomeBrowser"));
 
       window.onorientationchange = function() {
-        changes = changes + 1;
-        if (changes == 1) {
-          return;
-        }
-
-        w = document.documentElement.clientWidth;
-
-        var species = gB.species();
-        var chr     = gB.chr();
-        var from    = gB.from();
-        var to      = gB.to();
-
-        gB = getGB(w);
-        d3.selectAll("#GenomeBrowser div").remove();
-
-        gB.gene(undefined);
-        gB.species(species);
-        gB.chr(chr);
-        gB.from(from);
-        gB.to(to);
-
-        gB(document.getElementById("GenomeBrowser"));
+        var w = document.documentElement.clientWidth;
+        gB.resize(w-20);
       };
-
-
+	
       })();
 
 
