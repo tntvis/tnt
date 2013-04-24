@@ -39,6 +39,7 @@
     	<li class="arrow"><a href="#search">Search</a></li>
     	<li class="arrow"><a href="#ensGenes">Ensembl Genes <small class="counter" id="ePeek_ext_n_ensGenes"></small></a></li>
     	<li class="arrow"><a href="#orthologues">Orthologues <small class="counter" id="ePeek_ext_n_orthologues"></small></a></li>
+	<!-- <li class="arrow"><a href="#browser" id="return_to_origin">Return to origin <small class="counter" id="ePeek_origin"></small></a></li> -->
     	<li class="arrow"><a href="#browser">Browser</a></li>
       </ul>
     </div>
@@ -146,6 +147,9 @@
         var w = document.documentElement.clientWidth;
         gB.resize(w-20);
       };
+
+      d3.select("#return_to_origin")
+        .on("click", function(){gB.startOnOrigin()});
 	
       })();
 
