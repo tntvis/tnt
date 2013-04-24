@@ -37,8 +37,8 @@
       </div>
       <ul class="edgetoedge">
     	<li class="arrow"><a href="#search">Search</a></li>
-    	<li class="arrow"><a href="#ensGenes">Ensembl Genes</a></li>
-    	<li class="arrow"><a href="#orthologues">Orthologues</a></li>
+    	<li class="arrow"><a href="#ensGenes">Ensembl Genes <small class="counter" id="ePeek_ext_n_ensGenes"></small></a></li>
+    	<li class="arrow"><a href="#orthologues">Orthologues <small class="counter" id="ePeek_ext_n_orthologues"></small></a></li>
     	<li class="arrow"><a href="#browser">Browser</a></li>
       </ul>
     </div>
@@ -121,7 +121,9 @@
           .foreground_color("#7389A5")
           .width(w-20)
           .orthologues_div_id("ePeek_ext_orth_select")
-          .ensGenes_div_id("ePeek_ext_ensGenes_select");
+          .ensGenes_div_id("ePeek_ext_ensGenes_select")
+          .n_orthologues_div_id("ePeek_ext_n_orthologues")
+          .n_ensGenes_div_id("ePeek_ext_n_ensGenes");
         return gB;
       }
 
