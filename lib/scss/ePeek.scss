@@ -83,7 +83,7 @@ rect {
 
 .ePeek_gene_info {
     position       : absolute;
-    height         : $height - 50;
+/*    height         : $height - 50; */
     width          : $min-width;
     left           : 0px;
     pointer-events : none; // !

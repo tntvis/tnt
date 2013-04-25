@@ -42,6 +42,7 @@
 	<li class="arrow"><a href="#browser" id="return_to_last_search">Return to Last Search <small class="counter" id="ePeek_origin"></small></a></li>
     	<li class="arrow"><a href="#browser">Browser</a></li>
       </ul>
+      <a href="#gene_info" id="ePeek_go_to_gene_info"></a>
     </div>
 
     <div id="search">
@@ -88,13 +89,19 @@
     <div id="browser">
       <div class="toolbar">
     	<h1>e!Peek</h1>
-    	<a class="button back" href="#">Options</a>
+    	<a class="button back" href="#Options">Options</a>
       </div>
       <ul class="edgetoedge">
     	<li><div id="GenomeBrowser"></div></li>
       </ul>
     </div>
 
+    <div id="gene_info">
+      <div class="toolbar">
+	<h1>Gene Info</h1>
+	<a class="button back" href="#browser">Browser</a>
+      </div>
+      <div id="gene_info_display"></div>
     <!-- -->
     <link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
     <script src="../lib/minimalGenomeBrowser.js"></script>
@@ -125,6 +132,7 @@
           .ensGenes_elem_id("ePeek_ext_ensGenes_select")
           .n_orthologues_elem_id("ePeek_ext_n_orthologues")
           .n_ensGenes_elem_id("ePeek_ext_n_ensGenes")
+          .gene_info_div_id("gene_info_display");
         return gB;
       }
 
@@ -148,13 +156,35 @@
 
       d3.select("#return_to_last_search")
         .on("click", function(){gB.startOnOrigin()});
-      })();
 
+      // Firefox 4 Android doesn't understand window.onorientationchange
+      // So we need this alternative
+      var mqOrientation = window.matchMedia("(orientation: portrait)");
+      mqOrientation.addListener(function() { 
+        var w=window.innerWidth
+           || document.documentElement.clientWidth
+           || document.body.clientWidth;
+
+        gB.resize(w-20);
+      });
+
+      // Default Android browser based on the WebKit engine
+      // which also powers the Safari browser on desktops, laptops and Apple's iOS-based mobile devices
+      // doesn't seem to understand window.matchMedia, so we need to use this alternative.
       window.onorientationchange = function() {
+      // This may be needed for IE for mobiles?
+//        var w=window.innerWidth
+//           || document.documentElement.clientWidth
+//           || document.body.clientWidth;
+
+      // Strangely enough, default android browser reverses clientWidth and clientHeight?
+      // TODO: Post a question somewhere? (StackOverflow?)
         var w = document.documentElement.clientWidth;
         gB.resize(w-20);
       };
 
+
+      })();
     </script>
 
   </body>

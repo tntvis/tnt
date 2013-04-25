@@ -31,7 +31,7 @@ rect.ePeek_dark_pane {
 
 .ePeek_gene_info {
   position: absolute;
-  height: 150px;
+  /*    height         : $height - 50; */
   width: 500px;
   left: 0px;
   pointer-events: none; }
