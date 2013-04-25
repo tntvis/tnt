@@ -39,7 +39,7 @@
     	<li class="arrow"><a href="#search">Search</a></li>
     	<li class="arrow"><a href="#ensGenes">Ensembl Genes <small class="counter" id="ePeek_ext_n_ensGenes"></small></a></li>
     	<li class="arrow"><a href="#orthologues">Orthologues <small class="counter" id="ePeek_ext_n_orthologues"></small></a></li>
-	<!-- <li class="arrow"><a href="#browser" id="return_to_origin">Return to origin <small class="counter" id="ePeek_origin"></small></a></li> -->
+	<li class="arrow"><a href="#browser" id="return_to_last_search">Return to Last Search <small class="counter" id="ePeek_origin"></small></a></li>
     	<li class="arrow"><a href="#browser">Browser</a></li>
       </ul>
     </div>
@@ -124,7 +124,8 @@
           .orthologues_div_id("ePeek_ext_orth_select")
           .ensGenes_div_id("ePeek_ext_ensGenes_select")
           .n_orthologues_div_id("ePeek_ext_n_orthologues")
-          .n_ensGenes_div_id("ePeek_ext_n_ensGenes");
+          .n_ensGenes_div_id("ePeek_ext_n_ensGenes")
+//          .last_search_div_id("ePeek_origin");
         return gB;
       }
 
@@ -143,16 +144,17 @@
 
       gB(document.getElementById("GenomeBrowser"));
 
+      d3.select("#ePeek_origin")
+        .text(loc);
+
+      d3.select("#return_to_last_search")
+        .on("click", function(){gB.startOnOrigin()});
+      })();
+
       window.onorientationchange = function() {
         var w = document.documentElement.clientWidth;
         gB.resize(w-20);
       };
-
-      <!-- d3.select("#return_to_origin") -->
-      <!--   .on("click", function(){gB.startOnOrigin()}); -->
-	
-      })();
-
 
     </script>
 
