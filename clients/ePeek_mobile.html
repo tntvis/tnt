@@ -172,16 +172,18 @@
       // which also powers the Safari browser on desktops, laptops and Apple's iOS-based mobile devices
       // doesn't seem to understand window.matchMedia, so we need to use this alternative.
       window.onorientationchange = function() {
-      // This may be needed for IE for mobiles?
-//        var w=window.innerWidth
-//           || document.documentElement.clientWidth
-//           || document.body.clientWidth;
-
       // Strangely enough, default android browser reverses clientWidth and clientHeight?
       // TODO: Post a question somewhere? (StackOverflow?) -> DONE
       // TODO: It seems that introducing a short delay (500ms) the clientWidth and clientHeight are properly set
-        var w = document.documentElement.clientWidth;
-        gB.resize(w-20);
+        setTimeout(function() {
+      // This may be needed for IE for mobiles?
+      //        var w=window.innerWidth
+      //           || document.documentElement.clientWidth
+      //           || document.body.clientWidth;
+
+          var w = document.documentElement.clientWidth;
+          gB.resize(w-20);
+        }, 500);
 
       };
 
