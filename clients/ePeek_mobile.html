@@ -15,13 +15,13 @@
 
     <script type="text/javascript" charset="utf-8">
       var jQT = new $.jQTouch({
-      statusBar: 'black',
-      icon: 'apple-touch-icon.png',
-      statusBar: 'black-translucent',    <!-- We should change this -->
-      startupScreen: 'jqt_startup.png',  <!-- We should change this -->
-      preloadImages: []
+        statusBar: 'black',
+        icon: 'apple-touch-icon.png',
+        statusBar: 'black-translucent',
+        startupScreen: 'apple-touch-startup-graphic.png',
+        preloadImages: []
       });
-</script>
+    </script>
 
     <!-- Full screen mode in iPhone -->
     <meta name="apple-mobile-web-app-capable" content="yes"></meta>
@@ -42,7 +42,6 @@
 	<li class="arrow"><a href="#browser" id="return_to_last_search">Return to Last Search <small class="counter" id="ePeek_origin"></small></a></li>
     	<li class="arrow"><a href="#browser">Browser</a></li>
       </ul>
-      <a href="#gene_info" id="ePeek_go_to_gene_info"></a>
     </div>
 
     <div id="search">
@@ -132,7 +131,8 @@
           .ensGenes_elem_id("ePeek_ext_ensGenes_select")
           .n_orthologues_elem_id("ePeek_ext_n_orthologues")
           .n_ensGenes_elem_id("ePeek_ext_n_ensGenes")
-          .gene_info_div_id("gene_info_display");
+          .gene_info_div_id("gene_info_display")
+          .gene_selected_callback(function() {window.location.href="#gene_info"});
         return gB;
       }
 
@@ -178,11 +178,12 @@
 //           || document.body.clientWidth;
 
       // Strangely enough, default android browser reverses clientWidth and clientHeight?
-      // TODO: Post a question somewhere? (StackOverflow?)
+      // TODO: Post a question somewhere? (StackOverflow?) -> DONE
+      // TODO: It seems that introducing a short delay (500ms) the clientWidth and clientHeight are properly set
         var w = document.documentElement.clientWidth;
         gB.resize(w-20);
-      };
 
+      };
 
       })();
     </script>
