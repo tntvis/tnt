@@ -96,99 +96,17 @@
     </div>
 
     <div id="gene_info">
-      <div class="toolbar">
-	<h1>Gene Info</h1>
-	<a class="button back" href="#browser">Browser</a>
-      </div>
-      <div id="gene_info_display"></div>
+      <!-- <div class="toolbar"> -->
+      <!-- 	<h1>Gene Info</h1> -->
+      <!-- 	<a class="button back" href="#browser">Browser</a> -->
+      <!-- </div> -->
+      <!-- <div id="gene_info_display"></div> -->
+    </div>
     <!-- -->
+
     <link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
     <script src="../lib/minimalGenomeBrowser.js"></script>
-
-    <script>
-      var changes = 0;
-
-      function getLoc() {
-        var url = document.createElement("a");
-        url.href=document.URL;
-        var loc = url.search;
-        if (loc.indexOf("loc=") === 1) {   <!-- Search term starts by "loc=" -->
-          loc = loc.substring(5);
-          console.log("LOC TO PARSE IS: " + loc);
-        }
-        return loc;
-      }
-
-      function getGB(w) {
-        var gB = genomeBrowser()
-          .show_options(false)
-          .show_title(false)
-          .show_links(false)
-          .background_color("#FFFFFF")
-          .foreground_color("#7389A5")
-          .width(w-20)
-          .orthologues_elem_id("ePeek_ext_orth_select")
-          .ensGenes_elem_id("ePeek_ext_ensGenes_select")
-          .n_orthologues_elem_id("ePeek_ext_n_orthologues")
-          .n_ensGenes_elem_id("ePeek_ext_n_ensGenes")
-          .gene_info_div_id("gene_info_display")
-          .gene_selected_callback(function() {window.location.href="#gene_info"});
-        return gB;
-      }
-
-      (function() {
-
-      var w = document.documentElement.clientWidth;;
-
-      var gB = getGB(w);
-      var loc = getLoc();
-
-      if (gB.isLocation(loc)) {
-          gB.parseLocation(loc);
-      } else {
-          gB.gene(loc);
-      }
-
-      gB(document.getElementById("GenomeBrowser"));
-
-      d3.select("#ePeek_origin")
-        .text(loc);
-
-      d3.select("#return_to_last_search")
-        .on("click", function(){gB.startOnOrigin()});
-
-      // Firefox 4 Android doesn't understand window.onorientationchange
-      // So we need this alternative
-      var mqOrientation = window.matchMedia("(orientation: portrait)");
-      mqOrientation.addListener(function() { 
-        var w=window.innerWidth
-           || document.documentElement.clientWidth
-           || document.body.clientWidth;
-
-        gB.resize(w-20);
-      });
-
-      // Default Android browser based on the WebKit engine
-      // which also powers the Safari browser on desktops, laptops and Apple's iOS-based mobile devices
-      // doesn't seem to understand window.matchMedia, so we need to use this alternative.
-      window.onorientationchange = function() {
-      // Strangely enough, default android browser reverses clientWidth and clientHeight?
-      // TODO: Post a question somewhere? (StackOverflow?) -> DONE
-      // TODO: It seems that introducing a short delay (500ms) the clientWidth and clientHeight are properly set
-        setTimeout(function() {
-      // This may be needed for IE for mobiles?
-      //        var w=window.innerWidth
-      //           || document.documentElement.clientWidth
-      //           || document.body.clientWidth;
-
-          var w = document.documentElement.clientWidth;
-          gB.resize(w-20);
-        }, 500);
-
-      };
-
-      })();
-    </script>
+    <script src="lib/ePeek_mobile.js"></script>
 
   </body>
   
