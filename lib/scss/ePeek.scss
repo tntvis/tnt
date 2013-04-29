@@ -8,7 +8,7 @@ $small-font  : 12px;
 $normal-font : 14px;
 
 // svg
-$min-width   : 500px;
+/*$min-width   : 500px; */
 $height      : 200px;
 
 // Genes
@@ -37,6 +37,14 @@ $gene-opacity : 0.6;
     -o-transition: $target $duration ease;
     -ms-transition: $target $duration ease;
     transition: $target $duration ease;
+}
+
+@mixin rotate {
+    -webkit-transform: rotate(-90deg); 
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
 }
 
 //
@@ -81,13 +89,13 @@ rect {
     opacity: $gene-opacity;
 }
 
-.ePeek_gene_info {
-    position       : absolute;
-/*    height         : $height - 50; */
-    width          : $min-width;
-    left           : 0px;
-    pointer-events : none; // !
-}
+/* .ePeek_gene_info { */
+/*     position       : absolute; */
+/* /\*    height         : $height - 50; *\/ */
+/* /\*    width          : $min-width; *\/ */
+/*     left           : 0px; */
+/*     pointer-events : none; // ! */
+/* } */
 
 
 /* OPTIONS */
@@ -132,3 +140,31 @@ div {
     @include normal-font;
 }
 
+
+div {
+    .ePeek_gene_info {
+	display  : block;
+	position : absolute;
+	top      : 0px;
+	opacity  : 0;
+
+	@include transition(all, 0.5s);
+    }
+    .ePeek_gene_info_active {
+	opacity : 1;
+	z-index : 1001;
+    }
+}
+
+.ePeek_text_rotated {
+    display     : block;
+    position    : absolute;
+    z-index     : 1002;
+    right       : 0px;
+
+    @include rotate;
+}
+
+.ePeek_link {
+    cursor : pointer;
+}

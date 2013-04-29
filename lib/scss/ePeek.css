@@ -1,3 +1,4 @@
+/*$min-width   : 500px; */
 svg text {
   -webkit-user-select: none;
   /* Chrome/Safari */
@@ -29,13 +30,13 @@ rect.ePeek_dark_pane {
   filter: alpha(opacity=60);
   opacity: 0.6; }
 
-.ePeek_gene_info {
-  position: absolute;
-  /*    height         : $height - 50; */
-  width: 500px;
-  left: 0px;
-  pointer-events: none; }
-
+/* .ePeek_gene_info { */
+/*     position       : absolute; */
+/* /\*    height         : $height - 50; *\/ */
+/* /\*    width          : $min-width; *\/ */
+/*     left           : 0px; */
+/*     pointer-events : none; // ! */
+/* } */
 /* OPTIONS */
 .ePeek_options_pane {
   display: block; }
@@ -70,3 +71,31 @@ div .ePeek_TabBlock_active {
 
 .ePeek_options_pane span, .ePeek_links_pane span, .ePeek_name {
   font-size: 14px; }
+
+div .ePeek_gene_info {
+  display: block;
+  position: absolute;
+  top: 0px;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease; }
+div .ePeek_gene_info_active {
+  opacity: 1;
+  z-index: 1001; }
+
+.ePeek_text_rotated {
+  display: block;
+  position: absolute;
+  z-index: 1002;
+  right: 0px;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg); }
+
+.ePeek_link {
+  cursor: pointer; }

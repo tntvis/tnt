@@ -1,0 +1,3 @@
+sass --watch lib/scss/ePeek.scss:lib/scss/ePeek.css
+
+After successfully updated don't forget to cp lib/scss/ePeek.css lib/
