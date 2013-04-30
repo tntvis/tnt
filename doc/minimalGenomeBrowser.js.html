@@ -1,5 +1,33 @@
-var genomeBrowser = function () {
-//    "use strict";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: minimalGenomeBrowser.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: minimalGenomeBrowser.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>var genomeBrowser = function () {
+
+    "use strict";
 
     // Default species and genome location
     var gene; // undefined
@@ -62,11 +90,12 @@ var genomeBrowser = function () {
 	@alias ePeek
 	@namespace 
     */
-     var gBrowser = function (div) {
+    var gBrowser = function (div) {
 	//
 	set_div_id(div);
 
 	// We set the original data so we can always come back
+	origGene    = gene;
 	origSpecies = species;
 	origChr     = chr;
 	origFromPos = fromPos;
@@ -90,13 +119,13 @@ var genomeBrowser = function () {
 	var ensGeneLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .html("Ensembl Genes[<span id='ePeek_" + div_id + "_n_ensGenes'></span>]")
+	    .html("Ensembl Genes[&lt;span id='ePeek_" + div_id + "_n_ensGenes'>&lt;/span>]")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ensGene_option"))});
 
 	var orthologuesLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .html("Orthologues[<span id='ePeek_" + div_id + "_n_orthologues'></span>]")
+	    .html("Orthologues[&lt;span id='ePeek_" + div_id + "_n_orthologues'>&lt;/span>]")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ortho_option"))});
 
 	var searchLabel = opts_pane
@@ -410,7 +439,7 @@ var genomeBrowser = function () {
 //        names.on("mouseout",  function(d) {highlight(this, d, false)});
 
 	// loc_row
-	var xScale_domain = xScale.domain();
+	xScale_domain = xScale.domain();
 	d3.select("#ePeek_" + div_id + "_species")
 	    .text(species); // Only if cross-species is allowed! This can only change if Jumped from searchBox or ortholog selection
 	d3.select("#ePeek_" + div_id + "_chr")
@@ -468,21 +497,21 @@ var genomeBrowser = function () {
 
     // Public Functions (API)
 
-    /** <strong>highlight</strong> shows the gene info pane
+    /** &lt;strong>highlight&lt;/strong> shows the gene info pane
         This function can be shadowed by a custom - user created method
         to display the gene information in a different way -- or html element
         Its argument is a literal object having the following information:
-	<ul>
-	<li>external_name   => External name of the gene</li>
-	<li>ID              => Ensembl ID of the gene</li>
-        <li>description     => A short description of the gene</li>
-        <li>logic_name      => The source of the gene</li>
-        <li>feature_type    => This is always set to gene</li>
-        <li>seq_region_name => The chromosome or region name the gene is located</li>
-        <li>start           => The start coordinate in the seq_region_name</li>
-        <li>end             => The end coordinate in the seq_region_name</li>
-        <li>strand          => The strand in the seq_region_name</li>
-	</ul>
+	&lt;ul>
+	&lt;li>external_name   => External name of the gene&lt;/li>
+	&lt;li>ID              => Ensembl ID of the gene&lt;/li>
+        &lt;li>description     => A short description of the gene&lt;/li>
+        &lt;li>logic_name      => The source of the gene&lt;/li>
+        &lt;li>feature_type    => This is always set to gene&lt;/li>
+        &lt;li>seq_region_name => The chromosome or region name the gene is located&lt;/li>
+        &lt;li>start           => The start coordinate in the seq_region_name&lt;/li>
+        &lt;li>end             => The end coordinate in the seq_region_name&lt;/li>
+        &lt;li>strand          => The strand in the seq_region_name&lt;/li>
+	&lt;/ul>
     */
     gBrowser.highlight = function (gene) {
 	var sel = d3.select("#ePeek_" + div_id + "_gene_info");
@@ -494,11 +523,11 @@ var genomeBrowser = function () {
 	    .style("color", fgColor)
 	    .style("background-color", bgColor)
 	    .html(function () {
-		return "<h1>" + gene.external_name + "</h1>" +
-		    "Ensembl ID: <i>" + gene.ID + "</i><br />" +
-		    "Description: <i>" + gene.description + "</i><br />" +
-		    "Source: <i>" + gene.logic_name + "</i><br />" +
-		    "loc: <i>" + gene.seq_region_name + ":" + gene.start + "-" + gene.end + " (Strand: " + gene.strand + ")</i><br />"
+		return "&lt;h1>" + gene.external_name + "&lt;/h1>" +
+		    "Ensembl ID: &lt;i>" + gene.ID + "&lt;/i>&lt;br />" +
+		    "Description: &lt;i>" + gene.description + "&lt;/i>&lt;br />" +
+		    "Source: &lt;i>" + gene.logic_name + "&lt;/i>&lt;br />" +
+		    "loc: &lt;i>" + gene.seq_region_name + ":" + gene.start + "-" + gene.end + " (Strand: " + gene.strand + ")&lt;/i>&lt;br />"
 	    });
 
 	sel.append("span")
@@ -648,11 +677,13 @@ var genomeBrowser = function () {
 
     // Public methods
 
-    // parseLocation takes a string as input and guesses a location
-    // The expected location should be on the form:
-    //   species:chr:from-to
-    // TODO: What happens on error? i.e. if the string is not a valid location
+    //TODO: What happens on error? i.e. if the string is not a valid location
     // TODO: We can make it smarter? allowing for examples species:gene?
+
+    /** parseLocation
+	takes a string as input and guesses a location.
+	The expected location should be on the form: species:chr:from-to
+    */
     gBrowser.parseLocation = function(loc) {
 	console.log(loc);
 	var loc_arr = loc_re.exec(loc);
@@ -753,7 +784,7 @@ var genomeBrowser = function () {
 	    return width;
 	}
 	// At least min-width
-	if (w < min_width) {
+	if (w &lt; min_width) {
 	    w = min_width
 	}
 	width = w;
@@ -911,3 +942,26 @@ var genomeBrowser = function () {
 
     return gBrowser;
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="ePeek.html">ePeek</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Tue Apr 30 2013 15:28:47 GMT+0100 (BST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
