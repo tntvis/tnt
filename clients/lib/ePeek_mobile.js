@@ -103,11 +103,6 @@ Zepto(function($){
 
 	gene_info_items_list
 	    .append("li")
-	    .attr("class", "rounded")
-	    .html("<em>Type: </em>" + gene.feature_type);
-
-	gene_info_items_list
-	    .append("li")
 	    .attr("class", "sep")
 	    .html("Location");
 
