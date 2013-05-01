@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
+
+  <!-- Remote D3.js -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+
+  <!-- Local libs -->
+  <script src="../lib/ePeek.js"></script>
+  <script src="../clients/lib/minimal.js"></script>
+</head>
+
+<body>
+  <p>Here is the Genome Browser:</p>
+  <div id="genomeBrowser"></div>
+
+  <script>
+    (function() {
+        var gB = epeek_theme();
+        gB(document.getElementById("genomeBrowser"));
+    })();
+  </script>
+</body>
+</html>

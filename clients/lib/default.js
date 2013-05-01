@@ -1,12 +1,5 @@
-var theme = function() {
+var epeek_theme = function() {
     "use strict";
-
-    // Default species and genome location
-    var gene; // undefined
-    var species = "human";
-    var chr = 7;
-    var fromPos = 139424940;
-    var toPos = 141784100;
 
     // orig species and coords, so we can always return there
     var origSpecies, origChr, origFromPos, origToPos;
@@ -23,7 +16,29 @@ var theme = function() {
     var show_links   = true;
     var title   = "e!Peek";
 
-    var genomeBrowserTheme = function() {
+    // Colors
+    var bgColor = '#DDDDDD'; // DUP
+    var fgColor = '#000000'; // DUP
+
+    var width; // DUP
+
+    var gBrowser = epeek();
+
+    //
+    // Default species and genome location
+    var gene; // undefined   // DUP
+    var species = "human";   // DUP
+    var chr = 7;             // DUP
+    var fromPos = 139424940; // DUP
+    var toPos = 141784100;   // DUP
+
+    // The id of the div element the plug-in connects to
+    // undefined by default
+    var div_id;               // DUP
+
+    var gBrowserTheme = function(div) {
+	div_id = d3.select(div).attr("id")  // DUP? The IDs are different
+
 	// We set the original data so we can always come back
 	origSpecies = species;
 	origChr     = chr;
@@ -68,7 +83,7 @@ var theme = function() {
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
 	    .text("Return to orig")
-	    .on("click", function(){gBrowser.startOnOrigin()});
+	    .on("click", function(){gBrowser.species(origSpecies); gBrowser.startOnOrigin()});
 
 	var ensGeneBox = opts_pane
 	    .append("div")
@@ -113,6 +128,23 @@ var theme = function() {
 	/////////////////////////////////////////
 	// Here we have to include the browser //
 	/////////////////////////////////////////
+
+	// The Browser div
+	var browserDiv = d3.select(div);
+	gBrowser(div);
+
+	var browser_title = browserDiv
+	    .append("h1")
+	    .text(title)
+	    .style("color", fgColor)
+	    .style("display", function(){
+		if (show_title) {
+		    return "auto"
+		} else {
+		    return "none"
+		}
+	    });
+
 
 	// The QRtag div
 	var qrtag_div = d3.select(div)
@@ -247,7 +279,7 @@ var theme = function() {
         <li>strand          => The strand in the seq_region_name</li>
 	</ul>
     */
-    gBrowser.highlight = function (gene) {
+    gBrowserTheme.highlight = function (gene) {
 	var sel = d3.select("#ePeek_" + div_id + "_gene_info");
 
 	sel
@@ -308,7 +340,7 @@ var theme = function() {
 	    .text(resp === undefined ? 0 : resp.data[0].homologies.length);
     };
 
-        var get_gene = function(gene_name, div) {
+    var get_gene = function(gene_name, div) {
 	var url = prefix_gene + species + "/" + gene_name + ".json?object=gene";
 	console.log(url);
 	d3.json(url, function (error, resp) {
@@ -331,8 +363,253 @@ var theme = function() {
 	});
     };
 
+    // TODO: What happens on error? i.e. if the string is not a valid location
+    // TODO: We can make it smarter? allowing for examples species:gene?
 
-    return genomeBrowserTheme;
+    /** <strong>parseLocation</strong> takes a string as input and guesses a location
+        The expected location should be on the form:
+        species:chr:from-to
+    */
+    gBrowserTheme.parseLocation = function(loc) {
+	console.log(loc);
+	var loc_arr = loc_re.exec(loc);
+	species = loc_arr[1];
+	chr     = loc_arr[2];
+	fromPos = loc_arr[3];
+	toPos   = loc_arr[4];
+
+	return gBrowserTheme;
+    };
+
+    /** <strong>show_options</strong> tells the widget to show or hide the top options pane
+	Its argument is evaluated to 'true' or 'false'
+    */
+    gBrowserTheme.show_options = function(b) {
+	show_options = b;
+	return gBrowserTheme;
+    };
+
+    /** <strong>show_title</strong> tells the widget to show or hide the title field
+	Its argument is evaluated to 'true' or 'false'
+    */
+    gBrowserTheme.show_title = function(b) {
+	show_title = b;
+	return gBrowserTheme;
+    };
+
+    /** <strong>show_links</strong> tells the widget to show or hide the bottom links pane
+	Its argument is evaluated to 'true' or 'false'
+    */
+    gBrowserTheme.show_links = function(b) {
+	show_links = b;
+	return gBrowserTheme;
+    };
+
+    /** <strong>title</strong> overrides the default title of the widget ("e!Peek") with the argument provided
+     */
+    gBrowserTheme.title = function (s) {
+	if (!arguments.length) {
+	    return title;
+	}
+	title = s;
+	return gBrowserTheme;
+    };
+
+    /** <strong>background_color</strong> sets the background color for several parts of the widget
+	It can be used to match the color schema used in the host page
+	Its argument is a color in any valid format (hex, string, etc...)
+    */
+    gBrowserTheme.background_color = function (hex) {
+	if (!arguments.length) {
+	    return bgColor;
+	}
+	bgColor = hex;
+	return gBrowserTheme;
+    };
+
+    /** <strong>foreground_color</strong> sets the color of several parts of the widget (not all the parts will have this color)
+	It can be used to match the color schema used in the host page
+	Its argument is a color in any valid format (hex, string, etc...)
+    */
+    gBrowserTheme.foreground_color = function (hex) {
+	if (!arguments.length) {
+	    return fgColor;
+	}
+	fgColor = hex;
+	return gBrowser;
+    };
+
+    /** <strong>species</strong> sets the species that will be used for the next search (gene or location)
+	Common names are allowed (human, chimp, gorilla, mouse, etc...)
+	Binary scientific names are also allowed with and without underscores (for example "mus_musculus" and "mus musculus")
+	Case is ignored.
+    */
+    gBrowserTheme.species = function (sp) {
+        if (!arguments.length) {
+            return species
+        }
+        species = sp;
+        return gBrowserTheme;
+    };
+
+    /** <strong>chr</strong> sets the chromosome that will be used for the next coordinates-based location
+	Strictly, not only chromosome names are allowed, but also other seq_region_names (for example "GeneScaffold_1468")
+	but we adopted this method name for simplicity.
+    */
+    gBrowserTheme.chr = function (c) {
+        if (!arguments.length) {
+            return chr;
+        }
+        chr = c;
+        return gBrowserTheme;
+    };
+
+    /** <strong>from</strong> sets the start position for the next coordinates-base location to the given argument
+	Commas or dots in numbers are not allowed (32,341,674 or 32.341.674)
+    */
+    gBrowserTheme.from = function (p) {
+	// TODO: Allow commas and dots in numbers? eg: 32,341,674 or 32.341.674
+        if (!arguments.length) {
+            return fromPos;
+        }
+        fromPos = p;
+        return gBrowserTheme;
+    };
+
+    /** <strong>to</strong> sets the end position for the next coordinates-based location to the given argument
+	Commas or dots in numbers are not allowed (32,341,674 or 32.341.674)
+    */
+    gBrowserTheme.to = function (p) {
+	// TODO: Allow commas and dots in numbers? eg: 32,341,674 or 32.341.674
+        if (!arguments.length) {
+            return toPos;
+        }
+        toPos = p;
+        return gBrowserTheme;
+    };
+    
+    /** <strong>gene</strong> sets the gene name for the next gene-based location
+	gene-based locations have higher preference over coordinates-based locations
+	So for example, using:
+	gB.species("human").chr(13).from(35009587).to(35214822).gene("LINC00457");
+	will show the correct location even if the gene name is spelled wrong or is not recognized by Ensembl
+	External gene names (BRCA2) and ensembl gene identifiers (ENSG00000139618) are both allowed.
+    */
+    gBrowserTheme.gene = function(g) {
+	if (!arguments.length) {
+	    return gene;
+	}
+	gene = g;
+	return gBrowserTheme;
+    };
+
+    ///*********************////
+    /// UTILITY METHODS     ////
+    ///*********************////
+    // Private methods
+    var buildLink = function(platform) {
+	var url = "http://www.ebi.ac.uk/~mp/ePeek/clients/ePeek";
+	var postfix = "";
+	if (platform === "desktop") {
+	    url = url + ".html";
+	} else if (platform === "mobile") {
+	    url = url + "_mobile.html";
+	    postfix = "#browser";
+	}
+	url = url + "?loc=" + species + ":" + chr + ":" + fromPos + "-" + toPos + postfix;
+	return url;
+    };
+
+    var buildEnsemblLink = function() {
+	var url = "http://www.ensembl.org/" + species + "/Location/View?r=" + chr + "%3A" + fromPos + "-" + toPos;
+	return url;
+    };
+
+    var isEnsemblGene = function(term) {
+	if (term.match(ens_re)) {
+	    return true;
+	} else {
+	    return false;
+	}
+    };
+
+    // Public methods
+
+    /** <strong>isLocation</strong> returns true if the argument looks like a location of the form
+	species:chr:from-to or false otherwise
+    */
+    gBrowserTheme.isLocation = function(term) {
+	if (term.match(loc_re)) {
+	    return true;
+	} else {
+	    return false;
+	}
+    };
+
+    /** <strong>buildEnsemblGeneLink</strong> returns the Ensembl url pointing to the gene summary given in as argument
+	The gene id shouuld be a valid ensembl gene id of the form "ENSG......XXXX"
+    */
+    gBrowserTheme.buildEnsemblGeneLink = function(ensID) {
+	//"http://www.ensembl.org/Homo_sapiens/Gene/Summary?g=ENSG00000139618"
+	var url = "http://www.ensembl.org/" + species + "/Gene/Summary?g=" + ensID;
+	return url;
+    };
+
+
+  //////////////////////////////
+ // GBROWSER methods //////////
+//////////////////////////////
+// We should find a way to avoid duplicating them
+// DUP DUP DUP DUP
+    gBrowserTheme.species = function (sp) {
+	gBrowser.species(sp);
+	return gBrowserTheme;
+    };
+
+    gBrowserTheme.chr = function (chr) {
+	gBrowser.chr(chr);
+	return gBrowserTheme;
+    };
+
+    gBrowserTheme.from = function (p) {
+	gBrowser.from(p);
+	return gBrowserTheme;
+    };
+
+    gBrowserTheme.to = function (p) {
+	gBrowser.to(p);
+	return gBrowserTheme;
+    };
+
+    gBrowserTheme.gene = function (n) {
+	gBrowser.gene(n);
+	return gBrowserTheme;
+    };
+
+    gBrowserTheme.width = function (w) {
+	gBrowser.width(w);
+	return gBrowserTheme;
+    };
+
+    gBrowserTheme.background_color = function (hex) {
+	gBrowser.background_color(hex);
+	bgColor = hex;
+	return gBrowserTheme;
+    };
+
+    gBrowserTheme.foreground_color = function (hex) {
+	gBrowser.foreground_color(hex);
+	fgColor = hex;
+	return gBrowserTheme;
+    }
+
+    gBrowserTheme.width = function (w) {
+	gBrowser.width(w);
+	width = w;
+	return gBrowserTheme;
+    };
+
+    return gBrowserTheme;
 };
 
 

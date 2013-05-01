@@ -11,8 +11,9 @@
     <!-- Remote QRtag -->
     <script type="text/javascript" src="http://api.qrtag.net/js"></script>
 
-    <!-- Local minimalGenomeBrowser -->
-    <script src="../lib/minimalGenomeBrowser.js"></script>
+    <!-- Local js -->
+      <script src="../lib/ePeek.js"></script>
+      <script src="../clients/lib/default.js"></script>
 
   </head>
 
@@ -21,8 +22,8 @@
 
     <script>
       (function() {
-        var gB = genomeBrowser().show_options(true).species("HOMO SAPIENS").gene("BRCA2").width(1200).background_color("#EDF6F5").foreground_color("#006666").title("Human BRCA2");
-//        var gB = genomeBrowser().show_options(true).species("human").chr(13).from(35009587).to(35214822).gene("ENSG00000225179").width(1200).background_color("#EDF6F5").foreground_color("#006666");
+        var gB = epeek_theme().show_options(true).species("HOMO SAPIENS").gene("BRCA2").width(1200).background_color("#EDF6F5").foreground_color("#006666").title("Human BRCA2");
+
         gB(document.getElementById("genomeBrowser"));
       })();
     </script>
