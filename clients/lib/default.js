@@ -32,12 +32,14 @@ var epeek_theme = function() {
     var fromPos = 139424940; // DUP
     var toPos = 141784100;   // DUP
 
-    // The id of the div element the plug-in connects to
-    // undefined by default
-    var div_id;               // DUP
+    // div_ids to display different elements
+    // They have to be set dynamically because the IDs contain the div_id of the main element containing the plug-in
+    var div_id;
+    var ensGenes_div_id;
+    var n_ensGenes_div_id;
 
     var gBrowserTheme = function(div) {
-	div_id = d3.select(div).attr("id")  // DUP? The IDs are different
+	set_div_id(div);
 
 	// We set the original data so we can always come back
 	origSpecies = species;
@@ -83,7 +85,7 @@ var epeek_theme = function() {
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
 	    .text("Return to orig")
-	    .on("click", function(){gBrowser.species(origSpecies); gBrowser.startOnOrigin()});
+	    .on("click", function(){gBrowser.species(origSpecies); startOnOrigin()});
 
 	var ensGeneBox = opts_pane
 	    .append("div")
@@ -226,17 +228,34 @@ var epeek_theme = function() {
 	return;
     };
 
+
+    // startOnOrigin sets the genome view to its recorded origin in its original species.
+    // This can be a gene or a location
+    var startOnOrigin = function() {
+	// We get the gene/location to render
+	species = origSpecies;
+	if (gene !== undefined) {
+	    gBrowser.get_gene(gene, d3.select("#" + ensGenes_div_id));
+	} else {
+	    // chr     = origChr;
+	    // fromPos = origFromPos;
+	    // toPos   = origToPos;
+	    start();
+	}
+	return;
+    };
+
     var goSearch = function() {
 	d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	var ensGeneBox = d3.select("#" + ensGenes_div_id);
 	var search_term = document.getElementById("ePeek_" + div_id + "_gene_name_input").value;
-	if (gBrowser.isLocation(search_term)) {
-	    gBrowser.parseLocation(search_term);
-	    start();
+	if (gBrowserTheme.isLocation(search_term)) {
+	    gBrowserTheme.parseLocation(search_term);
+	    gBrowser.start();
 	} else if (isEnsemblGene(search_term)) {
-	    ensGene_lookup(search_term, ensGeneBox);
+	    gBrowser.ensGene_lookup(search_term, ensGeneBox);
 	} else {
-	    get_gene(search_term, ensGeneBox);
+	    gBrowser.get_gene(search_term, ensGeneBox);
 	}
     };
 
@@ -340,28 +359,48 @@ var epeek_theme = function() {
 	    .text(resp === undefined ? 0 : resp.data[0].homologies.length);
     };
 
+
     var get_gene = function(gene_name, div) {
-	var url = prefix_gene + species + "/" + gene_name + ".json?object=gene";
-	console.log(url);
-	d3.json(url, function (error, resp) {
-	    resp = resp.filter(function(d){return !d.id.indexOf("ENS")}); // To avoid LRG genes (maybe the REST Service doesn't return those now)?
-	    console.log("RESP:");
-	    console.log(resp);
-
-	    var ensGene_sel = gene_select(resp, div);
-
-	    ensGene_sel.on("change", function(){
+	var cbak = function(ensGenes) {
+	    var ensGene_sel = gene_select(ensGenes, div);
+	    ensGene_sel.on("change", function() {
 		ensGene_lookup(this.value, div);
 	    });
 
-	    if (resp[0] !== undefined) {
-		ensGene_lookup(resp[0].id, div);
+	    if (ensGenes[0] === undefined) {
+		ensGene_lookup(ensGenes[0].id, div)
 	    } else {
-		start();
+		gBrowser.start;
 	    }
-
-	});
+	}
+	
+	gBrowser.get_gene(gene_name, cbak);
     };
+
+
+    // DEPRECATED
+    // var get_gene = function(gene_name, div) {
+    // 	var url = prefix_gene + species + "/" + gene_name + ".json?object=gene";
+    // 	console.log(url);
+    // 	d3.json(url, function (error, resp) {
+    // 	    resp = resp.filter(function(d){return !d.id.indexOf("ENS")}); // To avoid LRG genes (maybe the REST Service doesn't return those now)?
+    // 	    console.log("RESP:");
+    // 	    console.log(resp);
+
+    // 	    var ensGene_sel = gene_select(resp, div);
+
+    // 	    ensGene_sel.on("change", function(){
+    // 		ensGene_lookup(this.value, div);
+    // 	    });
+
+    // 	    if (resp[0] !== undefined) {
+    // 		ensGene_lookup(resp[0].id, div);
+    // 	    } else {
+    // 		start();
+    // 	    }
+
+    // 	});
+    // };
 
     // TODO: What happens on error? i.e. if the string is not a valid location
     // TODO: We can make it smarter? allowing for examples species:gene?
@@ -502,6 +541,13 @@ var epeek_theme = function() {
 	gene = g;
 	return gBrowserTheme;
     };
+
+    var set_div_id = function(div) {
+	div_id = d3.select(div).attr("id");
+	ensGenes_div_id = "ePeek_" + div_id + "_ensGene_option";
+	n_ensGenes_div_id = "ePeek_" + div_id + "_n_ensGenes";
+    }
+
 
     ///*********************////
     /// UTILITY METHODS     ////
