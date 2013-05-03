@@ -16,13 +16,6 @@ var epeek_theme = function() {
     var show_links   = true;
     var title   = "e!Peek";
 
-    // Colors
-    var bgColor = '#DDDDDD'; // DUP
-    var fgColor = '#000000'; // DUP
-
-    var width; // DUP
-
-    var gBrowser = epeek();
 
     //
     // Default species and genome location
@@ -37,9 +30,20 @@ var epeek_theme = function() {
     var div_id;
     var ensGenes_div_id;
     var n_ensGenes_div_id;
+    var orth_div_id;
+    var n_orth_div_id;
 
-    var gBrowserTheme = function(div) {
+    var gBrowser;
+
+    var gBrowserTheme = function(gB, div) {
+	// Set the different #ids for the html elements (needs to be lively because they depend on the div_id)
 	set_div_id(div);
+
+	gBrowser = gB;
+	// We set the gBrowser's callbacks
+	gBrowser.highlight = gBrowserTheme.highlight;
+	gBrowser.ensGenes_callback  = ensGenes_cbak;
+	gBrowser.orthologues_callback = orthologues_cbak;
 
 	// We set the original data so we can always come back
 	origSpecies = species;
@@ -66,13 +70,13 @@ var epeek_theme = function() {
 	var ensGeneLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .html("Ensembl Genes[<span id='ePeek_" + div_id + "_n_ensGenes'></span>]")
+	    .html("Ensembl Genes[<span id='" + n_ensGenes_div_id + "'></span>]")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ensGene_option"))});
 
 	var orthologuesLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .html("Orthologues[<span id='ePeek_" + div_id + "_n_orthologues'></span>]")
+	    .html("Orthologues[<span id='" + n_orth_div_id + "'></span>]")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ortho_option"))});
 
 	var searchLabel = opts_pane
@@ -91,22 +95,22 @@ var epeek_theme = function() {
 	    .append("div")
 	    .attr("class", "ePeek_TabBlock")
 	    .attr("id", "ePeek_" + div_id + "_ensGene_option")
-	    .style("width", width + "px")
-	    .style("background-color", bgColor);
+	    .style("width", gBrowser.width() + "px")
+	    .style("background-color", gBrowser.background_color());
 
 	var orthoBox = opts_pane
 	    .append("div")
 	    .attr("class", "ePeek_TabBlock")
 	    .attr("id", "ePeek_" + div_id + "_ortho_option")
-	    .style("width", width + "px")
-	    .style("background-color", bgColor);
+	    .style("width", gBrowser.width() + "px")
+	    .style("background-color", gBrowser.background_color());
 
 	var searchBox = opts_pane
 	    .append("div")
 	    .attr("class", "ePeek_TabBlock")
 	    .attr("id", "ePeek_" + div_id + "_search_option")
-	    .style("width", width + "px")
-	    .style("background-color", bgColor);
+	    .style("width", gBrowser.width() + "px")
+	    .style("background-color", gBrowser.background_color());
 
 	// The SearchBox
 	var p = searchBox
@@ -127,18 +131,10 @@ var epeek_theme = function() {
 	    .append("text")
 	    .text("examples: ENSG00000139618, SNORD73 or human:5:1533225-1555555");
 
-	/////////////////////////////////////////
-	// Here we have to include the browser //
-	/////////////////////////////////////////
-
-	// The Browser div
-	var browserDiv = d3.select(div);
-	gBrowser(div);
-
-	var browser_title = browserDiv
+	var browser_title = d3.select(div)
 	    .append("h1")
 	    .text(title)
-	    .style("color", fgColor)
+	    .style("color", gBrowser.foreground_color())
 	    .style("display", function(){
 		if (show_title) {
 		    return "auto"
@@ -146,6 +142,25 @@ var epeek_theme = function() {
 		    return "none"
 		}
 	    });
+
+	/////////////////////////////////////////
+	// Here we have to include the browser //
+	/////////////////////////////////////////
+
+	// The Browser div
+	// var browserDiv = d3.select(div)
+	//     .append("div")
+	//     .attr("id", "ePeek_" + div_id + "_gBrowser");
+//	gBrowser(document.getElementById("ePeek_" + div_id + "_gBrowser"));
+	gBrowser(div);
+
+
+	// The GeneInfo Panel
+	d3.select(div).select(".ePeek_svg")
+	    .append("div")
+	    .attr("class", "ePeek_gene_info")
+	    .attr("id", "ePeek_" + div_id + "_gene_info") // Both needed?
+	    .style("width", gBrowser.width() + "px");
 
 
 	// The QRtag div
@@ -190,6 +205,8 @@ var epeek_theme = function() {
 		create_QRtag()
 	    });
 
+	startOnOrigin();
+
 
     };
 
@@ -205,8 +222,8 @@ var epeek_theme = function() {
 	var qrtag = new QRtag();
 	qrtag.data(buildLink("mobile"));
 	qrtag.border(10);
-	qrtag.color(fgColor);
-	qrtag.bgcolor(bgColor);
+	qrtag.color(gBrowser.foreground_color());
+	qrtag.bgcolor(gBrowser.background_color());
 	qrtag.target("ePeek_" + div_id + "_qrtag_div");
 	qrtag.id("ePeek_" + div_id + "_QRcode");
 	qrtag.image();
@@ -240,27 +257,28 @@ var epeek_theme = function() {
 	    // chr     = origChr;
 	    // fromPos = origFromPos;
 	    // toPos   = origToPos;
-	    start();
+	    gBrowser.start();
 	}
 	return;
     };
 
     var goSearch = function() {
+	console.log("GO SEARCH!");
 	d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
-	var ensGeneBox = d3.select("#" + ensGenes_div_id);
 	var search_term = document.getElementById("ePeek_" + div_id + "_gene_name_input").value;
 	if (gBrowserTheme.isLocation(search_term)) {
 	    gBrowserTheme.parseLocation(search_term);
 	    gBrowser.start();
 	} else if (isEnsemblGene(search_term)) {
-	    gBrowser.ensGene_lookup(search_term, ensGeneBox);
+	    gBrowser.ensGene_lookup(search_term);
 	} else {
-	    gBrowser.get_gene(search_term, ensGeneBox);
+	    gBrowser.get_gene(search_term);
 	}
     };
 
-    var gene_select = function(gene_array, div) {
-	var ensGene_sel = div
+    var gene_select = function(gene_array) {
+	var ensGenes_div = d3.select("#" + ensGenes_div_id);
+	var ensGene_sel = ensGenes_div
 	    .append("select")
 	    .attr("class", "ePeek_top_option")
 	    .attr("id", "ePeek_" + div_id + "_ensGene_select");
@@ -274,7 +292,7 @@ var epeek_theme = function() {
 	    .text(function(d) {return d.id});
 
 	// We add the number of ensGenes to the corresponding tab label
-	d3.select(n_ensGenes_div_id)
+	d3.select("#" + n_ensGenes_div_id)
 	    .text(gene_array.length);
 
 	return ensGene_sel;
@@ -299,14 +317,16 @@ var epeek_theme = function() {
 	</ul>
     */
     gBrowserTheme.highlight = function (gene) {
+	console.log("GENE:");
+	console.log(gene);
 	var sel = d3.select("#ePeek_" + div_id + "_gene_info");
 
 	sel
 	    .classed("ePeek_gene_info_active", true)
 	    .append("p")
 	    .attr("class", "ePeek_gene_info_paragraph")
-	    .style("color", fgColor)
-	    .style("background-color", bgColor)
+	    .style("color", gBrowser.foreground_color())
+	    .style("background-color", gBrowser.background_color())
 	    .html(function () {
 		return "<h1>" + gene.external_name + "</h1>" +
 		    "Ensembl ID: <i>" + gene.ID + "</i><br />" +
@@ -317,11 +337,11 @@ var epeek_theme = function() {
 
 	sel.append("span")
 	    .attr("class", "ePeek_text_rotated")
-	    .style("top", ~~height/2 + "px")
-	    .style("background-color", fgColor)
+	    .style("top", ~~gBrowser.height()/2 + "px")
+	    .style("background-color", gBrowser.foreground_color())
 	    .append("text")
 	    .attr("class", "ePeek_link")
-	    .style("color", bgColor)
+	    .style("color", gBrowser.background_color())
 	    .text("[Close]")
 	    .on("click", function() {d3.select("#ePeek_" + div_id + "_gene_info" + " p").remove();
 				     d3.select("#ePeek_" + div_id + "_gene_info" + " span").remove();
@@ -329,7 +349,7 @@ var epeek_theme = function() {
 
     };
 
-    var get_orthologues = function (ensGene) {
+    var orthologues_select = function (orthologues) {
 	var div = d3.select("#" + orth_div_id);
 	var orth_select = div
 	    .append("select")
@@ -342,65 +362,41 @@ var epeek_theme = function() {
 	    .text("-- Go to ortholog --");
 
 	orth_select.selectAll("option2")
-	    .data(resp.data[0].homologies, function(d){return d.id})
+	    .data(orthologues, function(d){return d.id})
 	    .enter()
 	    .append("option")
 	    .attr("class", "ePeek_orth_option")
 	    .attr("value", function(d) {return d.id})
 	    .text(function(d) {return d.id + " (" + d.species + " - " + d.type + ")"});
-
-	orth_select.on("change", function() {
-	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
-	    ensGene_lookup(this.value, div);
-	});
-
+	
 	// We fill the number of orthologues in the tab label
 	d3.select("#" + n_orth_div_id)
-	    .text(resp === undefined ? 0 : resp.data[0].homologies.length);
+	    .text(orthologues === undefined ? 0 : orthologues.length);
+
+	return orth_select;
     };
 
+    var ensGenes_cbak = function(ensGenes) {
 
-    var get_gene = function(gene_name, div) {
-	var cbak = function(ensGenes) {
-	    var ensGene_sel = gene_select(ensGenes, div);
-	    ensGene_sel.on("change", function() {
-		ensGene_lookup(this.value, div);
-	    });
-
-	    if (ensGenes[0] === undefined) {
-		ensGene_lookup(ensGenes[0].id, div)
-	    } else {
-		gBrowser.start;
-	    }
-	}
-	
-	gBrowser.get_gene(gene_name, cbak);
+	// The ensGenes select + number of ensGenes
+	var ensGene_sel = gene_select(ensGenes);
+	    
+	ensGene_sel.on("change", function() {
+	    gBrowser.ensGene_lookup(this.value);
+	});
     };
 
+    var orthologues_cbak = function(orthologues) {
 
-    // DEPRECATED
-    // var get_gene = function(gene_name, div) {
-    // 	var url = prefix_gene + species + "/" + gene_name + ".json?object=gene";
-    // 	console.log(url);
-    // 	d3.json(url, function (error, resp) {
-    // 	    resp = resp.filter(function(d){return !d.id.indexOf("ENS")}); // To avoid LRG genes (maybe the REST Service doesn't return those now)?
-    // 	    console.log("RESP:");
-    // 	    console.log(resp);
+	// The orthologues select + number of orthologues
 
-    // 	    var ensGene_sel = gene_select(resp, div);
+	var orthologues_sel = orthologues_select(orthologues);
+	orthologues_sel.on("change", function() {
+	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
+	    gBrowser.ensGene_lookup(this.value);
+	});
+    };
 
-    // 	    ensGene_sel.on("change", function(){
-    // 		ensGene_lookup(this.value, div);
-    // 	    });
-
-    // 	    if (resp[0] !== undefined) {
-    // 		ensGene_lookup(resp[0].id, div);
-    // 	    } else {
-    // 		start();
-    // 	    }
-
-    // 	});
-    // };
 
     // TODO: What happens on error? i.e. if the string is not a valid location
     // TODO: We can make it smarter? allowing for examples species:gene?
@@ -410,12 +406,11 @@ var epeek_theme = function() {
         species:chr:from-to
     */
     gBrowserTheme.parseLocation = function(loc) {
-	console.log(loc);
 	var loc_arr = loc_re.exec(loc);
-	species = loc_arr[1];
-	chr     = loc_arr[2];
-	fromPos = loc_arr[3];
-	toPos   = loc_arr[4];
+	gBrowser.species(loc_arr[1]);
+	gBrowser.chr(loc_arr[2]);
+	gBrowser.from(loc_arr[3]);
+	gBrowser.to(loc_arr[4]);
 
 	return gBrowserTheme;
     };
@@ -454,29 +449,6 @@ var epeek_theme = function() {
 	return gBrowserTheme;
     };
 
-    /** <strong>background_color</strong> sets the background color for several parts of the widget
-	It can be used to match the color schema used in the host page
-	Its argument is a color in any valid format (hex, string, etc...)
-    */
-    gBrowserTheme.background_color = function (hex) {
-	if (!arguments.length) {
-	    return bgColor;
-	}
-	bgColor = hex;
-	return gBrowserTheme;
-    };
-
-    /** <strong>foreground_color</strong> sets the color of several parts of the widget (not all the parts will have this color)
-	It can be used to match the color schema used in the host page
-	Its argument is a color in any valid format (hex, string, etc...)
-    */
-    gBrowserTheme.foreground_color = function (hex) {
-	if (!arguments.length) {
-	    return fgColor;
-	}
-	fgColor = hex;
-	return gBrowser;
-    };
 
     /** <strong>species</strong> sets the species that will be used for the next search (gene or location)
 	Common names are allowed (human, chimp, gorilla, mouse, etc...)
@@ -546,6 +518,8 @@ var epeek_theme = function() {
 	div_id = d3.select(div).attr("id");
 	ensGenes_div_id = "ePeek_" + div_id + "_ensGene_option";
 	n_ensGenes_div_id = "ePeek_" + div_id + "_n_ensGenes";
+	orth_div_id = "ePeek_" + div_id + "_ortho_option";
+	n_orth_div_id = "ePeek_" + div_id * "_n_orthologues";
     }
 
 
@@ -562,12 +536,12 @@ var epeek_theme = function() {
 	    url = url + "_mobile.html";
 	    postfix = "#browser";
 	}
-	url = url + "?loc=" + species + ":" + chr + ":" + fromPos + "-" + toPos + postfix;
+	url = url + "?loc=" + gBrowser.species() + ":" + gBrowser.chr() + ":" + gBrowser.from() + "-" + gBrowser.to() + postfix;
 	return url;
     };
 
     var buildEnsemblLink = function() {
-	var url = "http://www.ensembl.org/" + species + "/Location/View?r=" + chr + "%3A" + fromPos + "-" + toPos;
+	var url = "http://www.ensembl.org/" + gBrowser.species() + "/Location/View?r=" + gBrowser.chr() + "%3A" + gBrowser.from() + "-" + gBrowser.to();
 	return url;
     };
 
@@ -602,64 +576,7 @@ var epeek_theme = function() {
     };
 
 
-  //////////////////////////////
- // GBROWSER methods //////////
-//////////////////////////////
-// We should find a way to avoid duplicating them
-// DUP DUP DUP DUP
-    gBrowserTheme.species = function (sp) {
-	gBrowser.species(sp);
-	return gBrowserTheme;
-    };
-
-    gBrowserTheme.chr = function (chr) {
-	gBrowser.chr(chr);
-	return gBrowserTheme;
-    };
-
-    gBrowserTheme.from = function (p) {
-	gBrowser.from(p);
-	return gBrowserTheme;
-    };
-
-    gBrowserTheme.to = function (p) {
-	gBrowser.to(p);
-	return gBrowserTheme;
-    };
-
-    gBrowserTheme.gene = function (n) {
-	gBrowser.gene(n);
-	return gBrowserTheme;
-    };
-
-    gBrowserTheme.width = function (w) {
-	gBrowser.width(w);
-	return gBrowserTheme;
-    };
-
-    gBrowserTheme.background_color = function (hex) {
-	gBrowser.background_color(hex);
-	bgColor = hex;
-	return gBrowserTheme;
-    };
-
-    gBrowserTheme.foreground_color = function (hex) {
-	gBrowser.foreground_color(hex);
-	fgColor = hex;
-	return gBrowserTheme;
-    }
-
-    gBrowserTheme.width = function (w) {
-	gBrowser.width(w);
-	width = w;
-	return gBrowserTheme;
-    };
 
     return gBrowserTheme;
 };
-
-
-
-
-
 
