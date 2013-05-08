@@ -156,7 +156,7 @@ var epeek_theme = function() {
 
 
 	// The GeneInfo Panel
-	d3.select(div).select(".ePeek_svg")
+	d3.select(div).select(".ePeek_groupDiv")
 	    .append("div")
 	    .attr("class", "ePeek_gene_info")
 	    .attr("id", "ePeek_" + div_id + "_gene_info") // Both needed?
@@ -263,7 +263,6 @@ var epeek_theme = function() {
     };
 
     var goSearch = function() {
-	console.log("GO SEARCH!");
 	d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	var search_term = document.getElementById("ePeek_" + div_id + "_gene_name_input").value;
 	if (gBrowserTheme.isLocation(search_term)) {
@@ -317,8 +316,6 @@ var epeek_theme = function() {
 	</ul>
     */
     gBrowserTheme.highlight = function (gene) {
-	console.log("GENE:");
-	console.log(gene);
 	var sel = d3.select("#ePeek_" + div_id + "_gene_info");
 
 	sel
@@ -332,8 +329,7 @@ var epeek_theme = function() {
 		    "Ensembl ID: <i>" + gene.ID + "</i><br />" +
 		    "Description: <i>" + gene.description + "</i><br />" +
 		    "Source: <i>" + gene.logic_name + "</i><br />" +
-		    "loc: <i>" + gene.seq_region_name + ":" + gene.start + "-" + gene.end + " (Strand: " + gene.strand + ")</i><br />"
-	    });
+		    "loc: <i>" + gene.seq_region_name + ":" + gene.start + "-" + gene.end + " (Strand: " + gene.strand + ")</i><br />";});
 
 	sel.append("span")
 	    .attr("class", "ePeek_text_rotated")
