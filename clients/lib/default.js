@@ -19,7 +19,6 @@ var epeek_theme = function() {
 
     //
     // Default species and genome location
-    var gene; // undefined   // DUP
     var species = "human";   // DUP
     var chr = 7;             // DUP
     var fromPos = 139424940; // DUP
@@ -251,8 +250,8 @@ var epeek_theme = function() {
     var startOnOrigin = function() {
 	// We get the gene/location to render
 	species = origSpecies;
-	if (gene !== undefined) {
-	    gBrowser.get_gene(gene, d3.select("#" + ensGenes_div_id));
+	if (gBrowser.gene() !== undefined) {
+	    gBrowser.get_gene(gBrowser.gene());
 	} else {
 	    // chr     = origChr;
 	    // fromPos = origFromPos;
@@ -495,21 +494,6 @@ var epeek_theme = function() {
         return gBrowserTheme;
     };
     
-    /** <strong>gene</strong> sets the gene name for the next gene-based location
-	gene-based locations have higher preference over coordinates-based locations
-	So for example, using:
-	gB.species("human").chr(13).from(35009587).to(35214822).gene("LINC00457");
-	will show the correct location even if the gene name is spelled wrong or is not recognized by Ensembl
-	External gene names (BRCA2) and ensembl gene identifiers (ENSG00000139618) are both allowed.
-    */
-    gBrowserTheme.gene = function(g) {
-	if (!arguments.length) {
-	    return gene;
-	}
-	gene = g;
-	return gBrowserTheme;
-    };
-
     var set_div_id = function(div) {
 	div_id = d3.select(div).attr("id");
 	ensGenes_div_id = "ePeek_" + div_id + "_ensGene_option";
@@ -562,12 +546,14 @@ var epeek_theme = function() {
 	}
     };
 
+
+    /** TODO: I think this doesn't have to be public? */
     /** <strong>buildEnsemblGeneLink</strong> returns the Ensembl url pointing to the gene summary given in as argument
 	The gene id shouuld be a valid ensembl gene id of the form "ENSG......XXXX"
     */
     gBrowserTheme.buildEnsemblGeneLink = function(ensID) {
 	//"http://www.ensembl.org/Homo_sapiens/Gene/Summary?g=ENSG00000139618"
-	var url = "http://www.ensembl.org/" + species + "/Gene/Summary?g=" + ensID;
+	var url = "http://www.ensembl.org/" + gBrowser.species() + "/Gene/Summary?g=" + ensID;
 	return url;
     };
 
