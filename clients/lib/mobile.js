@@ -34,7 +34,7 @@ var epeek_theme = function() {
 	}
 
 	gBrowser(div);
-	if (gBrowser.gene != undefined) {
+	if (gBrowser.gene() !== undefined) {
 	    gBrowser.get_gene(gBrowser.gene());
 	} else {
 	    gBrowser.start();

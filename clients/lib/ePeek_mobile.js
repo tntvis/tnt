@@ -27,7 +27,7 @@ function getGB(w) {
 
 Zepto(function($){
 
-    var w = document.documentElement.clientWidth;;
+    var w = document.documentElement.clientWidth;
 
     var gB = getGB(w);
     var loc = getLoc();
