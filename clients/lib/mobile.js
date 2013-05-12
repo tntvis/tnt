@@ -40,6 +40,8 @@ var epeek_theme = function() {
 	    gBrowser.start();
 	}
 
+	gBrowserTheme.orientationChange();
+
     };
 
     // TODO: What happens on error? i.e. if the string is not a valid location
@@ -166,6 +168,29 @@ var epeek_theme = function() {
 	var url = "http://www.ensembl.org/" + gBrowser.species() + "/Gene/Summary?g=" + ensID;
 	return url;
     };
+
+
+    gBrowserTheme.orientationChange = function() {
+
+	// Default Android browser based on the WebKit engine
+	// which also powers the Safari browser on desktops, laptops and Apple's iOS-based mobile devices
+	// doesn't seem to understand window.matchMedia, so we need to use this alternative.
+	window.onorientationchange = function() {
+	    // Strangely enough, default android browser reverses clientWidth and clientHeight?
+	    // TODO: Post a question somewhere? (StackOverflow?) -> DONE
+	    // TODO: It seems that introducing a short delay (500ms) the clientWidth and clientHeight are properly set
+            setTimeout(function() {
+		// This may be needed for IE for mobiles?
+		//        var w=window.innerWidth
+		//           || document.documentElement.clientWidth
+		//           || document.body.clientWidth;
+	    
+		var w = document.documentElement.clientWidth;
+		gBrowser.resize(w-20);
+            }, 500);
+	}
+    };
+
 
     return gBrowserTheme;
     
