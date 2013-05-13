@@ -64,7 +64,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="minimalGenomeBrowser.js.html">minimalGenomeBrowser.js</a>, <a href="minimalGenomeBrowser.js.html#line66">line 66</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line46">line 46</a>
     </li></ul></dd>
     
     
@@ -98,7 +98,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="highlight"><span class="type-signature">&lt;static> </span>highlight<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ensGene_lookup"><span class="type-signature">&lt;static> </span>ensGene_lookup<span class="signature">(ensembl_gene_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
     
 </dt>
@@ -106,21 +106,152 @@
     
     
     <div class="description">
-        <strong>highlight</strong> shows the gene info pane
-        This function can be shadowed by a custom - user created method
-        to display the gene information in a different way -- or html element
-        Its argument is a literal object having the following information:
-	<ul>
-	<li>external_name   => External name of the gene</li>
-	<li>ID              => Ensembl ID of the gene</li>
-        <li>description     => A short description of the gene</li>
-        <li>logic_name      => The source of the gene</li>
-        <li>feature_type    => This is always set to gene</li>
-        <li>seq_region_name => The chromosome or region name the gene is located</li>
-        <li>start           => The start coordinate in the seq_region_name</li>
-        <li>end             => The end coordinate in the seq_region_name</li>
-        <li>strand          => The strand in the seq_region_name</li>
-	</ul>
+        <strong>ensGene_lookup</strong> retrieves the coordinates of a Ensembl gene from
+	the remote server
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>ensembl_gene_id</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The id of the gene to look for</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line307">line 307</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    The coordinates of the ensembl gene
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Object</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="gene"><span class="type-signature">&lt;static> </span>gene<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <strong>gene</strong> sets the gene name for the next gene-based location
+	gene-based locations have higher preference over coordinates-based locations
+	So for example, using:
+	gB.species("human").chr(13).from(35009587).to(35214822).gene("LINC00457");
+	will show the correct location even if the gene name is spelled wrong or is not recognized by Ensembl
+	External gene names (BRCA2) and ensembl gene identifiers (ENSG00000139618) are both allowed.
     </div>
     
 
@@ -153,7 +284,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="minimalGenomeBrowser.js.html">minimalGenomeBrowser.js</a>, <a href="minimalGenomeBrowser.js.html#line489">line 489</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line381">line 381</a>
     </li></ul></dd>
     
     
@@ -181,7 +312,7 @@
         
             
 <dt>
-    <h4 class="name" id="parseLocation"><span class="type-signature">&lt;static> </span>parseLocation<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_gene"><span class="type-signature">&lt;static> </span>get_gene<span class="signature">(gene_name, callback)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
     
 </dt>
@@ -189,9 +320,171 @@
     
     
     <div class="description">
-        parseLocation
-	takes a string as input and guesses a location.
-	The expected location should be on the form: species:chr:from-to
+        <strong>get_gene</strong> retrieves the gene from the remote server
+	returning the Ensembl genes associated with that external name
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>gene_name</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The gene external name to look up</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">callback</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Callback to execute when the search is done. The ensembl genes will be passed to the callback as arguments.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line263">line 263</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Ensembl genes associated with the query gene
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Array</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="localREST"><span class="type-signature">&lt;static> </span>localREST<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <strong>localREST</strong> points the queries to a local REST service to debug.
+	This method should be removed in "production"
     </div>
     
 
@@ -224,7 +517,147 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="minimalGenomeBrowser.js.html">minimalGenomeBrowser.js</a>, <a href="minimalGenomeBrowser.js.html#line660">line 660</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line437">line 437</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="start"><span class="type-signature">&lt;static> </span>start<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <strong>start</strong> plots the genome browser and starts listening for mouse events on it.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line122">line 122</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="width"><span class="type-signature">&lt;static> </span>width<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <strong>width</strong> sets the width (in pixels) of the genomic view using the argument provided
+	The argument should be only the number of pixels (without any suffix like "px")
+	To re-set this width lively use the "resize" method.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line404">line 404</a>
     </li></ul></dd>
     
     
@@ -271,7 +704,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Tue Apr 30 2013 15:28:47 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Mon May 13 2013 16:52:46 GMT+0100 (BST)
 </footer>
 
 <script> prettyPrint(); </script>
