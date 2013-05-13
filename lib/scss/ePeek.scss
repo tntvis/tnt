@@ -1,51 +1,8 @@
-
-//
-// VARIABLES
-//
-// Fonts sizes
-$tiny-font   : 10px;
-$small-font  : 12px;
-$normal-font : 14px;
-
-// svg
-/*$min-width   : 500px; */
-$height      : 200px;
+@import "main";
 
 // Genes
 $gene-opacity : 0.6;
 
-
-// 
-// MIXINS
-//
-//
-@mixin tiny-font {
-    font-size : $tiny-font;
-}
-
-@mixin small-font {
-    font-size : $small-font;
-}
-
-@mixin normal-font {
-    font-size : $normal-font;
-}
-
-@mixin transition ($target, $duration) {
-    -webkit-transition: $target $duration ease;
-    -moz-transition: $target $duration ease;
-    -o-transition: $target $duration ease;
-    -ms-transition: $target $duration ease;
-    transition: $target $duration ease;
-}
-
-@mixin rotate {
-    -webkit-transform: rotate(-90deg); 
-    -moz-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-}
 
 //
 // ELEMENTS
@@ -89,44 +46,7 @@ rect {
     opacity: $gene-opacity;
 }
 
-/* .ePeek_gene_info { */
-/*     position       : absolute; */
-/* /\*    height         : $height - 50; *\/ */
-/* /\*    width          : $min-width; *\/ */
-/*     left           : 0px; */
-/*     pointer-events : none; // ! */
-/* } */
 
-
-/* OPTIONS */
-.ePeek_options_pane {
-    display : block;
-    span {
-	@include normal-font;
-    }
-}
-
-div {
-    .ePeek_TabBlock {
-	display  : block;
-	height   : 40px;
-	position : absolute;
-	opacity  : 0;
-
-	@include transition(all, 0.5s);
-    }
-    .ePeek_TabBlock_active {
-	opacity : 1;
-	z-index : 1000;
-    }
-}
-
-.ePeek_top_option {
-    display    : inline;
-    position   : absolute;
-    top        : 50%;
-    margin-top : -10px;
-}
 
 .tick text {
     @include tiny-font;
@@ -136,35 +56,3 @@ div {
     @include small-font;
 }
 
-.ePeek_options_pane span, .ePeek_links_pane span, .ePeek_name {
-    @include normal-font;
-}
-
-
-div {
-    .ePeek_gene_info {
-	display  : block;
-	position : absolute;
-	top      : 0px;
-	opacity  : 0;
-
-	@include transition(all, 0.5s);
-    }
-    .ePeek_gene_info_active {
-	opacity : 1;
-	z-index : 1001;
-    }
-}
-
-.ePeek_text_rotated {
-    display     : block;
-    position    : absolute;
-    z-index     : 1002;
-    right       : 0px;
-
-    @include rotate;
-}
-
-.ePeek_link {
-    cursor : pointer;
-}
