@@ -23,8 +23,9 @@ var epeek_theme = function() {
 	gBrowser = gB;
 
 	// Callbacks:
+	// TODO: gBrowserTheme.highlight needs to be exported? I don't think so, rename to highlight?
 	gBrowser.highlight = gBrowserTheme.highlight;
-
+	gBrowser.orthologues_callback = gBrowserTheme.orthologues_cbak;
 	var loc = getLoc();
 
 	if (gBrowserTheme.isLocation(loc)) {
@@ -71,6 +72,40 @@ var epeek_theme = function() {
 	} else {
 	    return false;
 	}
+    };
+
+
+    /**
+     */
+    gBrowserTheme.orthologues_cbak = function (orthologues) {
+	var orth_select = d3.select("#ePeek_orthologues_select")
+	    .attr("id", "ePeek_orth_select");
+
+	orth_select
+	    .append("option")
+	    .attr("class", "ePeek_orth_option")
+	    .text("-- Jump to ortholog --")
+
+	orth_select.selectAll("option2")
+	    .data(orthologues, function(d){return d.id})
+	    .enter()
+	    .append("option")
+	    .attr("class", "ePeek_orth_option")
+	    .attr("value", function(d) {return d.id})
+	    .text(function(d) {return d.id + " (" + d.species + " - " + d.type + ")"});
+	
+	// We fill the number of orthologues in the tab label
+	d3.select("#ePeek_orthologues_label")
+	    .html("Orthologues [" + (orthologues === undefined ? 0 : orthologues.length) + "]");
+
+
+	// We listen on orthologues options
+	orth_select.on("change", function() {
+//	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
+	    gBrowser.ensGene_lookup(this.value);
+	});
+ 
+
     };
 
     /** <strong>highlight</strong> shows the gene info pane
@@ -140,6 +175,18 @@ var epeek_theme = function() {
 	gene_info_items_list
 	    .append("li")
 	    .attr("class", "sep")
+	    .attr("id", "ePeek_orthologues_label")
+	    .html("Orthologues");
+
+	gene_info_items_list
+	    .append("li")
+	    .attr("class", "rounded")
+	    .append("select")
+	    .attr("id", "ePeek_orthologues_select");
+
+	gene_info_items_list
+	    .append("li")
+	    .attr("class", "sep")
 	    .html("Open " + gene.external_name + " in...");
 
 	gene_info_items_list
@@ -149,13 +196,14 @@ var epeek_theme = function() {
 	    .attr("href", gBrowserTheme.buildEnsemblGeneLink(gene.ID))
 	    .attr("target", "_blank")
 	    .append("img")
-	    .attr("src", "ensembl_logo_small.png")
+	    .attr("src", "ensembl_logo_small.png");
 
+	// Fill the orthologues select
+	gBrowser.orthologues(gene.ID);
 
 	// TODO: This way of getting to the gene_info div prevents the use of
 	// transitions. We may find a better way!
 	window.location.href="#gene_info";
-
 
     };
 
