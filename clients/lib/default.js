@@ -263,6 +263,7 @@ var epeek_theme = function() {
 
     var goSearch = function() {
 	d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
+	d3.select("#ePeek_" + div_id + "_orth_select").remove();
 	var search_term = document.getElementById("ePeek_" + div_id + "_gene_name_input").value;
 	if (gBrowserTheme.isLocation(search_term)) {
 	    gBrowserTheme.parseLocation(search_term);
@@ -384,10 +385,10 @@ var epeek_theme = function() {
     var orthologues_cbak = function(orthologues) {
 
 	// The orthologues select + number of orthologues
-
 	var orthologues_sel = orthologues_select(orthologues);
 	orthologues_sel.on("change", function() {
 	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
+	    d3.select("#ePeek_" + div_id + "_orth_select").remove();
 	    gBrowser.ensGene_lookup(this.value);
 	});
     };

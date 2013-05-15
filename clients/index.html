@@ -5,18 +5,19 @@
 <!-------------------------------------------------------------------------->
 <!-----    e!Peek ---------------------------------------------------------->
 <!-------------------------------------------------------------------------->
-  <!-- Local CSS -->
-  <link rel="stylesheet" href="lib/ePeek.css" type="text/css" />
+    <!-- Remote D3.js -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
 
-  <!-- Remote D3.js -->
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+    <!-- Remote QRtag -->
+    <script type="text/javascript" src="http://api.qrtag.net/js"></script>
 
-  <!-- Remote QRtag -->
-  <script type="text/javascript" src="http://api.qrtag.net/js"></script>
+    <!-- ePeek -->
+    <link rel="stylesheet" href="lib/ePeek.css" type="text/css" />
+    <script src="lib/ePeek.js"></script>
 
-  <!-- Local minimalGenomeBrowser -->
-  <script src="lib/minimalGenomeBrowser.js"></script>
-
+    <!-- Default -->
+    <link rel="stylesheet" href="clients/css/default.css" type="text/css" />
+    <script src="clients/lib/default.js"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
 <meta name="author" content="EBI Web Team" />
@@ -93,10 +94,13 @@
 		<div style="padding-top:30px; padding-bottom:30px" id="genomeBrowser"></div>
 		<script>
 		  (function() {
-		  var gB = genomeBrowser().show_options(true).species("human").gene("BRCA2").width(1100).background_color("#EDF6F5").foreground_color("#006666");
-		  gB(document.getElementById("genomeBrowser"));
+		  var gB = epeek().species("HOMO SAPIENS").gene("BRCA2").width(1200).background_color("#EDF6F5").foreground_color("#006666");
+		  var gBTheme = epeek_theme().show_options(true).title("Human BRCA2");
+		  //        var gB = epeek_theme().show_options(true).species("HOMO SAPIENS").gene("BRCA2").width(1200).background_color("#EDF6F5").foreground_color("#006666").title("Human BRCA2");
+
+		  gBTheme(gB, document.getElementById("genomeBrowser"));
 		  })();
-		</script>
+ 		</script>
 
 		<!-- end contents here -->					
 		<!-- InstanceEndEditable -->
