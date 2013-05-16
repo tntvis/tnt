@@ -1,3 +1,5 @@
 var epeek_theme = function() {
-    return epeek();
+    var ePeek = epeek();
+    ePeek.start();
+    return ePeek;
 };

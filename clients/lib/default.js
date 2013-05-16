@@ -250,14 +250,7 @@ var epeek_theme = function() {
     var startOnOrigin = function() {
 	// We get the gene/location to render
 	species = origSpecies;
-	if (gBrowser.gene() !== undefined) {
-	    gBrowser.get_gene(gBrowser.gene());
-	} else {
-	    // chr     = origChr;
-	    // fromPos = origFromPos;
-	    // toPos   = origToPos;
-	    gBrowser.start();
-	}
+	gBrowser.startOnOrigin();
 	return;
     };
 

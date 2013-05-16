@@ -462,7 +462,7 @@ SlideDeck.prototype.buildNextItem_ = function() {
 SlideDeck.prototype.prevSlide = function(opt_dontPush) {
   if (this.curSlide_ > 0) {
     var bodyClassList = document.body.classList;
-    bodyClassList.remove('highlight-code');
+//    bodyClassList.remove('highlight-code');
 
     // Toggle off speaker notes if they're showing when we move backwards on the
     // main slides. If we're the speaker notes popup, leave them up.
@@ -488,7 +488,7 @@ SlideDeck.prototype.nextSlide = function(opt_dontPush) {
 
   if (this.curSlide_ < this.slides.length - 1) {
     var bodyClassList = document.body.classList;
-    bodyClassList.remove('highlight-code');
+//    bodyClassList.remove('highlight-code');
 
     // Toggle off speaker notes if they're showing when we advanced on the main
     // slides. If we're the speaker notes popup, leave them up.

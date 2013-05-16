@@ -10,7 +10,7 @@
 
   <!-- Local libs -->
   <script src="../lib/ePeek.js"></script>
-  <script src="lib/minimal.js"></script>
+  <script src="lib/minimal2.js"></script>
 </head>
 
 <body>
@@ -19,8 +19,9 @@
 
   <script>
     (function() {
-        var gB = epeek_theme();
-        gB(document.getElementById("genomeBrowser"));
+        var gB = epeek().species("human").gene("brca2");
+        var gBTheme = epeek_minimal();
+        gBTheme(gB, document.getElementById("genomeBrowser"));
     })();
   </script>
 </body>

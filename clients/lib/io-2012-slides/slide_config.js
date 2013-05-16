@@ -23,7 +23,7 @@ var SLIDE_CONFIG = {
   // Author information
   presenters: [{
     name: 'Miguel Pignatelli',
-    company: 'Software developer, Ensembl, EBI',
+    company: 'Software developer @ Ensembl (EBI)',
     gplus: 'https://plus.google.com/111225444277358003374/posts',
     www: 'http://www.ebi.ac.uk/~mp/',
     github: 'https://github.com/emepyc'
