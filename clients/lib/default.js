@@ -315,8 +315,8 @@ var epeek_theme = function() {
 	    .classed("ePeek_gene_info_active", true)
 	    .append("p")
 	    .attr("class", "ePeek_gene_info_paragraph")
-	    .style("color", gBrowser.foreground_color())
-	    .style("background-color", gBrowser.background_color())
+	    .style("color", gBrowser.foreground_color().darker())
+	    .style("background-color", gBrowser.background_color().brighter())
 	    .html(function () {
 		return "<h1>" + gene.external_name + "</h1>" +
 		    "Ensembl ID: <i>" + gene.ID + "</i><br />" +
