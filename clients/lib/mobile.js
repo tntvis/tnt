@@ -24,7 +24,7 @@ var epeek_theme = function() {
 
 	// Callbacks:
 	// TODO: gBrowserTheme.highlight needs to be exported? I don't think so, rename to highlight?
-	gBrowser.highlight = gBrowserTheme.highlight;
+	gBrowser.gene_info_callback = gene_info_callback;
 	gBrowser.orthologues_callback = gBrowserTheme.orthologues_cbak;
 	var loc = getLoc();
 
@@ -108,23 +108,7 @@ var epeek_theme = function() {
 
     };
 
-    /** <strong>highlight</strong> shows the gene info pane
-        This function can be shadowed by a custom - user created method
-        to display the gene information in a different way -- or html element
-        Its argument is a literal object having the following information:
-	<ul>
-	<li>external_name   => External name of the gene</li>
-	<li>ID              => Ensembl ID of the gene</li>
-        <li>description     => A short description of the gene</li>
-        <li>logic_name      => The source of the gene</li>
-        <li>feature_type    => This is always set to gene</li>
-        <li>seq_region_name => The chromosome or region name the gene is located</li>
-        <li>start           => The start coordinate in the seq_region_name</li>
-        <li>end             => The end coordinate in the seq_region_name</li>
-        <li>strand          => The strand in the seq_region_name</li>
-	</ul>
-    */
-    gBrowserTheme.highlight = function(gene) {
+    var gene_info_callback = function(gene) {
 	// We first remove previous data and elements
 //	d3.select("#gene_content div").remove();
 	d3.select("#gene_content ul").remove();
