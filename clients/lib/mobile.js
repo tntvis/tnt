@@ -25,7 +25,7 @@ var epeek_theme = function() {
 	// Callbacks:
 	// TODO: gBrowserTheme.highlight needs to be exported? I don't think so, rename to highlight?
 	gBrowser.gene_info_callback = gene_info_callback;
-	gBrowser.orthologues_callback = gBrowserTheme.orthologues_cbak;
+	gBrowser.orthologues_callback = orthologues_cbak;
 	var loc = getLoc();
 
 	if (gBrowserTheme.isLocation(loc)) {
@@ -77,7 +77,7 @@ var epeek_theme = function() {
 
     /**
      */
-    gBrowserTheme.orthologues_cbak = function (orthologues) {
+    var orthologues_cbak = function (orthologues) {
 	var orth_select = d3.select("#ePeek_orthologues_select")
 	    .attr("id", "ePeek_orth_select");
 
