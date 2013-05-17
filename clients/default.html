@@ -23,9 +23,8 @@
 
     <script>
       (function() {
-        var gB = epeek().species("HOMO SAPIENS").gene("BRCA2").width(1200).background_color("#EDF6F5").foreground_color("#006666");
+        var gB = epeek().species("HOMO SAPIENS").gene("BRCA2").width(1200).background_color("#EDF6F5").foreground_color("#006666").highlight_color("#03385E");
         var gBTheme = epeek_theme().show_options(true).title("Human BRCA2");
-
         gBTheme(gB, document.getElementById("genomeBrowser"));
       })();
     </script>

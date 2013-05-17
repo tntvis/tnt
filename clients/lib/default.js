@@ -40,8 +40,8 @@ var epeek_theme = function() {
 
 	gBrowser = gB;
 	// We set the gBrowser's callbacks
-	gBrowser.highlight = gBrowserTheme.highlight;
-	gBrowser.ensGenes_callback  = ensGenes_cbak;
+	gBrowser.gene_info_callback   = gene_info_callback;
+	gBrowser.ensGenes_callback    = ensGenes_cbak;
 	gBrowser.orthologues_callback = orthologues_cbak;
 
 	// We set the original data so we can always come back
@@ -206,7 +206,6 @@ var epeek_theme = function() {
 
 	startOnOrigin();
 
-
     };
 
 ///*********************////
@@ -290,25 +289,7 @@ var epeek_theme = function() {
 	return ensGene_sel;
     };
 
-    // Public Functions (API)
-
-    /** <strong>highlight</strong> shows the gene info pane
-        This function can be shadowed by a custom - user created method
-        to display the gene information in a different way -- or html element
-        Its argument is a literal object having the following information:
-	<ul>
-	<li>external_name   => External name of the gene</li>
-	<li>ID              => Ensembl ID of the gene</li>
-        <li>description     => A short description of the gene</li>
-        <li>logic_name      => The source of the gene</li>
-        <li>feature_type    => This is always set to gene</li>
-        <li>seq_region_name => The chromosome or region name the gene is located</li>
-        <li>start           => The start coordinate in the seq_region_name</li>
-        <li>end             => The end coordinate in the seq_region_name</li>
-        <li>strand          => The strand in the seq_region_name</li>
-	</ul>
-    */
-    gBrowserTheme.highlight = function (gene) {
+    var gene_info_callback = function (gene) {
 	var sel = d3.select("#ePeek_" + div_id + "_gene_info");
 
 	sel
@@ -366,7 +347,6 @@ var epeek_theme = function() {
     };
 
     var ensGenes_cbak = function(ensGenes) {
-
 	// The ensGenes select + number of ensGenes
 	var ensGene_sel = gene_select(ensGenes);
 	    
