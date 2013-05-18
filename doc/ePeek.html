@@ -79,7 +79,7 @@
         
             <h3>Example</h3>
             
-    <pre class="prettyprint"><code>	// Typically, it is used as follows:
+    <pre class="prettyprint"><code>	// Typically, the plug-in is used as follows:
 	var gB = epeek().width(920); // other methods can be included here
 	var gBTheme = epeek_theme(); // other methods can be included here
 	gBTheme(gB, document.getElementById('DOM_element_id');</code></pre>
@@ -210,7 +210,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line507">line 507</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line513">line 513</a>
     </li></ul></dd>
     
     
@@ -269,7 +269,7 @@
     
     <div class="description">
         <strong>chr</strong> gets/sets the chr used in the next genome coordinates-based query.
-	If no argument is provided, it returns the current chr or the default one if no one has been set before.
+	If no argument is provided, returns the current chr or the default one if no one has been set before.
 	Strictly speaking, the arguments expects a seq_region_name, i.e. "scaffolds", etc are also considered chromosomes.
 	This value is used by <a href="ePeek.html#start">ePeek.start</a> to set the genomic coordinates in the plug-in view
     </div>
@@ -364,7 +364,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line409">line 409</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line413">line 413</a>
     </li></ul></dd>
     
     
@@ -532,7 +532,7 @@
         
             
 <dt>
-    <h4 class="name" id="ensGenes_callback"><span class="type-signature">&lt;static> </span>ensGenes_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ensGenes_callback"><span class="type-signature">&lt;static> </span>ensGenes_callback<span class="signature">(genes)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -540,7 +540,11 @@
     
     
     <div class="description">
-        <strong>ensGenes_callback</strong>
+        <strong>ensGenes_callback</strong> is a callback called every time a gene is searched in the 
+	REST server in the <a href="ePeek.html#get_gene">ePeek.get_gene</a> method.
+	Its default behaviour is to do nothing.
+	This method can be used by a theme to run some arbitrary code when a gene is found in the REST
+	server.
     </div>
     
 
@@ -548,6 +552,58 @@
     
     
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>genes</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">An array of genes found in the last gene-based search. Each gene is an object having the following fields:
+	<ul>
+	<li>id    => The Ensembl gene id associated with the gene</li>
+	<li>type  => This should be "gene"
+	</ul></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
     
     
     
@@ -573,7 +629,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line577">line 577</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line606">line 606</a>
     </li></ul></dd>
     
     
@@ -601,6 +657,160 @@
         
             
 <dt>
+    <h4 class="name" id="foreground_color"><span class="type-signature">&lt;static> </span>foreground_color<span class="signature">(<span class="optional">color</span>)</span><span class="type-signature"> &rarr; {<a href="ePeek.html">ePeek</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <strong>foreground_color</strong> gets/sets the foreground color for the view.
+	If no argument is provided, returns the current foreground color.
+	The argument should be a valid hexadecimal number (including the "#" prefix)
+	The color is internally converted to a <a href="https://github.com/mbostock/d3/wiki/Colors#wiki-d3_rgb">d3.rgb</a> format
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">The new color in hexadecimal format (including the leading "#")</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line528">line 528</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    The original object allowing method chaining
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="ePeek.html">ePeek</a></span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="from"><span class="type-signature">&lt;static> </span>from<span class="signature">(<span class="optional">coordinte</span>)</span><span class="type-signature"> &rarr; {<a href="ePeek.html">ePeek</a>}</span></h4>
     
     
@@ -610,7 +820,7 @@
     
     <div class="description">
         <strong>from</strong> gets/sets the start coordinate for the next genome coordinates-based query.
-	If no argument is provided, it returns the current start coordinate or the default one if none has been set before.
+	If no argument is provided, returns the current start coordinate or the default one if none has been set before.
 	This value is used by <a href="ePeek.html#start">ePeek.start</a> to set the genomic coordinates in the plug-in view
     </div>
     
@@ -673,7 +883,7 @@
             
             
             
-            <td class="description last">The new start coordinate</td>
+            <td class="description last">The new start coordinate. Commas or dots are not allowed (32,341,674 or 32.341.674)</td>
         </tr>
 	
 	
@@ -704,7 +914,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line423">line 423</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line427">line 427</a>
     </li></ul></dd>
     
     
@@ -797,7 +1007,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line454">line 454</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line460">line 460</a>
     </li></ul></dd>
     
     
@@ -855,7 +1065,7 @@
         
             
 <dt>
-    <h4 class="name" id="gene_info_callback"><span class="type-signature">&lt;static> </span>gene_info_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="gene_info_callback"><span class="type-signature">&lt;static> </span>gene_info_callback<span class="signature">(object)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -863,12 +1073,61 @@
     
     
     <div class="description">
-        <strong>gene_info_callback</strong> is a callback that tells the plug-in how
-	to show any info associated with a gene.
+        <strong>gene_info_callback</strong> is a callback called when a gene is selected.
+	It should be used to respond to mouse clicks on the genes or their names (labels).
 	Its default behaviour is to do nothing.
         This function can be overwritten by a theme to display the gene information
-	in a custom way and place
-	It expects a literal object as its unique argument having the following fields:
+	in a custom way and place for example.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>object</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A literal object containing the following fields:
 	<ul>
 	<li>external_name   => External name of the gene</li>
 	<li>ID              => Ensembl ID of the gene</li>
@@ -879,14 +1138,12 @@
         <li>start           => The start coordinate in the seq_region_name</li>
         <li>end             => The end coordinate in the seq_region_name</li>
         <li>strand          => The strand in the seq_region_name</li>
-	</ul>
-    </div>
-    
-
-    
-    
-    
-    
+	</ul></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
     
     
     
@@ -912,7 +1169,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line573">line 573</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line593">line 593</a>
     </li></ul></dd>
     
     
@@ -1164,7 +1421,161 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line469">line 469</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line475">line 475</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    The original object allowing method chaining
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="ePeek.html">ePeek</a></span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="highlight_color"><span class="type-signature">&lt;static> </span>highlight_color<span class="signature">(<span class="optional">color</span>)</span><span class="type-signature"> &rarr; {<a href="ePeek.html">ePeek</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <strong>highlight_color</strong> gets/sets the color to be used for a highlighted gene in the view.
+	If no argument is provided, returns the current color for highlighting.
+	The argument should be a valid hexadecimal number (including the "#" prefix)
+	The color is internally converted to a <a href="https://github.com/mbostock/d3/wiki/Colors#wiki-d3_rgb">d3.rgb</a> format
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">The new color in hexadecimal format (including the leading "#")</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line543">line 543</a>
     </li></ul></dd>
     
     
@@ -1256,7 +1667,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line534">line 534</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line554">line 554</a>
     </li></ul></dd>
     
     
@@ -1402,7 +1813,7 @@
         
             
 <dt>
-    <h4 class="name" id="orthologues_callback"><span class="type-signature">&lt;static> </span>orthologues_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="orthologues_callback"><span class="type-signature">&lt;static> </span>orthologues_callback<span class="signature">(homologies)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -1410,7 +1821,10 @@
     
     
     <div class="description">
-        <strong>orthologues_callback</strong>
+        <strong>orthologues_callback</strong> is a callback called every time the orthologues of a gene
+	are found in the REST server in the <a href="ePeek.html#orthologues">ePeek.orthologues</a> method.
+	Its default behaviour is to do nothing.
+	This method can be used by a theme to do run some arbitrary code when orthologues are found in the REST server.
     </div>
     
 
@@ -1418,6 +1832,61 @@
     
     
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>homologies</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">An array of object literals representing homologies having the following fields:
+	<ul>
+	<li>id          => The Ensembl Gene ID of the ortholog</li>
+	<li>protein_id  => The Ensembl Protein ID of the ortholog</li>
+	<li>species     => The species name of the ortholog</li>
+	<li>subtype     => The subtype of the homology relantionship</li>
+	<li>type        => The type of orthology</li>
+	</ul></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
     
     
     
@@ -1443,7 +1912,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line581">line 581</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line621">line 621</a>
     </li></ul></dd>
     
     
@@ -1588,7 +2057,7 @@
         
             
 <dt>
-    <h4 class="name" id="species"><span class="type-signature">&lt;static> </span>species<span class="signature">(<span class="optional">species</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="species"><span class="type-signature">&lt;static> </span>species<span class="signature">(<span class="optional">species</span>)</span><span class="type-signature"> &rarr; {<a href="ePeek.html">ePeek</a>}</span></h4>
     
     
 </dt>
@@ -1598,7 +2067,10 @@
     <div class="description">
         <strong>species</strong> gets/sets the species used in the REST queries.
 	See for example <a href="ePeek.html#get_gene">ePeek.get_gene</a>.
-	If no argument is provided, it returns the current species.
+	If no argument is provided, returns the current species.
+	Common names are allowed (human, chimp, gorilla, mouse, etc...)
+	Binary scientific names are also allowed with and without underscores (for example "mus_musculus" or "mus musculus")
+	Case is ignored.
     </div>
     
 
@@ -1691,7 +2163,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line394">line 394</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line398">line 398</a>
     </li></ul></dd>
     
     
@@ -1712,6 +2184,28 @@
     
     
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    The original object allowing method chaining
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="ePeek.html">ePeek</a></span>
+
+
+	</dd>
+</dl>
+
+        
     
     
 </dd>
@@ -1869,8 +2363,8 @@
     
     
     <div class="description">
-        <strong>from</strong> gets/sets the start coordinate for the next genome coordinates-based query.
-	If no argument is provided, it returns the current start coordinate or the default one if none has been set before.
+        <strong>to</strong> gets/sets the end coordinate for the next genome coordinates-based query.
+	If no argument is provided, returns the current end coordinate or the default one if none has been set before.
 	This value is used by <a href="ePeek.html#start">ePeek.start</a> to set the genomic coordinates in the plug-in view
     </div>
     
@@ -1933,7 +2427,7 @@
             
             
             
-            <td class="description last">The new start coordinate</td>
+            <td class="description last">The new end coordinate. Commas or dots are not allowed (32,341,674 or 32.341.674)</td>
         </tr>
 	
 	
@@ -1964,7 +2458,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line437">line 437</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line442">line 442</a>
     </li></ul></dd>
     
     
@@ -2118,7 +2612,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line486">line 486</a>
+        <a href="ePeek.js.html">ePeek.js</a>, <a href="ePeek.js.html#line492">line 492</a>
     </li></ul></dd>
     
     
@@ -2187,7 +2681,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat May 18 2013 01:53:17 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat May 18 2013 23:52:51 GMT+0100 (BST)
 </footer>
 
 <script> prettyPrint(); </script>

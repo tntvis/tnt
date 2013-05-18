@@ -1,4 +1,31 @@
-var epeek_theme = function() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: default.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: default.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>var epeek_theme = function() {
     "use strict";
 
     // orig species and coords, so we can always return there
@@ -80,13 +107,13 @@ var epeek_theme = function() {
 	var ensGeneLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .html("Ensembl Genes[<span id='" + n_ensGenes_div_id + "'></span>]")
+	    .html("Ensembl Genes[&lt;span id='" + n_ensGenes_div_id + "'>&lt;/span>]")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ensGene_option"))});
 
 	var orthologuesLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .html("Orthologues[<span id='" + n_orth_div_id + "'></span>]")
+	    .html("Orthologues[&lt;span id='" + n_orth_div_id + "'>&lt;/span>]")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ortho_option"))});
 
 	var searchLabel = opts_pane
@@ -306,11 +333,11 @@ var epeek_theme = function() {
 	    .style("color", gBrowser.foreground_color().darker())
 	    .style("background-color", gBrowser.background_color().brighter())
 	    .html(function () {
-		return "<h1>" + gene.external_name + "</h1>" +
-		    "Ensembl ID: <i>" + gene.ID + "</i><br />" +
-		    "Description: <i>" + gene.description + "</i><br />" +
-		    "Source: <i>" + gene.logic_name + "</i><br />" +
-		    "loc: <i>" + gene.seq_region_name + ":" + gene.start + "-" + gene.end + " (Strand: " + gene.strand + ")</i><br />";});
+		return "&lt;h1>" + gene.external_name + "&lt;/h1>" +
+		    "Ensembl ID: &lt;i>" + gene.ID + "&lt;/i>&lt;br />" +
+		    "Description: &lt;i>" + gene.description + "&lt;/i>&lt;br />" +
+		    "Source: &lt;i>" + gene.logic_name + "&lt;/i>&lt;br />" +
+		    "loc: &lt;i>" + gene.seq_region_name + ":" + gene.start + "-" + gene.end + " (Strand: " + gene.strand + ")&lt;/i>&lt;br />";});
 
 	sel.append("span")
 	    .attr("class", "ePeek_text_rotated")
@@ -377,8 +404,8 @@ var epeek_theme = function() {
     // TODO: What happens on error? i.e. if the string is not a valid location
     // TODO: We can make it smarter? allowing for examples species:gene?
 
-    /** <strong>parseLocation</strong> takes a string as input and guesses a location
-	setting <a href="../../ePeek.html#species">ePeek.species</a>, <a href="../../ePeek.html#chr">ePeek.chr</a>. <a href="../../ePeek.html#from">ePeek.from</a> and <a href="../../ePeek.html#to">ePeek.to</a>.
+    /** &lt;strong>parseLocation&lt;/strong> takes a string as input and guesses a location
+	setting &lt;a href="../../ePeek.html#species">ePeek.species&lt;/a>, &lt;a href="../../ePeek.html#chr">ePeek.chr&lt;/a>. &lt;a href="../../ePeek.html#from">ePeek.from&lt;/a> and &lt;a href="../../ePeek.html#to">ePeek.to&lt;/a>.
 	@param {String} location A string of the form species:chr:from-to
 	@returns {ePeekTheme} The original object allowing method chaining.
     */
@@ -392,7 +419,7 @@ var epeek_theme = function() {
 	return gBrowserTheme;
     };
 
-    /** <strong>show_options</strong> sets the visibility of the options pane
+    /** &lt;strong>show_options&lt;/strong> sets the visibility of the options pane
 	Its argument is evaluated to 'true' or 'false'.
 	@param {Boolean} boolean
 	@returns {ePeekTheme} The original object allowing method chaining.
@@ -402,7 +429,7 @@ var epeek_theme = function() {
 	return gBrowserTheme;
     };
 
-    /** <strong>show_title</strong> sets the visibility of the title.
+    /** &lt;strong>show_title&lt;/strong> sets the visibility of the title.
 	This title is set by {@link ePeekTheme.title}.
 	Its argument is evaluated to 'true' or 'false'.
 	@param {Boolean} boolean
@@ -413,7 +440,7 @@ var epeek_theme = function() {
 	return gBrowserTheme;
     };
 
-    /** <strong>show_links</strong> sets the visibility of the links pane.
+    /** &lt;strong>show_links&lt;/strong> sets the visibility of the links pane.
 	Its argument is evaluated to 'true' or 'false'.
 	@param {Boolean} boolean
 	@returns {ePeekTheme} The original object allowing method chaining
@@ -423,7 +450,7 @@ var epeek_theme = function() {
 	return gBrowserTheme;
     };
 
-    /** <strong>title</strong> gets/sets the title of the widget.
+    /** &lt;strong>title&lt;/strong> gets/sets the title of the widget.
 	If no argument is provided, returns the default title for the widget ("e!Peek").
 	@param {String} [title] The new title for the plug-in
 	@returns {ePeekTheme} The original object allowing method chaining
@@ -477,7 +504,7 @@ var epeek_theme = function() {
 
     // Public methods
 
-    /** <strong>isLocation</strong> determines if the argument looks like a location of the form
+    /** &lt;strong>isLocation&lt;/strong> determines if the argument looks like a location of the form
 	species:chr:from-to or false otherwise
 	@param {String} location The string to be tested
 	@returns {Boolean} If the string looks like a location or not
@@ -491,7 +518,7 @@ var epeek_theme = function() {
     };
 
 
-    /** <strong>buildEnsemblGeneLink</strong> returns the Ensembl url pointing to the gene summary of the given gene
+    /** &lt;strong>buildEnsemblGeneLink&lt;/strong> returns the Ensembl url pointing to the gene summary of the given gene
 	@param {String} gene The Ensembl gene id. Should be a valid ID of the form ENSGXXXXXXXXX"
 	@returns {String} The Ensembl URL for the given gene
     */
@@ -506,3 +533,26 @@ var epeek_theme = function() {
     return gBrowserTheme;
 };
 
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="ePeekTheme.html">ePeekTheme</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat May 18 2013 23:52:40 GMT+0100 (BST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

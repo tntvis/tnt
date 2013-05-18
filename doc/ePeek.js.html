@@ -72,7 +72,7 @@
 	@alias ePeek
 	@namespace
 	@example
-	// Typically, it is used as follows:
+	// Typically, the plug-in is used as follows:
 	var gB = epeek().width(920); // other methods can be included here
 	var gBTheme = epeek_theme(); // other methods can be included here
 	gBTheme(gB, document.getElementById('DOM_element_id');
@@ -415,8 +415,12 @@
 
     /** &lt;strong>species&lt;/strong> gets/sets the species used in the REST queries.
 	See for example {@link ePeek.get_gene}.
-	If no argument is provided, it returns the current species.
+	If no argument is provided, returns the current species.
+	Common names are allowed (human, chimp, gorilla, mouse, etc...)
+	Binary scientific names are also allowed with and without underscores (for example "mus_musculus" or "mus musculus")
+	Case is ignored.
 	@param {String} [species] The new species
+	@returns {ePeek} The original object allowing method chaining
      */
     gBrowser.species = function (sp) {
 	if (!arguments.length) {
@@ -427,7 +431,7 @@
     };
 
     /** &lt;strong>chr&lt;/strong> gets/sets the chr used in the next genome coordinates-based query.
-	If no argument is provided, it returns the current chr or the default one if no one has been set before.
+	If no argument is provided, returns the current chr or the default one if no one has been set before.
 	Strictly speaking, the arguments expects a seq_region_name, i.e. "scaffolds", etc are also considered chromosomes.
 	This value is used by {@link ePeek.start} to set the genomic coordinates in the plug-in view
 	@param {String} [chr] The new chr
@@ -442,12 +446,13 @@
     };
 
     /** &lt;strong>from&lt;/strong> gets/sets the start coordinate for the next genome coordinates-based query.
-	If no argument is provided, it returns the current start coordinate or the default one if none has been set before.
+	If no argument is provided, returns the current start coordinate or the default one if none has been set before.
 	This value is used by {@link ePeek.start} to set the genomic coordinates in the plug-in view
-	@param {Number} [coordinte] The new start coordinate
+	@param {Number} [coordinte] The new start coordinate. Commas or dots are not allowed (32,341,674 or 32.341.674)
 	@returns {ePeek} The original object allowing method chaining
      */
     gBrowser.from = function (n) {
+	// TODO: Allow commas and dots in numbers? eg: 32,341,674 or 32.341.674
 	if (!arguments.length) {
 	    return fromPos;
 	}
@@ -455,13 +460,14 @@
 	return gBrowser;
     };
 
-    /** &lt;strong>from&lt;/strong> gets/sets the start coordinate for the next genome coordinates-based query.
-	If no argument is provided, it returns the current start coordinate or the default one if none has been set before.
+    /** &lt;strong>to&lt;/strong> gets/sets the end coordinate for the next genome coordinates-based query.
+	If no argument is provided, returns the current end coordinate or the default one if none has been set before.
 	This value is used by {@link ePeek.start} to set the genomic coordinates in the plug-in view
-	@param {Number} [coordinate] The new start coordinate
+	@param {Number} [coordinate] The new end coordinate. Commas or dots are not allowed (32,341,674 or 32.341.674)
 	@returns {ePeek} The original object allowing method chaining
      */
     gBrowser.to = function (n) {
+	// TODO: Allow commas and dots in numbers? eg: 32,341,674 or 32.341.674
 	if (!arguments.length) {
 	    return toPos;
 	}
@@ -539,6 +545,13 @@
 	return gBrowser;
     };
 
+    /** &lt;strong>foreground_color&lt;/strong> gets/sets the foreground color for the view.
+	If no argument is provided, returns the current foreground color.
+	The argument should be a valid hexadecimal number (including the "#" prefix)
+	The color is internally converted to a {@link https://github.com/mbostock/d3/wiki/Colors#wiki-d3_rgb|d3.rgb} format
+	@param {String} [color] The new color in hexadecimal format (including the leading "#")
+	@returns {ePeek} The original object allowing method chaining	
+    */
     gBrowser.foreground_color = function (hex) {
 	if (!arguments.length) {
 	    return fgColor;
@@ -547,6 +560,13 @@
 	return gBrowser;
     };
 
+    /** &lt;strong>highlight_color&lt;/strong> gets/sets the color to be used for a highlighted gene in the view.
+	If no argument is provided, returns the current color for highlighting.
+	The argument should be a valid hexadecimal number (including the "#" prefix)
+	The color is internally converted to a {@link https://github.com/mbostock/d3/wiki/Colors#wiki-d3_rgb|d3.rgb} format
+	@param {String} [color] The new color in hexadecimal format (including the leading "#")
+	@returns {ePeek} The original object allowing method chaining	
+    */
     gBrowser.highlight_color = function (hex) {
 	if (!arguments.length) {
 	    return highlightColor;
@@ -579,12 +599,12 @@
 
     // Default callbacks
 
-    /** &lt;strong>gene_info_callback&lt;/strong> is a callback that tells the plug-in how
-	to show any info associated with a gene.
+    /** &lt;strong>gene_info_callback&lt;/strong> is a callback called when a gene is selected.
+	It should be used to respond to mouse clicks on the genes or their names (labels).
 	Its default behaviour is to do nothing.
         This function can be overwritten by a theme to display the gene information
-	in a custom way and place
-	It expects a literal object as its unique argument having the following fields:
+	in a custom way and place for example.
+	@param {Object} object A literal object containing the following fields:
 	&lt;ul>
 	&lt;li>external_name   => External name of the gene&lt;/li>
 	&lt;li>ID              => Ensembl ID of the gene&lt;/li>
@@ -599,11 +619,31 @@
     */
     gBrowser.gene_info_callback = function() {};
 
-    /** &lt;strong>ensGenes_callback&lt;/strong>
+    /** &lt;strong>ensGenes_callback&lt;/strong> is a callback called every time a gene is searched in the 
+	REST server in the {@link ePeek.get_gene} method.
+	Its default behaviour is to do nothing.
+	This method can be used by a theme to run some arbitrary code when a gene is found in the REST
+	server.
+	@param {Array} genes An array of genes found in the last gene-based search. Each gene is an object having the following fields:
+	&lt;ul>
+	&lt;li>id    => The Ensembl gene id associated with the gene&lt;/li>
+	&lt;li>type  => This should be "gene"
+	&lt;/ul>
      */
     gBrowser.ensGenes_callback = function() {};
 
-    /** &lt;strong>orthologues_callback&lt;/strong>
+    /** &lt;strong>orthologues_callback&lt;/strong> is a callback called every time the orthologues of a gene
+	are found in the REST server in the {@link ePeek.orthologues} method.
+	Its default behaviour is to do nothing.
+	This method can be used by a theme to do run some arbitrary code when orthologues are found in the REST server.
+	@param {Array} homologies An array of object literals representing homologies having the following fields:
+	&lt;ul>
+	&lt;li>id          => The Ensembl Gene ID of the ortholog&lt;/li>
+	&lt;li>protein_id  => The Ensembl Protein ID of the ortholog&lt;/li>
+	&lt;li>species     => The species name of the ortholog&lt;/li>
+	&lt;li>subtype     => The subtype of the homology relantionship&lt;/li>
+	&lt;li>type        => The type of orthology&lt;/li>
+	&lt;/ul>
      */
     gBrowser.orthologues_callback = function() {};
 
@@ -625,7 +665,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat May 18 2013 01:53:17 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat May 18 2013 23:52:51 GMT+0100 (BST)
 </footer>
 
 <script> prettyPrint(); </script>
