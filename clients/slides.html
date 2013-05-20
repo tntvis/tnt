@@ -60,13 +60,32 @@ URL: https://code.google.com/p/io-2012-slides
 
       <slide>
 	<hgroup>
-	  <h2>What is <b>e!Peek</b>?</h2>
+	  <h2>Why e!Peek?</h2>
 	</hgroup>
 	<article class="flexbox vleft">
 	  <ul>
-	    <li>An alternative, <b>simple</b> way to visualize Ensembl data</li>
-	    <li>A Javascript plug-in <b>easily</b> embeddable in any web page</li>
-	    <li>A client of the great <a href="http://beta.rest.ensembl.org/">Ensembl REST API</a></li>
+	    <li><b>Ensembl</b> data is accessible through...
+	      <ul>
+		<li>The Ensembl Genome Browser</li>
+		<li>The Ensembl Perl API</li>
+		<li>MySQL client</li>
+		<li>The <b>Ensembl REST API</b> (HTTP API)<br/>=>Allows access of Ensembl data directly in the client browser</span></li>
+	      </ul>
+	    </li>
+	  </ul>
+	</article>
+      </slide>
+
+      <slide>
+	<hgroup>
+	  <h2>Why e!Peek?</h2>
+	</hgroup>
+	<article class="flexbox vleft">
+	  <p>The <b>Ensembl Genome Browser</b>:</p>
+	  <ul>
+	    <li>Is a rich featured resource for visualizing the Ensembl genomic data</li>
+	    <li>It may give too much information for some users</li>
+	    <li>It evolves slower than the web technologies</li>
 	  </ul>
 	</article>
       </slide>
@@ -84,6 +103,26 @@ URL: https://code.google.com/p/io-2012-slides
 
       <slide>
 	<hgroup>
+	  <h2>What is e!Peek?</h2>
+	</hgroup>
+	<article class="flexbox vleft vcenter">
+	  <h4><b>Lightweight</b>, <b>modular</b>, <b>alternative</b> views of Ensembl data</h4>
+	  </ul>
+	</article>
+      </slide>
+
+      <slide>
+	<hgroup>
+	  <h2>What is e!Peek?</h2>
+	</hgroup>
+	<article class="flexbox vleft vcenter">
+	  <h4>A <b>framework</b> to test <b>new developments</b> in genomic data visualization</h4>
+	  </ul>
+	</article>
+      </slide>
+
+      <slide>
+	<hgroup>
 	  <h2>Current RFAM genomic context</h2>
 	</hgroup>
 	<article>
@@ -93,10 +132,31 @@ URL: https://code.google.com/p/io-2012-slides
 	</article>
       </slide>
 
+      <slide>
+	<hgroup>
+	  <h2>e!Peek for genomic context</h2>
+	</hgroup>
+	<article class="flexbox vcenter">
+	  <div id="snord73"></div>
+	</article>
+      </slide>
+
+
+      <slide class="segue quote nobackground">
+	<article class="flexbox vleft auto-fadein">
+	  <q>
+            Genomic context is interesting to our users and generally they don't want to have to get the huge amount of detail that Ensembl provides. <b>Something like this might fill that gap</b>
+	  </q>
+	  <div class="author">
+	    Alex Bateman about e!Peek on RFAM
+	  </div>
+	</article>
+      </slide>
+
       <!-- A Javascript plug-in -->
       <slide>
 	<hgroup>
-	  <h2>What is <span class="keyword">e!Peek</span>?</h2>
+	  <h2>What is e!Peek?</h2>
 	</hgroup>
 	<article class="flexbox vleft vcenter">
 	  <h3>1. A Javascript plug-in</h3>
@@ -344,7 +404,13 @@ URL: https://code.google.com/p/io-2012-slides
       })();
 
       // ePeeks
+
       (function() {
+      // snord73
+      var snord73_gB = epeek().species("human").gene("ENSG00000201264").width(920).foreground_color("#4DA63A").background_color("#F0FFED").highlight_color("#A63A44");
+      var gBTheme = epeek_minimal();
+      gBTheme(snord73_gB, document.getElementById("snord73"));
+
       // 1
       d3.select("#geneName1")
         .on("change", function(){d3.selectAll("#genomeBrowser1 div").remove();var gB=epeek().species("human").gene(this.value).width(920).foreground_color("#003A6C").background_color("#CAE1FF");
