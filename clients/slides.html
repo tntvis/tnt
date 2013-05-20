@@ -105,18 +105,12 @@ URL: https://code.google.com/p/io-2012-slides
 	<hgroup>
 	  <h2>What is e!Peek?</h2>
 	</hgroup>
-	<article class="flexbox vleft vcenter">
-	  <h4><b>Lightweight</b>, <b>modular</b>, <b>alternative</b> views of Ensembl data</h4>
+	<article class="flexbox vleft">
+	  <ul>
+	    <li>A <b>browser client</b> of the Ensembl REST API</li>
+	    <li>A way to create <b>Lightweight</b>, <b>modular</b>, <b>alternative</b> views of Ensembl data</li>
+	    <li>A <b>framework</b> to test <b>new developments</b> in genomic data visualization</li>
 	  </ul>
-	</article>
-      </slide>
-
-      <slide>
-	<hgroup>
-	  <h2>What is e!Peek?</h2>
-	</hgroup>
-	<article class="flexbox vleft vcenter">
-	  <h4>A <b>framework</b> to test <b>new developments</b> in genomic data visualization</h4>
 	  </ul>
 	</article>
       </slide>
@@ -127,7 +121,7 @@ URL: https://code.google.com/p/io-2012-slides
 	</hgroup>
 	<article>
 	  <h4>SNORD73 (RF00071)</h4>
-	  <img src="Rfam_Family_SNORD73_RF00071_small.png" class="reflect" alt="Genomic context for RF00071">
+	  <img width="980" src="Rfam_Family_SNORD73_RF00071.png" class="reflect" alt="Genomic context for RF00071">
 	  <footer class="source">source: RFAM (<a href="http://rfam.sanger.ac.uk/family/snord73#tabview=tab1">http://rfam.sanger.ac.uk/family/snord73#tabview=tab1</a>)</footer>
 	</article>
       </slide>
@@ -138,6 +132,159 @@ URL: https://code.google.com/p/io-2012-slides
 	</hgroup>
 	<article class="flexbox vcenter">
 	  <div id="snord73"></div>
+	</article>
+      </slide>
+
+
+      <slide>
+	<hgroup>
+	  <h2>e!Peek for genomic context</h2>
+	</hgroup>
+	<article>
+	  <pre class="prettyprint" data-lang="javascript">
+<b>&lt;div id="genomeBrowser"&gt;&lt;/div&gt;</b>
+
+&lt;!-- Remote D3.js --&gt;
+&lt;script src="http://d3js.org/d3.v3.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Remote e!Peek JS --&gt;
+&lt;script src="http://www.ebi.ac.uk/~mp/ePeek.min.js"&gt;&lt;/script&gt;
+&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/minimal.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Remote e!Peek CSS --&gt;
+&lt;link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/ePeek.css" type="text/css" /&gt;
+
+&lt;script&gt;
+  (funcion() {
+   
+     var gB = epeek().species("human").gene("snord73");
+     var gBTheme = epeek_theme();
+     var gBTheme(gB, document.getElementById("genomeBrowser"));
+  })();
+&lt;/script&gt;	  </pre>
+	</article>
+      </slide>
+
+      <slide>
+	<hgroup>
+	  <h2>e!Peek for genomic context</h2>
+	</hgroup>
+	<article>
+	  <pre class="prettyprint" data-lang="javascript">
+&lt;div id="genomeBrowser"&gt;&lt;/div&gt;
+
+<b>&lt;!-- Remote D3.js --&gt;
+&lt;script src="http://d3js.org/d3.v3.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Remote e!Peek JS --&gt;
+&lt;script src="http://www.ebi.ac.uk/~mp/ePeek.min.js"&gt;&lt;/script&gt;
+&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/minimal.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Remote e!Peek CSS --&gt;
+&lt;link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/ePeek.css" type="text/css" /&gt;</b>
+
+&lt;script&gt;
+  (funcion() {
+   
+     var gB = epeek().species("human").gene("snord73");
+     var gBTheme = epeek_theme();
+     var gBTheme(gB, document.getElementById("genomeBrowser"));
+  })();
+&lt;/script&gt;	  </pre>
+	</article>
+      </slide>
+
+      <slide>
+	<hgroup>
+	  <h2>e!Peek for genomic context</h2>
+	</hgroup>
+	<article>
+	  <pre class="prettyprint" data-lang="javascript">
+&lt;div id="genomeBrowser"&gt;&lt;/div&gt;
+
+&lt;!-- Remote D3.js --&gt;
+&lt;script src="http://d3js.org/d3.v3.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Remote e!Peek JS --&gt;
+&lt;script src="http://www.ebi.ac.uk/~mp/ePeek.min.js"&gt;&lt;/script&gt;
+&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/minimal.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Remote e!Peek CSS --&gt;
+&lt;link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/ePeek.css" type="text/css" /&gt;
+
+<b>&lt;script&gt;
+  (funcion() {
+   
+     var gB = epeek().species("human").gene("snord73");
+     var gBTheme = epeek_theme();
+     var gBTheme(gB, document.getElementById("genomeBrowser"));
+  })();
+&lt;/script&gt;</b>	  </pre>
+	</article>
+      </slide>
+
+      <slide>
+	<hgroup>
+	  <h2>e!Peek is modular</h2>
+	</hgroup>
+	<article>
+	  <pre class="prettyprint" data-lang="javascript">
+&lt;div id="genomeBrowser"&gt;&lt;/div&gt;
+
+&lt;!-- Remote D3.js --&gt;
+&lt;script src="http://d3js.org/d3.v3.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Remote e!Peek JS --&gt;
+&lt;script src="http://www.ebi.ac.uk/~mp/ePeek.min.js"&gt;&lt;/script&gt;
+<b>&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/minimal.min.js"&gt;&lt;/script&gt;</b>
+
+&lt;!-- Remote e!Peek CSS --&gt;
+&lt;link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/ePeek.css" type="text/css" /&gt;
+
+&lt;script&gt;
+  (funcion() {
+   
+     var gB = epeek().species("human").gene("snord73");
+<b>     var gBTheme = epeek_theme();</b>
+     var gBTheme(gB, document.getElementById("genomeBrowser"));
+  })();
+&lt;/script&gt;	  </pre>
+	</article>
+      </slide>
+
+
+      <slide>
+	<hgroup>
+	  <h2>e!Peek is modular</h2>
+	</hgroup>
+	<article>
+	  <pre class="prettyprint" data-lang="javascript">
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek/minimal.min.js"&gt;&lt;/script&gt;
+  (funcion() {
+   
+     var gB = epeek().species("human").<b>gene(<input id="geneName1" type="text"></input>)</b>;
+     var gBTheme = epeek_theme();
+     var gBTheme(gB, document.getElementById("genomeBrowser"));
+  })();	  </pre>
+	  <div id="genomeBrowser1"></div>
+	</article>
+      </slide>
+
+
+      <slide>
+	<hgroup>
+	  <h2>e!Peek is modular</h2>
+	</hgroup>
+	<article>
+	  <pre class="prettyprint" data-lang="javascript">
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek/default.min.js"&gt;&lt;/script&gt;
+  (funcion() {
+   
+     var gB = epeek().species("human").<b>gene(<input id="geneName2" type="text"></input>)</b>;
+     var gBTheme = epeek_theme();
+     var gBTheme(gB, document.getElementById("genomeBrowser"));
+  })();	  </pre>
+	  <div id="genomeBrowser2"></div>
 	</article>
       </slide>
 
@@ -181,35 +328,6 @@ URL: https://code.google.com/p/io-2012-slides
 	    </ul>
 	    <li>A learning project written for fun</li>
 	  </ul>
-	</article>
-      </slide>
-
-      <slide>
-	<hgroup>
-	  <h2><span class="keyword">e!Peek</span> as a Javascript plug-in</h2>
-	</hgroup>
-	<article>
-	  <pre class="prettyprint" data-lang="javascript">
-<b>&lt;div id="genomeBrowser"&gt;&lt;/div&gt;</b>
-
-&lt;!-- Remote D3.js --&gt;
-&lt;script src="http://d3js.org/d3.v3.min.js"&gt;&lt;/script&gt;
-
-&lt;!-- Remote e!Peek JS --&gt;
-&lt;script src="http://www.ebi.ac.uk/~mp/ePeek.min.js"&gt;&lt;/script&gt;
-&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/minimal.min.js"&gt;&lt;/script&gt;
-
-&lt;!-- Remote e!Peek CSS --&gt;
-&lt;link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/ePeek.css" type="text/css" /&gt;
-
-&lt;script&gt;
-  (funcion() {
-   
-     var gB = epeek().species("human").gene("BRCA2");
-     var gBTheme = epeek_theme();
-     var gBTheme(gB, document.getElementById("genomeBrowser"));
-  })();
-&lt;/script&gt;	  </pre>
 	</article>
       </slide>
 
@@ -271,21 +389,6 @@ URL: https://code.google.com/p/io-2012-slides
 	</article>
       </slide>
 
-      <slide>
-	<hgroup>
-	  <h2><span class="keyword">e!Peek</span> as a Javascript plug-in</h2>
-	</hgroup>
-	<article>
-	  <pre class="prettyprint" data-lang="javascript">
-  (funcion() {
-   
-     var gB = epeek().species("human").<b>gene(<input id="geneName1" type="text"></input>)</b>;
-     var gBTheme = epeek_theme();
-     var gBTheme(gB, document.getElementById("genomeBrowser"));
-  })();	  </pre>
-	  <div id="genomeBrowser1"></div>
-	</article>
-      </slide>
 
       <slide>
 	<hgroup>
@@ -413,16 +516,17 @@ URL: https://code.google.com/p/io-2012-slides
 
       // 1
       d3.select("#geneName1")
-        .on("change", function(){d3.selectAll("#genomeBrowser1 div").remove();var gB=epeek().species("human").gene(this.value).width(920).foreground_color("#003A6C").background_color("#CAE1FF");
+        .on("change", function(){d3.selectAll("#genomeBrowser1 div").remove();var gB=epeek().species("human").gene(this.value).width(920).foreground_color("#4DA63A").background_color("#F0FFED").highlight_color("#A63A44");
         var gBTheme = epeek_minimal();
         gBTheme(gB, document.getElementById("genomeBrowser1"));
         });
 
       // 2
-      d3.select("#display1")
-        .on("click", function(){var gB = epeek().species("human").gene("BRCA1").width(920).foreground_color("#003A6C").background_color("#CAE1FF");
-        var gBTheme = epeek_theme().show_links(false);
-        gBTheme(gB, document.getElementById("genomeBrowser2"))});
+      d3.select("#geneName2")
+        .on("change", function(){d3.selectAll("#genomeBrowser2 div").remove();var gB=epeek().species("human").gene(this.value).width(920).foreground_color("#4DA63A").background_color("#F0FFED").highlight_color("#A63A44");
+        var gBTheme = epeek_theme().show_title(false);
+        gBTheme(gB, document.getElementById("genomeBrowser2"));
+        });
 
       // 3
       d3.select("#display2")
