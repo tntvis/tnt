@@ -273,7 +273,7 @@ URL: https://code.google.com/p/io-2012-slides
 
       <slide>
 	<hgroup>
-	  <h2>e!Peek is modular</h2>
+	  <h2>Modularity in e!Peek</h2>
 	</hgroup>
 	<article>
 	  <pre class="prettyprint" data-lang="javascript">
@@ -299,6 +299,24 @@ URL: https://code.google.com/p/io-2012-slides
 	  </div>
 	</article>
       </slide>
+
+      <slide>
+	<hgroup>
+	  <h2>e!Peek on mobile devices</h2>
+	</hgroup>
+	<article>
+	  <pre class="prettyprint" data-lang="javascript">
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek/default.min.js"&gt;&lt;/script&gt;
+  (funcion() {
+   
+     var gB = epeek().species("human").<b>gene(<input id="geneName2" type="text"></input>)</b>;
+     var gBTheme = epeek_theme();
+     var gBTheme(gB, document.getElementById("genomeBrowser"));
+  })();	  </pre>
+	  <div id="genomeBrowser2"></div>
+	</article>
+      </slide>
+
 
       <!-- A Javascript plug-in -->
       <slide>

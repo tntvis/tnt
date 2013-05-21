@@ -23,7 +23,6 @@ var epeek_theme = function() {
 	gBrowser = gB;
 
 	// Callbacks:
-	// TODO: gBrowserTheme.highlight needs to be exported? I don't think so, rename to highlight?
 	gBrowser.gene_info_callback = gene_info_callback;
 	gBrowser.orthologues_callback = orthologues_cbak;
 	var loc = getLoc();
@@ -45,14 +44,13 @@ var epeek_theme = function() {
 
     };
 
-    // TODO: What happens on error? i.e. if the string is not a valid location
-    // TODO: We can make it smarter? allowing for examples species:gene?
-
     /** <strong>parseLocation</strong> takes a string as input and guesses a location
         The expected location should be on the form:
         species:chr:from-to
     */
     gBrowserTheme.parseLocation = function(loc) {
+    // TODO: What happens on error? i.e. if the string is not a valid location
+    // TODO: We can make it smarter? allowing for examples species:gene?
 	var loc_arr = loc_re.exec(loc);
 	gBrowser.species(loc_arr[1]);
 	gBrowser.chr(loc_arr[2]);
@@ -62,11 +60,11 @@ var epeek_theme = function() {
 	return gBrowserTheme;
     };
 
-    // TODO: Can be abstracted out? (This is also defined in clients/lib/default.js)
     /** <strong>isLocation</strong> returns true if the argument looks like a location of the form
 	species:chr:from-to or false otherwise
     */
     gBrowserTheme.isLocation = function(term) {
+	// TODO: Can this method be abstracted out? (This is also defined in clients/lib/default.js)
 	if (term.match(loc_re)) {
 	    return true;
 	} else {
@@ -74,9 +72,6 @@ var epeek_theme = function() {
 	}
     };
 
-
-    /**
-     */
     var orthologues_cbak = function (orthologues) {
 	var orth_select = d3.select("#ePeek_orthologues_select")
 	    .attr("id", "ePeek_orth_select");
@@ -185,9 +180,11 @@ var epeek_theme = function() {
 	// Fill the orthologues select
 	gBrowser.orthologues(gene.ID);
 
+
+	$("#ePeek_gene_info_link").trigger("tap");
 	// TODO: This way of getting to the gene_info div prevents the use of
-	// transitions. We may find a better way!
-	window.location.href="#gene_info";
+	// transitions. We may find a better way
+//	window.location.href="#gene_info";
 
     };
 
