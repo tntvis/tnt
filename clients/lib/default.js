@@ -227,8 +227,8 @@ var epeek_theme = function() {
 	var qrtag = new QRtag();
 	qrtag.data(buildLink("mobile"));
 	qrtag.border(10);
-	qrtag.color(gBrowser.foreground_color);
-	qrtag.bgcolor(gBrowser.background_color);
+	qrtag.color(gBrowser.foreground_color().toString());
+	qrtag.bgcolor(gBrowser.background_color().toString());
 	qrtag.target("ePeek_" + div_id + "_qrtag_div");
 	qrtag.id("ePeek_" + div_id + "_QRcode");
 	qrtag.image();
