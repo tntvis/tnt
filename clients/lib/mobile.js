@@ -157,9 +157,15 @@ var epeek_theme = function() {
 	    .attr("id", "ePeek_orthologues_label")
 	    .html("Orthologues");
 
-	gene_info_items_list
+	var gene_info_items_orthologues = gene_info_items_list
 	    .append("li")
-	    .attr("class", "rounded")
+	    .attr("class", "rounded");
+
+	gene_info_items_orthologues
+	    .append("img")
+	    .attr("src", "compara_ortho_bw.png");
+
+	gene_info_items_orthologues
 	    .append("select")
 	    .attr("id", "ePeek_orthologues_select");
 
