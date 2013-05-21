@@ -259,11 +259,12 @@ URL: https://code.google.com/p/io-2012-slides
 	</hgroup>
 	<article>
 	  <pre class="prettyprint" data-lang="javascript">
-  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek/minimal.min.js"&gt;&lt;/script&gt;
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek.min.js"&gt;&lt;/script&gt;
+  <b>&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/minimal.min.js"&gt;&lt;/script&gt;</b>
   (funcion() {
    
-     var gB = epeek().species("human").<b>gene(<input id="geneName1" type="text"></input>)</b>;
-     var gBTheme = epeek_theme();
+     var gB = epeek().species("human").gene(<input id="geneName1" type="text"></input>;
+     <b>var gBTheme = epeek_theme();</b>
      var gBTheme(gB, document.getElementById("genomeBrowser"));
   })();	  </pre>
 	  <div id="genomeBrowser1"></div>
@@ -273,15 +274,16 @@ URL: https://code.google.com/p/io-2012-slides
 
       <slide>
 	<hgroup>
-	  <h2>Modularity in e!Peek</h2>
+	  <h2>e!Peek is modular</h2>
 	</hgroup>
 	<article>
 	  <pre class="prettyprint" data-lang="javascript">
-  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek/default.min.js"&gt;&lt;/script&gt;
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek.min.js"&gt;&lt;/script&gt;
+  <b>&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/default.min.js"&gt;&lt;/script&gt;</b>
   (funcion() {
    
-     var gB = epeek().species("human").<b>gene(<input id="geneName2" type="text"></input>)</b>;
-     var gBTheme = epeek_theme();
+     var gB = epeek().species("human").gene(<input id="geneName2" type="text"></input>);
+     <b>var gBTheme = epeek_theme();</b>
      var gBTheme(gB, document.getElementById("genomeBrowser"));
   })();	  </pre>
 	  <div id="genomeBrowser2"></div>
@@ -304,14 +306,54 @@ URL: https://code.google.com/p/io-2012-slides
 	<hgroup>
 	  <h2>e!Peek on mobile devices</h2>
 	</hgroup>
-	<article>
+	<article class="flexbox vleft vcenter">
+	  <p>
+	    <a href="http://www.ebi.ac.uk/~mp/ePeek">www.ebi.ac.uk/~mp/ePeek/</a>
+	  </p>
+	</article>
+      </slide>
+
+      <slide>
+	<hgroup>
+	  <h2>e!Peek as a mobile web-app</h2>
+	</hgroup>
+	<article class="flexbox vleft vcenter">
+	  <p>Same plug-in... different theme!</p>
 	  <pre class="prettyprint" data-lang="javascript">
-  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek/default.min.js"&gt;&lt;/script&gt;
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek.min.js"&gt;&lt;/script&gt;
+<b>  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek/mobile.min.js"&gt;&lt;/script&gt;</b>
   (funcion() {
    
-     var gB = epeek().species("human").<b>gene(<input id="geneName2" type="text"></input>)</b>;
-     var gBTheme = epeek_theme();
+     var gB = epeek().species("human").gene(BRCA2);
+     <b>var gBTheme = epeek_theme();</b>
      var gBTheme(gB, document.getElementById("genomeBrowser"));
+  })();	  </pre>
+	</article>
+      </slide>
+
+      <slide>
+	<hgroup>
+	  <h2>Extending e!Peek modularity</h2>
+	</hgroup>
+	<article class="flexbox vleft vcenter">
+	  <p>Building blocks:</p>
+	  <pre class="prettyprint" data-lang="javascript">
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek_genome.min.js"&gt;&lt;/script&gt;
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek_transcript.min.js"&gt;&lt;/script&gt;
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek_geneTree.min.js"&gt;&lt;/script&gt;
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek_genomeAlignment.min.js"&gt;&lt;/script&gt;
+  &lt;script src="http://www.ebi.ac.uk/~mp/ePeek/full.min.js"&gt;&lt;/script&gt;
+  (funcion() {
+     var genomeView = epeek_genome().species("human").gene(BRCA2);
+     var transcriptView = epeek_transcript();
+     var geneTreeView = epeek_geneTree().format("condensed").internal_nodes(true).taxon_ids(true);
+     var genomeAlignmentView = epeek_genomeAlignment().query_species("mouse");
+     var gBTheme = epeek_theme();
+     var gBTheme(genomeView,
+                 transcriptView,
+                 geneTreeView,
+                 genomeAlignmentView,
+                 document.getElementById("genomeBrowser"));
   })();	  </pre>
 	  <div id="genomeBrowser2"></div>
 	</article>
