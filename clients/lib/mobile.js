@@ -186,7 +186,6 @@ var epeek_theme = function() {
 	// Fill the orthologues select
 	gBrowser.orthologues(gene.ID);
 
-
 	$("#ePeek_gene_info_link").trigger("tap");
 	// TODO: This way of getting to the gene_info div prevents the use of
 	// transitions. We may find a better way

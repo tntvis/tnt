@@ -450,12 +450,12 @@ var epeek_theme = function() {
     ///*********************////
     // Private methods
     var buildLink = function(platform) {
-	var url = "http://www.ebi.ac.uk/~mp/ePeek/clients/ePeek";
+	var url = "http://www.ebi.ac.uk/~mp/ePeek/clients/";
 	var postfix = "";
 	if (platform === "desktop") {
-	    url = url + ".html";
+	    url = url + "default.html";
 	} else if (platform === "mobile") {
-	    url = url + "_mobile.html";
+	    url = url + "mobile.html";
 	    postfix = "#browser";
 	}
 	url = url + "?loc=" + gBrowser.species() + ":" + gBrowser.chr() + ":" + gBrowser.from() + "-" + gBrowser.to() + postfix;
