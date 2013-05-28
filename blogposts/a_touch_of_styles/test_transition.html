@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <!-- Remote D3.js -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <!-- Local jqTouch -->
+    <link rel="stylesheet" href="../../clients/lib/jqtouch-1.0-b4-rc/themes/css/apple.css" title="jQTouch">
+    <!-- <style type="text/css" media="screen">@import "lib/jqtouch-1.0-b4-rc/themes/css/jqtouch.css";</style> -->
+    <script src="../../clients/lib/jqtouch-1.0-b4-rc/src/lib/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../clients/lib/jqtouch-1.0-b4-rc/src/jqtouch.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript" charset="utf-8">
+      var jQT = new $.jQTouch({ });
+    </script>
+
+  </head>
+
+  <body>
+    <div id="first">
+      <a id="goodLink" href="#second" class="flip">Go to second!!</a>
+      <p class="flip" id="myLink">There we go!!!</p>
+    </div>
+
+    <div id="second">
+      <div class="toolbar">
+	<a class="button back" href="#">Back</a>
+      </div>
+      <p>Some Info</p>
+    </div>
+
+    <script>
+      d3.select("#myLink").on("click", function() {$("#goodLink").trigger("click")});
+//        d3.select("#myLink").on("click", function() {window.location.href="#second"});
+    </script>
+  </body>
+
+</html>

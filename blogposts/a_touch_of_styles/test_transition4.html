@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <!-- Remote D3.js -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <!-- Local jqTouch -->
+    <link rel="stylesheet" href="../../clients/lib/jqtouch-1.0-b4-rc/themes/css/apple.css" title="jQTouch">
+    <!-- <style type="text/css" media="screen">@import "lib/jqtouch-1.0-b4-rc/themes/css/jqtouch.css";</style> -->
+    <script src="../../clients/lib/jqtouch-1.0-b4-rc/src/lib/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../clients/lib/jqtouch-1.0-b4-rc/src/jqtouch.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript" charset="utf-8">
+      var jQT = new $.jQTouch({ });
+    </script>
+
+  </head>
+
+  <body>
+    <div id="colors">
+      <div class="toolbar">
+	<h1>Colors</h1>
+      </div>
+      <div id="mysvg">
+	<a id="redlink" href="#red" class="flip"></a>
+	<a id="bluelink" href="#blue" class="flip"></a>
+      </div>
+    </div>
+
+    <div id="blue">
+      <div class="toolbar">
+	<a class="button back" href="#">Back</a>
+      </div>
+      <p>Blue</p>
+    </div>
+
+    <div id="red">
+      <div class="toolbar">
+	<a class="button back" href="#">Back</a>
+      </div>
+      <p>Red</p>
+    </div>
+
+    <script>
+      var w = document.documentElement.clientWidth;
+      var h = document.documentElement.clientHeight;
+      var svg = d3.select("#mysvg")
+        .append("svg")
+        .append("g");
+
+      svg
+        .append("rect")
+        .attr("id", "redrect")
+        .attr("width", w)
+        .attr("height", h/2)
+        .attr("x", 0)
+        .attr("y", 0)
+        .style("fill", "red");
+
+      svg
+        .append("rect")
+        .attr("id", "bluerect")
+        .attr("width", w)
+        .attr("height", h/2)
+        .attr("x", 0)
+        .attr("y", h/2)
+        .attr("fill", "blue");
+
+      d3.select("#redrect").on("click", function(){alert("alert Go clicked!"); $("#redlink").trigger("click")});
+      d3.select("#bluerect").on("click", function(){alert("alert Go clicked!"); $("#bluelink").trigger("click")});
+      d3.select("#redrect").on("tap", function(){alert("Go Tapped!"); $("#redlink").trigger("click")});
+    </script>
+
+  </body>
+
+</html>
