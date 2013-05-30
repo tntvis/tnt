@@ -69,7 +69,7 @@ URL: https://code.google.com/p/io-2012-slides
 		<li>The Ensembl Genome Browser</li>
 		<li>The Ensembl Perl API</li>
 		<li>MySQL client</li>
-		<li>The <b>Ensembl REST API</b> (HTTP API)<br/>=>Allows access of Ensembl data directly in the client browser</span></li>
+		<li>The <b>Ensembl REST API</b> (HTTP API)<br/>=>Allows access of Ensembl data directly in the client browser</li>
 	      </ul>
 	    </li>
 	  </ul>
@@ -387,7 +387,7 @@ URL: https://code.google.com/p/io-2012-slides
         .on("change", function(){d3.selectAll("#genomeBrowser1 div").remove();var gB=epeek().species("human").gene(this.value).width(920).foreground_color("#4DA63A").background_color("#F0FFED").highlight_color("#A63A44");
         var gBTheme = epeek_minimal();
         gBTheme(gB, document.getElementById("genomeBrowser1"));
-        });
+        })
 
       // 2
       d3.select("#geneName2")
@@ -395,7 +395,7 @@ URL: https://code.google.com/p/io-2012-slides
         var gBTheme = epeek_theme().show_title(false);
         gBTheme(gB, document.getElementById("genomeBrowser2"));
         });
-
+})();
     </script>
 
     <!--[if IE]>
