@@ -73,9 +73,9 @@
         .attr("y", h/2)
         .attr("fill", "blue");
 
-//      group.on("tap", group.on("click"));
-      d3.select("#redrect").on("click", function(){$("#redlink").trigger("click")});
-      d3.select("#bluerect").on("click", function(){$("#bluelink").trigger("click")});
+      group.on("click", group.on("tap"));
+//      d3.select("#redrect").on("click", function(){$("#redlink").trigger("click")});
+//      d3.select("#bluerect").on("click", function(){$("#bluelink").trigger("click")});
     </script>
 
   </body>

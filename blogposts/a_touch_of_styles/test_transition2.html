@@ -46,7 +46,8 @@
       var w = document.documentElement.clientWidth;
       var h = document.documentElement.clientHeight;
       var svg = d3.select("#mysvg")
-        .append("svg");
+        .append("svg")
+        .append("g");
 
       svg
         .append("rect")
@@ -66,8 +67,8 @@
         .attr("y", h/2)
         .attr("fill", "blue");
 
-      d3.select("#redrect").on("click", function(){$("#redlink").trigger("click")});
-      d3.select("#bluerect").on("click", function(){$("#bluelink").trigger("click")});
+      d3.select("#redrect").on("click", function(){$("#redlink").trigger("tap")});
+      d3.select("#bluerect").on("click", function(){$("#bluelink").trigger("tap")});
     </script>
 
   </body>
