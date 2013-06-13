@@ -33,7 +33,7 @@ rect {
 	opacity : 0;
 	pointer-events : all;
 
-	@include transition(opacity, 2s);
+	@include transition(opacity, 1s);
     }
     &.ePeek_dark_pane {
 	opacity : 0.9;
@@ -47,7 +47,7 @@ text {
 	cursor : move;
 	opacity : 0;
 
-	@include transition(opacity, 2s);
+	@include transition(opacity, 1s);
     }
     &.ePeek_tooWide_text {
 	opacity : 1;

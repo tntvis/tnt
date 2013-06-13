@@ -17,11 +17,11 @@ rect.ePeek_pane {
   cursor: move;
   opacity: 0;
   pointer-events: all;
-  -webkit-transition: opacity 2s ease;
-  -moz-transition: opacity 2s ease;
-  -o-transition: opacity 2s ease;
-  -ms-transition: opacity 2s ease;
-  transition: opacity 2s ease; }
+  -webkit-transition: opacity 1s ease;
+  -moz-transition: opacity 1s ease;
+  -o-transition: opacity 1s ease;
+  -ms-transition: opacity 1s ease;
+  transition: opacity 1s ease; }
 rect.ePeek_dark_pane {
   opacity: 0.9; }
 
@@ -30,11 +30,11 @@ text.ePeek_wideOK_text {
   font-size: 2em;
   cursor: move;
   opacity: 0;
-  -webkit-transition: opacity 2s ease;
-  -moz-transition: opacity 2s ease;
-  -o-transition: opacity 2s ease;
-  -ms-transition: opacity 2s ease;
-  transition: opacity 2s ease; }
+  -webkit-transition: opacity 1s ease;
+  -moz-transition: opacity 1s ease;
+  -o-transition: opacity 1s ease;
+  -ms-transition: opacity 1s ease;
+  transition: opacity 1s ease; }
 text.ePeek_tooWide_text {
   opacity: 1; }
 
