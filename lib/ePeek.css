@@ -1,3 +1,6 @@
+body {
+  font-size: 100%; }
+
 svg text {
   -webkit-user-select: none;
   /* Chrome/Safari */
@@ -22,12 +25,25 @@ rect.ePeek_pane {
 rect.ePeek_dark_pane {
   opacity: 0.9; }
 
+text.ePeek_wideOK_text {
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 2em;
+  cursor: move;
+  opacity: 0;
+  -webkit-transition: opacity 2s ease;
+  -moz-transition: opacity 2s ease;
+  -o-transition: opacity 2s ease;
+  -ms-transition: opacity 2s ease;
+  transition: opacity 2s ease; }
+text.ePeek_tooWide_text {
+  opacity: 1; }
+
 .ePeek_groupDiv {
   position: relative; }
 
 .ePeek_gene {
   filter: alpha(opacity=60);
-  opacity: 0.6; }
+  #    opacity: 0.6; }
 
 .tick text {
   font-size: 10px; }

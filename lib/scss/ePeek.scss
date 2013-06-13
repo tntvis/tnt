@@ -3,6 +3,9 @@
 // Genes
 $gene-opacity : 0.6;
 
+body {
+    font-size : 100%;
+}
 
 //
 // ELEMENTS
@@ -37,13 +40,27 @@ rect {
     }
 }
 
+text {
+    &.ePeek_wideOK_text {
+	font-family:Impact, Charcoal, sans-serif;
+	font-size  : 2em;
+	cursor : move;
+	opacity : 0;
+
+	@include transition(opacity, 2s);
+    }
+    &.ePeek_tooWide_text {
+	opacity : 1;
+    }
+}
+
 .ePeek_groupDiv {
     position : relative;
 }
 
 .ePeek_gene {
     filter: alpha(opacity=60);
-    opacity: $gene-opacity;
+#    opacity: $gene-opacity;
 }
 
 
