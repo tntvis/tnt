@@ -15,16 +15,18 @@
 </head>
 
 <body>
-  <button onclick="gB.zoom(1.1)">ZoomOut</button>
-  <button onclick="gB.zoom(0.9)">ZoomIn</button>
-  <button onclick="gB.left(1.1)"><img src="arrow-left.png"/></button>
-  <button onclick="gB.right(1.1)"><img src="arrow-right.png"/></button>
-
+  <div style="margin-left:auto; margin-right:auto; width:50%">
+    <button onclick="gB.left(1.1)"><img src="glyphicons_216_circle_arrow_left.png"/></button>
+    <button onclick="gB.zoom(1.1)"><img src="glyphicons_191_circle_minus.png"/></button>
+    <button onclick="gB.zoom(0.9)"><img src="glyphicons_190_circle_plus.png"/></button>
+    <button onclick="gB.right(1.1)"><img src="glyphicons_217_circle_arrow_right.png"/></button>
+    <button onclick="gB.startOnOrigin()"><img src="glyphicons_242_google_maps.png"></button>
+  </div>
   <div id="genomeBrowser"></div>
 
   <script>
     (function() {
-        gB = epeek().species("human").width(1200).height(200).chr(13).from(30142289).to(31505969).allow_drag(false);
+        gB = epeek().species("human").width(1200).height(200).gene("PHI").allow_drag(false);
         var gBTheme = epeek_minimal();
         gBTheme(gB, document.getElementById("genomeBrowser"));
     })();
