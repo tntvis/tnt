@@ -2,6 +2,8 @@ var epeek_theme = function() {
     "use strict";
 
     // orig species and coords, so we can always return there
+    // TODO: If I am not mistaken, these variables are not used.
+    // TODO: See if we need them or not
     var origSpecies, origChr, origFromPos, origToPos;
 
     // Regular expressions for user input
