@@ -22,7 +22,9 @@
       (function() {
         var width = 900;
         var height = 150;
-        var gBs = [epeek().species("human").width(width).height(height).gene("BRCA1")];
+        var gene = "BRCA1";
+        var gBs = [ epeek().species("human").width(width).height(height).gene(gene).allow_drag(false),
+                    epeek().species("mouse").width(width).height(height).gene(gene).allow_drag(false)];
         var gBTheme = epeek_theme();
         gBTheme(gBs, document.getElementById("genomeBrowser"));
       })();
