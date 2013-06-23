@@ -5,9 +5,13 @@ var epeek_theme = function() {
     var gBrowserTheme = function(gBs, div) {
 
 	// The controls pane
+	// TODO: The style elements should be included in a CSS file should we have a separate stylesheet for this theme
 	var control_pane = d3.select(div)
 	    .append("div")
-	    .attr("class", "ePeek_control_pane");
+	    .attr("class", "ePeek_control_pane")
+	    .style("margin-left", "auto")
+	    .style("margin-right", "auto")
+	    .style("width", "50%");
 
 	var left_button = control_pane
 	    .append("button")
