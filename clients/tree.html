@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <!-- Remote D3.js -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <!-- Trees CSS -->
+    <link rel="stylesheet" href="css/tree_main.css" type="text/css" />
+
+    <!-- ePeek -->
+    <link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
+    <script src="../lib/ePeek.js"></script>
+
+    <!-- Tree -->
+    <script src="lib/tree_main.js"></script>
+    <script src="lib/minimal2.js"></script>
+<!--     <script src="lib/tree.js"></script> -->
+
+  </head>
+
+  <body>
+    <div id="mytree"></div>
+    <script>
+      plotTree(document.getElementById("mytree"));
+      d3.selectAll(".node")
+        .filter(function(d) {return d.children === undefined ? this : 0})
+        .each(function(d){
+               var myDiv = d3.select("#mytree")
+               .append("div")
+               .attr("id", d.species + "_gBrowser");
+               var gB = epeek().species(d.species).gene(d.gene);
+               var gBTheme = epeek_minimal();
+               gBTheme(gB, document.getElementById("Human_gBrowser"));
+        });
+
+<!--       var placeholders = d3.selectAll(".node") -->
+<!--         .filter(function(d) {return d.children === undefined ? this : 0}) -->
+<!--         .each(function(){var bbox = this.getBBox();}) -->
+<!--         .append("div") -->
+<!--         .attr("class", "genomeBrowser") -->
+<!--         .attr("gene_name", function(d){return d.name}) -->
+<!--         .attr("id", function(d) {return d.species + "_gBrowser"}); -->
+
+<!--       console.log(placeholders[0]); -->
+<!--       console.log(placeholders[0].length); -->
+<!--       for (var i = 0; i < placeholders[0].length; i++) { -->
+<!-- 	  var obj = placeholders[0][i].__data__; -->
+<!-- 	  var gB = epeek().species(obj.species).gene(obj.gene).width(400).height(50); -->
+<!--           var gBTheme = epeek_minimal(); -->
+<!-- 	  gBTheme(gB, placeholders[0][i]); -->
+<!--           console.log(obj); -->
+<!--           break; -->
+<!--       } -->
+    </script>
+  </body>
+</html>
