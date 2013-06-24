@@ -10,9 +10,6 @@ svg text {
   /* IE10+ */
   cursor: default; }
 
-.ePeek_groupDiv {
-  position: relative; }
-
 rect.ePeek_pane {
   cursor: move;
   opacity: 0;
@@ -37,9 +34,6 @@ text.ePeek_wideOK_text {
   transition: opacity 1s ease; }
 text.ePeek_tooWide_text {
   opacity: 1; }
-
-.ePeek_groupDiv {
-  position: relative; }
 
 .ePeek_gene {
   filter: alpha(opacity=60);

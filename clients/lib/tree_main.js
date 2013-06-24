@@ -25,10 +25,10 @@ var species_tree = {
 };
 
 function plotTree(div) {
-    var width = 1200;
+    var width = 1500;
     var height = 500;
 
-    var cluster = d3.layout.cluster().size([500,500]).nodeSize([70,50]);
+    var cluster = d3.layout.cluster().size([500,500]).nodeSize([70,100]);
 
     var nodes = cluster.nodes(species_tree);
     var links = cluster.links(nodes);

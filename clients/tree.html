@@ -15,7 +15,7 @@
     <!-- Tree -->
     <script src="lib/tree_main.js"></script>
     <script src="lib/minimal2.js"></script>
-<!--     <script src="lib/tree.js"></script> -->
+    <script src="lib/tree.js"></script>
 
   </head>
 
@@ -23,49 +23,8 @@
     <div id="mytree"></div>
     <script>
       plotTree(document.getElementById("mytree"));
-      <!-- d3.selectAll(".node") -->
-      <!--   .filter(function(d) {return d.children === undefined ? this : 0}) -->
-      <!--   .each(function(d){ -->
-      <!--          var myDiv = d3.select("#mytree") -->
-      <!--          .append("div") -->
-      <!--          .attr("id", d.species + "_gBrowser"); -->
-      <!--          var gB = epeek().species(d.species).gene(d.gene); -->
-      <!--          var gBTheme = epeek_minimal(); -->
-      <!--          gBTheme(gB, document.getElementById("Human_gBrowser")); -->
-      <!--   }); -->
-
-      var placeholders = d3.selectAll(".node")
-        .filter(function(d) {return d.children === undefined ? this : 0})
-        .append("foreignObject")
-        .attr("width", 800)
-        .attr("height", 80)
-        .attr("x", 40)
-        .attr("y", -30)
-        .append("xhtml:body");
-
-      for (var i = 0; i < placeholders[0].length; i++) {
-         insertGenomeBrowser(i);
-      }
-
-      function insertGenomeBrowser(i) {
-         setTimeout(function() {
-           var obj = placeholders[0][i].__data__;
-           var gB = epeek().species(obj.species).gene(obj.gene).width(600).height(50).background_color("white").foreground_color("steelblue");
-           var gBTheme = epeek_minimal();
-           gBTheme(gB, placeholders[0][i]);
-         }, i * 1500);
-      }
-
-      <!-- console.log(placeholders[0]); -->
-      <!-- console.log(placeholders[0].length); -->
-      <!-- for (var i = 0; i < placeholders[0].length; i++) { -->
-      <!-- 	  var obj = placeholders[0][i].__data__; -->
-      <!-- 	  var gB = epeek().species(obj.species).gene(obj.gene).width(400).height(50); -->
-      <!--     var gBTheme = epeek_minimal(); -->
-      <!-- 	  gBTheme(gB, placeholders[0][i]); -->
-      <!--     console.log(obj); -->
-      <!--     break; -->
-      <!-- } -->
+      var gBTheme = epeek_tree();
+      gBTheme(document.getElementById("mytree"));
     </script>
   </body>
 </html>
