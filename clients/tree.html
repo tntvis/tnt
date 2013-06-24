@@ -50,7 +50,7 @@
       function insertGenomeBrowser(i) {
          setTimeout(function() {
            var obj = placeholders[0][i].__data__;
-           var gB = epeek().species(obj.species).gene(obj.gene).width(600).height(50).background_color("white");
+           var gB = epeek().species(obj.species).gene(obj.gene).width(600).height(50).background_color("white").foreground_color("steelblue");
            var gBTheme = epeek_minimal();
            gBTheme(gB, placeholders[0][i]);
          }, i * 1500);
