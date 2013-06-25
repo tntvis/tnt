@@ -76,7 +76,7 @@ var epeek_tree = function() {
       var placeholders = d3.select(div).selectAll(".node")
         .filter(function(d) {return d.children === undefined ? this : 0})
         .append("foreignObject")
-        .attr("width", 600)
+        .attr("width", 700)
         .attr("height", 80)
         .attr("x", 40)
         .attr("y", -30)
@@ -86,17 +86,27 @@ var epeek_tree = function() {
 
       for (var i = 0; i < placeholders[0].length; i++) {
          insertGenomeBrowser(i);
-	  break;
       }
 
-      function insertGenomeBrowser(i) {
-         setTimeout(function() {
-           var obj = placeholders[0][i].__data__;
-           var gB = epeek().species(obj.species).gene(obj.gene).width(600).height(50).background_color("white").foreground_color("steelblue");
-	     gB.genes_layout = epeek_nolayout();
-	     gBs.push(gB);
-           var gBTheme = epeek_minimal();
-           gBTheme(gB, placeholders[0][i]);
+	function insertGenomeBrowser(i) {
+            setTimeout(function() {
+		var obj = placeholders[0][i].__data__;
+		var gB = epeek().species(obj.species).gene(obj.gene).width(600).height(50).background_color("white").foreground_color("steelblue");
+		gB.genes_layout = epeek_nolayout();
+		gBs.push(gB);
+		var gBTheme = epeek_minimal();
+		gBTheme(gB, placeholders[0][i]);
+
+		var gDiv = d3.select("#" + obj.species + " .ePeek_groupDiv");
+		console.log(gDiv);
+		gDiv
+		    .insert("img", ":first-child")
+		    .attr("src", "glyphicons_224_chevron-left.png")
+		    .on("click", function(){gB.left(1.2)});
+		gDiv
+		    .append("img")
+		    .attr("src", "glyphicons_223_chevron-right.png")
+		    .on("click", function(){gB.right(1.2)});
          }, i * 2500);
       }
 
@@ -108,17 +118,25 @@ var epeek_tree = function() {
 var epeek_nolayout = function() {
     "use strict";
 
+    var slot_type = {
+	slot_height : 30,
+	gene_height : 10,
+	show_label  : true
+    };
     var height = 50;
     var genes = [];
     var genes_layout = function(gs) {
-	console.log("GS:");
-	console.log(gs);
+	for (var i = 0; i < gs.length; i++) {
+	    gs[i].slot = 0;
+	}
 	genes = gs
+	console.log("GENES:");
+	console.log(genes);
     };
 
     genes_layout.scale = function(){};
     genes_layout.height = function(){return height}
     genes_layout.genes = function(){return genes};
-    genes_layout.gene_slot = function(){return 1};
+    genes_layout.gene_slot = function(){return slot_type};
     return genes_layout;
 };
