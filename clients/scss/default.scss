@@ -8,6 +8,7 @@
     }
 }
 
+
 div {
     .ePeek_TabBlock {
 	display  : block;
@@ -34,6 +35,9 @@ div {
     @include normal-font;
 }
 
+.ePeek_groupDiv {
+    position : relative;
+}
 
 div {
     .ePeek_gene_info {

@@ -27,6 +27,9 @@ div .ePeek_TabBlock_active {
 .ePeek_options_pane span, .ePeek_links_pane span, .ePeek_name {
   font-size: 14px; }
 
+.ePeek_groupDiv {
+  position: relative; }
+
 div .ePeek_gene_info {
   display: block;
   position: absolute;
