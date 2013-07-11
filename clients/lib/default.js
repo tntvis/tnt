@@ -185,7 +185,6 @@ var epeek_theme = function() {
 	    .attr("id", "ePeek_" + div_id + "_gene_info") // Both needed?
 	    .style("width", gBrowser.width() + "px");
 
-
 	// The QRtag div
 	var qrtag_div = d3.select(div)
 	    .append("div")
@@ -322,6 +321,7 @@ var epeek_theme = function() {
 	    .attr("class", "ePeek_gene_info_paragraph")
 	    .style("color", gBrowser.foreground_color().darker())
 	    .style("background-color", gBrowser.background_color().brighter())
+	    .style("height", gBrowser.height() + "px")
 	    .html(function () {
 		return "<h1>" + gene.external_name + "</h1>" +
 		    "Ensembl ID: <i>" + gene.ID + "</i><br />" +
