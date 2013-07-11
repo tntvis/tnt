@@ -32,7 +32,9 @@ var epeek_theme = function() {
     var ensGenes_div_id;
     var n_ensGenes_div_id;
     var orth_div_id;
+    var para_div_id;
     var n_orth_div_id;
+    var n_para_div_id;
 
     var gBrowser;
 
@@ -55,7 +57,7 @@ var epeek_theme = function() {
 	// We set the gBrowser's callbacks
 	gBrowser.gene_info_callback   = gene_info_callback;
 	gBrowser.ensGenes_callback    = ensGenes_cbak;
-	gBrowser.orthologues_callback = orthologues_cbak;
+	gBrowser.homologues_callback  = homologues_cbak;
 
 	// We set the original data so we can always come back
 	origSpecies = species;
@@ -91,6 +93,12 @@ var epeek_theme = function() {
 	    .html("Orthologues[<span id='" + n_orth_div_id + "'></span>]")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ortho_option"))});
 
+	var paraloguesLabel = opts_pane
+	    .append("span")
+	    .attr("class", "ePeek_option_label")
+	    .html("Paralogues[<span id='" + n_para_div_id + "'></span>]")
+	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_para_option"))});
+
 	var searchLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
@@ -114,6 +122,13 @@ var epeek_theme = function() {
 	    .append("div")
 	    .attr("class", "ePeek_TabBlock")
 	    .attr("id", "ePeek_" + div_id + "_ortho_option")
+	    .style("width", gBrowser.width() + "px")
+	    .style("background-color", gBrowser.background_color());
+
+	var ParaBox = opts_pane
+	    .append("div")
+	    .attr("class", "ePeek_TabBlock")
+	    .attr("id", "ePeek_" + div_id + "_para_option")
 	    .style("width", gBrowser.width() + "px")
 	    .style("background-color", gBrowser.background_color());
 
@@ -355,22 +370,58 @@ var epeek_theme = function() {
 	return orth_select;
     };
 
+    var paralogues_select = function (paralogues) {
+	var div = d3.select("#" + para_div_id);
+	var para_select = div
+	    .append("select")
+	    .attr("class", "ePeek_top_option")
+	    .attr("id", "ePeek_" + div_id + "_para_select");
+
+	para_select
+	    .append("option")
+	    .attr("class", "ePeek_para_option")
+	    .text("-- Go to paralog --");
+
+	para_select.selectAll("option2")
+	    .data(paralogues, function(d){return d.id})
+	    .enter()
+	    .append("option")
+	    .attr("class", "ePeek_para_option")
+	    .attr("value", function(d) {return d.id})
+	    .text(function(d) {return d.id + " (" + d.species + " - " + d.type + ")"});
+
+	d3.select("#" + n_para_div_id)
+	    .text(paralogues === undefined ? 0 : paralogues.length);
+
+	return para_select;
+    }
+
+    var homologues_cbak = function(homologues) {
+
+	var homologues_obj = gBrowser.split_homologues(homologues);
+	
+	// The orthologues select + number of orthologues
+	var orthologues_sel = orthologues_select(homologues_obj.orthologues);
+	orthologues_sel.on("change", function() {
+	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
+	    d3.select("#ePeek_" + div_id + "_orth_select").remove();
+	    gBrowser.ensGene_lookup(this.value);
+	});
+
+	var paralogues_sel  = paralogues_select(homologues_obj.paralogues);
+	paralogues_sel.on("change", function() {
+	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
+	    d3.select("#ePeek_" + div_id + "_para_select").remove();
+	    gBrowser.ensGene_lookup(this.value);
+	});
+
+    };
+
     var ensGenes_cbak = function(ensGenes) {
 	// The ensGenes select + number of ensGenes
 	var ensGene_sel = gene_select(ensGenes);
 	    
 	ensGene_sel.on("change", function() {
-	    gBrowser.ensGene_lookup(this.value);
-	});
-    };
-
-    var orthologues_cbak = function(orthologues) {
-
-	// The orthologues select + number of orthologues
-	var orthologues_sel = orthologues_select(orthologues);
-	orthologues_sel.on("change", function() {
-	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
-	    d3.select("#ePeek_" + div_id + "_orth_select").remove();
 	    gBrowser.ensGene_lookup(this.value);
 	});
     };
@@ -443,7 +494,9 @@ var epeek_theme = function() {
 	ensGenes_div_id = "ePeek_" + div_id + "_ensGene_option";
 	n_ensGenes_div_id = "ePeek_" + div_id + "_n_ensGenes";
 	orth_div_id = "ePeek_" + div_id + "_ortho_option";
-	n_orth_div_id = "ePeek_" + div_id * "_n_orthologues";
+	n_orth_div_id = "ePeek_" + div_id + "_n_orthologues";
+	para_div_id = "ePeek_" + div_id + "_para_option";
+	n_para_div_id = "ePeek_" + div_id + "_n_paralogues";
     }
 
 
