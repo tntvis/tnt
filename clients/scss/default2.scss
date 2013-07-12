@@ -1,0 +1,90 @@
+@import "lib/scss/main";
+
+/* OPTIONS */
+.ePeek_options_pane {
+    display : block;
+    
+    span {
+	@include normal-font;
+    }
+}
+
+
+div {
+    .ePeek_TabBlock {
+	display  : block;
+	height   : 40px;
+	position : absolute;
+	opacity  : 0;
+
+	@include transition(all, 0.5s);
+    }
+    .ePeek_TabBlock_active {
+	opacity : 1;
+	z-index : 1000;
+    }
+}
+
+.ePeek_top_option {
+    display    : inline;
+    position   : absolute;
+    top        : 50%;
+    margin-top : -10px;
+}
+
+.ePeek_options_pane span, .ePeek_links_pane span, .ePeek_name {
+    @include normal-font;
+}
+
+.ePeek_options_pane, .ePeek_links_pane {
+    margin : 10px 10px 10px 5px;
+}
+
+.ePeek_groupDiv {
+    position : relative;
+    margin : 0px 3px 0px 3px;
+}
+
+div {
+    .ePeek_gene_info {
+	display  : block;
+	position : absolute;
+	top      : 0px;
+	opacity  : 0;
+
+	@include transition(all, 0.5s);
+    }
+    .ePeek_gene_info_active {
+	opacity : 1;
+	z-index : 1001;
+    }
+}
+
+.ePeek_text_rotated {
+    display     : block;
+    position    : absolute;
+    z-index     : 1002;
+    right       : 0px;
+
+    @include rotate;
+}
+
+.ePeek_link {
+    cursor : pointer;
+}
+
+#example_genome_browser {
+    border : 2px solid;
+
+    @include round-borders(20px);
+
+    diplay : block;
+}
+
+/* .ePeek_options_pane { */
+/*     margin : 10px 10px 10px 5px; */
+/* } */
+
+.ePeek_group_div {
+
+}
