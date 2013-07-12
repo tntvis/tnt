@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<link rel="canonical" href="http://d3js.org/">
+<title>e!Peek</title>
+<style>
+
+@import url(index.css);
+
+#examples {
+  width: 960px;
+  height: 378px;
+  margin-bottom: 2em;
+}
+
+.example img {
+  float: left;
+  margin-bottom: 13px;
+  width: 226px;
+  height: 180px;
+  border: solid 2px #ccc;
+}
+
+.example:hover img {
+  border-color: steelblue;
+}
+
+.example:not(:nth-child(4n)) img {
+  margin-right: 13px;
+}
+
+</style>
+
+<div id="body">
+
+  <!-- D3 -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+
+  <!-- ePeek -->
+   <link rel="stylesheet" href="lib/ePeek.css" type="text/css" />
+   <link rel="stylesheet" href="clients/css/default2.css" type="text/css" />
+
+   <script type="text/javascript" src="http://api.qrtag.net/js"></script> 
+   <script src="lib/ePeek.js"></script>
+   <script src="clients/lib/default.js"></script>
+
+  <!-- Highlight -->
+  <!-- <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css"> -->
+  <!-- <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script> -->
+
+  <header>
+    <b><a href="./">Overview</a></b>
+    <a style="margin-left:1em;" href="https://github.com/mbostock/d3/wiki/Gallery">Examples</a>
+    <a style="margin-left:1em;" href="doc/index.html">Documentation</a>
+    <a style="margin-left:1em;" href="https://github.com/mbostock/d3">Source</a>
+  </header>
+
+  <h1>e!Peek</h1>
+  <div id="example_genome_browser"></div>
+  <script>
+    var gB=epeek().species("human").gene("BRCA2").width(950).foreground_color("#4DA63A").background_color("#F0FFED").highlight_color("#A63A44");
+    var gBTheme = epeek_theme().show_title(false);
+    gBTheme(gB, document.getElementById("example_genome_browser"));
+  </script>
+
+  <p><aside>Drag your mouse, zoom in/out</aside></p>
+
+  <p><b>e!Peek</b> is a JavaScript plug-in that allows the placement of a simple genome browser in any web page or document where custom Javascript is allowed. It is very easy to embed and configure. You only need to insert a few lines of Javascript in your page and let the plug-in do the rest.</p>
+  <p>See <a href="http://www.ebi.ac.uk/~mp/ePeek/Examples">more examples</a></p>
+  <p>Check out the <a href="http://www.ebi.ac.uk/~mp/ePeek/doc/">Documentation</a></p>
+  
+  <h2><a name="introduction" href="#introduction">#</a>Introduction</h2>
+  <p>A e!Peek plug-in consists of two components. The e!Peek core plug-in and an e!Peek <i>theme</i> that defines how to interact with the core plug-in. Although this may seem very abstract, it is in fact very simple, and converts e!Peek into a very powerful and customizable plug-in.
+  <p>The easiest way to embed e!Peek in your site is by using one of the distributed <i>themes</i>. The general pattern looks something likes this:</p>
+  <pre><code class="html">&lt;script src="http://d3js.org/d3.v3.min.js" charset="utf-8">&lt;/script></code></pre>
+  <pre><code class="html">
+var gB = epeek().width(920); // other methods can be included here
+var gBTheme = epeek_theme(); // other methods can be included here
+gBTheme(gB, document.getElementById('DOM_element_id');
+    </code></pre>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2013 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+</div>
+
+<a href="https://github.com/emepyc"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+
+<script src="highlight.v0.min.js"></script>
