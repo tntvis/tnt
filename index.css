@@ -167,3 +167,6 @@ blockquote:after {
   position: absolute;
 }
 
+#example_genome_browser {
+    margin-bottom : 60px;
+}
