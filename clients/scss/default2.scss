@@ -25,6 +25,18 @@ div {
     }
 }
 
+.ePeek_option_label {
+    margin-right        : 10px;
+    border-bottom-style : solid;
+    cursor              : pointer;
+}
+
+.ePeek_link_label, .ePeek_qrtag_label {
+    margin-right     : 10px;
+    border-top-style : solid;
+    cursor           : pointer;
+}
+
 .ePeek_top_option {
     display    : inline;
     position   : absolute;
@@ -53,6 +65,11 @@ div {
 	opacity  : 0;
 
 	@include transition(all, 0.5s);
+
+	h1 {
+	    font-size : 30px;
+	}
+
     }
     .ePeek_gene_info_active {
 	opacity : 1;
@@ -80,10 +97,6 @@ div {
 
     diplay : block;
 }
-
-/* .ePeek_options_pane { */
-/*     margin : 10px 10px 10px 5px; */
-/* } */
 
 .ePeek_group_div {
 
