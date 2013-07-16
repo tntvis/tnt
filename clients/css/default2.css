@@ -18,6 +18,16 @@ div .ePeek_TabBlock_active {
   opacity: 1;
   z-index: 1000; }
 
+.ePeek_option_label {
+  margin-right: 10px;
+  border-bottom-style: solid;
+  cursor: pointer; }
+
+.ePeek_link_label, .ePeek_qrtag_label {
+  margin-right: 10px;
+  border-top-style: solid;
+  cursor: pointer; }
+
 .ePeek_top_option {
   display: inline;
   position: absolute;
@@ -44,6 +54,8 @@ div .ePeek_gene_info {
   -o-transition: all 0.5s ease;
   -ms-transition: all 0.5s ease;
   transition: all 0.5s ease; }
+  div .ePeek_gene_info h1 {
+    font-size: 30px; }
 div .ePeek_gene_info_active {
   opacity: 1;
   z-index: 1001; }
@@ -68,7 +80,3 @@ div .ePeek_gene_info_active {
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   diplay: block; }
-
-/* .ePeek_options_pane { */
-/*     margin : 10px 10px 10px 5px; */
-/* } */
