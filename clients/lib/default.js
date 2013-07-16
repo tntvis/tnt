@@ -102,7 +102,7 @@ var epeek_theme = function() {
 	var searchLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .text("New gene")
+	    .text("Lookup Gene")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_search_option"))});
 
 	var origLabel = opts_pane
