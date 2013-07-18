@@ -46,6 +46,7 @@ div {
 	top      : 0px;
 	opacity  : 0;
 
+	@include small-font;
 	@include transition(all, 0.5s);
     }
     .ePeek_gene_info_active {
@@ -65,4 +66,8 @@ div {
 
 .ePeek_link {
     cursor : pointer;
+}
+
+.ePeek_locRow span {
+    @include small-font;
 }

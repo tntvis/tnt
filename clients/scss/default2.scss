@@ -64,6 +64,7 @@ div {
 	top      : 0px;
 	opacity  : 0;
 
+	@include small-font;
 	@include transition(all, 0.5s);
 
 	h1 {
@@ -90,6 +91,10 @@ div {
     cursor : pointer;
 }
 
+.ePeek_locRow span {
+    @include small-font;
+}
+
 #example_genome_browser {
     border : 2px solid;
 
@@ -98,6 +103,3 @@ div {
     diplay : block;
 }
 
-.ePeek_group_div {
-
-}

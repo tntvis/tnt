@@ -54,7 +54,7 @@ var epeek_theme = function() {
 	set_div_id(div);
 
 	gBrowser = gB;
-	// We set the gBrowser's callbacks
+	// Set the gBrowser's callbacks
 	gBrowser.gene_info_callback   = gene_info_callback;
 	gBrowser.ensGenes_callback    = ensGenes_cbak;
 	gBrowser.homologues_callback  = homologues_cbak;

@@ -35,6 +35,7 @@ div .ePeek_gene_info {
   position: absolute;
   top: 0px;
   opacity: 0;
+  font-size: 12px;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -57,3 +58,6 @@ div .ePeek_gene_info_active {
 
 .ePeek_link {
   cursor: pointer; }
+
+.ePeek_locRow span {
+  font-size: 12px; }

@@ -1,0 +1,10 @@
+.ePeek_info_pane {
+  width: 2000px; }
+  .ePeek_info_pane div {
+    float: left;
+    clear: none; }
+
+div .ePeek_gene_info {
+  font-size: 12px; }
+  div .ePeek_gene_info h1 {
+    font-size: 30px; }
