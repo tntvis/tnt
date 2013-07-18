@@ -2,29 +2,24 @@
 <meta charset="utf-8">
 <html>
   <head>
+
+    <title>Tree</title>
+
     <!-- Remote D3.js -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
-
-    <!-- Trees CSS -->
-    <link rel="stylesheet" href="css/tree_main.css" type="text/css" />
-
-    <!-- ePeek -->
-    <link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
-    <script src="../lib/ePeek.js"></script>
-
-    <!-- Tree -->
-    <script src="lib/tree_main.js"></script>
-    <script src="lib/minimal2.js"></script>
+    <!-- Newick.js -->
+    <link rel="stylesheet" href="css/tree.css" type="text/css" />
     <script src="lib/tree.js"></script>
+    <script src="lib/Newick/newick.js" type="text/javascript"></script>
 
   </head>
 
   <body>
-    <div id="mytree"></div>
+    <div id="tree"></div>
     <script>
-      plotTree(document.getElementById("mytree"));
-      var gBTheme = epeek_tree();
-      gBTheme(document.getElementById("mytree"));
+      var tree = epeek_tree();
+      tree(document.getElementById("tree"));
     </script>
+
   </body>
 </html>

@@ -1,0 +1,31 @@
+@import "lib/scss/main";
+
+.node {
+    $stroke-width : 1.5px;
+    $fill-color   : steelblue;
+    $empty-color  : #fff;
+    .empty_node {
+	fill         : $empty-color;
+	stroke       : $fill-color;
+	stroke-width : $stroke-width;
+    }
+    .present_node {
+	fill         : $fill-color;
+	stroke       : $fill-color;
+	stroke-width : $stroke-width;
+    }
+}
+
+text {
+    @include small-font;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+text {
+  fill: #000;
+}

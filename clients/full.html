@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>e!Peek</title>
+
+<!-- Remote JQuery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<!-- Local JQuery-URL-Parser -->
+<script src="lib/jQuery-URL-Parser/purl.js"></script>
+
+<!-- Remote D3.js -->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<!-- Remote QRTag -->
+<script type="text/javascript" src="http://api.qrtag.net/js"></script>
+
+</head>
+
+<body>
+<div id="genomeBrowser"></div>
+
+<!-- minimalGenomeBrowser -->
+<link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
+<script src="../lib/ePeek.js"></script>
+
+<script src="lib/full.js"></script>
+<link rel="stylesheet" href="css/full.css" type="text/css"></script>
+
+<script>
+  (function() {
+  var gB = epeek().width(1500).height(300).background_color("#F0FFED").foreground_color("#4DA63A").highlight_color("#A63A44");
+  var theme = epeek_theme();
+  theme(gB, document.getElementById("genomeBrowser"));
+  }());
+
+</script>
+
+</body>

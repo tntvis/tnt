@@ -1,0 +1,19 @@
+.node .empty_node {
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 1.5px; }
+.node .present_node {
+  fill: steelblue;
+  stroke: steelblue;
+  stroke-width: 1.5px; }
+
+text {
+  font-size: 12px; }
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px; }
+
+text {
+  fill: #000; }
