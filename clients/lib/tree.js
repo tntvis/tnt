@@ -17,11 +17,17 @@ var epeek_tree = function () {
 	    .separation(function(a, b) { return 1; });
 
 	var species_tree = newick.parse(tree.newick_tree());
-	console.log("SPECIES TREE:");
-	console.log(species_tree);
 
 	var nodes = cluster.nodes(species_tree);
 	phylo(nodes[0], 0);
+
+	var sp_names = get_names_of_present_species(sp_counts);
+	var present_nodes  = get_tree_nodes_by_names(species_tree, sp_names);
+
+	var lca_node = lca_for_nodes(present_nodes)
+
+	decorate_tree(lca_node);
+	nodes_present(species_tree, present_nodes);
 
 	var vis = d3.select(div)
 	    .append("svg")
@@ -35,7 +41,16 @@ var epeek_tree = function () {
 	    .data(cluster.links(nodes))
 	    .enter().append("path")
 	    .attr("class", "link")
-	    .attr("d", step);
+	    .attr("d", step)
+	    .style("stroke", function(d){
+	    	if (d.source.real_present === 1) {
+	    	    return "steelblue";
+	    	}
+	    	if (d.source.present_node === 1) {
+	    	    return "ccc";
+	    	}
+	    	return "fff";
+	    });
 
 	var node = vis.selectAll("g.node")
 	    .data(nodes.filter(function(n) { return n.x !== undefined; }))
@@ -45,15 +60,30 @@ var epeek_tree = function () {
 	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
 
 	node.append("circle")
-	    .attr("class", function(d) {var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
-					return sp_counts[species_name] === undefined ? "empty_node" : "present_node"
-				       })
+	    .attr("class", function(d) {
+		if (d.real_present) {
+		    return "present";
+		}
+		if (d.present_node) {
+		    return "dubious";
+		}
+		return "absent";
+	    })
 	    .attr("r", 2.5);
 
 	var label = vis.selectAll("text")
 	    .data(nodes.filter(function(d) { return d.x !== undefined && !d.children; }))
 	    .enter().append("text")
-	    .style("fill", function (d) {return d.name === tree.species() ? "red" : "black"})
+	    .style("fill", function (d) {
+		if (d.name === tree.species()) {
+		    return "red";
+		}
+		if (d.real_present === 1) {
+		    return "steelblue";
+		}
+		return "ccc";
+		// return d.name === tree.species() ? "red" : "black"
+	    })
 	    .attr("dy", ".31em")
 	    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
 	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r - 220 + 8) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; }) // The translate's big number should be adjusted "manually". Affects the location of the labels
@@ -64,9 +94,6 @@ var epeek_tree = function () {
 			      });
 
 
-	var node1 = get_node_by_name(species_tree, "Mus_musculus");
-	var node2 = get_node_by_name(species_tree, "Homo_sapiens");
-	tree.lca(node1, node2);
 
     };
 
@@ -126,6 +153,7 @@ var epeek_tree = function () {
 
     // Tree traversing
     var get_node_by_name = function(tree, name) {
+	// console.log(tree.name + " -VS- " + name);
 	if (tree.name === name) {
 	    return tree;
 	}
@@ -140,14 +168,134 @@ var epeek_tree = function () {
 	}
     };
 
-    tree.lca = function (node1, node2) {
-	console.log("NODE1:");
-	console.log(node1);
-	console.log("NODE2:");
-	console.log(node2);
+    var has_ancestor = function (node1, node2) {
+	if (node1.parent === undefined) {
+	    return false
+	}
+	if (node1.parent === node2) {
+	    return true;
+	}
+	return has_ancestor(node1.parent, node2);
+    };
 
-	
+    var lca_for_nodes = function (nodes) {
+	if (nodes.length === 1) {
+	    return nodes[0];
+	}
+	var lca_node = nodes[0];
+	for (var i = 1; i < nodes.length; i++) {
+	    lca_node = lca(lca_node, nodes[i]);
+	}
+	return lca_node;
     }
+
+    // This is the easiest way to calculate the LCA I can think of. But it is very inefficient too.
+    // It would be better to implement a better LCA algorithm. For example see:
+    // http://community.topcoder.com/tc?module=Static&d1=tutorials&d2=lowestCommonAncestor
+    var lca = function (node1, node2) {
+	if (node1 === node2) {
+	    return node1;
+	}
+	if (has_ancestor(node1, node2)) {
+	    return node2;
+	}
+	return lca(node1, node2.parent);
+    };
+
+    var decorate_tree = function (node) {
+	if (node !== undefined) {
+	    traverse_tree(node, function(n) {n.present_node = 1});
+	}
+    };
+
+
+    var nodes_present = function (tree, nodes) {
+	for (var i = 0; i < nodes.length; i++) {
+	    var tree_node = get_node_by_name(tree, nodes[i].name);
+	    if (tree_node === undefined) {
+		console.log("NO NODE FOUND WITH NAME " + nodes[i]);
+	    } else {
+		tree_node.real_present = 1;
+	    }
+	}
+
+	// TODO: Highly inefficient algorithm ahead
+	var max_depth = max_tree_depth(tree);
+	for (var i = 0; i < max_depth; i++) {
+	    var children_present = function(node) {
+		if (node.children !== undefined) {
+		    if (check_children_present(node)) {
+			node.real_present = 1;
+		    }
+		    for (var i = 0; i < node.children.length; i++) {
+			children_present(node.children[i]);
+		    }
+		}
+	    };
+	    children_present(tree);
+	}
+    };
+
+    var check_children_present = function(node) {
+	var n_present = 0;
+	for (var i = 0; i < node.children.length; i++) {
+	    if (node.children[i].real_present === 1) {
+		n_present++;
+	    }
+	}
+	if (node.children.length === n_present) {
+	    return true;
+	}
+	return false;
+    }
+
+    var traverse_tree = function (tree, cbak) {
+	cbak(tree);
+	if (tree.children !== undefined) {
+	    for (var i = 0; i < tree.children.length; i++) {
+		traverse_tree(tree.children[i], cbak);
+	    }
+	}
+    };
+
+    var max_tree_depth = function (tree, max) {
+	if (max === undefined) {
+	    max = 0
+	}
+	var this_depth = tree.depth;
+	if (tree.children !== undefined) {
+	    for (var i = 0; i < tree.children.length; i++) {
+		return max_tree_depth(tree.children[i], this_depth > max ? this_depth : max)
+	    }
+	}
+	return max;
+    };
+
+    var get_names_of_present_species = function (sp_nodes) {
+	var names = [];
+	for (var i in sp_nodes) {
+	    if (sp_nodes.hasOwnProperty(i)) {
+		names.push(i.charAt(0).toUpperCase() + i.slice(1));
+	    }
+	}
+	return names;
+    };
+
+    var get_tree_nodes_by_names = function (tree, names) {
+	var nodes = [];
+	for (var i = 0; i < names.length; i++) {
+	    var node = get_node_by_name(tree, names[i]);
+	    if (node !== undefined) {
+		nodes.push(node);
+	    }
+	}
+	return nodes;
+    };
+
+    tree.update = function(sp_counts) {
+	
+	return tree;
+    };
 
     return tree;
 };
