@@ -6,30 +6,29 @@ var epeek_tree = function () {
     var curr_species = "Homo_sapiens";
     var sp_counts = {};
 
+    // Needed to update
+    var cluster;
+    var vis;
+    var species_tree;
+    var nodes;
+
     var tree = function (div) {
 
 	// We populate the species tree
-	var cluster = d3.layout.cluster()
+	cluster = d3.layout.cluster()
 	    .size([360, 1])
 	    .sort(null)
 	    .value(function(d) { return d.length; })
 	    .children(function(d) { return d.branchset; })
 	    .separation(function(a, b) { return 1; });
 
-	var species_tree = newick.parse(tree.newick_tree());
+	species_tree = newick.parse(tree.newick_tree());
 
-	var nodes = cluster.nodes(species_tree);
+	nodes = cluster.nodes(species_tree);
 	phylo(nodes[0], 0);
 
-	var sp_names = get_names_of_present_species(sp_counts);
-	var present_nodes  = get_tree_nodes_by_names(species_tree, sp_names);
 
-	var lca_node = lca_for_nodes(present_nodes)
-
-	decorate_tree(lca_node);
-	nodes_present(species_tree, present_nodes);
-
-	var vis = d3.select(div)
+	vis = d3.select(div)
 	    .append("svg")
 	    .attr("width", r * 2)
 	    .attr("height", r * 2)
@@ -37,63 +36,7 @@ var epeek_tree = function () {
 	    .append("g")
 	    .attr("transform", "translate(" + r + "," + r + ")");
 
-	var link = vis.selectAll("path.link")
-	    .data(cluster.links(nodes))
-	    .enter().append("path")
-	    .attr("class", "link")
-	    .attr("d", step)
-	    .style("stroke", function(d){
-	    	if (d.source.real_present === 1) {
-	    	    return "steelblue";
-	    	}
-	    	if (d.source.present_node === 1) {
-	    	    return "ccc";
-	    	}
-	    	return "fff";
-	    });
-
-	var node = vis.selectAll("g.node")
-	    .data(nodes.filter(function(n) { return n.x !== undefined; }))
-	    .enter().append("g")
-	    .attr("class", "node")
-	    .attr("id", function(d) {return "ePeek_tree_" + d.name})
-	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
-
-	node.append("circle")
-	    .attr("class", function(d) {
-		if (d.real_present) {
-		    return "present";
-		}
-		if (d.present_node) {
-		    return "dubious";
-		}
-		return "absent";
-	    })
-	    .attr("r", 2.5);
-
-	var label = vis.selectAll("text")
-	    .data(nodes.filter(function(d) { return d.x !== undefined && !d.children; }))
-	    .enter().append("text")
-	    .style("fill", function (d) {
-		if (d.name === tree.species()) {
-		    return "red";
-		}
-		if (d.real_present === 1) {
-		    return "steelblue";
-		}
-		return "ccc";
-		// return d.name === tree.species() ? "red" : "black"
-	    })
-	    .attr("dy", ".31em")
-	    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r - 220 + 8) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; }) // The translate's big number should be adjusted "manually". Affects the location of the labels
-	    .text(function(d) { var label = d.name.replace(/_/g, ' ');
-				var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
-				label = label + " [" + (sp_counts[species_name] === undefined ? 0 : sp_counts[species_name].length) + "]";
-				return label;
-			      });
-
-
+	tree.update(sp_counts);
 
     };
 
@@ -293,7 +236,72 @@ var epeek_tree = function () {
     };
 
     tree.update = function(sp_counts) {
-	
+	var sp_names = get_names_of_present_species(sp_counts);
+	var present_nodes  = get_tree_nodes_by_names(species_tree, sp_names);
+
+	var lca_node = lca_for_nodes(present_nodes)
+
+	decorate_tree(lca_node);
+	nodes_present(species_tree, present_nodes);
+
+	var link = vis.selectAll("path.link")
+	    .data(cluster.links(nodes))
+	    .enter().append("path")
+	    .attr("class", "link")
+	    .attr("d", step)
+	    .style("stroke", function(d){
+	    	if (d.source.real_present === 1) {
+	    	    return "steelblue";
+	    	}
+	    	if (d.source.present_node === 1) {
+	    	    return "ccc";
+	    	}
+	    	return "fff";
+	    });
+
+	var node = vis.selectAll("g.node")
+	    .data(nodes.filter(function(n) { return n.x !== undefined; }))
+	    .enter().append("g")
+	    .attr("class", "node")
+	    .attr("id", function(d) {return "ePeek_tree_" + d.name})
+	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
+
+	node.append("circle")
+	    .attr("class", function(d) {
+		if (d.real_present) {
+		    return "present";
+		}
+		if (d.present_node) {
+		    return "dubious";
+		}
+		return "absent";
+	    })
+	    .attr("r", 2.5);
+
+	var label = vis.selectAll("text")
+	    .data(nodes.filter(function(d) { return d.x !== undefined && !d.children; }))
+	    .enter().append("text")
+	    .style("fill", function (d) {
+		if (d.name === tree.species()) {
+		    return "red";
+		}
+		if (d.real_present === 1) {
+		    return "steelblue";
+		}
+		return "ccc";
+		// return d.name === tree.species() ? "red" : "black"
+	    })
+	    .attr("dy", ".31em")
+	    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r - 220 + 8) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; }) // The translate's big number should be adjusted "manually". Affects the location of the labels
+	    .text(function(d) { var label = d.name.replace(/_/g, ' ');
+				var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
+				label = label + " [" + (sp_counts[species_name] === undefined ? 0 : sp_counts[species_name].length) + "]";
+				return label;
+			      });
+
+
+
 	return tree;
     };
 
