@@ -71,14 +71,14 @@
   var l = colors.length;
   var i = Math.floor(Math.random() * l);
   
-    var gB=epeek().species("tarsius_syrichta").gene("BRCA2").width(950).foreground_color(colors[i].foreground).background_color(colors[i].background).highlight_color(colors[i].highlight);
+    var gB=epeek().species("human").gene("BRCA2").width(950).foreground_color(colors[i].foreground).background_color(colors[i].background).highlight_color(colors[i].highlight);
     var gBTheme = epeek_theme().show_title(false);
     gBTheme(gB, document.getElementById("example_genome_browser"));
   </script>
 
   <p><aside>Drag your mouse, zoom in/out</aside></p>
 
-  <p><b>e!Peek</b> is a JavaScript plug-in that allows the placement of a simple genome browser in any web page or document where custom Javascript is allowed. It is very easy to embed and configure. You only need to insert a few lines of Javascript in your page and let the plug-in do the rest.</p>
+  <p><b>e!Peek</b> is a JavaScript plug-in that allows the placement of a simple genome browser in any web page or document where custom Javascript is allowed. It is very easy to embed and configure. You only need to insert a few lines of Javascript in your page and let the plug-in do the rest. Genomic data is provided by <a href="http://www.ensembl.org">Ensembl</a> via <a href="http://beta.rest.ensembl.org">REST calls</a>.</p>
   <p>See <a href="http://www.ebi.ac.uk/~mp/ePeek/Examples">more examples</a></p>
   <p>Check out the <a href="http://www.ebi.ac.uk/~mp/ePeek/doc/">Documentation</a></p>
   
