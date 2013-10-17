@@ -20,7 +20,7 @@ rect.ePeek_pane {
   -ms-transition: opacity 1s ease;
   transition: opacity 1s ease; }
 rect.ePeek_dark_pane {
-  opacity: 0.9; }
+  opacity: 0.4; }
 
 text.ePeek_wideOK_text {
   font-family: Impact, Charcoal, sans-serif;
