@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 
 <meta charset="utf-8">
-<link rel="canonical" href="http://d3js.org/">
+<!-- <link rel="canonical" href="http://d3js.org/"> -->
 <title>e!Peek</title>
 <style>
 
 @import url(index.css);
 
-#examples {
-  width: 960px;
-  height: 378px;
-  margin-bottom: 2em;
-}
+<!-- #examples { -->
+<!--   width: 960px; -->
+<!--   height: 378px; -->
+<!--   margin-bottom: 2em; -->
+<!-- } -->
 
-.example img {
-  float: left;
-  margin-bottom: 13px;
-  width: 226px;
-  height: 180px;
-  border: solid 2px #ccc;
-}
+<!-- .example img { -->
+<!--   float: left; -->
+<!--   margin-bottom: 13px; -->
+<!--   width: 226px; -->
+<!--   height: 180px; -->
+<!--   border: solid 2px #ccc; -->
+<!-- } -->
 
-.example:hover img {
-  border-color: steelblue;
-}
+<!-- .example:hover img { -->
+<!--   border-color: steelblue; -->
+<!-- } -->
 
-.example:not(:nth-child(4n)) img {
-  margin-right: 13px;
-}
+<!-- .example:not(:nth-child(4n)) img { -->
+<!--   margin-right: 13px; -->
+<!-- } -->
 
 </style>
 
@@ -50,9 +50,10 @@
 
   <header>
     <b><a href="./">Overview</a></b>
-    <a style="margin-left:1em;" href="https://github.com/mbostock/d3/wiki/Gallery">Examples</a>
-    <a style="margin-left:1em;" href="doc/index.html">Documentation</a>
-    <a style="margin-left:1em;" href="https://github.com/mbostock/d3">Source</a>
+    <a style="margin-left:1em;" href="./themes.html">Themes</a>
+    <a style="margin-left:1em;" href="./">Examples</a>
+    <a style="margin-left:1em;" href="doc/ePeek.html">Documentation</a>
+    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
   </header>
 
   <h1>e!Peek</h1>
@@ -70,7 +71,7 @@
   var l = colors.length;
   var i = Math.floor(Math.random() * l);
   
-    var gB=epeek().species("human").gene("BRCA2").width(950).foreground_color(colors[i].foreground).background_color(colors[i].background).highlight_color(colors[i].highlight);
+    var gB=epeek().species("tarsius_syrichta").gene("BRCA2").width(950).foreground_color(colors[i].foreground).background_color(colors[i].background).highlight_color(colors[i].highlight);
     var gBTheme = epeek_theme().show_title(false);
     gBTheme(gB, document.getElementById("example_genome_browser"));
   </script>
