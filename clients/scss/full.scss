@@ -1,20 +1,21 @@
 @import "lib/scss/main";
 
-.ePeek_info_pane {
-    width : 2000px;
-    div {
-	float : left;
-	clear : none;
-    }
-}
-
 div {
-    .ePeek_gene_info {
-	@include small-font;
+    .ePeek_orthologues_tree {
+	margin-left:auto;
+	margin-right:auto;
+	width:70%;
+    }
 
-	h1 {
-	    font-size : 30px;
-	}
+    .ePeek_locRow {
+	margin-left:auto;
+	margin-right:auto;
+	width:70%;
+    }
 
+    .ePeek_groupDiv {
+	margin-left:auto;
+	margin-right:auto;
+	width:70%;
     }
 }

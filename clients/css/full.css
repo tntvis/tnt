@@ -1,10 +1,12 @@
-.ePeek_info_pane {
-  width: 2000px; }
-  .ePeek_info_pane div {
-    float: left;
-    clear: none; }
-
-div .ePeek_gene_info {
-  font-size: 12px; }
-  div .ePeek_gene_info h1 {
-    font-size: 30px; }
+div .ePeek_orthologues_tree {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%; }
+div .ePeek_locRow {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%; }
+div .ePeek_groupDiv {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%; }
