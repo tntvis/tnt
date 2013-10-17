@@ -27,21 +27,52 @@ var epeek_tree = function () {
 	nodes = cluster.nodes(species_tree);
 	phylo(nodes[0], 0);
 
-
 	vis = d3.select(div)
 	    .append("svg")
 	    .attr("width", r * 2)
-	    .attr("height", r * 2)
+	    .attr("height", r * 1.3 )
 	    .attr("fill", "none")
 	    .append("g")
-	    .attr("transform", "translate(" + r + "," + r + ")");
+	    .attr("transform", "translate(" + r + "," + r/2*1.3 + ")");
 
-	tree.update(sp_counts);
+	var link = vis.selectAll("path.link")
+	    .data(cluster.links(nodes))
+	    .enter().append("path")
+	    .attr("class", "link")
+	    .attr("d", step)
+	    .style("stroke", "ccc");
+
+	var node = vis.selectAll("g.node")
+	    .data(nodes.filter(function(n) { return n.x !== undefined; }))
+	    .enter().append("g")
+	    .attr("class", "node")
+	    .attr("id", function(d) {return "ePeek_tree_" + d.name})
+	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
+
+	node.append("circle")
+	    .attr("class", "absent")
+	    .attr("r", 2.5);
+
+	var label = vis.selectAll("text")
+	    .data(nodes.filter(function(d) { return d.x !== undefined && !d.children; }))
+	    .enter().append("text")
+	    .style("fill", "ccc")
+	    .attr("dy", ".31em")
+	    	    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r - 325 + 8) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; }) // The translate's big number should be adjusted "manually". Affects the location of the labels
+	    .text(function(d) { var label = d.name.replace(/_/g, ' ');
+				var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
+				label = label + " [" + (sp_counts[species_name] === undefined ? 0 : sp_counts[species_name].length) + "]";
+				return label;
+			      });
+
+
+	// tree.update(sp_counts);
 
     };
 
     var phylo = function (n, offset) {
-	if (n.length != null) offset += n.length * 80; // This number should be adjusted "manually". Gives the size of the tree
+	if (n.length != null) offset += n.length * 50; // This number should be adjusted "manually". Gives the size of the tree
 	n.y = offset;
 	if (n.children)
 	    n.children.forEach(function(n) {
@@ -151,6 +182,11 @@ var epeek_tree = function () {
 	}
     };
 
+    var reset_tree = function (node) {
+	if (node !== undefined) {
+	    traverse_tree(node, function(n) {n.present_node = 0; n.real_present = 0;});
+	}
+    }
 
     var nodes_present = function (tree, nodes) {
 	for (var i = 0; i < nodes.length; i++) {
@@ -236,19 +272,17 @@ var epeek_tree = function () {
     };
 
     tree.update = function(sp_counts) {
+	reset_tree(species_tree);
 	var sp_names = get_names_of_present_species(sp_counts);
 	var present_nodes  = get_tree_nodes_by_names(species_tree, sp_names);
-
 	var lca_node = lca_for_nodes(present_nodes)
 
 	decorate_tree(lca_node);
 	nodes_present(species_tree, present_nodes);
 
-	var link = vis.selectAll("path.link")
+	vis.selectAll("path.link")
 	    .data(cluster.links(nodes))
-	    .enter().append("path")
-	    .attr("class", "link")
-	    .attr("d", step)
+	    .transition()
 	    .style("stroke", function(d){
 	    	if (d.source.real_present === 1) {
 	    	    return "steelblue";
@@ -259,14 +293,9 @@ var epeek_tree = function () {
 	    	return "fff";
 	    });
 
-	var node = vis.selectAll("g.node")
-	    .data(nodes.filter(function(n) { return n.x !== undefined; }))
-	    .enter().append("g")
-	    .attr("class", "node")
-	    .attr("id", function(d) {return "ePeek_tree_" + d.name})
-	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
 
-	node.append("circle")
+	vis.selectAll("circle")
+	    .data(nodes.filter(function(n) { return n.x !== undefined; }))
 	    .attr("class", function(d) {
 		if (d.real_present) {
 		    return "present";
@@ -276,11 +305,10 @@ var epeek_tree = function () {
 		}
 		return "absent";
 	    })
-	    .attr("r", 2.5);
 
-	var label = vis.selectAll("text")
+	var labels = vis.selectAll("text")
 	    .data(nodes.filter(function(d) { return d.x !== undefined && !d.children; }))
-	    .enter().append("text")
+	    .transition()
 	    .style("fill", function (d) {
 		if (d.name === tree.species()) {
 		    return "red";
@@ -291,9 +319,6 @@ var epeek_tree = function () {
 		return "ccc";
 		// return d.name === tree.species() ? "red" : "black"
 	    })
-	    .attr("dy", ".31em")
-	    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r - 220 + 8) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; }) // The translate's big number should be adjusted "manually". Affects the location of the labels
 	    .text(function(d) { var label = d.name.replace(/_/g, ' ');
 				var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
 				label = label + " [" + (sp_counts[species_name] === undefined ? 0 : sp_counts[species_name].length) + "]";
