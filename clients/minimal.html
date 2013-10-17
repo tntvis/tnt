@@ -6,7 +6,8 @@
   <link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
 
   <!-- Remote D3.js -->
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
+  <script src="../lib/d3.v3.js"></script>
 
   <!-- Local libs -->
   <script src="../lib/ePeek.js"></script>
@@ -19,8 +20,9 @@
 
   <script>
     (function() {
-        var gB = epeek_theme();
-        gB(document.getElementById("genomeBrowser"));
+        var gB = epeek().species("human").gene("brca2").width(1200).height(200).background_color("#EEEEEE").foreground_color("green");
+        var gBTheme = epeek_theme();
+        gBTheme(gB, document.getElementById("genomeBrowser"));
     })();
   </script>
 </body>
