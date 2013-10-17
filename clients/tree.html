@@ -1,25 +1,43 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <html>
-  <head>
+<head>
+<title>e!Peek</title>
 
-    <title>Tree</title>
+<!-- Remote JQuery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-    <!-- Remote D3.js -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <!-- Newick.js -->
-    <link rel="stylesheet" href="css/tree.css" type="text/css" />
-    <script src="lib/tree.js"></script>
-    <script src="lib/Newick/newick.js" type="text/javascript"></script>
+<!-- Local JQuery-URL-Parser -->
+<script src="lib/jQuery-URL-Parser/purl.js"></script>
 
-  </head>
+<!-- Remote D3.js -->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<!-- Tree.js -->
+<link rel="stylesheet" href="css/tree.css" type="text/css" />
+<script src="lib/tree.js" type="text/javascript"></script>
+<script src="lib/Newick/newick.js" type="text/javascript"></script>
 
-  <body>
-    <div id="tree"></div>
-    <script>
-      var tree = epeek_tree();
-      tree(document.getElementById("tree"));
-    </script>
+<!-- ePeek -->
+<link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
+<script src="../lib/ePeek.js"></script>
 
-  </body>
-</html>
+<script src="lib/full.js"></script>
+<link rel="stylesheet" href="css/full.css" type="text/css"></script>
+
+
+</head>
+
+<body>
+<div id="genomeBrowser"></div>
+
+
+<script>
+  (function() {
+  var gB = epeek().width(1500).height(200).background_color("#F0FFED").foreground_color("#4DA63A").highlight_color("#A63A44").species("Human").chr("10").from(11800000).to(13300000);
+  var theme = epeek_theme();
+  theme(gB, document.getElementById("genomeBrowser"));
+  }());
+
+</script>
+
+</body>
