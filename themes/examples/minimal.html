@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>e!Peek</title>
+
+<style>
+  @import url(../../index.css)
+</style>
+
+<div id="body">
+
+  <!-- D3 -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+
+  <!-- ePeek -->
+  <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
+  <link rel="stylesheet" href="../../clients/css/default2.css" type="text/css" />
+
+  <script src="../../lib/ePeek.js"></script>
+  <script src="../../clients/lib/minimal.js"></script>
+
+  <header>
+    <a style="margin-left:1em;" href="../../index.html">Overview</a>
+    <a style="margin-left:1em;" href="../../themes.html">Themes</a>
+    <a style="margin-left:1em;" href="../../index.html">Examples</a>
+    <a style="margin-left:1em;" href="../../doc/index/ePeek.html">Documentation</a>
+    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
+  </header>
+
+  <h1>The Minimal Theme</h1>
+  <div id="genomeBrowser"></div>
+  <script>
+    (function() {
+        var gB = epeek().species("human").gene("brca2").width(950).height(200).background_color("#EEEEEE").foreground_color("green");
+        var gBTheme = epeek_theme();
+        gBTheme(gB, document.getElementById("genomeBrowser"));
+    })();
+ 
+  </script>
+
+  <p><aside><i>Panning</i> and <i>zooming</i> are still possible in the minimal theme</aside></p>
+  <p>The minimal theme just shows the e!Peek plug-in without any decoration or extra functionality. It doesn't response to gene selection, retrieve orthology information or any other kind of interaction apart from those available in the core plug-in (like panning or zooming).</p>
+  <p>Because of its simplicity it is a good starting point for any other more complex theme as it shows the general pattern used in e!Peek to build the themes</p>
+  <p>The code of this theme is just:</p>
+
+  <pre><code>
+var epeek_theme = function() {
+    var theme = function(gB, div) {
+        gB(div);
+        gB.startOnOrigin();
+    };
+    return theme;
+};
+  </code></pre>
+<p>
+
+</p>
+</div>
+<script src="../../highlight.v0.min.js"></script>
