@@ -51,8 +51,25 @@ var epeek_theme = function() {
     return theme;
 };
   </code></pre>
-<p>
-
+<p>The code above defines the function <i>epeek_theme</i>. By convention, this function should always be defined as a top-level function in every theme (and normally it is the only thing defined at the top level). Inside this function, we will always define a closure that accepts at least two arguments:</p>
+  <ul>
+    <li>An instance of the <i>e!Peek</i> core object</li>
+    <li>A container DOM element (usually a div element)</li>
+  </ul>
+<p>The closure is the only thing returned by the theme. Since a closure is a piece of code treated as a value, it is important to remember that nothing that is defined inside of the closure will be executed until the returned closure is called. The minimal code needed inside of the closure is shown in the code above: The closure is responsible of calling the core object in the appropriate DOM element. In this case, we put the e!Peek core plugin in the container element passed as an argument, but other more sophisticated themes may define other DOM elements and encapsulate the e!Peek core object to any of them. Finally, the closure has to call the <i>startOnOrigin</i> method of the <i>e!Peek</i> core object to start the genome browser. With this code, when the <i>epeek_theme</i> function is called, the closure is returned and ready to use.
 </p>
+<p>So, this is how the client page should set the theme up:</p>
+<pre><code>
+var gB = epeek().width(920); // other methods can be included here
+var gBTheme = epeek_theme(); // other methods can be included here
+gBTheme(gB, document.getElementById('DOM_element_id');
+</code></pre>
+<p>First, the <i>e!Peek</i> core plug-in is set up (gB). Then, the theme is set up and the theme closure (gBTheme) is obtained. Finally, the theme closure is called with the core plug-in as its first argument and a valid DOM container element as the second.
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2013 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
 </div>
 <script src="../../highlight.v0.min.js"></script>
