@@ -1,5 +1,9 @@
 var epeek_theme = function() {
-    var ePeek = epeek();
-    ePeek.start();
-    return ePeek;
+
+    var theme = function(gB, div) {
+	gB(div);
+	gB.startOnOrigin();
+    };
+
+    return theme;
 };
