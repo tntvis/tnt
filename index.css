@@ -114,6 +114,7 @@ textarea {
 
 .html .tag,
 .css .tag,
+.javascript .literal,
 .javascript .keyword {
   color: #3182bd;
 }
