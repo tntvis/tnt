@@ -28,41 +28,55 @@
             <pre class="prettyprint source"><code>var epeek = function() {
     "use strict";
  
-   // Default species and genome location
+    // Default species and genome location
+    // TODO: Encapsulate this information in an object
     var gene; // undefined
     var ensGene; // undefined
     var species = "human";
     var chr = 7;
     var fromPos = 139424940;
     var toPos = 141784100;
+    var chr_length; // undefined
 
     // Prefixes to use the REST API.
     // These are modified in the localREST setter
+    // TODO: Encapsulate this information in an object
     var prefix = "http://beta.rest.ensembl.org";
     var prefix_region = prefix + "/feature/region/";
     var prefix_ensgene = prefix + "/lookup/";
     var prefix_gene = prefix + "/xrefs/symbol/";
-    var prefix_orthologues = prefix + "/homology/id/";
+    var prefix_homologues = prefix + "/homology/id/";
+    var prefix_chr_info = prefix + "/assembly/info/";
 
     // The REST response in general view
     var genes  = [];
 
     // Display elements options that can be overridden by setters
     // (so they are exposed in the API)
+    // TODO: Encapsulate this information in an object
     var min_width = 300;
     var width     = 600;
     var height    = 150;
     var bgColor        = d3.rgb('#DDDDDD'); //#F8FBEF
     var fgColor        = d3.rgb('#000000');
     var highlightColor = d3.rgb('#000000');
+    var drag_allowed   = true;
+    var curr_ease = d3.ease("cubic-in-out");
+    var fivePrimeEdge;
+    var threePrimeEdge;
 
     // Display elements (not directly exposed in the API)
+    // TODO: Encapsulate this information in an object
     var svg_g;
     var pane;
     var xScale;
+    var zoomEventHandler
     var xAxis;
     var refresh;
     var dur = 500;
+
+    // Closure to layout the genes in the view
+    // var genes_layout = epeek_genes().height(height);
 
     // The id of the div element the plug-in connects to
     // undefined by default
@@ -79,6 +93,7 @@
     */
     var gBrowser = function(div) {
 	div_id = d3.select(div).attr("id");
+	gBrowser.genes_layout.height(height); //genes_layout;
 
 	// The original div is classed with the ePeek class
 	d3.select(div)
@@ -115,6 +130,19 @@
 	    .attr("width", width)
 	    .attr("height", height)
 	    .style("fill", fgColor);
+
+	var tooWide_text = svg_g
+	    .append("text")
+	    .attr("class", "ePeek_wideOK_text")
+	    .attr("id", "ePeek_" + div_id + "_tooWide")
+	    .attr("fill", bgColor)
+	    .text("Region too wide");
+	// TODO: I don't know if this is the best way (and portable) way
+	// of centering the text in the text
+	var bb = tooWide_text[0][0].getBBox();
+	tooWide_text
+	    .attr("x", ~~(width/2 - bb.width/2))
+	    .attr("y", ~~(height/2 - bb.height/2));
 
 	// The locRow
 	locRow
@@ -173,12 +201,15 @@
         var url = get_url();
 	console.log("URL: ");
 	console.log(url);
+	// We get the chromosome length, this is done async, but I assume that 
+	// the response will be available on time in the interactive process
+	getChrLength();
         d3.json(url, function (error, resp) {
 	    console.log("RESP: ");
 	    console.log(resp);
-            genes = resp;
+	    genes = resp;
             plot();
-            update();
+            update_layout();
         });
     };
 
@@ -186,95 +217,133 @@
         xScale = d3.scale.linear()
             .domain([fromPos, toPos])
             .range([0, width]);
+        gBrowser.genes_layout(genes, xScale);
 
         xAxis = d3.svg.axis()
             .scale(xScale)
             .orient("top");
 
         // zoom
-        pane.call(d3.behavior.zoom().x(xScale).on("zoom", zoom));
+	if (drag_allowed) {
+	    zoomEventHandler = d3.behavior.zoom();
+            pane.call( zoomEventHandler.x(xScale).on("zoom", zoom) );
+	}
+    };
+
+    var update_layout = function () {
+	var newdata = gBrowser.genes_layout.genes();
+	var g_genes = svg_g.selectAll(".ePeek_gs")
+	    .data(newdata, function (d) {
+		return d.ID
+	    });
+
+	g_genes.selectAll(".ePeek_gene")
+	// The data needs to be re-joint for all the sub-elements?
+	    .data(newdata, function (d) {return d.ID})
+	    .transition()
+	    .duration(500)
+	    .attr("y", function (d) {
+		return gBrowser.genes_layout.gene_slot().slot_height * d.slot;
+	    })
+	    .attr("height", gBrowser.genes_layout.gene_slot().gene_height)
+
+	g_genes.selectAll(".ePeek_name")
+	// The data needs to be re-joint for all the sub-elements?
+	    .data(newdata, function (d) {return d.ID})
+	    .transition()
+	    .duration(500)
+	    // .each(function() {console.log(d3.select(this).style('font-size'))})
+	    .attr("y", function (d) {
+		return (gBrowser.genes_layout.gene_slot().slot_height * d.slot) + 25
+	    })
+	    .text(function (d) {
+		if (gBrowser.genes_layout.gene_slot().show_label) {
+		    return d.external_name;
+		} else {
+		    return "";
+		}
+	    });
+	
+	g_genes
+	    .enter()
+	    .append("g")
+	    .attr("class", "ePeek_gs")
+	    .call(plot_gene)
+
+	g_genes.exit().remove();
+
+	g_genes.on("click", function (d) {gBrowser.gene_info_callback(d)});
+
+	update();
+    };
+
+    var plot_gene = function (new_gene) {
+	new_gene
+	    .append("rect")
+	    .attr("class", "ePeek_gene")
+	    .attr("x", function (d) {
+		return (xScale(d.start));
+	    })
+	    .attr("y", function (d) {
+		console.log("D.SLOT:" + d.slot);
+		console.log("SLOT_HEIGHT:" + gBrowser.genes_layout.gene_slot().slot_height);
+		return gBrowser.genes_layout.gene_slot().slot_height * d.slot;
+	    })
+	    .attr("width", function (d) {
+		return (xScale(d.end) - xScale(d.start));
+	    })
+	    .attr("height", gBrowser.genes_layout.gene_slot().gene_height)  // This has to be dynamic now
+	    .attr("fill", bgColor)
+	    .transition().duration(dur).attr("fill", function (d) {
+		return fgColor;
+	    });
+
+	new_gene
+	    .append("text")
+	    .attr("class", "ePeek_name")
+	    .attr("x", function (d) {
+		return (xScale(d.start));
+	    })
+	    .attr("y", function (d) {
+		return (gBrowser.genes_layout.gene_slot().slot_height * d.slot) + 25 // TODO: This 25 is artificial. It is supposed to give enough room for the label
+		                                                // i.e. the font vertical size is less than 25.
+		                                                // Maybe it would be better to have a fixed font-size at least?
+	    })
+	    .attr("fill", bgColor)
+	    .text(function (d) {
+		if (gBrowser.genes_layout.gene_slot().show_label) {
+		    return d.external_name
+		} else {
+		    return ""
+		}
+	    })
+	    .style ("font-weight", function (d) {
+		return "normal";
+	    })
+	    .transition().duration(dur).attr("fill", function (d) {
+		return fgColor;
+	    });
+
     };
 
     var update = function () {
-       svg_g.call(xAxis);
-        var rects = svg_g.selectAll(".ePeek_gene")
-            .data(genes, function (d) {
-                return d.ID
+	svg_g.call(xAxis);
+
+	var g_genes = svg_g.selectAll(".ePeek_gs");
+
+	g_genes.select(".ePeek_gene")
+	    .attr("x", function (d) {
+		return (xScale(d.start))
 	    })
-            .attr("x", function (d) {
-                return (xScale(d.start))
-	    })
-            .attr("width", function (d) {
-                return (xScale(d.end) - xScale(d.start))
+	    .attr("width", function (d) {
+		return (xScale(d.end) - xScale(d.start))
 	    });
+	
 
-        rects.enter()
-            .append("rect")
-	    .attr("class", "ePeek_gene")
-//	    .attr("id", function(d) {return "ePeek_gene_" + div_id + "_" + d.ID})
-            .attr("x", function (d) {
-                return (xScale(d.start))
-	    })
-            .attr("y", 10)
-            .attr("width", function (d) {
-                return (xScale(d.end) - xScale(d.start))
-	    })
-            .attr("height", 10)
-            .attr("fill", bgColor)
-//            .transition().duration(dur).attr("fill", fgColor);
-	    .transition().duration(dur).attr("fill", function (d) {
-		if ((ensGene !== undefined) && (ensGene === d.ID) ) {
-		    return highlightColor
-		} else {
-		    return fgColor;
-		}
+	g_genes.select(".ePeek_name")
+	    .attr("x", function (d) {
+		return (xScale(d.start));
 	    });
-
-        rects.exit().remove();
-
-        rects.on("click", function(d) {gBrowser.gene_info_callback(d)});
-
-        // labels
-        var names = svg_g.selectAll(".ePeek_name")
-            .data(genes, function (d) {
-                return d.ID
-	    })
-            .attr("x", function (d) {
-                return (xScale(d.start))
-	    })
-
-        names.enter()
-            .append("text")
-	    .attr("class", "ePeek_name")
-//	    .attr("id", function(d) {return "ePeek_label_" + div_id + "_" + d.ID})
-            .attr("x", function (d) {
-                return xScale(d.start)
-	    })
-            .attr("y", 35)
-            .attr("fill", bgColor)
-            .text(function (d) {
-                return d.external_name
-	    })
-//            .transition().duration(dur).attr("fill", fgColor);
-	    .style ("font-weight", function (d) {
-		if ((ensGene !== undefined) && (ensGene === d.ID) ) {
-		    return "bold";
-		} else {
-		    return "normal";
-		}
-	    })
-	    .transition().duration(dur).attr("fill", function (d) {
-		if ((ensGene !== undefined) && (ensGene === d.ID) ) {
-		    return highlightColor
-		} else {
-		    return fgColor;
-		}
-	    });
-
-
-        names.exit().remove();
-
-        names.on("click", function(d) {gBrowser.gene_info_callback(d)});
 
 	// loc_row
 	var xScale_domain = xScale.domain();
@@ -288,11 +357,120 @@
 	    .text(~~xScale_domain[1]);
     };
 
-    var zoom = function () {
+    var move = function (factor, direction) {
+	var oldDomain = xScale.domain();
+
+	var span = oldDomain[1] - oldDomain[0];
+	var offset = (span * factor) - span;
+
+	var newDomain;
+	switch (direction) {
+	case -1 :
+	    newDomain = [(~~oldDomain[0] - offset), ~~(oldDomain[1] - offset)];
+	    break;
+	case 1 :
+	    newDomain = [(~~oldDomain[0] + offset), ~~(oldDomain[1] - offset)];
+	    break;
+	case 0 :
+	    newDomain = [oldDomain[0] - ~~(offset/2), oldDomain[1] + (~~offset/2)];
+	}
+
+	var interpolator = d3.interpolateNumber(oldDomain[0], newDomain[0]);
+	var ease = gBrowser.ease();
+
+	var x = 0;
+	d3.timer(function(d) {
+	    var curr_start = interpolator(ease(x));
+	    var curr_end;
+	    switch (direction) {
+	    case -1 :
+		curr_end = curr_start + span;
+		break;
+	    case 1 :
+		curr_end = curr_start + span;
+		break;
+	    case 0 :
+		curr_end = oldDomain[1] + oldDomain[0] - curr_start;
+		break;
+	    }
+
+	    var currDomain = [curr_start, curr_end];
+	    xScale.domain(currDomain);
+	    zoom(xScale);
+	    x+=0.02;
+	    return x>1;
+	});
+    };
+
+    /** &lt;a name="right">&lt;/a>&lt;strong>right&lt;/strong> pans the genome browser to the right. This method is exposed to allow external buttons, etc to interact with the genome browser.
+	@param {Number} factor The amount of panning (i.e. 1.2 means 20% panning)
+     */
+    gBrowser.right = function (factor) {
+	// It doesn't make sense factors &lt; 1 for left/right moves
+	if (factor > 0) {
+	    move(factor, 1);
+	}
+    };
+
+    /** &lt;strong>left&lt;/strong> pans the genome browser to the left. This method is exposed to allow external buttons, etc to interact with the genome browser.
+	@param {Number} factor The amount of panning (i.e. 1.2 means 20% panning)
+     */
+    gBrowser.left = function (factor) {
+	// It doesn't make sense factors &lt; 1 for left/right moves
+	if (factor > 0) {
+	    move(factor, -1);
+	}
+    };
+
+    /** &lt;strong>zoom&lt;/strong> zooms in/out the genome browser. This method is exposed to allow external buttons, etc to interact with the genome browser.
+	@param {Number} factor The amount of zooming (i.e. 1.2 means zooming in 20% and 0.8 means zooming out 20%)
+     */
+    gBrowser.zoom = function (factor) {
+	move(factor, 0);
+    };
+
+
+    var zoom = function (new_xScale) {
+	if (new_xScale !== undefined && drag_allowed) {
+	    zoomEventHandler.x(new_xScale);
+	}
+	// This fixes before-the-beginning panning
+	var currDomain = xScale.domain();
+	if (currDomain[0] &lt; 0) {
+	    if (fivePrimeEdge === undefined) {
+		fivePrimeEdge = currDomain[1]
+	    }
+	    currDomain = ([0, fivePrimeEdge]);
+	    xScale.domain(currDomain);
+	    if (drag_allowed) {
+		zoomEventHandler.x(xScale);
+	    }
+	    // var bestEnd = currDomain[1] &lt; 1000 ? 1000 : ~~currDomain[1];
+	    // xScale.domain([0,bestEnd]);
+	} else {
+	    fivePrimeEdge = undefined;
+	}
+
+	// This fixes pass-the-ending panning
+	if (currDomain[1] > chr_length) {
+	    if (threePrimeEdge === undefined) {
+		threePrimeEdge = currDomain[0];
+	    }
+	    // var bestStart = currDomain[0] > (chr_length - 1000) ? (chr_length - 1000) : ~~currDomain[0] &lt; 0 ? 0 : ~~currDomain[0];
+	    // xScale.domain([bestStart,chr_length]);
+	    xScale.domain([threePrimeEdge, chr_length]);
+	    if (drag_allowed) {
+		zoomEventHandler.x(xScale);
+	    }
+	} else {
+	    threePrimeEdge = undefined;
+	}
+
         window.clearTimeout(refresh);
         refresh = window.setTimeout(function(){
-            gBrowser.from(~~xScale.invert(0));
-            gBrowser.to(~~xScale.invert(width));
+	    var currDomain = xScale.domain();
+	    gBrowser.from(~~currDomain[0]);
+	    gBrowser.to(~~currDomain[1]);
             console.log("New Pos:" + fromPos + "-" + toPos);
             var url = get_url();
             console.log(url);
@@ -300,16 +478,62 @@
 		if (error !== null) {
 		    d3.select("#ePeek_" + div_id + "_pane")
 			.classed("ePeek_dark_pane", true);
+		    d3.select("#ePeek_" + div_id + "_tooWide")
+		    	.classed("ePeek_tooWide_text", true)
+			.moveToFront();
 		} else {
 		    d3.select("#ePeek_" + div_id + "_pane")
 			.classed("ePeek_dark_pane", false);
-                    genes = resp;
-                    update();
+		    d3.select("#ePeek_" + div_id + "_tooWide")
+		    	.classed("ePeek_tooWide_text", false)
+
+                    gBrowser.genes_layout(resp, xScale);
+		    update_layout();
 		}
             });
-	}, 300);
+	}, 300); //
 	
         update();
+    };
+
+
+    var change_gene_color = function (genes, color) {
+	genes.select(".ePeek_gene")
+	    .transition()
+	    .duration(500)
+	    .attr("fill", color);
+	genes.select(".ePeek_name")
+	    .transition()
+	    .duration(500)
+	    .style("fill", color);
+    };
+
+    /** &lt;strong>unhighlight_gene&lt;/strong> removes highlight from genes previously highlighted with {@link gBrowser.highlight_gene}.
+	Its argument is a callback that is called on every gene. The callback receives the information for that gene as its argument. On each gene, the callback is expected to return true or false. The gene or set of genes evaluated to true will be unhighlighted.
+	@param {Callback} callback A closure that evaluates all the genes.
+	@returns {ePeek} The original object allowing method chaining
+     */
+    gBrowser.unhighlight_gene = function (cbak) {
+	// TODO: This will select all genes *accross gBs*. Should we include the div_id in the class to avoid that?
+	var genes_to_unhighlight = d3.selectAll(".ePeek_gs")
+	    .filter(function(d){return cbak(d)});
+	change_gene_color(genes_to_unhighlight, fgColor)
+	return gBrowser;
+    }
+
+    /** &lt;strong>highlight_gene&lt;/strong> highlights a gene based on the {@link gBrowser.highlight_color} specified.
+	Its argument is a callback that is called on every gene. The callback receives the information for that gene as its argument. On each gene, the callback is expected to return true or false. The gene or set of genes evaluated to true will be highlighted.
+	Note that this method doesn't "un-highlight" any gene previously highlighted, so make sure you call {@link gBrowser.unhighlight_gene} if needed.
+	@param {Callback} callback A closure that evaluates all the genes.
+	@returns {ePeek} The original object allowing method chaining
+     */
+    gBrowser.highlight_gene = function (cbak) {
+	// TODO: This will select all genes *accross gBs*. Should we include the div_id in the class to avoid that?
+	var genes_to_highlight = d3.selectAll(".ePeek_gs")
+	    .filter(function(d){return cbak(d)});
+	change_gene_color(genes_to_highlight, highlightColor);
+
+	return gBrowser;
     };
 
     // public methods (API)
@@ -360,29 +584,29 @@
 ///*********************////
 /// DATA RETRIEVERS     ////
 ///*********************////
-    /** &lt;strong>orthologues&lt;/strong> looks for orthologues of the given gene.
-	Once the orthologues are retrieved, it the {@link ePeek.orthologues_callback} callback is invoked passing the array of orthologues as its argument.
-	@param {string} ensGene The id of the gene to look for orthologues
+    /** &lt;strong>homologues&lt;/strong> looks for homologues of the given gene.
+	Once the homologues are retrieved, the {@link ePeek.homologues_callback} callback is invoked passing the array of homologues as its argument.
+	@param {string} ensGene The id of the gene to look for homologues
      */
-    gBrowser.orthologues = function(ensGene) {
-	var url = prefix_orthologues + ensGene + ".json?format=condensed;sequence=none;type=orthologues";
+    gBrowser.homologues = function(ensGene) {
+	var url = prefix_homologues + ensGene + ".json?format=condensed;sequence=none;type=all";
 	console.log(url);
 
 	d3.json(url, function (error, resp) {
-	    console.log("ORTH RESP: ");
+	    console.log("HOMOLOGUES RESP: ");
 	    console.log(resp);
-	    if (resp !== undefined) { // Needed because if there are not orthologues we get an error -- We are trying to change this in REST API
-		gBrowser.orthologues_callback(resp.data[0].homologies);
+	    if (resp !== undefined) { // / Needed because if there are not homologues we get an error -- We are trying to change this in the REST API
+		gBrowser.homologues_callback(resp.data[0].homologies);
 	    }
 	});
-    };
+    }
 
     /** &lt;strong>ensGene_lookup&lt;/strong> retrieves the coordinates of a Ensembl gene from
 	the remote server. The plug-in is then initialized via the {@link ePeek.start} method.
 	@param {string} gene_name The id of the Ensembl gene to look for
      */
     gBrowser.ensGene_lookup = function (gene_name) {
-	gBrowser.orthologues(gene_name);
+	gBrowser.homologues(gene_name);
 	var url = prefix_ensgene + gene_name + ".json?format=full";
 	console.log("lookup url:");
 	console.log(url);
@@ -399,7 +623,14 @@
 	});
 
     };
-	
+
+    var getChrLength = function () {
+	var url = prefix_chr_info + species + "/" + chr;
+	d3.json(url, function(error, resp) {
+	    chr_length = resp.length;
+	});
+    };
+
 
 ///***********************////
 /// Setters & Getters     ////
@@ -482,6 +713,7 @@
 	// Will show the correct location even if the gene name is spelled wrong
 	// or is not recognized by Ensembl
 	gB.species("human").chr(13).from(35009587).to(35214822).gene("LINC00457");
+	@param {String} [name] The name of the gene
 	@returns {ePeek} The original object allowing method chaining
     */
     gBrowser.gene = function(g) {
@@ -568,6 +800,7 @@
 	@returns {ePeek} The original object allowing method chaining	
     */
     gBrowser.highlight_color = function (hex) {
+	// TODO: Make highlight_color optional, defaulting to either the foreground color or a .darker() version of it
 	if (!arguments.length) {
 	    return highlightColor;
 	}
@@ -583,8 +816,32 @@
 	prefix_region = prefix + "/feature/region/";
 	prefix_ensgene = prefix + "/lookup/id/";
 	prefix_gene = prefix + "/xrefs/symbol/";
-	prefix_orthologs = prefix + "/homology/id/";
+	prefix_homologues = prefix + "/homology/id/";
 
+	return gBrowser;
+    };
+
+
+    gBrowser.ease = function(e) {
+	if (!arguments.length) {
+	    return curr_ease;
+	}
+	curr_ease = d3.ease(e);
+	return gBrowser;
+    };
+
+    gBrowser.allow_drag = function(b) {
+	if (!arguments.length) {
+	    return drag_allowed;
+	}
+	drag_allowed = b;
+	if (b) {
+	    zoomEventHandler.x(xScale).on("zoom", zoom);
+	} else {
+	    // We create a new dummy scale in x to avoid dragging the previous one
+	    // There may be a cheaper way of doing this?
+	    zoomEventHandler.x(d3.scale.linear()).on("zoom", null);
+	}
 	return gBrowser;
     };
 
@@ -597,13 +854,36 @@
         return url;
     };
 
+    /** &lt;strong>split_homologues&lt;/strong> split an array of homologues into an object containing an array of orthologues (under the 'orthologues' field)
+	and an array of paralogues (under the 'paralogues' field)
+	@param {Array} [homologues] The array containing homologues objects
+	@returns {Object} An object containing an array of orthologues and an array of paralogues
+    */
+    gBrowser.split_homologues = function (homologues) {
+	var orthoPatt = /ortholog/;
+	var paraPatt = /paralog/;
+
+	var orthologues = homologues.filter(function(d){return d.type.match(orthoPatt)});
+	var paralogues  = homologues.filter(function(d){return d.type.match(paraPatt)});
+
+	return {'orthologues' : orthologues,
+		'paralogues'  : paralogues};
+    };
+
     // Default callbacks
+
+    /** &lt;strong>genes_layout&lt;/strong> specifies how to layout the genes.
+	The default layout avoid clashing between genes, hiding the labels when there are too many elements to display, etc...
+	The layout closure has to have several methods in its API.
+	@param {Callback} [callback] The callback to call to get/set the gene layout
+    */
+    gBrowser.genes_layout = epeek_genes(); //genes_layout;
 
     /** &lt;strong>gene_info_callback&lt;/strong> is a callback called when a gene is selected.
 	It should be used to respond to mouse clicks on the genes or their names (labels).
 	Its default behaviour is to do nothing.
         This function can be overwritten by a theme to display the gene information
-	in a custom way and place for example.
+	in, for example, a custom way and/or place.
 	@param {Object} object A literal object containing the following fields:
 	&lt;ul>
 	&lt;li>external_name   => External name of the gene&lt;/li>
@@ -632,22 +912,205 @@
      */
     gBrowser.ensGenes_callback = function() {};
 
-    /** &lt;strong>orthologues_callback&lt;/strong> is a callback called every time the orthologues of a gene
-	are found in the REST server in the {@link ePeek.orthologues} method.
+    /** &lt;strong>homologues_callback&lt;/strong> is a callback called every time the homologues (orthologues + paralogues) of a gene
+	are found in the REST server in the {@link ePeek.homologues} method.
 	Its default behaviour is to do nothing.
-	This method can be used by a theme to do run some arbitrary code when orthologues are found in the REST server.
+	This method can be used by a theme to do run some arbitrary code when homologues are found for this gene.
 	@param {Array} homologies An array of object literals representing homologies having the following fields:
 	&lt;ul>
-	&lt;li>id          => The Ensembl Gene ID of the ortholog&lt;/li>
-	&lt;li>protein_id  => The Ensembl Protein ID of the ortholog&lt;/li>
-	&lt;li>species     => The species name of the ortholog&lt;/li>
+	&lt;li>id          => The Ensembl Gene ID of the homolog&lt;/li>
+	&lt;li>protein_id  => The Ensembl Protein ID of the homolog&lt;/li>
+	&lt;li>species     => The species name of the homolog&lt;/li>
 	&lt;li>subtype     => The subtype of the homology relantionship&lt;/li>
-	&lt;li>type        => The type of orthology&lt;/li>
+	&lt;li>type        => The type of homology&lt;/li>
 	&lt;/ul>
      */
-    gBrowser.orthologues_callback = function() {};
+    gBrowser.homologues_callback = function() {};
 
     return gBrowser;
+};
+
+
+// The collision detector
+var epeek_genes = function() {
+    "use strict";
+
+    var height = 150; // Default value
+
+    var genes     = [];
+
+    var xScale;
+    var max_slots;
+
+    var slot_types = {
+	'expanded'   : {
+	    slot_height : 30,
+	    gene_height : 10,
+	    show_label  : true
+	},
+	'collapsed' : {
+	    slot_height : 5,
+	    gene_height : 3,
+	    show_label  : false
+	}
+    };
+    var current_slot_type = 'expanded';
+
+
+    var genes_layout = function (new_genes, scale) {
+	// We make sure that the genes have name
+	for (var i = 0; i &lt; new_genes.length; i++) {
+	    if (new_genes[i].external_name === null) {
+		new_genes[i].external_name = "";
+	    }
+	}
+
+	max_slots = ~~(height / slot_types.expanded.slot_height) - 1;
+
+	if (scale !== undefined) {
+	    genes_layout.scale(scale);
+	}
+
+	slot_keeper(new_genes, genes);
+	var needed_slots = collition_detector(new_genes);
+	if (needed_slots > max_slots) {
+	    current_slot_type = 'collapsed';
+	    shrink_slots(height, needed_slots);
+	} else {
+	    current_slot_type = 'expanded';
+	}
+
+	genes = new_genes;
+    };
+
+    genes_layout.genes = function () {
+	return genes;
+    }
+
+    genes_layout.gene_slot = function () {
+	return slot_types[current_slot_type];
+    };
+
+    genes_layout.height = function (h) {
+	if (!arguments.length) {
+	    return height;
+	}
+	height = h;
+	return genes_layout;
+    };
+
+
+    genes_layout.scale = function (x) {
+	if (!arguments.length) {
+	    return xScale;
+	}
+	xScale = x;
+	return genes_layout;
+    };
+
+
+    var collition_detector = function (genes) {
+	var genes_placed = [];
+	var genes_to_place = genes; // was []
+	var needed_slots = 0;
+	for (var i = 0; i &lt; genes.length; i++) {
+            if (genes[i].slot > needed_slots && genes[i].slot &lt; max_slots) {
+		needed_slots = genes[i].slot
+            }
+	}
+
+	for (var i = 0; i &lt; genes_to_place.length; i++) {
+            var genes_by_slot = sort_genes_by_slot(genes_placed);
+	    var this_gene = genes_to_place[i];
+	    if (this_gene.slot !== undefined && this_gene.slot &lt; max_slots) {
+		if (slot_has_space(this_gene, genes_by_slot[this_gene.slot])) {
+		    genes_placed.push(this_gene);
+		    continue;
+		}
+	    }
+            var slot = 0;
+            OUTER: while (true) {  //
+		if (slot_has_space(this_gene, genes_by_slot[slot])) {
+		    this_gene.slot = slot;
+		    genes_placed.push(this_gene);
+		    if (slot > needed_slots) {
+			needed_slots = slot;
+		    }
+		    break;
+		}
+		slot++;
+	    }
+	}
+	return needed_slots + 1;
+    };
+
+
+    var slot_has_space = function (query_gene, genes_in_this_slot) {
+	if (genes_in_this_slot === undefined) {
+	    return true;
+	}
+	for (var j = 0; j &lt; genes_in_this_slot.length; j++) {
+            var subj_gene = genes_in_this_slot[j];
+	    if (query_gene.ID === subj_gene.ID) {
+		continue;
+	    }
+            var y_label_end = subj_gene.external_name.length * 8 + xScale(subj_gene.start); // TODO: It may be better to have a fixed font size (instead of the hardcoded 16)?
+            var y1  = xScale(subj_gene.start);
+            var y2  = xScale(subj_gene.end) > y_label_end ? xScale(subj_gene.end) : y_label_end;
+	    var x_label_end = query_gene.external_name.length * 8 + xScale(query_gene.start);
+            var x1 = xScale(query_gene.start);
+            var x2 = xScale(query_gene.end) > x_label_end ? xScale(query_gene.end) : x_label_end;
+            if ( ((x1 &lt; y1) && (x2 > y1)) ||
+		 ((x1 > y1) && (x1 &lt; y2)) ) {
+		return false;
+            }
+	}
+	return true;
+    };
+
+    var slot_keeper = function (genes, prev_genes) {
+	var prev_genes_slots = genes2slots(prev_genes);
+
+	for (var i = 0; i &lt; genes.length; i++) {
+            if (prev_genes_slots[genes[i].ID] !== undefined) {
+		genes[i].slot = prev_genes_slots[genes[i].ID];
+            }
+	}
+    };
+
+    var genes2slots = function (genes_array) {
+	var hash = {};
+	for (var i = 0; i &lt; genes_array.length; i++) {
+            var gene = genes_array[i];
+            hash[gene.ID] = gene.slot;
+	}
+	return hash;
+    }
+
+    var shrink_slots = function (height, needed_slots) {
+	// slot_types.collapsed.slot_height = ~~(height/needed_slots);
+	return;
+    };
+
+    var sort_genes_by_slot = function (genes) {
+	var slots = [];
+	for (var i = 0; i &lt; genes.length; i++) {
+            if (slots[genes[i].slot] === undefined) {
+		slots[genes[i].slot] = [];
+            }
+            slots[genes[i].slot].push(genes[i]);
+	}
+	return slots;
+    };
+
+    return genes_layout;
+   
+}
+
+d3.selection.prototype.moveToFront = function() { 
+  return this.each(function() { 
+    this.parentNode.appendChild(this); 
+  }); 
 };
 </code></pre>
         </article>
@@ -665,7 +1128,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat May 18 2013 23:52:51 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Fri Oct 18 2013 13:22:50 GMT+0100 (BST)
 </footer>
 
 <script> prettyPrint(); </script>
