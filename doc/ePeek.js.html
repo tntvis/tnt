@@ -38,15 +38,7 @@
     var toPos = 141784100;
     var chr_length; // undefined
 
-    // Prefixes to use the REST API.
-    // These are modified in the localREST setter
-    // TODO: Encapsulate this information in an object
-    var prefix = "http://beta.rest.ensembl.org";
-    var prefix_region = prefix + "/feature/region/";
-    var prefix_ensgene = prefix + "/lookup/";
-    var prefix_gene = prefix + "/xrefs/symbol/";
-    var prefix_homologues = prefix + "/homology/id/";
-    var prefix_chr_info = prefix + "/assembly/info/";
+    var eRest = rest();
 
     // The REST response in general view
     var genes  = [];
@@ -70,7 +62,7 @@
     var svg_g;
     var pane;
     var xScale;
-    var zoomEventHandler
+    var zoomEventHandler = d3.behavior.zoom();
     var xAxis;
     var refresh;
     var dur = 500;
@@ -198,19 +190,27 @@
 	needs to be taken into account, {@link ePeek.startOnOrigin} has to be used instead.
      */
     gBrowser.start = function () {
-        var url = get_url();
-	console.log("URL: ");
-	console.log(url);
-	// We get the chromosome length, this is done async, but I assume that 
-	// the response will be available on time in the interactive process
-	getChrLength();
-        d3.json(url, function (error, resp) {
-	    console.log("RESP: ");
-	    console.log(resp);
-	    genes = resp;
-            plot();
-            update_layout();
-        });
+	eRest.call({url : eRest.url("chr_info",
+				    {species : species,
+				     chr : chr
+				    }),
+		    success : function (resp) {chr_length = resp.length}
+		   }
+		  );
+
+	eRest.call({url : eRest.url("region",
+				    {species : species,
+				     chr     : chr,
+				     fromPos : fromPos,
+				     toPos   : toPos
+				    }),
+		    success : function (resp) {
+			genes = resp;
+			plot();
+			update_layout();
+		    }
+		   }
+		  );
     };
 
     var plot = function () {
@@ -225,7 +225,6 @@
 
         // zoom
 	if (drag_allowed) {
-	    zoomEventHandler = d3.behavior.zoom();
             pane.call( zoomEventHandler.x(xScale).on("zoom", zoom) );
 	}
     };
@@ -402,7 +401,7 @@
 	});
     };
 
-    /** &lt;a name="right">&lt;/a>&lt;strong>right&lt;/strong> pans the genome browser to the right. This method is exposed to allow external buttons, etc to interact with the genome browser.
+    /** &lt;strong>right&lt;/strong> pans the genome browser to the right. This method is exposed to allow external buttons, etc to interact with the genome browser.
 	@param {Number} factor The amount of panning (i.e. 1.2 means 20% panning)
      */
     gBrowser.right = function (factor) {
@@ -472,25 +471,31 @@
 	    gBrowser.from(~~currDomain[0]);
 	    gBrowser.to(~~currDomain[1]);
             console.log("New Pos:" + fromPos + "-" + toPos);
-            var url = get_url();
-            console.log(url);
-            d3.json(url, function (error, resp) {
-		if (error !== null) {
-		    d3.select("#ePeek_" + div_id + "_pane")
-			.classed("ePeek_dark_pane", true);
-		    d3.select("#ePeek_" + div_id + "_tooWide")
-		    	.classed("ePeek_tooWide_text", true)
-			.moveToFront();
-		} else {
-		    d3.select("#ePeek_" + div_id + "_pane")
-			.classed("ePeek_dark_pane", false);
-		    d3.select("#ePeek_" + div_id + "_tooWide")
-		    	.classed("ePeek_tooWide_text", false)
 
-                    gBrowser.genes_layout(resp, xScale);
-		    update_layout();
-		}
-            });
+	    eRest.call({url : eRest.url("region", {species : species,
+						   chr     : chr,
+						   fromPos : fromPos,
+						   toPos   : toPos
+						  }),
+			success : function(resp) {
+			    d3.select("#ePeek_" + div_id + "_pane")
+				.classed("ePeek_dark_pane", false);
+			    d3.select("#ePeek_" + div_id + "_tooWide")
+		    		.classed("ePeek_tooWide_text", false)
+			    
+			    gBrowser.genes_layout(resp, xScale);
+			    update_layout();
+			},
+
+			error : function() {
+			    d3.select("#ePeek_" + div_id + "_pane")
+				.classed("ePeek_dark_pane", true);
+			    d3.select("#ePeek_" + div_id + "_tooWide")
+		    		.classed("ePeek_tooWide_text", true)
+				.moveToFront();
+			}
+		       }
+		      );
 	}, 300); //
 	
         update();
@@ -555,31 +560,32 @@
     };
 
     /** &lt;strong>get_gene&lt;/strong> retrieves the gene from the remote (REST) server
-	returning the Ensembl genes associated with the given external name
+	returning the genes associated with the given external name
 	If the response of the REST server is defined, the {@link ePeek.ensGenes_callback} callback is invoked passing the found Ensembl genes as its argument.
 	If the response of the REST server is undefined, the plug-in is started with the current
 	genomic coordinates
 	@param {string} gene_name The gene external name to look up
      */
     gBrowser.get_gene = function (gene_name) {
-	var url = prefix_gene + species + "/" + gene_name + ".json?object=gene";
-	console.log("URL: " + url);
-	d3.json(url, function(error, resp) {
-	    resp = resp.filter(function(d) {
-		return !d.id.indexOf("ENS"); // To avoid LRG genes (maybe the REST service doesn't return those now?
-	    }); 
-	    console.log("RESP:");
-	    console.log(resp);
-	    if (resp[0] !== undefined) {
-		set_ensGene(resp[0].id);
-		gBrowser.ensGenes_callback(resp);
-		gBrowser.ensGene_lookup(resp[0].id);
-	    } else {
-		gBrowser.start();
-	    }
-	});
+	eRest.call({url : eRest.url('species_gene', { species : species,
+						      gene_name : gene_name 
+						    }
+				   ),
+		    success : function(resp) {
+			resp = resp.filter(function(d) {
+			    return !d.id.indexOf("ENS");
+			});
+			if (resp[0] !== undefined) {
+			    set_ensGene(resp[0].id);
+			    gBrowser.ensGenes_callback(resp);
+			    gBrowser.ensGene_lookup(resp[0].id)
+			} else {
+			    gBrowser.start();
+			}
+		    }
+		   }
+		  );
     };
-
 
 ///*********************////
 /// DATA RETRIEVERS     ////
@@ -589,17 +595,14 @@
 	@param {string} ensGene The id of the gene to look for homologues
      */
     gBrowser.homologues = function(ensGene) {
-	var url = prefix_homologues + ensGene + ".json?format=condensed;sequence=none;type=all";
-	console.log(url);
-
-	d3.json(url, function (error, resp) {
-	    console.log("HOMOLOGUES RESP: ");
-	    console.log(resp);
-	    if (resp !== undefined) { // / Needed because if there are not homologues we get an error -- We are trying to change this in the REST API
-		gBrowser.homologues_callback(resp.data[0].homologies);
-	    }
-	});
-    }
+	eRest.call({url : eRest.url("homologues", {gene_name : ensGene}),
+		    success : function(resp) {
+			var homologues = resp.data[0].homologies;
+			gBrowser.homologues_callback(homologues)
+		    }
+		   }
+		  );
+    };
 
     /** &lt;strong>ensGene_lookup&lt;/strong> retrieves the coordinates of a Ensembl gene from
 	the remote server. The plug-in is then initialized via the {@link ePeek.start} method.
@@ -607,28 +610,17 @@
      */
     gBrowser.ensGene_lookup = function (gene_name) {
 	gBrowser.homologues(gene_name);
-	var url = prefix_ensgene + gene_name + ".json?format=full";
-	console.log("lookup url:");
-	console.log(url);
-
-	d3.json(url, function(error, resp) {
-	    console.log("RESP:");
-	    console.log(resp);
-	    gBrowser
-		.species(resp.species)
-		.chr(resp.seq_region_name)
-		.from(resp.start)
-		.to(resp.end);
-	    gBrowser.start();
-	});
-
-    };
-
-    var getChrLength = function () {
-	var url = prefix_chr_info + species + "/" + chr;
-	d3.json(url, function(error, resp) {
-	    chr_length = resp.length;
-	});
+	eRest.call({url     : eRest.url("gene", {gene_name : gene_name}),
+		    success : function(resp) {
+			gBrowser
+			    .species(resp.species)
+			    .chr(resp.seq_region_name)
+			    .from(resp.start)
+			    .to(resp.end);
+			gBrowser.start();
+		    }
+		   }
+		  );
     };
 
 
@@ -808,20 +800,6 @@
 	return gBrowser;
     }
 
-    /** &lt;strong>localREST&lt;/strong> points the queries to a local REST service to debug.
-	This method should be removed in "production"
-    */
-    gBrowser.localREST = function() {
-	prefix = "http://127.0.0.1:3000";
-	prefix_region = prefix + "/feature/region/";
-	prefix_ensgene = prefix + "/lookup/id/";
-	prefix_gene = prefix + "/xrefs/symbol/";
-	prefix_homologues = prefix + "/homology/id/";
-
-	return gBrowser;
-    };
-
-
     gBrowser.ease = function(e) {
 	if (!arguments.length) {
 	    return curr_ease;
@@ -835,8 +813,12 @@
 	    return drag_allowed;
 	}
 	drag_allowed = b;
-	if (b) {
-	    zoomEventHandler.x(xScale).on("zoom", zoom);
+	if (drag_allowed) {
+	    // When this method is called on the object before starting the simulation, we don't have defined xScale
+	    if (xScale !== undefined) {
+		pane.call( zoomEventHandler.x(xScale).on("zoom", zoom) );
+		zoomEventHandler.x(xScale).on("zoom", zoom);
+	    }
 	} else {
 	    // We create a new dummy scale in x to avoid dragging the previous one
 	    // There may be a cheaper way of doing this?
@@ -849,10 +831,10 @@
 /// UTILITY METHODS     ////
 ///*********************////
     // Private methods
-    var get_url = function () {
-        var url = prefix_region + species + "/" + chr + ":" + fromPos + "-" + toPos + ".json?feature=gene";
-        return url;
-    };
+    // var get_url = function () {
+    //     var url = prefix_region + species + "/" + chr + ":" + fromPos + "-" + toPos + ".json?feature=gene";
+    //     return url;
+    // };
 
     /** &lt;strong>split_homologues&lt;/strong> split an array of homologues into an object containing an array of orthologues (under the 'orthologues' field)
 	and an array of paralogues (under the 'paralogues' field)
@@ -931,7 +913,92 @@
 };
 
 
-// The collision detector
+
+d3.selection.prototype.moveToFront = function() { 
+  return this.each(function() { 
+    this.parentNode.appendChild(this); 
+  }); 
+};
+var rest = function() {
+
+    // Prefixes to use the REST API.
+    // These are modified in the localREST setter
+    // TODO: Encapsulate this information in an object
+    var prefix = "http://beta.rest.ensembl.org";
+    var prefix_region = prefix + "/feature/region/";
+    var prefix_ensgene = prefix + "/lookup/";
+    var prefix_gene = prefix + "/xrefs/symbol/";
+    var prefix_homologues = prefix + "/homology/id/";
+    var prefix_chr_info = prefix + "/assembly/info/";
+
+    /** The returned closure
+	@alias eRest
+	@namespace
+    */
+    var eRest = function() {
+    };
+
+    /** &lt;strong>localREST&lt;/strong> points the queries to a local REST service to debug.
+	This method should be removed in "production"
+    */
+    eRest.localREST = function() {
+	prefix = "http://127.0.0.1:3000";
+	prefix_region = prefix + "/feature/region/";
+	prefix_ensgene = prefix + "/lookup/id/";
+	prefix_gene = prefix + "/xrefs/symbol/";
+	prefix_homologues = prefix + "/homology/id/";
+
+	return eRest;
+    };
+
+    /** &lt;strong>call&lt;/strong> makes an asynchronous call to the ensembl REST service.
+	@param {Object} object A literal object containing the following fields:
+	&lt;ul>
+	&lt;li>url => The rest URL. This is returned by {@link eRest.url}&lt;/li>
+	&lt;li>success => A callback to be called when the REST query is successful (i.e. the response from the server is a defined value and no error has been returned)&lt;/li>
+	&lt;li>error => A callback to be called when the REST query returns an error
+	&lt;/ul>
+    */
+    eRest.call = function (obj) {
+	var url = obj.url;
+	var on_success = obj.success;
+	var on_error   = obj.error;
+	console.log("URL:" + url);
+	d3.json (url, function (error, resp) {
+	    console.log("RESP:");
+	    console.log(resp);
+	    if (resp !== undefined && error === null) {
+		on_success(resp);
+	    }
+	    if (error !== null) {
+		on_error();
+	    }
+	});
+    };
+
+    /** &lt;strong>url&lt;/strong> returns the appropriate url to query the REST server. 
+    */
+    eRest.url = function (key, obj) {
+	if (key === "region") {
+	    return prefix_region + obj.species + "/" + obj.chr + ":" + obj.fromPos + "-" + obj.toPos + ".json?feature=gene";
+	}
+	if (key === "species_gene") {
+	    return prefix_gene + obj.species + "/" + obj.gene_name + ".json?object_type=gene";	    
+	}
+	if (key === "homologues") {
+	    return prefix_homologues + obj.gene_name + ".json?format=condensed;sequence=none;type=all";
+	}
+	if (key === "gene") {
+	    return prefix_ensgene + obj.gene_name + ".json?format=full";
+	}
+	if (key === "chr_info") {
+	    return prefix_chr_info + obj.species + "/" + obj.chr;
+	}
+    };
+
+    return eRest;
+};
+// The overlap detector
 var epeek_genes = function() {
     "use strict";
 
@@ -1104,13 +1171,6 @@ var epeek_genes = function() {
     };
 
     return genes_layout;
-   
-}
-
-d3.selection.prototype.moveToFront = function() { 
-  return this.each(function() { 
-    this.parentNode.appendChild(this); 
-  }); 
 };
 </code></pre>
         </article>
@@ -1122,13 +1182,13 @@ d3.selection.prototype.moveToFront = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="ePeek.html">ePeek</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="ePeek.html">ePeek</a></li><li><a href="eRest.html">eRest</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Fri Oct 18 2013 13:22:50 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Tue Oct 22 2013 12:43:00 GMT+0100 (BST)
 </footer>
 
 <script> prettyPrint(); </script>
