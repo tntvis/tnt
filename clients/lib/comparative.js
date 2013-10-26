@@ -99,18 +99,34 @@ var epeek_theme = function() {
 		gB(thisDiv[0][0]);
 
 		var gDiv = d3.select("#genomeBrowser" + i + " .ePeek_groupDiv");
+
+		// left chevron
 		gDiv
 		    .insert("img", ":first-child")
-		    .attr("src", pathToScript + "../chevron_left.png")
+		    .attr("src", pathToScript + "../chevron_inactive_left.png")
 		    .attr("height", 150)
-		    .attr("width", 40)
-		    .on("click", function(){gB.left(1.2)});
+		    .attr("width", 25)
+		    .on("click", function(){gB.left(1.2)})
+		    .on("mouseover", function(){
+			d3.select(this).attr("src", pathToScript + "../chevron_active_left.png")
+		    })
+		    .on("mouseout", function(){
+			d3.select(this).attr("src", pathToScript + "../chevron_inactive_left.png")
+		    });
+
+		// right chevron
 		gDiv
 		    .append("img")
-		    .attr("src", pathToScript + "../chevron_right.png")
+		    .attr("src", pathToScript + "../chevron_inactive_right.png")
 		    .attr("height", 150)
-		    .attr("width", 40)
-		    .on("click", function(){gB.right(1.2)});
+		    .attr("width", 25)
+		    .on("click", function(){gB.right(1.2)})
+		    .on("mouseover", function(){
+			d3.select(this).attr("src", pathToScript + "../chevron_active_right.png")
+		    })
+		    .on("mouseout", function(){
+			d3.select(this).attr("src", pathToScript + "../chevron_inactive_right.png")
+		    });
 
 		gB.startOnOrigin();
 	    }, i * 1500);	    
