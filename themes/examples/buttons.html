@@ -28,11 +28,11 @@
 
   <h1>The Button-based Theme</h1>
   <div style="margin-left:auto; margin-right:auto; width:70%">
-    <button onclick="gBTheme.left()"><img src="../pics/glyphicons_216_circle_arrow_left.png"/></button>
-    <button onclick="gBTheme.zoomIn()"><img src="../pics/glyphicons_191_circle_minus.png"/></button>
-    <button onclick="gBTheme.zoomOut()"><img src="../pics/glyphicons_190_circle_plus.png"/></button>
-    <button onclick="gBTheme.right()"><img src="../pics/glyphicons_217_circle_arrow_right.png"/></button>
-    <button onclick="gBTheme.startOnOrigin()"><img src="../pics/glyphicons_242_google_maps.png"></button>
+    <button onclick="gBTheme.left()" title="go left"><img src="../pics/glyphicons_216_circle_arrow_left.png"/></button>
+    <button onclick="gBTheme.zoomIn()" title="go right"><img src="../pics/glyphicons_191_circle_minus.png"/></button>
+    <button onclick="gBTheme.zoomOut()" title="zoom out"><img src="../pics/glyphicons_190_circle_plus.png"/></button>
+    <button onclick="gBTheme.right()" title="zoom in"><img src="../pics/glyphicons_217_circle_arrow_right.png"/></button>
+    <button onclick="gBTheme.startOnOrigin()" title="go to origin"><img src="../pics/glyphicons_242_google_maps.png"></button>
     <button onclick="gBTheme.toggle_draggability('draggability')"><img id="draggability" src="../pics/noHand-cursor-icon.png" width="20px" height="20px" title="Disable dragging"></button>
     <span style="font-size:12px">Buttons sensibility:0<input onchange="gBTheme.set_factor('factor_setter')" id="factor_setter" type="range" min=0 max=1.0 step=0.1 value=0.2 title=0.2></input>1
   </div>
