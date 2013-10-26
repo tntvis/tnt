@@ -33,7 +33,8 @@ var epeek_theme = function() {
 	    .attr("class", "ePeek_control_pane")
 	    .style("margin-left", "auto")
 	    .style("margin-right", "auto")
-	    .style("width", "50%");
+	    .style("width", "30%")
+	    .style("margin-bottom", "20px");
 
 	var left_button = control_pane
 	    .append("button")
