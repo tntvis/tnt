@@ -1,5 +1,27 @@
+
+// This needs to be moved to ePeek.js. Remove from here or clashes are likely to occurr
+var scriptPath = function (script_name) { // script_name is the filename
+    var script_scaped = script_name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    var script_re = new RegExp(script_scaped + '$');
+    var script_re_sub = new RegExp('(.*)' + script_scaped + '$');
+
+    var scripts = document.getElementsByTagName('script');
+    var path = "";  // Default to current path
+    if(scripts !== undefined) {
+        for(var i in scripts) {
+            if(scripts[i].src && scripts[i].src.match(script_re)) {
+                return scripts[i].src.replace(script_re_sub, '$1');
+            }
+        }
+    }
+    return path;
+};
+
 var epeek_theme = function() {
     "use strict";
+
+    var pathToScript = scriptPath('comparative.js');
+    console.log("PATH_TO_SCRIPT:" + pathToScript);
 
     // Now, gBs is an array of gBs
     var gBrowserTheme = function(gBs, div) {
@@ -21,7 +43,7 @@ var epeek_theme = function() {
 		}});
 	left_button
 	    .append("img")
-	    .attr("src", "glyphicons_216_circle_arrow_left.png");
+	    .attr("src", pathToScript + "../../themes/pics/glyphicons_216_circle_arrow_left.png");
 
 	var zoomin_button = control_pane
 	    .append("button")
@@ -32,7 +54,7 @@ var epeek_theme = function() {
 	    });
 	zoomin_button
 	    .append("img")
-	    .attr("src", "glyphicons_190_circle_plus.png");
+	    .attr("src", pathToScript + "../../themes/pics/glyphicons_190_circle_plus.png");
 
 	var zoomout_button = control_pane
 	    .append("button")
@@ -43,7 +65,7 @@ var epeek_theme = function() {
 	    });
 	zoomout_button
 	    .append("img")
-	    .attr("src", "glyphicons_191_circle_minus.png");
+	    .attr("src", pathToScript + "../../themes/pics/glyphicons_191_circle_minus.png");
 
 	var right_button = control_pane
 	    .append("button")
@@ -54,7 +76,7 @@ var epeek_theme = function() {
 	    });
 	right_button
 	    .append("img")
-	    .attr("src", "glyphicons_217_circle_arrow_right.png");
+	    .attr("src", pathToScript + "../../themes/pics/glyphicons_217_circle_arrow_right.png");
 
 	var origin_button = control_pane
 	    .append("button")
@@ -65,11 +87,10 @@ var epeek_theme = function() {
 	    });
 	origin_button
 	    .append("img")
-	    .attr("src", "glyphicons_242_google_maps.png");
+	    .attr("src", pathToScript + "../../themes/pics/glyphicons_242_google_maps.png");
 
 	var setupDiv = function (i) {
 	    setTimeout( function() {
-		console.log("I:" + i);
 		var gB = gBs[i];
 
 		// We need a div per genomeBrowser
@@ -79,13 +100,13 @@ var epeek_theme = function() {
 		var gDiv = d3.select("#genomeBrowser" + i + " .ePeek_groupDiv");
 		gDiv
 		    .insert("img", ":first-child")
-		    .attr("src", "chevron_left.png")
+		    .attr("src", pathToScript + "../chevron_left.png")
 		    .attr("height", 150)
 		    .attr("width", 40)
 		    .on("click", function(){gB.left(1.2)});
 		gDiv
 		    .append("img")
-		    .attr("src", "chevron_right.png")
+		    .attr("src", pathToScript + "../chevron_right.png")
 		    .attr("height", 150)
 		    .attr("width", 40)
 		    .on("click", function(){gB.right(1.2)});
