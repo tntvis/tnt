@@ -27,19 +27,40 @@
   </header>
 
   <h1>The Comparative Theme</h1>
+
+  <div>
+    <p>Show gene
+      <select onchange="gBTheme.gene(this.value)">
+	<option value="brca1">BRCA1</option>
+	<option value="brca2" selected=1>BRCA2</option>
+	<option value="phi"> PHI</option>
+      </select>
+      on species
+      <select onchange="gBTheme.species(this.value, 1)">
+	<option value="human" selected=1>Human</option>
+	<option value="mouse">Mouse</option>
+      </select>
+      and
+      <select onchange="gBTheme.species(this.value, 2)">
+	<option value="human">Human</option>
+	<option value="mouse" selected=1>Mouse</option>
+      </select>
+    </p>
+  </div>
+
   <div id="genomeBrowser"></div>
   <script>
 
     (function() {
         var width   = 800;
         var height  = 150;
-        var gene    = "BRCA1";
+        var gene    = "BRCA2";
         var bgColor = "#DCE6E6";
         var fgColor = "#0099CC";
 
         var gBs = [ epeek().species("human").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor),
                     epeek().species("mouse").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor) ];
-        var gBTheme = epeek_theme();
+        gBTheme = epeek_theme();
         gBTheme(gBs, document.getElementById("genomeBrowser"));
 
     })();

@@ -20,6 +20,8 @@ var scriptPath = function (script_name) { // script_name is the filename
 var epeek_theme = function() {
     "use strict";
 
+    var genomeBrowsers;
+
     var pathToScript = scriptPath('comparative.js');
 
     var species_to_icon_filename = {
@@ -29,13 +31,11 @@ var epeek_theme = function() {
 
     // Now, gBs is an array of gBs
     var gBrowserTheme = function(gBs, div) {
-
+	genomeBrowsers = gBs;
 	var table = d3.select(div)
 	    .append("table")
-// 	    .style("border", "1px solid gray");
 	    .attr("border", "1px solid gray")
 	    .attr("margin", "0px")
-// 	    .style("border-collapse", "collapse")
 	    .style("border-spacing", "0px");
 
 	var caption_row = table
@@ -123,6 +123,7 @@ var epeek_theme = function() {
 		table_row
 		    .append("td")
 		    .append("img")
+		    .attr("id", "ePeek_species_icon_" + i)
 		    .attr("src", pathToScript + "../../themes/pics/" + species_to_icon_filename[gB.species()]);
 
 		table_row
@@ -173,10 +174,27 @@ var epeek_theme = function() {
 	}
 
 
-	for (var i = 0; i < gBs.length; i++) {
+	for (var i=0; i<gBs.length; i++) {
 	    setupDiv(i);
 	}
 
+    };
+
+    gBrowserTheme.species = function(new_species, pos) {
+	var index = pos-1;
+	genomeBrowsers[index].species(new_species);
+	genomeBrowsers[index].startOnOrigin();
+	d3.select("#ePeek_species_icon_" + index)
+	    .attr("src", pathToScript + "../../themes/pics/" + species_to_icon_filename[new_species]);
+    };
+
+    gBrowserTheme.gene = function(new_gene) {
+	for (var i=0; i<genomeBrowsers.length; i++) {
+	    setTimeout( function(gB) {
+		gB.gene(new_gene);
+		gB.startOnOrigin();
+	    }(genomeBrowsers[i]), i*1500);
+	}
     };
 
     return gBrowserTheme;
