@@ -9,9 +9,8 @@ var epeek_theme = function() {
 	gB.startOnOrigin();
     };
 
-    theme.set_factor = function(div_id) {
-	factor = parseFloat(document.getElementById(div_id).value);
-	d3.select("#" + div_id).attr("title", factor);
+    theme.set_factor = function(val) {
+	factor = parseFloat(val);
     };
 
     theme.toggle_draggability = function(div_id) {
@@ -29,6 +28,7 @@ var epeek_theme = function() {
     };
 
     theme.left = function() {
+	console.log("LEFT CALLED");
 	gBrowser.left(1+factor);
     };
 
