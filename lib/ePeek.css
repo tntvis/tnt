@@ -10,6 +10,10 @@ svg text {
   /* IE10+ */
   cursor: default; }
 
+.ePeek_activity_signal {
+  position: absolute;
+  right: 10px; }
+
 rect.ePeek_pane {
   cursor: move;
   opacity: 0;

@@ -27,6 +27,11 @@ svg {
 //     position : relative;
 // }
 
+.ePeek_activity_signal {
+    position : absolute;
+    right    : 10px;
+}
+
 rect {
     &.ePeek_pane {
 	cursor : move;
