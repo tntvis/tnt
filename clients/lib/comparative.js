@@ -110,10 +110,14 @@ var epeek_theme = function() {
 		table_row
 		    .append("td")
 		    .append("div")
-		    .attr("id", "ePeek_comparative" + i);
+		    .attr("id", "ePeek_comparative" + i)
+		    .style("position", "relative");
 
 		gB(document.getElementById("ePeek_comparative" + i));
 
+		// We need to extend the offset of the activity signal
+ 		d3.selectAll(".ePeek_activity_signal")
+ 		    .style("left", gB.width() + 10 + "px");
 
 		var gDiv = d3.select("#ePeek_comparative" + i + " .ePeek_groupDiv");
 
