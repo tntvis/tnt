@@ -111,7 +111,6 @@ var epeek_theme = function() {
 		    .append("td")
 		    .append("div")
 		    .attr("id", "ePeek_comparative" + i)
-		    .style("position", "relative");
 
 		gB(document.getElementById("ePeek_comparative" + i));
 
