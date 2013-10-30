@@ -12,6 +12,66 @@ var epeek_theme = function() {
 
     // Now, gBs is an array of gBs
     var gBrowserTheme = function(gBs, div) {
+
+	var options_pane = d3.select(div)
+	    .append("div")
+	    .append("p");
+
+	options_pane
+	    .append("text")
+	    .text("Show gene ");
+
+	var gene_select = options_pane
+	    .append("select")
+	    .on("change", gene);
+	gene_select
+	    .append("option")
+	    .attr("value", "brca1")
+	    .text("BRCA1");
+	gene_select
+	    .append("option")
+	    .attr("value", "brca2")
+	    .attr("selected", 1)
+	    .text("BRCA2");
+	gene_select
+	    .append("option")
+	    .attr("value", "phi")
+	    .text("PHI");
+
+	options_pane
+	    .append("text")
+	    .text("on species ");
+
+	var species1_select = options_pane
+	    .append("select")
+	    .on("change", function(){species(this.value, 1)});
+	species1_select
+	    .append("option")
+	    .attr("value", "human")
+	    .attr("selected", 1)
+	    .text("Human");
+	species1_select
+	    .append("option")
+	    .attr("value", "mouse")
+	    .text("Mouse");
+
+	options_pane
+	    .append("text")
+	    .text("and ");
+
+	var species2_select = options_pane
+	    .append("select")
+	    .on("change", function(){species(this.value, 2)});
+	species2_select
+	    .append("option")
+	    .attr("value", "human")
+	    .text("Human");
+	species2_select
+	    .append("option")
+	    .attr("value", "mouse")
+	    .attr("selected", 1)
+	    .text("Mouse");
+
 	genomeBrowsers = gBs;
 	var table = d3.select(div)
 	    .append("table")
@@ -164,7 +224,7 @@ var epeek_theme = function() {
 
     };
 
-    gBrowserTheme.species = function(new_species, pos) {
+    var species = function(new_species, pos) {
 	var index = pos-1;
 	genomeBrowsers[index].species(new_species);
 	genomeBrowsers[index].startOnOrigin();
@@ -172,7 +232,8 @@ var epeek_theme = function() {
 	    .attr("src", pathToScript + "../../themes/pics/" + species_to_icon_filename[new_species]);
     };
 
-    gBrowserTheme.gene = function(new_gene) {
+    var gene = function() {
+	var new_gene = this.value;
 	for (var i=0; i<genomeBrowsers.length; i++) {
 	    setTimeout( function(gB) {
 		gB.gene(new_gene);
@@ -182,4 +243,4 @@ var epeek_theme = function() {
     };
 
     return gBrowserTheme;
-}
+};
