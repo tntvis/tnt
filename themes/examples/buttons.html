@@ -32,63 +32,23 @@
 
     (function() {
         var gB = epeek().species("human").gene("brca2").width(950).height(200).foreground_color("#586471").allow_drag(false);
-        gBTheme = epeek_theme();
+        var gBTheme = epeek_theme();
         gBTheme(gB, document.getElementById("genomeBrowser"));
     })();
  
   </script>
 
   <h2>Overview</h2>
-  <p>This example is slightly more sophisticated than the <a href="minimal.html">minimal theme</a>. It shows another way of interacting with the genome browser by using the control methods exposed by the <i>e!Peek</i> core plug-in. In this example we use the following code to control panning and zooming:</p>
-
-<pre><code class="html">
-&lt;div&nbsp;style=&quot;margin-left:auto;&nbsp;margin-right:auto;&nbsp;width:30%&quot;&gt;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&nbsp;onclick=&quot;gBTheme.left()&quot;&gt;&lt;img&nbsp;src=&quot;arrow_left.png&quot;/&gt;&lt;/button&gt;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&nbsp;onclick=&quot;gBTheme.zoomIn()&quot;&gt;&lt;img&nbsp;src=&quot;circle_minus.png&quot;/&gt;&lt;/button&gt;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&nbsp;onclick=&quot;gBTheme.zoomOut()&quot;&gt;&lt;img&nbsp;src=&quot;circle_plus.png&quot;/&gt;&lt;/button&gt;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&nbsp;onclick=&quot;gBTheme.right()&quot;&gt;&lt;img&nbsp;src=&quot;arrow_right.png&quot;/&gt;&lt;/button&gt;
-&lt;/div&gt;
-</code></pre>
-
-  <p>Where <i>gBTheme</i> is the theme object. This way, when the left button is pressed, the <i>left</i> method of the theme object is called. The same happens with the <i>right</i>, <i>zoomIn</i> and <i>zoomOut</i> methods.</p>
+  <p>This example shows another way of interacting with the genome browser by using the control methods exposed by the <i>e!Peek</i> core plug-in.</p>
 
   <p>Notice that, in this example, controlling the "draggability" directly in the <i>e!Peek</i> core plug-in like in the <a href="minimal.html">minimal theme</a> is also possible using the button with a crossed-out hand icon. This draggability can be switched on/off at any moment by calling the <i>toggle_draggability</i> method on the theme object:</p>
+  
+  <p>A slider to control the sensibility of the buttons has also been added. When set to 0, no change occurs when buttons are pressed. When set to 1, panning/zooming occurs at 100% of the current coordinates.</p>
 
-<pre><code>
-gBTheme.toggle_draggability();
-</code></pre>
-
-<p>A slider to control the sensibility of the buttons has also been added. When set to 0, no change occurs when buttons are pressed. When set to 1, panning/zooming occurs at 100% of the current coordinates.</p>
-
-<p>As seen above, the buttons in this theme are not part of the theme itself but defined in the client html. A different, more robust, approach where the buttons are part of the theme itself can be seen in the <a href="comparative.html">comparative theme</a></p>
-
-<h2>API</h2>
-<p>As you have seen above, this theme has a very simple API with just some methods:</p>
-<ul>
-  <li>theme.<b>set_factor</b>()
-    <p><i>set_factor</i> sets the factor that will be used when a <i>left</i>, <i>right</i>, <i>zoom in</i> or <i>zoom out</i> buttons are pressed. Its argument is the value to use a the new factor. This value can range from 0 to 1.</p>
-  </li>
-  <li>theme.<b>toggle_draggability</b>(<i>DOM_element_id</i>)
-    <p><i>toggle_draggability</i> sets on/off the mouse gestures (panning, zooming in/out) on the genome browser. Its argument is a <i>img</i> DOM element that will show the correct icon as this option changes.</p>
-  </li>
-  <li>theme.<b>left</b>()
-    <p><i>left</i> pans the genome browser to the left (1 + factor) times</p>
-  </li>
-  <li>theme.<b>right</b>()
-    <p><i>right</i> pans the genome browser to the right (1 + factor) times</p>
-  </li>
-  <li>theme.<b>zoomIn</b>()
-    <p><i>zoomIn</i> zooms in the genome browser (1 + factor) times</p>
-  </li>
-  <li>theme.<b>zoomOut</b>()
-    <p><i>zoomOut</i> zooms out the genome browser (1 + factor) times</p>
-  </li>
-
-</ul>
   <footer>
     <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
     Copyright 2013 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
   </footer>
-
+  
 </div>
 <script src="../../highlight.v0.min.js"></script>
