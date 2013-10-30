@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>e!Peek</title>
+
+<style>
+  @import url(../../index.css)
+</style>
+
+<div id="body">
+
+  <!-- D3 -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+
+  <!-- ePeek -->
+  <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
+  <link rel="stylesheet" href="../../clients/css/default2.css" type="text/css" />
+
+  <script src="../../lib/ePeek.js"></script>
+  <script src="../../clients/lib/buttons.js"></script>
+
+  <header>
+    <a style="margin-left:1em;" href="../../index.html">Overview</a>
+    <a style="margin-left:1em;" href="../index.html">Themes</a>
+    <a style="margin-left:1em;" href="../../index.html">Examples</a>
+    <a style="margin-left:1em;" href="../../doc/index.html">Documentation</a>
+    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
+  </header>
+
+  <h1>The Button-based Theme</h1>
+  <div id="genomeBrowser"></div>
+  <script>
+
+    (function() {
+        var gB = epeek().species("human").gene("brca2").width(950).height(200).foreground_color("#586471").allow_drag(false);
+        var gBTheme = epeek_theme();
+        gBTheme(gB, document.getElementById("genomeBrowser"));
+    })();
+ 
+  </script>
+
+  <h2>Overview</h2>
+  <p>This example shows another way of interacting with the genome browser by using the control methods exposed by the <i>e!Peek</i> core plug-in.</p>
+
+  <p>Notice that, in this example, controlling the "draggability" directly in the <i>e!Peek</i> core plug-in like in the <a href="minimal.html">minimal theme</a> is also possible using the button with a crossed-out hand icon. This draggability can be switched on/off at any moment by calling the <i>toggle_draggability</i> method on the theme object:</p>
+  
+  <p>A slider to control the sensibility of the buttons has also been added. When set to 0, no change occurs when buttons are pressed. When set to 1, panning/zooming occurs at 100% of the current coordinates.</p>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2013 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+  
+</div>
+<script src="../../highlight.v0.min.js"></script>
