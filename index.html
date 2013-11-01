@@ -42,7 +42,7 @@
 
    <script type="text/javascript" src="http://api.qrtag.net/js"></script> 
    <script src="lib/ePeek.js"></script>
-   <script src="clients/lib/default.js"></script>
+   <script src="clients/lib/compact.js"></script>
 
   <!-- Highlight -->
   <!-- <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css"> -->
@@ -85,11 +85,9 @@
   <h2><a name="introduction" href="#introduction">#</a>Introduction</h2>
   <p>The e!Peek plug-in consists of two components. The e!Peek core plug-in and an e!Peek <i>theme</i> that defines how to interact with it. Although this may seem very abstract, it is in fact very simple, and converts e!Peek into a very powerful and customizable plug-in.
   <p>The easiest way to embed e!Peek in your site is by using one of the distributed <i>themes</i>. The general pattern looks something likes this:</p>
-  <script src="lib/ePeek.js"></script>
-  <script src="clients/lib/default.js"></script>
    
   <pre><code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/ePeek.min.js" charset="utf-8">&lt;/script></code>
-<code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/themes/default.min.js" charset="utf-8">&lt;/script></code></pre>
+<code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/themes/compact.min.js" charset="utf-8">&lt;/script></code></pre>
   <pre><code class="javascript">
 var gB = epeek().width(920); // other methods can be included here
 var gBTheme = epeek_theme(); // other methods can be included here
