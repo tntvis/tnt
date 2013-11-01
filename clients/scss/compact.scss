@@ -3,6 +3,7 @@
 /* OPTIONS */
 .ePeek_options_pane {
     display : block;
+    
     span {
 	@include normal-font;
     }
@@ -24,6 +25,18 @@ div {
     }
 }
 
+.ePeek_option_label {
+    margin-right        : 10px;
+    border-bottom-style : solid;
+    cursor              : pointer;
+}
+
+.ePeek_link_label, .ePeek_qrtag_label {
+    margin-right     : 10px;
+    border-top-style : solid;
+    cursor           : pointer;
+}
+
 .ePeek_top_option {
     display    : inline;
     position   : absolute;
@@ -35,8 +48,13 @@ div {
     @include normal-font;
 }
 
+.ePeek_options_pane, .ePeek_links_pane {
+    margin : 10px 10px 10px 5px;
+}
+
 .ePeek_groupDiv {
     position : relative;
+    margin : 0px 3px 0px 3px;
 }
 
 div {
@@ -48,6 +66,11 @@ div {
 
 	@include small-font;
 	@include transition(all, 0.5s);
+
+	h1 {
+	    font-size : 30px;
+	}
+
     }
     .ePeek_gene_info_active {
 	opacity : 1;
@@ -71,3 +94,12 @@ div {
 .ePeek_locRow span {
     @include small-font;
 }
+
+#example_genome_browser {
+    border : 2px solid;
+
+    @include round-borders(20px);
+
+    diplay : block;
+}
+
