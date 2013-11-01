@@ -18,6 +18,7 @@ var epeek_theme = function() {
     var show_links   = true;
     var title   = "e!Peek";
 
+    var path = scriptPath("compact.js");
 
     //
     // Default species and genome location
@@ -90,26 +91,61 @@ var epeek_theme = function() {
 	var orthologuesLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .html("Orthologues[<span id='" + n_orth_div_id + "'></span>]")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ortho_option"))});
+	orthologuesLabel
+	    .append("img")
+	    .attr("src", path + "../../themes/pics/orthologues.png")
+	    .attr("title", "Orthologues")
+	    .attr("width", "55px")
+	orthologuesLabel
+	    .append("text")
+	    .text("[");
+	orthologuesLabel
+	    .append("span")
+	    .attr("id", n_orth_div_id)
+	orthologuesLabel
+	    .append("text")
+	    .text("]");
+
 
 	var paraloguesLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .html("Paralogues[<span id='" + n_para_div_id + "'></span>]")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_para_option"))});
+	paraloguesLabel
+	    .append("img")
+	    .attr("src", path + "../../themes/pics/paralogues.png")
+	    .attr("title", "Paralogues")
+	    .attr("width", "55px")
+	paraloguesLabel
+	    .append("text")
+	    .text("[")
+	paraloguesLabel
+	    .append("span")
+	    .attr("id", n_para_div_id)
+	paraloguesLabel
+	    .append("text")
+	    .text("]");
 
 	var searchLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .text("Lookup Gene")
 	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_search_option"))});
+	searchLabel
+	    .append("img")
+	    .attr("src", path + "../../themes/pics/lookup.png")
+	    .attr("title", "Lookup gene")
+	    .attr("width", "35px");
 
 	var origLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .text("Return to orig")
 	    .on("click", function(){gBrowser.species(origSpecies); startOnOrigin()});
+	origLabel
+	    .append("img")
+	    .attr("src", path + "../../themes/pics/orig.png")
+	    .attr("title", "Return to origin")
+	    .attr("width", "25px");
 
 	var ensGeneBox = opts_pane
 	    .append("div")
