@@ -66,6 +66,13 @@ var epeek_theme = function() {
 	origFromPos = fromPos;
 	origToPos   = toPos;
 
+	//
+// 	d3.select(div)
+// 	    .style("border", "2px solid")
+// 	    .style("border-radius", "20px")
+// 	    .style("-webkit-border-radius", "20px")
+// 	    .style("-moz-border-radius", "20px");
+
 	// The Options pane
 	var opts_pane = d3.select(div)
 	    .append("div")
@@ -135,7 +142,7 @@ var epeek_theme = function() {
 	    .append("img")
 	    .attr("src", path + "../../themes/pics/lookup.png")
 	    .attr("title", "Lookup gene")
-	    .attr("width", "35px");
+	    .attr("width", "30px");
 
 	var origLabel = opts_pane
 	    .append("span")
@@ -242,26 +249,38 @@ var epeek_theme = function() {
 	var epeekweb = links_pane
 	    .append("span")
 	    .attr("class", "ePeek_link_label")
-	    .text("Open in a new window")
+	    .attr("title", "Open in a new window")
 	    .on("click", function() {var link = buildLink("desktop"); window.open(link, "_blank")});
+	epeekweb
+	    .append("img")
+	    .attr("src", path + "../../themes/pics/open_in_new_window.png")
+	    .attr("width", "40px");
 
 	// ensembl
 	var ensemblLoc = links_pane
 	    .append("span")
 	    .attr("class", "ePeek_link_label")
-	    .text("Open region in Ensembl")
+	    .attr("title", "Open region in Ensembl")
 	    .on("click", function() {var link = buildEnsemblLink(); window.open(link, "_blank")});
+	ensemblLoc
+	    .append("img")
+	    .attr("src", path + "../../themes/pics/e_open_in_new_window.png")
+	    .attr("width", "40px");
 
 	// QRtag label
 	var qrtagLabel = links_pane
 	    .append("span")
 	    .attr("class", "ePeek_qrtag_label") // both needed?
 	    .attr("id", "ePeek_" + div_id + "_qrtag_label")
-	    .text("QR code")
 	    .on("click", function(){
 		toggle(d3.select("#ePeek_" + div_id + "_qrtag_div"));
 		create_QRtag()
 	    });
+	qrtagLabel
+	    .append("img")
+	    .attr("src", path + "../../themes/pics/qr.png")
+	    .attr("title", "QR code")
+	    .attr("width", "30px");
 
 	startOnOrigin();
 
