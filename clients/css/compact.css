@@ -20,12 +20,12 @@ div .ePeek_TabBlock_active {
 
 .ePeek_option_label {
   margin-right: 10px;
-  border-bottom-style: solid;
+  #     border-bottom-style: solid;
   cursor: pointer; }
 
 .ePeek_link_label, .ePeek_qrtag_label {
   margin-right: 10px;
-  border-top-style: solid;
+  #     border-top-style: solid;
   cursor: pointer; }
 
 .ePeek_top_option {
@@ -39,6 +39,10 @@ div .ePeek_TabBlock_active {
 
 .ePeek_options_pane, .ePeek_links_pane {
   margin: 10px 10px 10px 5px; }
+
+.ePeek_links_pane {
+  position: absolute;
+  right: 0px; }
 
 .ePeek_groupDiv {
   position: relative;
@@ -77,10 +81,3 @@ div .ePeek_gene_info_active {
 
 .ePeek_locRow span {
   font-size: 12px; }
-
-#example_genome_browser {
-  border: 2px solid;
-  border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  diplay: block; }

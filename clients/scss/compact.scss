@@ -27,13 +27,13 @@ div {
 
 .ePeek_option_label {
     margin-right        : 10px;
-    border-bottom-style : solid;
+#     border-bottom-style : solid;
     cursor              : pointer;
 }
 
 .ePeek_link_label, .ePeek_qrtag_label {
     margin-right     : 10px;
-    border-top-style : solid;
+#     border-top-style : solid;
     cursor           : pointer;
 }
 
@@ -50,6 +50,11 @@ div {
 
 .ePeek_options_pane, .ePeek_links_pane {
     margin : 10px 10px 10px 5px;
+}
+
+.ePeek_links_pane {
+    position : absolute;
+    right : 0px;
 }
 
 .ePeek_groupDiv {
@@ -95,11 +100,4 @@ div {
     @include small-font;
 }
 
-#example_genome_browser {
-    border : 2px solid;
-
-    @include round-borders(20px);
-
-    diplay : block;
-}
 
