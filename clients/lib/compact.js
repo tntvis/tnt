@@ -552,7 +552,7 @@ var epeek_theme = function() {
 	n_orth_div_id = "ePeek_" + div_id + "_n_orthologues";
 	para_div_id = "ePeek_" + div_id + "_para_option";
 	n_para_div_id = "ePeek_" + div_id + "_n_paralogues";
-    }
+    };
 
 
     ///*********************////
