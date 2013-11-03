@@ -3,7 +3,7 @@ var epeek_theme = function() {
     var factor = 0.2;
     var gBrowser;
 
-    var path = scriptPath("buttons.js");
+    var path = epeek.scriptPath("buttons.js");
 
     var theme = function(gB, div) {
 	gBrowser = gB;

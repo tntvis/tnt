@@ -18,7 +18,7 @@ var epeek_theme = function() {
     var show_links   = true;
     var title   = "e!Peek";
 
-    var path = scriptPath("compact.js");
+    var path = epeek.scriptPath("compact.js");
 
     //
     // Default species and genome location
@@ -552,7 +552,7 @@ var epeek_theme = function() {
 	n_orth_div_id = "ePeek_" + div_id + "_n_orthologues";
 	para_div_id = "ePeek_" + div_id + "_para_option";
 	n_para_div_id = "ePeek_" + div_id + "_n_paralogues";
-    }
+    };
 
 
     ///*********************////
