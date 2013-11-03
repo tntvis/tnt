@@ -18,7 +18,7 @@ var epeek_theme = function() {
     var show_links   = true;
     var title   = "e!Peek";
 
-    var path = scriptPath("compact.js");
+    var path = epeek.scriptPath("compact.js");
 
     //
     // Default species and genome location
