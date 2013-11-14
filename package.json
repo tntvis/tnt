@@ -1,0 +1,8 @@
+{
+  "name": "anonymous",
+  "version": "0.0.1",
+  "dependencies": {
+    "smash": "0",
+    "uglify-js": "2"
+  }
+}
