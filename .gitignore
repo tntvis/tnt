@@ -10,5 +10,5 @@ node_modules/
 npm-debug.log
 build/
 doc/
-lib/ePeek.js
-lib/ePeek.min.js
+ePeek.js
+ePeek.min.js
