@@ -59,20 +59,12 @@ var epeek_theme = function() {
 	// Set the gBrowser's callbacks
 	gBrowser.gene_info_callback   = gene_info_cbak;
 	gBrowser.ensGenes_callback    = ensGenes_cbak;
-	gBrowser.homologues_callback  = homologues_cbak;
 
 	// We set the original data so we can always come back
 	origSpecies = species;
 	origChr     = chr;
 	origFromPos = fromPos;
 	origToPos   = toPos;
-
-	//
-// 	d3.select(div)
-// 	    .style("border", "2px solid")
-// 	    .style("border-radius", "20px")
-// 	    .style("-webkit-border-radius", "20px")
-// 	    .style("-moz-border-radius", "20px");
 
 	// The Options pane
 	var opts_pane = d3.select(div)
@@ -114,7 +106,6 @@ var epeek_theme = function() {
 	orthologuesLabel
 	    .append("text")
 	    .text("]");
-
 
 	var paraloguesLabel = opts_pane
 	    .append("span")
@@ -478,7 +469,8 @@ var epeek_theme = function() {
     var ensGenes_cbak = function(ensGenes) {
 	// The ensGenes select + number of ensGenes
 	var ensGene_sel = gene_select(ensGenes);
-	    
+	console.log(ensGenes[0]);
+	gBrowser.homologues(ensGenes[0].id, homologues_cbak);
 	ensGene_sel.on("change", function() {
 	    gBrowser.ensGene_lookup(this.value);
 	});
