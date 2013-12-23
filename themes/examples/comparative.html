@@ -38,8 +38,8 @@
         var bgColor = "#DCE6E6";
         var fgColor = "#0099CC";
 
-        var gBs = [ epeek().species("human").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor),
-                    epeek().species("mouse").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor) ];
+        var gBs = [ epeek.genome().species("human").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor),
+                    epeek.genome().species("mouse").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor) ];
         gBTheme = epeek_theme();
         gBTheme(gBs, document.getElementById("genomeBrowser"));
 

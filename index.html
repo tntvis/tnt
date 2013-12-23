@@ -67,7 +67,7 @@
   var l = colors.length;
   var i = Math.floor(Math.random() * l);
   
-    var gB=epeek().species("human").gene("BRCA2").height(200).width(950).foreground_color(colors[i].foreground).background_color(colors[i].background);
+    var gB=epeek.genome().species("human").gene("BRCA2").height(200).width(950).foreground_color(colors[i].foreground).background_color(colors[i].background);
     var gBTheme = epeek_theme().show_title(false);
     gBTheme(gB, document.getElementById("example_genome_browser"));
   </script>

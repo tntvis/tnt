@@ -29,7 +29,7 @@
   <div id="genomeBrowser"></div>
   <script>
     (function() {
-        var gB = epeek().species("human").gene("brca2").width(950).height(200).background_color("#EEEEEE").foreground_color("green");
+        var gB = epeek.genome().species("human").gene("brca2").width(950).height(200).background_color("#EEEEEE").foreground_color("green");
         var gBTheme = epeek_theme();
         gBTheme(gB, document.getElementById("genomeBrowser"));
     })();
