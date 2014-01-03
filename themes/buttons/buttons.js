@@ -75,7 +75,7 @@ var epeek_theme = function() {
 	    .text("1");
 
 	gB(div);
-	gB.startOnOrigin();
+	gB.start();
     };
 
     theme.set_factor = function(val) {
@@ -98,7 +98,6 @@ var epeek_theme = function() {
     };
 
     theme.left = function() {
-	console.log("LEFT CALLED... FACTOR IS: " + factor);
 	gBrowser.left(1+factor);
     };
 
@@ -114,8 +113,8 @@ var epeek_theme = function() {
 	gBrowser.zoom(1/(1+factor));
     };
 
-    theme.startOnOrigin = function() {
-	gBrowser.startOnOrigin();
+    theme.start = function() {
+	gBrowser.start();
     };
 
     return theme;

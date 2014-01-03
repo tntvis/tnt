@@ -147,7 +147,7 @@ var epeek_theme = function() {
 	    .append("button")
 	    .on ("click", function() {
 		for (var i = 0; i < gBs.length; i++) {
-		    gBs[i].startOnOrigin();
+		    gBs[i].start();
 		}
 	    });
 	origin_button
@@ -183,15 +183,15 @@ var epeek_theme = function() {
 		// left chevron
 		gDiv
 		    .insert("img", ":first-child")
-		    .attr("src", pathToScript + "../chevron_inactive_left.png")
+		    .attr("src", pathToScript + "../pics/chevron_inactive_left.png")
 		    .attr("height", 150)
 		    .attr("width", 25)
 		    .on("click", function(){gB.left(1.2)})
 		    .on("mouseover", function(){
-			d3.select(this).attr("src", pathToScript + "../chevron_active_left.png")
+			d3.select(this).attr("src", pathToScript + "../pics/chevron_active_left.png")
 		    })
 		    .on("mouseout", function(){
-			d3.select(this).attr("src", pathToScript + "../chevron_inactive_left.png")
+			d3.select(this).attr("src", pathToScript + "../pics/chevron_inactive_left.png")
 		    });
 
 
@@ -202,18 +202,18 @@ var epeek_theme = function() {
 		// right chevron
 		gDiv
 		    .append("img")
-		    .attr("src", pathToScript + "../chevron_inactive_right.png")
+		    .attr("src", pathToScript + "../pics/chevron_inactive_right.png")
 		    .attr("height", 150)
 		    .attr("width", 25)
 		    .on("click", function(){gB.right(1.2)})
 		    .on("mouseover", function(){
-			d3.select(this).attr("src", pathToScript + "../chevron_active_right.png")
+			d3.select(this).attr("src", pathToScript + "../pics/chevron_active_right.png")
 		    })
 		    .on("mouseout", function(){
-			d3.select(this).attr("src", pathToScript + "../chevron_inactive_right.png")
+			d3.select(this).attr("src", pathToScript + "../pics/chevron_inactive_right.png")
 		    });
 
-		gB.startOnOrigin();
+		gB.start();
 	    }, i * 1500);	    
 	}
 
@@ -227,7 +227,7 @@ var epeek_theme = function() {
     var species = function(new_species, pos) {
 	var index = pos-1;
 	genomeBrowsers[index].species(new_species);
-	genomeBrowsers[index].startOnOrigin();
+	genomeBrowsers[index].start();
 	d3.select("#ePeek_species_icon_" + index)
 	    .attr("src", pathToScript + "../../themes/pics/" + species_to_icon_filename[new_species]);
     };
@@ -237,7 +237,7 @@ var epeek_theme = function() {
 	for (var i=0; i<genomeBrowsers.length; i++) {
 	    setTimeout( function(gB) {
 		gB.gene(new_gene);
-		gB.startOnOrigin();
+		gB.start();
 	    }(genomeBrowsers[i]), i*1500);
 	}
     };

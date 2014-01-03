@@ -8,7 +8,7 @@ var epeek_theme = function() {
 	
 	gB(div);
 
-	gB.startOnOrigin();
+	gB.start();
     };
 
     return theme;
