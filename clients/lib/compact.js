@@ -1,11 +1,6 @@
 var epeek_theme = function() {
     "use strict";
 
-    // orig species and coords, so we can always return there
-    // TODO: If I am not mistaken, these variables are not used.
-    // TODO: See if we need them or not
-    // var origSpecies, origChr, origFromPos, origToPos;
-
     // Regular expressions for user input
     // TODO: species:gene?
     var loc_re = /^(\w+):(\w+):(\d+)-(\d+)$/;
@@ -19,13 +14,6 @@ var epeek_theme = function() {
     var title   = "e!Peek";
 
     var path = epeek.scriptPath("compact.js");
-
-    //
-    // Default species and genome location
-//     var species = "human";   // DUP
-//     var chr = 7;             // DUP
-//     var fromPos = 139424940; // DUP
-//     var toPos = 141784100;   // DUP
 
     // div_ids to display different elements
     // They have to be set dynamically because the IDs contain the div_id of the main element containing the plug-in
@@ -67,10 +55,6 @@ var epeek_theme = function() {
 	    from    : gBrowser.from(),
 	    to      : gBrowser.to()
 	};
-// 	origSpecies = species;
-// 	origChr     = chr;
-// 	origFromPos = fromPos;
-// 	origToPos   = toPos;
 
 	// The Options pane
 	var opts_pane = d3.select(div)
@@ -145,7 +129,7 @@ var epeek_theme = function() {
 	var origLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .on("click", function(){gBrowser.species(orig.species); gBrowser.start(orig)});
+	    .on("click", function(){ gBrowser.start(orig) });
 	origLabel
 	    .append("img")
 	    .attr("src", path + "../../themes/pics/orig.png")
@@ -216,6 +200,20 @@ var epeek_theme = function() {
 	/////////////////////////////////////////
 
 	// The Browser div
+	// We set up the origin:
+	if (gBrowser.gene() !== undefined) {
+	    orig = {
+		species : gBrowser.species(),
+		gene    : gBrowser.gene()
+	    };
+	} else {
+	    orig = {
+		species : gBrowser.species(),
+		chr     : gBrowser.chr(),
+		from    : gBrowser.from(),
+		to      : gBrowser.to()
+	    }
+	}
 	gBrowser(div);
 
 
@@ -330,7 +328,8 @@ var epeek_theme = function() {
 	} else if (isEnsemblGene(search_term)) {
 	    gBrowser.get_ensGene(search_term);
 	} else {
-	    gBrowser.start({gene : search_term});
+	    gBrowser.start({species : gBrowser.species(),
+			    gene : search_term});
 	}
     };
 
@@ -466,7 +465,6 @@ var epeek_theme = function() {
     var ensGenes_cbak = function(ensGenes) {
 	// The ensGenes select + number of ensGenes
 	var ensGene_sel = gene_select(ensGenes);
-	console.log(ensGenes[0]);
 	gBrowser.homologues(ensGenes[0].id, homologues_cbak);
 	ensGene_sel.on("change", function() {
 	    gBrowser.get_ensGene(this.value);
