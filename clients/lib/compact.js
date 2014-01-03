@@ -44,8 +44,9 @@ var epeek_theme = function() {
 	gBrowser = gB;
 
 	// Set the gBrowser's callbacks
-	gBrowser.gene_info_callback   = gene_info_cbak;
-	gBrowser.ensGenes_callback    = ensGenes_cbak;
+	gBrowser.gene_info_callback      = gene_info_cbak;
+	gBrowser.gene_search_callback    = ensGenes_cbak;
+	gBrowser.ensgene_search_callback = ensGene_cbak;
 
 	// We set the original data so we can always come back
 	// The values are set when the core plug-in is about to start
@@ -445,7 +446,6 @@ var epeek_theme = function() {
 	    gBrowser.start({
 		gene : this.value
 	    });
-	    // gBrowser.get_ensGene(this.value);
 	});
 
 	var paralogues_sel  = paralogues_select(homologues_obj.paralogues);
@@ -455,7 +455,6 @@ var epeek_theme = function() {
 	    gBrowser.start({
 		gene : this.value
 	    });
-	    // gBrowser.get_ensGene(this.value);
 	});
 
     };
@@ -463,15 +462,18 @@ var epeek_theme = function() {
     var ensGenes_cbak = function(ensGenes) {
 	// The ensGenes select + number of ensGenes
 	var ensGene_sel = gene_select(ensGenes);
-	gBrowser.homologues(ensGenes[0].id, homologues_cbak);
 	ensGene_sel.on("change", function() {
 	    gBrowser.start({
 		gene : this.value
 	    });
-	    // gBrowser.get_ensGene(this.value);
 	});
     };
 
+    var ensGene_cbak = function(ensGene) {
+	console.log("ENSGENE:");
+	console.log(ensGene);
+	gBrowser.homologues(ensGene.id, homologues_cbak);
+    }
 
     // TODO: What happens on error? i.e. if the string is not a valid location
     // TODO: We can make it smarter? allowing for examples species:gene?
