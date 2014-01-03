@@ -4,7 +4,7 @@ var epeek_theme = function() {
     // orig species and coords, so we can always return there
     // TODO: If I am not mistaken, these variables are not used.
     // TODO: See if we need them or not
-    var origSpecies, origChr, origFromPos, origToPos;
+    // var origSpecies, origChr, origFromPos, origToPos;
 
     // Regular expressions for user input
     // TODO: species:gene?
@@ -22,10 +22,10 @@ var epeek_theme = function() {
 
     //
     // Default species and genome location
-    var species = "human";   // DUP
-    var chr = 7;             // DUP
-    var fromPos = 139424940; // DUP
-    var toPos = 141784100;   // DUP
+//     var species = "human";   // DUP
+//     var chr = 7;             // DUP
+//     var fromPos = 139424940; // DUP
+//     var toPos = 141784100;   // DUP
 
     // div_ids to display different elements
     // They have to be set dynamically because the IDs contain the div_id of the main element containing the plug-in
@@ -61,10 +61,16 @@ var epeek_theme = function() {
 	gBrowser.ensGenes_callback    = ensGenes_cbak;
 
 	// We set the original data so we can always come back
-	origSpecies = species;
-	origChr     = chr;
-	origFromPos = fromPos;
-	origToPos   = toPos;
+	var orig = {
+	    species : gBrowser.species(),
+	    chr     : gBrowser.chr(),
+	    from    : gBrowser.from,
+	    to      : gBrowser.to
+	};
+// 	origSpecies = species;
+// 	origChr     = chr;
+// 	origFromPos = fromPos;
+// 	origToPos   = toPos;
 
 	// The Options pane
 	var opts_pane = d3.select(div)
@@ -139,7 +145,7 @@ var epeek_theme = function() {
 	var origLabel = opts_pane
 	    .append("span")
 	    .attr("class", "ePeek_option_label")
-	    .on("click", function(){gBrowser.species(origSpecies); startOnOrigin()});
+	    .on("click", function(){gBrowser.species(orig.species); gBrowser.start(orig)});
 	origLabel
 	    .append("img")
 	    .attr("src", path + "../../themes/pics/orig.png")
@@ -274,7 +280,8 @@ var epeek_theme = function() {
 	    .attr("title", "QR code")
 	    .attr("width", "30px");
 
-	startOnOrigin();
+	gB.start();
+//	startOnOrigin();
 
     };
 
@@ -313,16 +320,6 @@ var epeek_theme = function() {
 	return;
     };
 
-
-    // startOnOrigin sets the genome view to its recorded origin in its original species.
-    // This can be a gene or a location
-    var startOnOrigin = function() {
-	// We get the gene/location to render
-	species = origSpecies;
-	gBrowser.startOnOrigin();
-	return;
-    };
-
     var goSearch = function() {
 	d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	d3.select("#ePeek_" + div_id + "_orth_select").remove();
@@ -331,9 +328,9 @@ var epeek_theme = function() {
 	    gBrowserTheme.parseLocation(search_term);
 	    gBrowser.start();
 	} else if (isEnsemblGene(search_term)) {
-	    gBrowser.ensGene_lookup(search_term);
+	    gBrowser.get_ensGene(search_term);
 	} else {
-	    gBrowser.get_gene(search_term);
+	    gBrowser.start({gene : search_term});
 	}
     };
 
@@ -454,14 +451,14 @@ var epeek_theme = function() {
 	orthologues_sel.on("change", function() {
 	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	    d3.select("#ePeek_" + div_id + "_orth_select").remove();
-	    gBrowser.ensGene_lookup(this.value);
+	    gBrowser.get_ensGene(this.value);
 	});
 
 	var paralogues_sel  = paralogues_select(homologues_obj.paralogues);
 	paralogues_sel.on("change", function() {
 	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	    d3.select("#ePeek_" + div_id + "_para_select").remove();
-	    gBrowser.ensGene_lookup(this.value);
+	    gBrowser.get_ensGene(this.value);
 	});
 
     };
@@ -472,7 +469,7 @@ var epeek_theme = function() {
 	console.log(ensGenes[0]);
 	gBrowser.homologues(ensGenes[0].id, homologues_cbak);
 	ensGene_sel.on("change", function() {
-	    gBrowser.ensGene_lookup(this.value);
+	    gBrowser.get_ensGene(this.value);
 	});
     };
 
