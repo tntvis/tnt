@@ -64,8 +64,8 @@ var epeek_theme = function() {
 	var orig = {
 	    species : gBrowser.species(),
 	    chr     : gBrowser.chr(),
-	    from    : gBrowser.from,
-	    to      : gBrowser.to
+	    from    : gBrowser.from(),
+	    to      : gBrowser.to()
 	};
 // 	origSpecies = species;
 // 	origChr     = chr;
