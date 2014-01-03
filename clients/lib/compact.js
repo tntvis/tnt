@@ -4,7 +4,6 @@ var epeek_theme = function() {
     // Regular expressions for user input
     // TODO: species:gene?
     var loc_re = /^(\w+):(\w+):(\d+)-(\d+)$/;
-    var ens_re = /^ENS\w+\d+$/;
 
     // Display elements options that can be overridden by setters
     // (so they are exposed in the API)
@@ -49,12 +48,8 @@ var epeek_theme = function() {
 	gBrowser.ensGenes_callback    = ensGenes_cbak;
 
 	// We set the original data so we can always come back
-	var orig = {
-	    species : gBrowser.species(),
-	    chr     : gBrowser.chr(),
-	    from    : gBrowser.from(),
-	    to      : gBrowser.to()
-	};
+	// The values are set when the core plug-in is about to start
+	var orig = {};
 
 	// The Options pane
 	var opts_pane = d3.select(div)
@@ -279,7 +274,6 @@ var epeek_theme = function() {
 	    .attr("width", "30px");
 
 	gB.start();
-//	startOnOrigin();
 
     };
 
@@ -325,8 +319,6 @@ var epeek_theme = function() {
 	if (gBrowserTheme.isLocation(search_term)) {
 	    gBrowserTheme.parseLocation(search_term);
 	    gBrowser.start();
-	} else if (isEnsemblGene(search_term)) {
-	    gBrowser.get_ensGene(search_term);
 	} else {
 	    gBrowser.start({species : gBrowser.species(),
 			    gene : search_term});
@@ -450,14 +442,20 @@ var epeek_theme = function() {
 	orthologues_sel.on("change", function() {
 	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	    d3.select("#ePeek_" + div_id + "_orth_select").remove();
-	    gBrowser.get_ensGene(this.value);
+	    gBrowser.start({
+		gene : this.value
+	    });
+	    // gBrowser.get_ensGene(this.value);
 	});
 
 	var paralogues_sel  = paralogues_select(homologues_obj.paralogues);
 	paralogues_sel.on("change", function() {
 	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	    d3.select("#ePeek_" + div_id + "_para_select").remove();
-	    gBrowser.get_ensGene(this.value);
+	    gBrowser.start({
+		gene : this.value
+	    });
+	    // gBrowser.get_ensGene(this.value);
 	});
 
     };
@@ -467,7 +465,10 @@ var epeek_theme = function() {
 	var ensGene_sel = gene_select(ensGenes);
 	gBrowser.homologues(ensGenes[0].id, homologues_cbak);
 	ensGene_sel.on("change", function() {
-	    gBrowser.get_ensGene(this.value);
+	    gBrowser.start({
+		gene : this.value
+	    });
+	    // gBrowser.get_ensGene(this.value);
 	});
     };
 
@@ -567,13 +568,6 @@ var epeek_theme = function() {
 	return url;
     };
 
-    var isEnsemblGene = function(term) {
-	if (term.match(ens_re)) {
-	    return true;
-	} else {
-	    return false;
-	}
-    };
 
     // Public methods
 
