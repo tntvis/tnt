@@ -2,8 +2,7 @@ NODE_BIN_DIR = ./node_modules/.bin
 NODE_JSDOC_TEMPLATES_DIR=./node_modules/jsdoc/templates/docstrap
 GENERATED_FILES = \
 	ePeek.js \
-	ePeek.min.js \
-	doc
+	ePeek.min.js
 
 all: $(GENERATED_FILES)
 
@@ -19,8 +18,8 @@ ePeek.min.js: ePeek.js
 	$(NODE_BIN_DIR)/uglifyjs -c -m -o $@ $<
 	chmod a-w $@
 
-doc: ePeek.js
-	$(NODE_BIN_DIR)/jsdoc $< --destination doc --template $(NODE_JSDOC_TEMPLATES_DIR) --configure $(NODE_JSDOC_TEMPLATES_DIR)/jsdoc.conf.json 
+# doc: ePeek.js
+# 	$(NODE_BIN_DIR)/jsdoc $< --destination doc --template $(NODE_JSDOC_TEMPLATES_DIR) --configure $(NODE_JSDOC_TEMPLATES_DIR)/jsdoc.conf.json 
 
 clean:
 	rm -rf -- $(GENERATED_FILES)

@@ -9,6 +9,5 @@
 node_modules/
 npm-debug.log
 build/
-doc/
 ePeek.js
 ePeek.min.js
