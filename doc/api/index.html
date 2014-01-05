@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<title>e!Peek API</title>
+
+<style>
+  @import url(../../index.css);
+  <!-- insert in-place styles here -->
+</style>
+
+<div id="body">
+  <script src="../../lib/d3.min.js"></script>
+  <header>
+    <a href="../index.html">Overview</a>
+    <a style="margin-left:1em;" href="./index.html">Themes</a>
+    <a style="margin-left:1em;" href="./">Examples</a>
+    <b><a style="margin-left:1em;" href="../doc/index.html">Documentation</a></b>
+    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
+  </header>
+
+  <h1>API Reference</h1>
+  <h2>e!Peek</h2>
+  <a href=""><h3>epeek.genome</h3></a>
+  <ul>
+    <li type="circle"><a href="">start</a>: Starts the plugin using the defined coordinates</li>
+  </ul>
+  <a href=""><h4>Controls</h4></a>
+  <ul>
+    <li type="circle"><a href="">right</a>: Pans the genome browser to the right</li>
+    <li type="circle"><a href="">left</a>: Pans the genome browser to the left</li>
+    <li type="circle"><a href="">zoom</a>: Zooms in/out the genome browser</li>
+  </ul>
+  
+  <a href=""><h4>Aspect</h4></a>
+  <ul>
+    <li type="circle"><a href="">resize</a>: Resizes the genome browser to a new width</li>
+    <li type="circle"><a href="">allow_drag</a>: Sets the response of the genome browser to mouse panning / zooming</li>
+    <li type="circle"><a href="">height</a>: Gets/Sets the height of the genome browser</li>
+    <li type="circle"><a href="">width</a>: Gets/Sets the width of the genome browser</li>
+    <li type="circle"><a href="">background_color</a>: Gets/Sets the background color of the genome browser</li>
+    <li type="circle"><a href="">foreground_color</a>: Gets/Sets the foreground color of the genome browser</li>
+    <li type="circle"><a href="">ease</a>: Gets/Sets the <a href="https://github.com/mbostock/d3/wiki/Transitions#wiki-ease">d3.ease</a> function to use in the genome browser</li>
+  </ul>
+
+  <a href=""><h4>Data retrieval</h4></a>
+  <ul>
+    <li type="circle"><a href="">homologues</a>: Retrieves homology information from the REST API</li>
+    <li type="circle"><a href="">split_homologues</a>: Splits an array of homologues into orthologues and paralogues</li>
+  </ul>
+
+  <a href=""><h4>Setters & Getters</h4></a>
+  <ul>
+    <li type="circle"><a href="">species</a>: Gets/Sets the species to be used in the genome browser</li>
+    <li type="circle"><a href="">chr</a>: Gets/Sets the chromosome (or seq_region) to be used in the genome browser/li>
+    <li type="circle"><a href="">from</a>: Gets/Sets the start coordinate to be used in the genome browser</li>
+    <li type="circle"><a href="">to</a>: Gets/Sets the end coordinate to be used in the genome browser</li>
+    <li type="circle"><a href="">gene</a>: Gets/Sets the gene name to be used in the genome browser</li>
+    <li type="circle"><a href="">genes</a>: Gets the genes currently displayed in the genome browser</li>
+  </ul>
+
+  <a href=""><h4>Callbacks</h4></a>
+  <ul>
+    <li type="circle"><a href="">gene_info_callback</a>: Callback called every time a gene is selected</li>
+    <li type="circle"><a href="">gene_search_callback</a>: Callback called every time a gene is searched via the REST api</li>
+    <li type="circle"><a href="">ensgene_search_callback</a>: Callback called every time an Ensembl gene identifier is searched)</li>
+    <li type="circle"><a href="">genes_callback</a>: Callback executed after every pan / zoom event has finished</li>
+  </ul>
+
+  <a href=""><h3>epeek.rest</h3></a>
+  <ul>
+    <li type="circle"><a href="">call</a>: Makes an asynchronous call to the ensembl REST API</li>
+  </ul>
+  <a href=""><h4>url</h4></a>
+  <ul>
+    <li type="circle"><a href="">region</a>: Retrieves the genes included in the specified region</li>
+    <li type="circle"><a href="">species_gene</a>: Retrieves the ensembl gene associated with the given name and species</li>
+    <li type="circle"><a href="">homologues</a>: Retrieves the homologues (orthologues + paralogues) of the given ensembl ID</li>
+    <li type="circle"><a href="">gene</a>: Retrieves the ensembl gene associated with the given ensembl ID</li>
+    <li type="circle"><a href="">chr_info</a>: Retrieves the information associated with the given seq_region
+  </ul>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
+</div>
+
+<script src="../../highlight.v0.min.js"></script>
+
