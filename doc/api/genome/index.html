@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<title>e!Peek API</title>
+
+<style>
+  @import url(../../../index.css);
+  <!-- insert in-place styles here -->
+</style>
+
+<div id="body">
+  <header>
+    <script src="../../../lib/d3.min.js"></script>
+    <a href="../../../index.html">Overview</a>
+    <a style="margin-left:1em;" href="../../../themes/index.html">Themes</a>
+    <a style="margin-left:1em;" href="./">Examples</a>
+    <b><a style="margin-left:1em;" href="../index.html">Documentation</a></b>
+    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
+  </header>
+
+  <h1>API Reference</h1>
+  <a href="../index.html"><h2>e!Peek</h2></a>
+  <h3>epeek.genome</h3>
+
+<!-- Starting -->
+  <h2><a name="starting" href="#starting">#</a>Starting the plug-in</h2>
+  <p>Starting the plug-in means starting the genome browser in the specified <i>DOM element</i>. This is normally done inside of the <a href="">theme</a> after everything has been configured. No <i>REST</i> query is done until this method is called. The plug-in can be safely re-started as many times as needed (for example as a result of a search functionality in the theme as in the <a href="../../../themes/compact/compact.html">compact theme</a>).</p>
+
+  <p><a name="start" href="#start">#</a> epeek.<b>start</b> ([where])</p>
+  <p>The start method starts the genome browser on the specified location. The location is represented as an object having one of these combinations of fields:</p>
+  <ul>
+    <li><i>species</i>, <i>chr</i>, <i>from</i>, <i>to</i></li>
+    <li><i>species</i>, <i>gene name</i></li>
+  </ul>
+  <p>For example:</p>
+  <pre><code class="javascript">
+genome_browser.start({ species : "human",
+                       gene    : "BRCA2"
+                     });
+  </pre></code>
+  <pre><code class="javascript">
+genome_browser.start({ species : "human",
+                       chr     : 13,
+                       from    : 139424940,
+                       to      : 141784100
+                     });
+  </code></pre>
+
+  <p>If the location is not given, the genome browser will start on the last location specified by the epeek.<a href="#">species</a>, epeek.<a href="#">chr</a>, epeek.<a href="#">from</a>, epeek.<a href="#">to</a> and epeek.<a href="#">gene</a></p>
+  <pre><code class="javascript">
+var genome_browser = epeek.genome().species("human").chr("13").from(139424940).to(141784100);
+genome_browser.start();
+  </pre></code>
+  <pre><code class="javascript">
+var genome_browser = epeek.genome().species("human").gene("BRCA2");
+genome_browser.start();
+  </pre></code>
+
+<!-- Controls -->
+  <h2><a name="controls" href="#controls">#</a>Controls</h2>
+  <p>Although panning and zoomming in the epeek.genome is normally driven by mouse gestures, the API also offers an alternative for API-driven controls. This may be useful in certain situations (see for example the <a href="../../../themes/comparative/comparative.html">comparative theme</a>). For an example of how to use these controls see the <a href="../../../themes/buttons/buttons.html">buttons theme.</a>
+
+    <p><a name="right" href="#right">#</a> epeek.<b>right</b> (&lt;factor&gt;)</p>
+    <p>This method pans the genome browser to the right. The <i>factor</i> argument specifies the amount of panning, i.e. 1.2 means 20% panning. The limit for panning right is the end of the chromosome / seq_region</p>
+
+    <p><a name="left" href="#left">#</a> epeek.<b>left</b> (&lt;factor&gt;)</p>
+    <p>This method pans the genome browser to the left. The <i>factor</i> argument specifies the amount of panning, i.e. 1.2 means 20% panning. The limit for panning left is the beginning of the chromosome / seq_region </p>
+
+    <p><a name="zoom" href="#zoom">#</a> epeek.<b>zoom</b> (&lt;factor&gt;)</p>
+    <p>This method zooms in or out the genome browser. The <i>factor</i> argument specifies the amount of panning, i.e. 1.2 means zoomming in 20% and 0.8 means zoomming out 20%. The limit for zoomming in is 200bp and the limit for zoomming out is currently imposed by the Ensembl REST API (see <a href=""></a>)</p>
+
+<!-- Aspect -->
+    <h2><a name="aspect" href="#aspect">#</a>Aspect</h2>
+    <p>Many aspects of how the epeek plug-ins look are configurable to allow themes to integrate into the style of the host page. These methods can be set before the genome <a href="#start">starts</a> or lively, meaning that they can be changed at any time before or after the genome browser has started</p>
+
+    <p><a name="width" href="#width">#</a> epeek.<b>width</b> ([size])</p>
+    <p>This method sets the width in pixels of the genome browser. If no argument is provided, the current width is returned. The argument should be only a number without any suffix (like "px"). The default width value is 600 pixels. To re-set the width lively use the <a href="resize">epeek.resize</a> method. The method returns the original epeek object to allow method chaining</p>
+
+  <p><a name="height" href="#height">#</a> epeek.<b>height</b> ([size])</p>
+  <p>This method sets the height in pixels of the genome browser. If no argument is provided, the current height is returned. The argument should be a number without any suffix (like "px"). The method returns the original epeek object to allow method chaining. This method can only be set before the genome browser <a href="#start">starts</a></p>
+
+  <p><a name="background_color" href="#background_color">#</a> epeek.<b>background_color</b> ([color])</p>
+  <p>This method sets the background color for the genome browser. This color is used in different places and should contrast with the dark color used for the font. This means that for better results, the background color should be clear and the foreground color darker. The argument should be a valid hexadecimal number (including the "#" prefix, like "#FFFFFF"). If no argument is provided, returns the current background color. The method returns the original epeek object to allow method chaining.</p>
+
+  <p><a name="foreground_color" href="#foreground_color">#</a> epeek.<b>foreground_color</b> ([color])</p>
+  <p>This method sets the foreground color for the genome browser. This color is used in different places and should contrast with the defined <a href="#background_color">background_color</a>. The argument should be a valid hexadecimal number (including the "#" prefix, like "#FFFFFF"). If no argument is provided, returns the current background color. The method returns the original epeek object to allow method chaining.</p>
+
+  <p><a name="ease" href="#ease">#</a> epeek.<b>ease</b> ([])</p>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
+</div>
+
+<script src="../../../highlight.v0.min.js"></script>
+
