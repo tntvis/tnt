@@ -436,10 +436,10 @@ var epeek_theme = function() {
 
     var homologues_cbak = function(homologues) {
 
-	var homologues_obj = gBrowser.split_homologues(homologues);
+	var homologues = gBrowser.split_homologues(homologues);
 	
 	// The orthologues select + number of orthologues
-	var orthologues_sel = orthologues_select(homologues_obj.orthologues);
+	var orthologues_sel = orthologues_select(homologues.orthologues);
 	orthologues_sel.on("change", function() {
 	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	    d3.select("#ePeek_" + div_id + "_orth_select").remove();
@@ -448,7 +448,7 @@ var epeek_theme = function() {
 	    });
 	});
 
-	var paralogues_sel  = paralogues_select(homologues_obj.paralogues);
+	var paralogues_sel  = paralogues_select(homologues.paralogues);
 	paralogues_sel.on("change", function() {
 	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	    d3.select("#ePeek_" + div_id + "_para_select").remove();
