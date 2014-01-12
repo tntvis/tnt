@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>e!Peek</title>
+
+<style>
+  @import url(../../index.css)
+</style>
+
+<div id="body">
+
+  <script src="../../lib/d3.min.js"></script>
+
+  <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
+
+  <script src="../../ePeek.js"></script>
+  <script src="resize.js"></script>
+
+  <header>
+    <a style="margin-left:1em;" href="../../index.html">Overview</a>
+    <a style="margin-left:1em;" href="../index.html">Themes</a>
+    <a style="margin-left:1em;" href="../../index.html">Examples</a>
+    <a style="margin-left:1em;" href="../../doc/index.html">Documentation</a>
+    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
+  </header>
+
+  <h1>The Resize Theme</h1>
+  <div class="resize" id="genomeBrowser"></div>
+  <script>
+
+    (function() {
+         var gB = epeek.genome().species("human").gene("brca2").width(950).height(200).foreground_color("#586471");
+         var gBTheme = epeek_theme();
+         gBTheme(gB, document.getElementById("genomeBrowser"));
+    })();
+
+  </script>
+
+  <h2>Overview</h2>
+  <p>This theme blah, blah, blah...</p>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
+
+</div>
+<script src="../../highlight.v0.min.js"></script>
