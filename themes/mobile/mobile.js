@@ -14,9 +14,11 @@ var epeek_theme = function() {
 
     // Regular expressions for user input
     // TODO: species:gene?
-    // TODO: Duplicated in default.js
+    // TODO: Duplicated in compact.js (loc_re) and genome.js (ens_re)
     var loc_re = /^(\w+):(\w+):(\d+)-(\d+)$/;
     var ens_re = /^ENS\w+\d+$/;
+
+    var path = epeek.scriptPath("compact.js");
 
     var gBrowser;
     var gBrowserTheme = function(gB, div) {
@@ -24,7 +26,6 @@ var epeek_theme = function() {
 
 	// Callbacks:
 	gBrowser.gene_info_callback = gene_info_callback;
-	gBrowser.orthologues_callback = orthologues_cbak;
 	var loc = getLoc();
 
 	if (gBrowserTheme.isLocation(loc)) {
@@ -34,11 +35,7 @@ var epeek_theme = function() {
 	}
 
 	gBrowser(div);
-	if (gBrowser.gene() !== undefined) {
-	    gBrowser.get_gene(gBrowser.gene());
-	} else {
-	    gBrowser.start();
-	}
+	gBrowser.start();
 
 	gBrowserTheme.orientationChange();
 
@@ -64,7 +61,7 @@ var epeek_theme = function() {
 	species:chr:from-to or false otherwise
     */
     gBrowserTheme.isLocation = function(term) {
-	// TODO: Can this method be abstracted out? (This is also defined in clients/lib/default.js)
+	// TODO: Can this method be abstracted out? (This is also defined in clients/lib/compact.js)
 	if (term.match(loc_re)) {
 	    return true;
 	} else {
@@ -72,7 +69,13 @@ var epeek_theme = function() {
 	}
     };
 
-    var orthologues_cbak = function (orthologues) {
+    var homologues_cbak = function (homologues) {
+	console.log("HOMOLOGUES: ");
+	console.log(homologues);
+
+	var orthologues = homologues.orthologues;
+	var paralogues  = homologues.paralogues;
+
 	var orth_select = d3.select("#ePeek_orthologues_select")
 	    .attr("id", "ePeek_orth_select");
 
@@ -163,7 +166,7 @@ var epeek_theme = function() {
 
 	gene_info_items_orthologues
 	    .append("img")
-	    .attr("src", "compara_ortho_bw.png");
+	    .attr("src", path + "../pics/compara_ortho_bw.png");
 
 	gene_info_items_orthologues
 	    .append("select")
@@ -181,10 +184,10 @@ var epeek_theme = function() {
 	    .attr("href", gBrowserTheme.buildEnsemblGeneLink(gene.ID))
 	    .attr("target", "_blank")
 	    .append("img")
-	    .attr("src", "ensembl_logo_small.png");
+	    .attr("src", path + "../pics/ensembl_logo_small.png");
 
 	// Fill the orthologues select
-	gBrowser.orthologues(gene.ID);
+	gBrowser.homologues(gene.ID, homologues_cbak);
 
 	$("#ePeek_gene_info_link").trigger("tap");
 	// TODO: This way of getting to the gene_info div prevents the use of

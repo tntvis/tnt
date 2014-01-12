@@ -5,12 +5,12 @@
     <title>e!Peek</title>
 
     <!-- Remote D3.js -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="../../lib/d3.min.js"></script>
 
     <!-- ePeek -->
-    <link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
-    <script src="../lib/ePeek.js"></script>
-    <script src="lib/mobile.js"></script>
+    <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
+    <script src="../../ePeek.js"></script>
+    <script src="mobile.js"></script>
 
 
     <!-- Local jqTouch -->
@@ -83,7 +83,7 @@
     <script>
       (function() {
       var w = document.documentElement.clientWidth;
-        var gB = epeek().species("HOMO SAPIENS").width(w).background_color("#FFFFFF").foreground_color("#7389A5");
+        var gB = epeek.genome().species("human").width(w-10).background_color("#FFFFFF").foreground_color("#7389A5");
         var gBTheme = epeek_theme();
 
         gBTheme(gB, document.getElementById("browser"));
