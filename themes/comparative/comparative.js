@@ -172,7 +172,10 @@ var epeek_theme = function() {
 		    .append("div")
 		    .attr("id", "ePeek_comparative" + i)
 
-		gB(document.getElementById("ePeek_comparative" + i));
+		// The genome browser callback returns the div created by it...
+		var genomeBrowserDiv = gB(document.getElementById("ePeek_comparative" + i));
+		// ... we use that div to extend the container because we have the extra chevrons
+		genomeBrowserDiv.style("width", (gB.width() + 60) + "px");
 
 		// We need to extend the offset of the activity signal
  		d3.selectAll(".ePeek_activity_signal")
