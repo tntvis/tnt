@@ -1,43 +1,50 @@
 var epeek_theme = function() {
 
-    var sizes = [
-	{ value   : '950x200',
-	  display : '950 x 200'
-	},
-	{ value   : '900x400',
-	  display : '900 x 400'
-	},
-	{ value   : '800x300',
-	  display : '800 x 300'
-	}
-    ];
+    var pathToScript = epeek.scriptPath("resize.js");
 
     var theme = function(gB, div) {
-
 	var div_theme = d3.select(div);
 	var div_id = div_theme.attr("id");
 
-	var resize_select = div_theme
-	    .append("select")
-	    .attr("id", "ePeek_" + div_id + "_resize_select") // Needed ID?
-	    .on("change", function(){
-		var vals = this.value.split("x");
-		gB.width(vals[0]);
-		gB.height(vals[1]);
+	div_theme
+	    .style("border", "1px solid gray");
+
+	var table = div_theme
+	    .append("table")
+	    .attr("border", "0px")
+	    .attr("margin", "0px")
+	    .style("border-spacing", "0px");
+
+	var table_row1 = table
+	    .append("tr");
+	table_row1
+	    .append("td")
+	    .append("div")
+	    .attr("id", "ePeek_browser_comes_here");
+	gB(document.getElementById("ePeek_browser_comes_here"));
+
+	table_row1
+	    .append("td")
+	    .append("img")
+	    .attr("src", pathToScript + "../pics/chevron_active_right.png")
+	    .on("click", function() {
+		gB.width(900);
 	    });
 
-	resize_select.selectAll("option")
-	    .data(sizes)
-	    .enter()
-	    .append("option")
-	    .attr("value", function(d) {return d.value})
-	    .text(function(d) {return d.display});
+	var table_row2 = table
+	    .append("tr");
+	table_row2
+	    .append("td")
+	    .style("text-align", "center")
+	    .append("img")
+	    .attr("src", pathToScript + "../pics/chevron_active_right.png")
+	    .on("click", function() {
+		gB.height(300);
+	    });
 
-	gB(div);
 	gB.start();
 
     };
-
     return theme;
-};
 
+};
