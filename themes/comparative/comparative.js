@@ -156,7 +156,10 @@ var epeek_theme = function() {
 
 	var setupDiv = function (i) {
 	    setTimeout( function() {
-		var gB = gBs[i];
+		var gB = gBs[i].extend_canvas({
+		    left  : 25,
+		    right : 25
+		});
 
 		var table_row = table
 		    .append("tr");
@@ -172,15 +175,9 @@ var epeek_theme = function() {
 		    .append("div")
 		    .attr("id", "ePeek_comparative" + i)
 
-		// The genome browser callback returns the div created by it...
-		var genomeBrowserDiv = gB(document.getElementById("ePeek_comparative" + i));
-		// ... we use that div to extend the container because we have the extra chevrons
-		genomeBrowserDiv.style("width", (gB.width() + 60) + "px");
+		gB(document.getElementById("ePeek_comparative" + i));
 
-		// We need to extend the offset of the activity signal
- 		d3.selectAll(".ePeek_activity_signal")
- 		    .style("left", gB.width() + 10 + "px");
-
+		// TODO: Should we have a getter in genome.js to retrieve this groupDiv?
 		var gDiv = d3.select("#ePeek_comparative" + i + " .ePeek_groupDiv");
 
 		// left chevron
@@ -197,10 +194,6 @@ var epeek_theme = function() {
 			d3.select(this).attr("src", pathToScript + "../pics/chevron_inactive_left.png")
 		    });
 
-
-		// The locRow needs to give some room on the left
-		d3.selectAll(".ePeek_locRow")
-		    .style("margin-left", "25px");
 
 		// right chevron
 		gDiv
