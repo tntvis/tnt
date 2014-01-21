@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<title>e!Peek API</title>
+
+<style>
+  @import url(../../../index.css);
+  <!-- insert in-place styles here -->
+</style>
+
+<div id="body">
+  <header>
+    <script src="../../../lib/d3.min.js"></script>
+    <a href="../../../index.html">Overview</a>
+    <a style="margin-left:1em;" href="../../../themes/index.html">Themes</a>
+    <a style="margin-left:1em;" href="./">Examples</a>
+    <b><a style="margin-left:1em;" href="../index.html">Documentation</a></b>
+    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
+  </header>
+
+  <h1>API Reference</h1>
+  <a href="../index.html"><h2>e!Peek</h2></a>
+  <h3>Misc Methods</h3>
+
+  <p><a name="scriptPath" href="#scriptPath">#</a> epeek.<b>scriptPath</b>(&lt;string&gt;)</p>
+  <p>This method returns the full path of a given script file. The script file has to be imported in the current page. It can be used to load resources relative to a given script file.</p>
+
+  <p>Example:</p>
+
+  <pre><code class="javascript">
+var path = epeek.scriptPath("name_of_file.js");
+// ...
+
+some_element
+   .append("img")
+   .attr("src", path + "relative/path/to/image.png");
+
+// ...
+  </code></pre>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
+</div>
+
+<script src="../../../highlight.v0.min.js"></script>
+
