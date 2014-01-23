@@ -436,7 +436,7 @@ var epeek_theme = function() {
 
     var homologues_cbak = function(homologues) {
 
-	var homologues = gBrowser.split_homologues(homologues);
+	// var homologues = gBrowser.split_homologues(homologues);
 	
 	// The orthologues select + number of orthologues
 	var orthologues_sel = orthologues_select(homologues.orthologues);

@@ -33,48 +33,39 @@
 
   <h1>Themes</h1>
   <h2>Overview</h2>
-  <p>e!Peek themes surround and interact with the e!Peek core plug-in. The pre-defined themes shown here are ready to use in your web page. They may also serve as examples of how to develop your own theme.</p>
+  <p>e!Peek themes surround and interact with the e!Peek core plug-in. The themes shown here are ready to use in your web page. They may also serve as examples of how to develop your own theme.</p>
   <p>To use one of the following themes use the following code:</p>
   <pre><code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/ePeek.min.js" charset="utf-8">&lt;/script></code>
 <code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/themes/&lt;theme_name&gt;.min.js" charset="utf-8">&lt;/script></code></pre>
   <pre><code class="javascript">
-var gB = epeek().width(920); // other methods can be included here
+var gB = epeek.genome().width(920); // other methods can be included here
 var gBTheme = epeek_theme(); // other methods can be included here
-gBTheme(gB, document.getElementById('DOM_element_id');
+gBTheme(gB, document.getElementById(&lt;DOM_element_id&gt;);
     </code></pre>
   <p>The themes may also have an external API to interact with. These APIs are explained in the theme page or in its documentation page.</p>
   </p>
-  <h2>Pre-defined themes</h2>
-  <h3>Minimal</h3>
-  <p>Shows the minimum scheleton needed to build custom themes</p>
-  <a class="example" href="minimal/minimal.html">
-    <img src="examples/pics/minimal.png">
-  </a>
-  <h3>Tooltip</h3>
-  <p>Shows how to integrate tooltips on genes</p>
-  <a class="example" href="tooltips/tooltips.html">
-    <img src="examples/pics/tooltip.png">
-  </a>
-  <h3>Minimal (Buttons based)</h3>
-  <p>Shows how to control a custom theme with buttons</p>
-  <a class="example" href="buttons/buttons.html">
-    <img src="examples/pics/buttons.png">
-  </a>
-  <h3>Comparative</h3>
-  <p>An example of how to compare the same region in two genomes</p>
-  <a class="example" href="comparative/comparative.html">
-    <img src="examples/pics/comparative.png">
-  </a>
-  <h3>Compact</h3>
-  <p>A more functional theme with links, navigation and search capabilities</p>
-  <a class="example" href="compact/compact.html">
-    <img src="examples/pics/default.png">
-  </a>
-  <h3>Tree</h3>
-  <p>An example of a more sophisticated theme with orthologues displayed on a tree</p>
-  <a class="example" href="themes/examples/tree.html">
-    <img src="examples/pics/tree.png">
-  </a>
+
+  <h2>Basic Themes</h2>
+  <p>These themes are examples that illustrate specific aspects of the <a href="../doc/api/genome/index.html">genome core plug-in API</a>
+
+  <ul>
+    <li><a href="minimal/minimal.html">Minimal</a> : Shows the minimum scheleton needed to build custom themes</li>
+    <li><a href="tooltip/tooltip.html">Tooltip</a> : Shows how to integrate tooltips when genes are selected</li>
+    <li><a href="buttons/buttons.html">Buttons</a> : Shows how to control a custom theme with buttons</li>
+    <li><a href="pin/pin.html">Pin</a> : Shows how to display custom data in the genome browser</li>
+    <li><a href="resize/resize.html">Resize</a> : Shows how to resize the genome browser lively</li>
+    <li><a href="resizable-div/resizable-div.html">Resizable-div</a> : A more advanced examples of how to resize the genome browser</li>
+  </ul>
+
+  <h2>Advanced Themes</h2>
+  <p>Themes themes show more advanced features of the <a href="../doc/api/genome/index.html">genome core plug-in API</a></p>
+
+  <ul>
+    <li><a href="comparative/comparative.html">Comparative</a> : Shows how to compare regions between two species</li>
+    <li><a href="compact/compact.html">Compact</a> : Shows a more functional theme with links, navigation and search capabilities</li>
+    <li><a href="orthology_tree/orthology_tree.html">Orthology Tree</a> : Shows a more sophisticated theme with orthologues displayed on a tree</li>
+    <li><a href="mobile/mobile.html">Mobile</a> : Shows a functional theme iOS and Android friendly</li> 
+  </ul>
 
 
   <footer>
