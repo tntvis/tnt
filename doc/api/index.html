@@ -22,42 +22,51 @@
   <a href="genome/index.html"><h2>Genome Browser</h2></a>
 
   <ul>
-    <li type="circle"><a href="genome/index.html#start">start</a>: Starts the plugin using the defined coordinates</li>
-    <li type="circle"><a href="genome/index.html#right">right</a>: Pans the genome browser to the right</li>
-    <li type="circle"><a href="genome/index.html#left">left</a>: Pans the genome browser to the left</li>
-    <li type="circle"><a href="genome/index.html#zoom">zoom</a>: Zooms in/out the genome browser</li>
-    <li type="circle"><a href="genome/index.html#allow_drag">allow_drag</a>: Sets the response of the genome browser to mouse panning / zooming</li>
-    <li type="circle"><a href="genome/index.html#height">height</a>: Gets/Sets the height of the genome browser</li>
-    <li type="circle"><a href="genome/index.html#width">width</a>: Gets/Sets the width of the genome browser</li>
-    <li type="circle"><a href="genome/index.html#background_color">background_color</a>: Gets/Sets the background color of the genome browser</li>
-    <li type="circle"><a href="genome/index.html#foreground_color">foreground_color</a>: Gets/Sets the foreground color of the genome browser</li>
-    <li type="circle"><a href="genome/index.html#ease">ease</a>: Gets/Sets the <a href="https://github.com/mbostock/d3/wiki/Transitions#wiki-ease">d3.ease</a> function to use in the genome browser</li>
+    <li type="circle"><a href="genome/index.html#start">genome.start</a>: Starts the plugin using the defined coordinates</li>
+    <li type="circle"><a href="genome/index.html#right">genome.right</a>: Pans the genome browser to the right</li>
+    <li type="circle"><a href="genome/index.html#left">genome.left</a>: Pans the genome browser to the left</li>
+    <li type="circle"><a href="genome/index.html#zoom">genome.zoom</a>: Zooms in/out the genome browser</li>
+    <li type="circle"><a href="genome/index.html#allow_drag">genome.allow_drag</a>: Sets the response of the genome browser to mouse panning / zooming</li>
+    <li type="circle"><a href="genome/index.html#height">genome.height</a>: Gets/Sets the height of the genome browser</li>
+    <li type="circle"><a href="genome/index.html#width">genome.width</a>: Gets/Sets the width of the genome browser</li>
+    <li type="circle"><a href="genome/index.html#background_color">genome.background_color</a>: Gets/Sets the background color of the genome browser</li>
+    <li type="circle"><a href="genome/index.html#foreground_color">genome.foreground_color</a>: Gets/Sets the foreground color of the genome browser</li>
+    <li type="circle"><a href="genome/index.html#ease">genome.ease</a>: Gets/Sets the <a href="https://github.com/mbostock/d3/wiki/Transitions#wiki-ease">d3.ease</a> function to use in the genome browser</li>
     <li type="circle"><a href="genome/index.html#homologues">homologues</a>: Retrieves homology information from the REST API</li>
-    <li type="circle"><a href="genome/index.html#species">species</a>: Gets/Sets the species to be used in the genome browser</li>
-    <li type="circle"><a href="genome/index.html#chr">chr</a>: Gets/Sets the chromosome (or seq_region) to be used in the genome browser</li>
-    <li type="circle"><a href="genome/index.html#from">from</a>: Gets/Sets the start coordinate to be used in the genome browser</li>
-    <li type="circle"><a href="genome/index.html#to">to</a>: Gets/Sets the end coordinate to be used in the genome browser</li>
-    <li type="circle"><a href="genome/index.html#gene">gene</a>: Gets/Sets the gene name to be used in the genome browser</li>
-    <li type="circle"><a href="genome/index.html#genes">genes</a>: Gets the genes currently displayed in the genome browser</li>
-    <li type="circle"><a href="genome/index.html#gene_info_callback">gene_info_callback</a>: Callback called every time a gene is selected</li>
-    <li type="circle"><a href="genome/index.html#gene_search_callback">gene_search_callback</a>: Callback called every time a gene is searched via the REST api</li>
-    <li type="circle"><a href="genome/index.html#ensgene_search_callback">ensgene_search_callback</a>: Callback called every time an Ensembl gene identifier is searched</li>
-    <li type="circle"><a href="genome/index.html#genes_callback">genes_callback</a>: Callback executed after every pan / zoom event has finished</li>
+    <li type="circle"><a href="genome/index.html#species">genome.species</a>: Gets/Sets the species to be used in the genome browser</li>
+    <li type="circle"><a href="genome/index.html#chr">genome.chr</a>: Gets/Sets the chromosome (or seq_region) to be used in the genome browser</li>
+    <li type="circle"><a href="genome/index.html#from">genome.from</a>: Gets/Sets the start coordinate to be used in the genome browser</li>
+    <li type="circle"><a href="genome/index.html#to">genome.to</a>: Gets/Sets the end coordinate to be used in the genome browser</li>
+    <li type="circle"><a href="genome/index.html#gene">genome.gene</a>: Gets/Sets the gene name to be used in the genome browser</li>
+    <li type="circle"><a href="genome/index.html#genes">genome.genes</a>: Gets the genes currently displayed in the genome browser</li>
+    <li type="circle"><a href="genome/index.html#gene_info_callback">genome.gene_info_callback</a>: Callback called every time a gene is selected</li>
+    <li type="circle"><a href="genome/index.html#gene_search_callback">genome.gene_search_callback</a>: Callback called every time a gene is searched via the REST API</li>
+    <li type="circle"><a href="genome/index.html#ensgene_search_callback">genome.ensgene_search_callback</a>: Callback called every time an Ensembl gene ID is searched</li>
+    <li type="circle"><a href="genome/index.html#genes_callback">genome.genes_callback</a>: Callback executed after every pan / zoom event has finished</li>
+    <li type="circle"><a href="genome/index.html#tooltip">genome.tooltip</a>: Creates tooltips based on <a href="tooltip/index.html">epeek.tooltip</a>
+  </ul>
+
+  <a href="tooltip/index.html"><h2>Tooltips</h2></a>
+  <ul>
+    <li type="circle"><a href="tooltip/index.html#tooltip">epeek.tooltip</a>: Gets a new tooltip object</li>
+    <li type="circle"><a href="tooltip/index.html#tooltip-bacground">tooltip.background_color</a>: Gets/Sets the background color for the tooltip</li>
+    <li type="circle"><a href="tooltip/index.html#tooltip-foreground">tooltip.foreground_color</a>: Gets/Sets the foreground color for the tooltip</li>
   </ul>
 
   <a href="rest/index.html"><h2>Ensembl REST API</h2></a>
   <ul>
-    <li type="circle"><a href="rest/index.html#call">call</a>: Makes an asynchronous call to the ensembl REST API</li>
-    <li type="circle"><a href="rest/index.html#region">url.region</a>: Retrieves the genes included in the specified region</li>
-    <li type="circle"><a href="rest/index.html#species_gene">url.species_gene</a>: Retrieves the ensembl gene associated with the given name and species</li>
-    <li type="circle"><a href="rest/index.html#homologues">url.homologues</a>: Retrieves the homologues (orthologues + paralogues) of the given ensembl ID</li>
-    <li type="circle"><a href="rest/index.html#gene">url.gene</a>: Retrieves the ensembl gene associated with the given ensembl ID</li>
-    <li type="circle"><a href="rest/index.html#chr_info">url.chr_info</a>: Retrieves the information associated with the given seq_region
+    <li type="circle"><a href="rest/index.html#call">rest.call</a>: Makes an asynchronous call to the ensembl REST API</li>
+    <li type="circle"><a href="rest/index.html#region">rest.url.region</a>: Retrieves the genes included in the specified region</li>
+    <li type="circle"><a href="rest/index.html#species_gene">rest.url.species_gene</a>: Retrieves the ensembl gene associated with the given name and species</li>
+    <li type="circle"><a href="rest/index.html#homologues">rest.url.homologues</a>: Retrieves the homologues (orthologues + paralogues) of the given ensembl ID</li>
+    <li type="circle"><a href="rest/index.html#gene">rest.url.gene</a>: Retrieves the ensembl gene associated with the given ensembl ID</li>
+    <li type="circle"><a href="rest/index.html#chr_info">rest.url.chr_info</a>: Retrieves the information associated with the given seq_region</li>
+    <li type="circle"><a href="rest/index.html#limits">rest.limits</a>: Gets the limits imposed by the Ensembl REST API</li>
   </ul>
 
   <a href="misc.index.html"><h2>Misc Methods</h2></a>
   <ul>
-    <li type="circle"><a href="misc/index.html#scriptPath">scriptPath</a>: Retrieves the path to the file named as its argument
+    <li type="circle"><a href="misc/index.html#scriptPath">epeek.scriptPath</a>: Retrieves the path to the file named as its argument
   </ul>
 
   <footer>

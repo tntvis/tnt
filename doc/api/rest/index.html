@@ -27,11 +27,14 @@
 
   <pre><code class="javascript">
 var eRest = epeek.eRest();
-eRest.call({url     : eRest.url.chr_info ({species : species,
-                                           chr     : seq_region
-                                          }),
-            success : function (resp) {
+eRest.call({url        : eRest.url.chr_info ({species : species,
+                                              chr     : seq_region
+                                             }),
+            on_success : function (resp) {
                            // Do whatever you want with the response
+                      },
+            on_error   : function (err) {
+                           // Do whatever you want with the error
                       }
            });
   </code></pre>
@@ -44,7 +47,7 @@ var rest_conn1 = epeek.eRest();
 var rest_conn2 = epeek.eRest();
   </code></pre>
 
-  <p><a name="call" href="#call">#</a> rest.<b>call</b>(&lt;object&gt;)</p>
+  <p><a name="call" href="#call">#</a> rest.<b>call</b> (&lt;object&gt;)</p>
   <p>This method makes an asynchronous call to the <a href="http://beta.rest.ensembl.org">Ensembl REST API</a>. The expected parameter must be an object containg the following fields:</p>
 
   <p>
@@ -58,7 +61,7 @@ var rest_conn2 = epeek.eRest();
   <h2><a name="urls" href="#urls">#</a>URLs</h2>
   <p>Different methods are implemented to obtain the needed URLs to query the <a href="http://beta.rest.ensembl.org">Ensembl REST API</a>. These URLs are used in the rest.<a href="#call">call</a> method to make an actual query</p>
 
-  <p><a name="region" href="#region">#</a> rest.url.<b>region</b>(&lt;object&gt;)</p>
+  <p><a name="region" href="#region">#</a> rest.url.<b>region</b> (&lt;object&gt;)</p>
   <p>This method returns the <a href="http://beta.rest.ensembl.org">Ensembl REST</a> url to retrieve genes included the specified region. It uses the <a href="http://beta.rest.ensembl.org/documentation/info/feature_region">/feature/region/:species/:region</a> endpoint. Its argument must be an object with the following fields:</p>
 
   <p>
@@ -79,7 +82,7 @@ var url = rest.url.region ({ species : "homo_sapiens",
                             }),
   </code></pre>
 
-  <p><a name="species_gene" href="#species_gene">#</a> rest.url.<b>species_gene</b>(&lt;object&gt;)</p>
+  <p><a name="species_gene" href="#species_gene">#</a> rest.url.<b>species_gene</b> (&lt;object&gt;)</p>
   <p>This method returns the <a href="http://beta.rest.ensembl.org">Ensembl REST</a> url to retrieve Ensembl genes associated with the given name / external reference in the specified species. It uses the <a href="http://beta.rest.ensembl.org/documentation/info/xref_external">xrefs/symbol/:species/:symbol</a> endpoint. Its argument is an object that must have the following fields:</p>
 
   <p>
@@ -97,7 +100,7 @@ var url =  rest.url.species_gene ({ species : "human",
                                    }),
   </code></pre>
 
-  <p><a name="homologues" href="#homologues">#</a> rest.url.<b>homologues</b>(&lt;object&gt;)</p>
+  <p><a name="homologues" href="#homologues">#</a> rest.url.<b>homologues</b> (&lt;object&gt;)</p>
   <p>This method returns the <a href="http://beta.rest.ensembl.org">Ensembl REST</a> url to retrieve the homologues (orthologues + paralogues) of a given Ensembl gene. It uses the <a href="http://beta.rest.ensembl.org/documentation/info/homology_ensemblgene">homology/id/:id</a> endpoint. Its argument is an object having the following fields:</p>
 
   <p>
@@ -112,7 +115,7 @@ var url =  rest.url.species_gene ({ species : "human",
 var url = rest.url.homologues ({ id : "ENSG00000139618" })
   </code></pre>
 
-  <p><a name="gene" href="#gene">#</a> rest.url.<b>gene</b>(&lt;object&gt;)</p>
+  <p><a name="gene" href="#gene">#</a> rest.url.<b>gene</b> (&lt;object&gt;)</p>
   <p>This method returns the <a href="http://beta.rest.ensembl.org">Ensembl REST</a> url to retrieve the Ensembl gene associated with the given Ensembl ID. It uses the <a href="http://beta.rest.ensembl.org/documentation/info/lookup">lookup/id/:id</a> endpoint. Its argument must be an object having the following fields:</p>
 
   <p>
@@ -127,7 +130,7 @@ var url = rest.url.homologues ({ id : "ENSG00000139618" })
 var url = rest.url.gene ({ id : "ENSG00000139618" })
   </code></pre>
 
-  <p><a name="chr_info" href="#chr_info">#</a> rest.url.<b>chr_info</b>(&lt;object&gt;)</p>
+  <p><a name="chr_info" href="#chr_info">#</a> rest.url.<b>chr_info</b> (&lt;object&gt;)</p>
   <p>This method returns the <a href="http://beta.rest.ensembl.org">Ensembl REST</a> url to retrieve the information associated with the given chromosome / seq_region name in the given species. It uses the <a href="http://beta.rest.ensembl.org/documentation/info/assembly_stats">assembly/info/:species/:region_name</a> endpoint. Its argument must be an object with the following mandatory fields:</p>
 
   <p>
@@ -145,6 +148,14 @@ var url = rest.url.chr_info ({ species : "homo_sapiens",
                              })
   </code></pre>
 
+  <p><a name="limits" href="#limits">#</a> rest.<b>limits</b> ()</p>
+  <p>This method returns the limits imposed by the Ensembl REST API. It is used by the epeek plug-ins to avoid requesting the REST server more data that it is allowed to serve. Currently, the following limits are defined:</p>
+
+  <p>
+    <ul>
+      <li><b>region</b> : The limit size of a genomic region to ask for. This limit is currently 5MB</li>
+    </ul>
+  </p>
 
   <footer>
     <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
