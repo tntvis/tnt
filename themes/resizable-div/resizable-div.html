@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>e!Peek</title>
+<title>e!Peek Themes</title>
 
 <style>
   @import url(../../index.css)
@@ -17,13 +17,13 @@
 
   <header>
     <a style="margin-left:1em;" href="../../index.html">Overview</a>
-    <a style="margin-left:1em;" href="../index.html">Themes</a>
+    <a style="margin-left:1em;" href="../index.html"><b>Themes</b></a>
     <a style="margin-left:1em;" href="../../index.html">Examples</a>
-    <a style="margin-left:1em;" href="../../doc/index.html">Documentation</a>
+    <a style="margin-left:1em;" href="../../doc/api/index.html">Documentation</a>
     <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
   </header>
 
-  <h1>The Resizable Div Theme</h1>
+  <h1>The Resizable Theme</h1>
   <div class="resize" id="genomeBrowser"></div>
   <script>
 
@@ -36,7 +36,14 @@
   </script>
 
   <h2>Overview</h2>
-  <p>This theme blah, blah, blah...</p>
+  <p>This theme illustrates how the <a href="../../doc/api/genome/index.html#width">genome_browser.width</a> and <a href="../../doc/api/genome/index.html#height">genome_browser.height</a> methods can affect the dimensions of the genome browser dynamically. This is specially useful in the <a href="../mobile/mobile.html?loc=BRCA2#browser">mobile theme</a> that needs to adapt its size with changes in orientation of the mobile device. An example of usage of this property could be:</p>
+
+  <pre><code class="javascript">
+window.onorientationchange = function() {
+   var w = document.documentElement.clientWidth;
+   gBrowser.width(w-20);
+};
+  </code></pre>
 
   <footer>
     <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
