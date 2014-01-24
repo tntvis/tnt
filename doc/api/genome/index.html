@@ -79,6 +79,8 @@ genome_browser.start();
     <h2><a name="aspect" href="#aspect">#</a>Aspect</h2>
     <p>Many aspects of how the epeek plug-in looks are configurable to allow themes to integrate into the style of the host page. All these methods can be set before the genome <a href="#start">starts</a>, while some of them can also be re-set lively, meaning that they can be changed at any time before or after the genome browser has started. See the methods below for details.</p>
 
+    <p>Also, a basic way of inserting marks in the genome browser is supported via the genome_browser.<a href="#pin">pin</a> method (see below)</p>
+
     <p><a name="width" href="#width">#</a> genome_browser.<b>width</b> ([number])</p>
     <p>This method sets the width in pixels of the genome browser. If no argument is provided, the current width is returned. The argument should be only a number without any suffix (like "px"). The default width value is 600 pixels. A new width can be set before the genome browser <a href="#start">starts</a> or after. In the latter case, the genome browser is resized to the new width. See the <a href="../../themes/resize/resize.html">resize</a> theme for an example. If an argument is provided, the epeek object is returned to allow method chaining</p>
 
@@ -90,6 +92,21 @@ genome_browser.start();
 
   <p><a name="foreground_color" href="#foreground_color">#</a> genome_browser.<b>foreground_color</b> ([string])</p>
   <p>This method sets the foreground color for the genome browser. This color is used in different places and should contrast with the defined <a href="#background_color">background_color</a>. The argument should be a valid hexadecimal number (including the "#" prefix, like "#FFFFFF"). If no argument is provided, returns the current background color. If an argument is provided, this method returns the epeek object to allow method chaining.</p>
+
+  <p><a name="pin" href="#pin">#</a> genome_browser.<b>pin</b> (&lt;array&gt;, [string])</p>
+  <p><aside>See the <a href="../../../themes/pins/pins.html">pin theme</a> for an example of usage</aside></p>
+  <p>This method allows to place markers (pins) in the genome browser. It expects an array containing genomic locations (i.e. an array of numbers). This method returns the path to the pin file. This is useful to create a legend explaining the pin. Every time the method is called, a different pin is placed and returned. Currently there are only 6 different pins, so once they are exhausted no more pins can be placed in the genome browser. An optional second parameter specifying the path to the pin file may be set. For example:</p>
+
+  <pre><code class="javascript">
+var gB = epeek.genome();
+var pin1_url = gB.pin([x1, x2, x3]); // Will place "red" pins
+var pin2_url = gB.pin([x4, x5]);     // Will place "blue" pins
+
+// pin1_url and pin2_url can be used to create a legend explaining the marks
+
+// To add more "red" pins:
+gB.pin([x10, x11], pin1_url);
+  </code></pre>
 
   <p><a name="ease" href="#ease">#</a> genome_browser.<b>ease</b> ([string])</p>
   <p>This method sets the <a href="http://www.robertpenner.com/easing/">easing function</a> for the transitions in the genome browser. Its argument is a string specifying a new easing function. See <a href="https://github.com/mbostock/d3/wiki/Transitions#wiki-d3_ease">d3.ease</a> for more details. The default easing function is "cubic-in-out". The method returns the original epeek object to allow method chaining.</p>
