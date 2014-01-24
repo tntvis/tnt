@@ -8,6 +8,7 @@ var epeek_theme = function() {
 
     var gBrowser;
     var orthologues_tree;
+    var last_selected_gene = "";
 
     var gBrowserTheme = function (gB, div) {
 	set_div_id(div);
@@ -20,7 +21,8 @@ var epeek_theme = function() {
 
 	var label_div = d3.select(div)
 	    .append("div")
-	    .attr("id", gene_orthologues_label_id);
+	    .attr("id", gene_orthologues_label_id)
+	    .style("height", "20px");
 
 	label_div
 	    .append("h3")
@@ -54,6 +56,7 @@ var epeek_theme = function() {
     };
 
     var gene_info_callback = function (gene) {
+	last_selected_gene = gene.external_name;
 	show_spinner();
     	gBrowser.homologues(gene.ID, homologues_cbak);
     };
@@ -84,7 +87,7 @@ var epeek_theme = function() {
 	var label_div = d3.select("#" + gene_orthologues_label_id);
 	label_div
 	    .append("h3")
-	    .text("Macho camacho");
+	    .text(last_selected_gene);
     };
 
 
