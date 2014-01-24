@@ -317,9 +317,11 @@ var epeek_theme = function() {
 	d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
 	d3.select("#ePeek_" + div_id + "_orth_select").remove();
 	var search_term = document.getElementById("ePeek_" + div_id + "_gene_name_input").value;
-	if (gBrowserTheme.isLocation(search_term)) {
-	    gBrowserTheme.parseLocation(search_term);
-	    gBrowser.start();
+	if (isLocation(search_term)) {
+	    var loc = parseLocation(search_term);
+	    console.log(">>>>> LOC: ");
+	    console.log(loc);
+	    gBrowser.start(loc);
 	} else {
 	    gBrowser.start({species : gBrowser.species(),
 			    gene : search_term});
@@ -483,14 +485,15 @@ var epeek_theme = function() {
 	@param {String} location A string of the form species:chr:from-to
 	@returns {ePeekTheme} The original object allowing method chaining.
     */
-    gBrowserTheme.parseLocation = function(loc) {
+    var parseLocation = function(loc) {
 	var loc_arr = loc_re.exec(loc);
-	gBrowser.species(loc_arr[1]);
-	gBrowser.chr(loc_arr[2]);
-	gBrowser.from(loc_arr[3]);
-	gBrowser.to(loc_arr[4]);
+	var loc = {};
+	loc.species = loc_arr[1];
+	loc.chr     = loc_arr[2];
+	loc.from    = loc_arr[3];
+	loc.to      = loc_arr[4];
 
-	return gBrowserTheme;
+	return loc;
     };
 
     /** <strong>show_options</strong> sets the visibility of the options pane
@@ -578,7 +581,7 @@ var epeek_theme = function() {
 	@param {String} location The string to be tested
 	@returns {Boolean} If the string looks like a location or not
     */
-    gBrowserTheme.isLocation = function(term) {
+    var isLocation = function(term) {
 	if (term.match(loc_re)) {
 	    return true;
 	} else {
