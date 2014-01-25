@@ -1,17 +1,3 @@
-// inspired on http://james.padolsey.com/javascript/monitoring-dom-properties/
-d3.selection.prototype.watch = function(id, fn) {
-    return this.each(function() {
-	var self = d3.select(this);
-	var oldVal = self.style(id);
-	self.watch_timer = setInterval(function(){
-	    if(self.style(id) !== oldVal) {
-		fn.call(self, oldVal, self.style(id));
-		oldVal = self.style(id);
-	    }
-	}, 1000);
-    });
-    return;
-};
 
 var epeek_theme = function() {
 
