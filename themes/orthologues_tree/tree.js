@@ -59,7 +59,7 @@ var my_tree = function () {
 	    .enter().append("text")
 	    .style("fill", "ccc")
 	    .attr("dy", ".31em")
-	    	    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+	    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
 	    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r - 325 + 8) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; }) // The translate's big number should be adjusted "manually". Affects the location of the labels
 	    .text(function(d) { var label = d.name.replace(/_/g, ' ');
 				var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
