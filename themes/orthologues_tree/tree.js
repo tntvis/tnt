@@ -108,63 +108,63 @@ var my_tree = function () {
 	return tree;
     };
 
-    tree.update = function(sp_counts) {
-	reset_tree(species_tree);
-	var sp_names = get_names_of_present_species(sp_counts);
-	var present_nodes  = get_tree_nodes_by_names(species_tree, sp_names);
-	var lca_node = epeek_tree.lca(present_nodes)
+    tree.update = function() {
 
-	decorate_tree(lca_node);
-	nodes_present(species_tree, present_nodes);
+	var t = function(sp_counts) {
+	    reset_tree(species_tree);
+	    var sp_names = get_names_of_present_species(sp_counts);
+	    var present_nodes  = get_tree_nodes_by_names(species_tree, sp_names);
+	    var lca_node = epeek_tree.lca(present_nodes)
 
-	vis.selectAll("path.link")
-	    .data(cluster.links(epeek_tree))
-	    .transition()
-	    .style("stroke", function(d){
-	    	if (d.source.real_present === 1) {
-	    	    return "steelblue";
-	    	}
-	    	if (d.source.present_node === 1) {
-	    	    return "ccc";
-	    	}
-	    	return "fff";
-	    });
+	    decorate_tree(lca_node);
+	    nodes_present(species_tree, present_nodes);
 
+	    vis.selectAll("path.link")
+		.data(cluster.links(epeek_tree))
+		.transition()
+		.style("stroke", function(d){
+	    	    if (d.source.real_present === 1) {
+	    		return "steelblue";
+	    	    }
+	    	    if (d.source.present_node === 1) {
+	    		return "ccc";
+	    	    }
+	    	    return "fff";
+		});
 
-	vis.selectAll("circle")
-	    .data(epeek_tree.filter(function(n) { return n.x !== undefined; }))
-	    .attr("class", function(d) {
-		if (d.real_present) {
-		    return "present";
-		}
-		if (d.present_node) {
-		    return "dubious";
-		}
-		return "absent";
-	    })
+	    vis.selectAll("circle")
+		.data(epeek_tree.filter(function(n) { return n.x !== undefined; }))
+		.attr("class", function(d) {
+		    if (d.real_present) {
+			return "present";
+		    }
+		    if (d.present_node) {
+			return "dubious";
+		    }
+		    return "absent";
+		})
 
-	var labels = vis.selectAll("text")
-	    .data(epeek_tree.filter(function(d) { return d.x !== undefined && !d.children; }))
-	    .transition()
-	    .style("fill", function (d) {
-		if (d.name === tree.species()) {
-		    return "red";
-		}
-		if (d.real_present === 1) {
-		    return "steelblue";
-		}
-		return "ccc";
-		// return d.name === tree.species() ? "red" : "black"
-	    })
-	    .text(function(d) { var label = d.name.replace(/_/g, ' ');
-				var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
-				label = label + " [" + (sp_counts[species_name] === undefined ? 0 : sp_counts[species_name].length) + "]";
-				return label;
-			      });
+	    var labels = vis.selectAll("text")
+		.data(epeek_tree.filter(function(d) { return d.x !== undefined && !d.children; }))
+		.transition()
+		.style("fill", function (d) {
+		    if (d.name === tree.species()) {
+			return "red";
+		    }
+		    if (d.real_present === 1) {
+			return "steelblue";
+		    }
+		    return "ccc";
+		    // return d.name === tree.species() ? "red" : "black"
+		})
+		.text(function(d) { var label = d.name.replace(/_/g, ' ');
+				    var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
+				    label = label + " [" + (sp_counts[species_name] === undefined ? 0 : sp_counts[species_name].length) + "]";
+				    return label;
+				  });
+	    };
 
-
-
-	return tree;
+	return t;
     };
 
 
