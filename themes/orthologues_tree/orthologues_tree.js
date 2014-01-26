@@ -36,7 +36,7 @@ var epeek_theme = function() {
 	    .attr("id", gene_orthologues_tree_id);
 
 	// Create a new tree browser
-	var orthologues_tree = my_tree();
+	var orthologues_tree = epeek.species_tree();
 	tree_update = orthologues_tree.update();
 
 	orthologues_tree(document.getElementById(gene_orthologues_tree_id));
