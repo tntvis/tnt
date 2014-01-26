@@ -7,7 +7,9 @@ var epeek_theme = function() {
     var gene_orthologues_tree_id;
 
     var gBrowser;
-    var orthologues_tree;
+    var tree_update;
+
+    var gene_name;
 
     var gBrowserTheme = function (gB, div) {
 	set_div_id(div);
@@ -20,7 +22,8 @@ var epeek_theme = function() {
 
 	var label_div = d3.select(div)
 	    .append("div")
-	    .attr("id", gene_orthologues_label_id);
+	    .attr("id", gene_orthologues_label_id)
+	    .style("height", "20px");
 
 	label_div
 	    .append("h3")
@@ -33,7 +36,9 @@ var epeek_theme = function() {
 	    .attr("id", gene_orthologues_tree_id);
 
 	// Create a new tree browser
-	orthologues_tree = my_tree();
+	var orthologues_tree = my_tree();
+	tree_update = orthologues_tree.update();
+
 	orthologues_tree(document.getElementById(gene_orthologues_tree_id));
 
 	// Start the genome browser
@@ -50,11 +55,12 @@ var epeek_theme = function() {
     var homologues_cbak = function (homologues) {
 	hide_spinner();
 	var orthologues_by_species = classify_orthologues_by_species(homologues);
-	orthologues_tree.update(orthologues_by_species);
+	tree_update(orthologues_by_species);
     };
 
     var gene_info_callback = function (gene) {
 	show_spinner();
+	gene_name = gene.external_name;
     	gBrowser.homologues(gene.ID, homologues_cbak);
     };
 
@@ -79,12 +85,12 @@ var epeek_theme = function() {
 
     };
 
-    var hide_spinner = function(gene_name) {
+    var hide_spinner = function() {
 	d3.selectAll("#" + gene_orthologues_label_id + "> *" ).remove();
 	var label_div = d3.select("#" + gene_orthologues_label_id);
 	label_div
 	    .append("h3")
-	    .text("Macho camacho");
+	    .text(gene_name);
     };
 
 
