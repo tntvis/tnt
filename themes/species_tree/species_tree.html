@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>e!Peek Themes</title>
+
+<style>
+  @import url(../../index.css)
+</style>
+
+<div id="body">
+
+  <!-- D3.js -->
+  <script src="../../lib/d3.min.js"></script>
+
+  <!-- ePeek -->
+  <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
+  <script src="../../ePeek.js"></script>
+
+  <!-- Tree.js -->
+  <script src="species_tree.js"></script>
+
+
+  <h1>A Simple Species Tree</h1>
+  <div id="speciesTree"></div>
+
+  <script>
+    (function() {
+    var st = epeek.species_tree();
+    var theme = epeek_theme();
+    theme(st, document.getElementById("speciesTree"));
+    }());
+  </script>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
+
+</div>
+<script src="../../highlight.v0.min.js"></script>
+
+
