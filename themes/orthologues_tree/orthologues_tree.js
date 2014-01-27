@@ -59,7 +59,6 @@ var epeek_theme = function() {
     };
 
     var gene_info_callback = function (gene) {
-	last_selected_gene = gene.external_name;
 	show_spinner();
 	gene_name = gene.external_name;
     	gBrowser.homologues(gene.ID, homologues_cbak);
