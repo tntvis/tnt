@@ -1,6 +1,5 @@
-@import "lib/scss/main";
 
-.node {
+.ePeek_tree_node {
     $stroke-width : 1.5px;
     $fill-color   : steelblue;
     $empty-color  : #fff;
@@ -22,10 +21,13 @@
 }
 
 text {
-    @include small-font;
+     &.ePeek_tree_label {
+     	@include small-font;
+    	fill : #000;
+     }
 }
 
-.link {
+.ePeek_tree_link {
   fill: none;
   /* stroke: #ccc; */
   stroke-width: 1.5px;
@@ -40,8 +42,4 @@ text {
       stroke         : "fff";
   }
 
-}
-
-text {
-  fill: #000;
 }

@@ -1,3 +1,31 @@
+.ePeek_tree_node .absent {
+  fill: none;
+  stroke: none;
+  stroke-width: none; }
+.ePeek_tree_node .dubious {
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 1.5px; }
+.ePeek_tree_node .present {
+  fill: steelblue;
+  stroke: steelblue;
+  stroke-width: 1.5px; }
+
+text.ePeek_tree_label {
+  font-size: 12px;
+  fill: #000; }
+
+.ePeek_tree_link {
+  fill: none;
+  /* stroke: #ccc; */
+  stroke-width: 1.5px; }
+  .ePeek_tree_link .present {
+    stroke: "000"; }
+  .ePeek_tree_link .dubious {
+    stroke: "ccc"; }
+  .ePeek_tree_link .absent {
+    stroke: "fff"; }
+
 body {
   font-size: 100%; }
 
