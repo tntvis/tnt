@@ -220,13 +220,6 @@ var epeek_theme = function() {
 	    .attr("id", "ePeek_" + div_id + "_gene_info") // Both needed?
 	    .style("width", gBrowser.width() + "px");
 
-	// The QRtag div
-	var qrtag_div = d3.select(div)
-	    .append("div")
-	    .attr("class", "ePeek_TabBlock")
-	    .attr("id", "ePeek_" + div_id + "_qrtag_div")
-	    .style("margin-top", "-120px");
-
 	// Links div
 	var links_pane = d3.select(div)
 	    .append("div")
@@ -264,10 +257,8 @@ var epeek_theme = function() {
 	    .append("span")
 	    .attr("class", "ePeek_qrtag_label") // both needed?
 	    .attr("id", "ePeek_" + div_id + "_qrtag_label")
-	    .on("click", function(){
-		toggle(d3.select("#ePeek_" + div_id + "_qrtag_div"));
-		create_QRtag()
-	    });
+	    .on("click", create_QRtag);
+
 	qrtagLabel
 	    .append("img")
 	    .attr("src", path + "../../themes/pics/qr.png")
@@ -285,16 +276,21 @@ var epeek_theme = function() {
 
     var create_QRtag = function() {
 	// We remove previously created QRtag
-	d3.select("#ePeek_" + div_id + "_QRcode").remove();
+	// d3.select("#ePeek_" + div_id + "_QRcode").remove();
+
+	var tooltip_obj = '<div id="ePeek_' + div_id + '_qrtag_div"></id>';
+	epeek.tooltip.call(this).plain(tooltip_obj);
 
 	var qrtag = new QRtag();
 	qrtag.data(buildLink("mobile"));
 	qrtag.border(10);
-	qrtag.color(gBrowser.foreground_color().toString());
-	qrtag.bgcolor(gBrowser.background_color().toString());
+	qrtag.size(180);
+	qrtag.color("FFF"); // gBrowser.foreground_color().toString());
+	qrtag.bgcolor("000"); // gBrowser.background_color().toString());
 	qrtag.target("ePeek_" + div_id + "_qrtag_div");
 	qrtag.id("ePeek_" + div_id + "_QRcode");
 	qrtag.image();
+
 
 	return;
     };
@@ -319,8 +315,6 @@ var epeek_theme = function() {
 	var search_term = document.getElementById("ePeek_" + div_id + "_gene_name_input").value;
 	if (isLocation(search_term)) {
 	    var loc = parseLocation(search_term);
-	    console.log(">>>>> LOC: ");
-	    console.log(loc);
 	    gBrowser.start(loc);
 	} else {
 	    gBrowser.start({species : gBrowser.species(),
@@ -472,8 +466,6 @@ var epeek_theme = function() {
     };
 
     var ensGene_cbak = function(ensGene) {
-	console.log("ENSGENE:");
-	console.log(ensGene);
 	gBrowser.homologues(ensGene.id, homologues_cbak);
     }
 
