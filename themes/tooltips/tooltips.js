@@ -2,7 +2,10 @@ var epeek_theme = function() {
     "use strict";
 
     var theme = function(gB, div) {
-	gB.gene_info_callback = gB.tooltip(); // gene info callback
+	var tooltip = epeek.tooltip()
+	    .type("table");
+
+	gB.gene_info_callback = gB.tooltip(tooltip); // gene info callback
 
 	gB(div);
 

@@ -14,6 +14,9 @@ var epeek_theme = function() {
 
     var path = epeek.scriptPath("compact.js");
 
+    var qr_tooltip = epeek.tooltip()
+	.type("plain");
+
     // div_ids to display different elements
     // They have to be set dynamically because the IDs contain the div_id of the main element containing the plug-in
     var div_id;
@@ -279,7 +282,7 @@ var epeek_theme = function() {
 	// d3.select("#ePeek_" + div_id + "_QRcode").remove();
 
 	var tooltip_obj = '<div id="ePeek_' + div_id + '_qrtag_div"></id>';
-	epeek.tooltip.call(this).plain(tooltip_obj);
+	qr_tooltip.call(this, tooltip_obj);
 
 	var qrtag = new QRtag();
 	qrtag.data(buildLink("mobile"));
