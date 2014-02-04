@@ -32,7 +32,9 @@
 
   <script>
     (function() {
-    var st = epeek.species_tree().background_color("steelblue");
+    <!-- var st = epeek.species_tree("(((Crotalus_oreganus_oreganus_cytochrome_b:0.00800,Crotalus_horridus_cytochrome_b:0.05866):0.04732,(Thamnophis_elegans_terrestris_cytochrome_b:0.00366,Thamnophis_atratus_cytochrome_b:0.00172):0.06255):0.00555,(Pituophis_catenifer_vertebralis_cytochrome_b:0.00552,Lampropeltis_getula_cytochrome_b:0.02035):0.05762,((Diadophis_punctatus_cytochrome_b:0.06486,Contia_tenuis_cytochrome_b:0.05342):0.01037,Hypsiglena_torquata_cytochrome_b:0.05346):0.00779);"); -->
+    var st = epeek.species_tree("((human:1,chimp:1):1,mouse:1)ANC;").background_color("steelblue");
+    <!-- var st = epeek.species_tree(); -->
     var theme = epeek_theme();
     theme(st, document.getElementById("speciesTree"));
     }());
