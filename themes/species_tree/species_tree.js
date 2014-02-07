@@ -4,8 +4,9 @@ var epeek_theme = function() {
 
     var tree_theme = function (sT, div) {
 	sT.layout("radial");
-	var t = sT(div);
-	console.log(t.find_node_by_name(t, "Homo_sapiens"));
+	sT(div);
+	var t = sT.tree();
+	console.log(t.find_node_by_name(t, "human"));
 	setTimeout(function(){
 	    sT.layout("vertical");
 	    sT.update();
