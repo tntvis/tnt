@@ -5,11 +5,10 @@ var epeek_theme = function() {
     var tree_theme = function (sT, div) {
 	sT.layout("radial");
 	sT(div);
-	var t = sT.tree();
-	console.log(t.find_node_by_name(t, "human"));
 	setTimeout(function(){
-	    sT.layout("vertical");
-	    sT.update();
+// 	    sT.layout("vertical");
+	    sT.subtree(["Mus_musculus", "Bos_taurus"])
+ 	    sT.update();
 	}, 2000);
     };
 
