@@ -7,7 +7,7 @@ var epeek_theme = function() {
 	sT(div);
 	setTimeout(function(){
 // 	    sT.layout("vertical");
-	    sT.subtree(["Mus_musculus", "Bos_taurus", "Homo_sapiens"])
+	    sT.subtree(["human", "mouse"]);
  	    sT.update();
 	}, 2000);
     };
