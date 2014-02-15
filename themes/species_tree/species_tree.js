@@ -3,7 +3,7 @@ var epeek_theme = function() {
     "use strict";
 
     var tree_theme = function (sT, div) {
-	sT.layout("vertical");
+	sT.layout("radial");
 	sT(div);
 	setTimeout(function(){
 // 	    sT.layout("vertical");
