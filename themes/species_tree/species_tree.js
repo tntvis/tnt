@@ -17,7 +17,7 @@ var epeek_theme = function() {
 	    console.log("GO");
 	    sT.subtree(["human", "mouse", "chimp", "fish"]);
 	    sT.update();
-	}, 7000);
+	}, 9000);
     };
 
     return tree_theme;
