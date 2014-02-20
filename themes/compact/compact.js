@@ -285,7 +285,7 @@ var epeek_theme = function() {
 	qr_tooltip.call(this, tooltip_obj);
 
 	var qrtag = new QRtag();
-	qrtag.data(buildLink("mobile"););
+	qrtag.data(buildLink("mobile"));
 	qrtag.border(10);
 	qrtag.size(180);
 	qrtag.color("FFF"); // gBrowser.foreground_color().toString());
