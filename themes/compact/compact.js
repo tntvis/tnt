@@ -238,7 +238,7 @@ var epeek_theme = function() {
 	    .append("span")
 	    .attr("class", "ePeek_link_label")
 	    .attr("title", "Open in a new window")
-	    .on("click", function() {var link = buildLink("desktop"); window.open(link, "_blank")});
+	.on("click", function() {console.log("here"); var link = buildLink("desktop"); window.open(link, "_blank")});
 	epeekweb
 	    .append("img")
 	    .attr("src", path + "../../themes/pics/open_in_new_window.png")
@@ -285,7 +285,7 @@ var epeek_theme = function() {
 	qr_tooltip.call(this, tooltip_obj);
 
 	var qrtag = new QRtag();
-	qrtag.data(buildLink("mobile"));
+	qrtag.data(buildLink("mobile"););
 	qrtag.border(10);
 	qrtag.size(180);
 	qrtag.color("FFF"); // gBrowser.foreground_color().toString());
@@ -551,12 +551,12 @@ var epeek_theme = function() {
     ///*********************////
     // Private methods
     var buildLink = function(platform) {
-	var url = "http://www.ebi.ac.uk/~mp/ePeek/clients/";
+	var url = "http://www.ebi.ac.uk/~mp/minimalGenomeBrowser/themes/";
 	var postfix = "";
 	if (platform === "desktop") {
-	    url = url + "default.html";
+	    url = url + "compact/compact.html";
 	} else if (platform === "mobile") {
-	    url = url + "mobile.html";
+	    url = url + "mobile/mobile.html";
 	    postfix = "#browser";
 	}
 	url = url + "?loc=" + gBrowser.species() + ":" + gBrowser.chr() + ":" + gBrowser.from() + "-" + gBrowser.to() + postfix;
