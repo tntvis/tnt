@@ -2,7 +2,7 @@ var SLIDE_CONFIG = {
   // Slide settings
     settings: {
 	title: 'Introducing <span style="color:black">e!Peek</span>',
-	subtitle: 'The Mininal Genome Browser',
+	subtitle: 'Visualizing Ensembl data anywhere',
     //eventInfo: {
     //  title: 'Google I/O',
     //  date: '6/x/2013'
