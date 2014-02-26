@@ -100,11 +100,11 @@ var epeek_theme = function() {
 	// We listen on orthologues options
 	orth_select.on("change", function() {
 //	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
-	    gBrowser.ensGene_lookup(this.value);
+	    gBrowser.start({
+		gene : this.value
+	    });
 	});
- 
-
-    };
+     };
 
     var gene_info_callback = function(gene) {
 	// We first remove previous data and elements
