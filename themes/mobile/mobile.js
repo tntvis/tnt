@@ -223,7 +223,7 @@ var epeek_theme = function() {
 		//           || document.body.clientWidth;
 	    
 		var w = document.documentElement.clientWidth;
-		gBrowser.resize(w-20);
+		gBrowser.width(w-20);
             }, 500);
 	}
     };
