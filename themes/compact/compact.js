@@ -47,7 +47,9 @@ var epeek_theme = function() {
 	gBrowser = gB;
 
 	// Set the gBrowser's callbacks
-	gBrowser.gene_info_callback      = gene_info_cbak;
+	var tooltip = epeek.tooltip()
+	    .type("table");
+	gBrowser.gene_info_callback      = gB.tooltip(tooltip);
 	gBrowser.gene_search_callback    = ensGenes_cbak;
 	gBrowser.ensgene_search_callback = ensGene_cbak;
 
@@ -214,14 +216,6 @@ var epeek_theme = function() {
 	    }
 	}
 	gBrowser(div);
-
-
-	// The GeneInfo Panel
-	d3.select(div).select(".ePeek_groupDiv")
-	    .append("div")
-	    .attr("class", "ePeek_gene_info")
-	    .attr("id", "ePeek_" + div_id + "_gene_info") // Both needed?
-	    .style("width", gBrowser.width() + "px");
 
 	// Links div
 	var links_pane = d3.select(div)
@@ -399,39 +393,6 @@ var epeek_theme = function() {
 
 	return para_select;
     }
-
-    // callbacks plugged to the gBrowser object
-    var gene_info_cbak = function (gene) {
-	var sel = d3.select("#ePeek_" + div_id + "_gene_info");
-
-	sel
-	    .classed("ePeek_gene_info_active", true)
-	    .append("p")
-	    .attr("class", "ePeek_gene_info_paragraph")
-	    .style("color", gBrowser.foreground_color().darker())
-	    .style("background-color", gBrowser.background_color().brighter())
-	    .style("height", gBrowser.height() + "px")
-	    .html(function () {
-		return "<h1>" + gene.external_name + "</h1>" +
-		    "Ensembl ID: <i>" + gene.ID + "</i><br />" +
-		    "Description: <i>" + gene.description + "</i><br />" +
-		    "Source: <i>" + gene.logic_name + "</i><br />" +
-		    "loc: <i>" + gene.seq_region_name + ":" + gene.start + "-" + gene.end + " (Strand: " + gene.strand + ")</i><br />";});
-
-	sel.append("span")
-	    .attr("class", "ePeek_text_rotated")
-	    .style("top", ~~gBrowser.height()/2 + "px")
-	    .style("background-color", gBrowser.foreground_color())
-	    .append("text")
-	    .attr("class", "ePeek_link")
-	    .style("color", gBrowser.background_color())
-	    .text("[Close]")
-	    .on("click", function() {d3.select("#ePeek_" + div_id + "_gene_info" + " p").remove();
-				     d3.select("#ePeek_" + div_id + "_gene_info" + " span").remove();
-				     sel.classed("ePeek_gene_info_active", false)});
-
-    };
-
 
     var homologues_cbak = function(homologues) {
 
