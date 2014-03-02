@@ -16,7 +16,7 @@
   <script src="../../ePeek.js"></script>
 
   <!-- Tree.js -->
-  <script src="tree_transitions.js"></script>
+  <script src="layout_transition.js"></script>
 
   <header>
     <a style="margin-left:1em;" href="../../index.html">Overview</a>
@@ -32,7 +32,7 @@
 
   <script>
     (function() {
-    var st = epeek.species_tree()
+    var st = epeek.tree()
     var theme = epeek_theme();
     theme(st, document.getElementById("speciesTree"));
     }());
