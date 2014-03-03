@@ -4,6 +4,9 @@
   "dependencies": {
     "smash": "0",
     "uglify-js": "2",
-    "chai": "~1.9.0"
+    "chai": "~1.9.0",
+    "mocha-phantomjs": "~3.3.2",
+    "phantomjs": "~1.9.7-1",
+    "mocha": "~1.17.1"
   }
 }

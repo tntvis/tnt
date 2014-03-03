@@ -8,9 +8,38 @@
 //   })
 // })
 
-var assert = require("chai").assert;
-var d3     = require("../lib/d3.min").d3;
-var epeek  = require("../ePeek").epeek;
+// var assert = require("chai").assert;
+// var d3     = require("../lib/d3.min").d3;
+// var epeek  = require("../ePeek").epeek;
+
+describe("DOM Tests", function () {
+    var el = document.createElement("div");
+    el.id = "myDiv";
+    el.innerHTML = "Hi there!";
+    el.style.background = "#ccc";
+    document.body.appendChild(el);
+ 
+    var myEl = document.getElementById('myDiv');
+    it("is in the DOM", function () {
+	assert.notEqual(myEl, null);
+        // expect(myEl).to.not.equal(null);
+    });
+ 
+    it("is a child of the body", function () {
+	assert.equal(myEl.parentElement, document.body);
+        // expect(myEl.parentElement).to.equal(document.body);
+    });
+ 
+    it("has the right text", function () {
+	assert.equal(myEl.innerHTML, "Hi there!", "Correct text");
+        // expect(myEl.innerHTML).to.equal("Hi there!");
+    });
+ 
+    it("has the right background", function () {
+	assert.equal(myEl.style.background, "rgb(204, 204, 204)", "Correct background color");
+        // expect(myEl.style.background).to.equal("rgb(204, 204, 204)");
+    });
+});
 
 describe('Array', function(){
   describe('#indexOf()', function(){
@@ -22,8 +51,41 @@ describe('Array', function(){
 })
 
 describe('ePeek', function () {
-    var gbrowser = epeek.genome();
-    it('creates a genome browser', function () {
-	gbrowser(document.getElementById('genome_browser'));
-    });
+    // ePeek REST
+    describe('ePeek REST', function () {
+	it("Exists and is called eRest", function () {
+	    assert.isDefined(epeek.eRest);
+	})
+	var rest = epeek.eRest();
+	it("Has a region limit", function () {
+	    assert.isDefined(rest.limits);
+	    assert.isDefined(rest.limits.region);
+	})
+
+	describe('Data retrieval', function () {
+	    var gene_url = rest.url.gene({id:"ENSG00000139618"});
+	    it("Should retrieve a gene")
+	})
+
+    })
+  
+    // ePeek Genome
+    describe('ePeek Genome', function () {
+	before (function () {
+	    // Creation of the container
+	    var container = document.createElement("div");
+	    container.id = "genomeBrowser";
+	    document.body.appendChild(container);
+	})
+
+	var gbrowser = epeek.genome();
+
+	// API
+
+	// General tests
+	it('creates a genome browser', function () {
+	    gbrowser(document.getElementById('genomeBrowser'));
+	});
+    })
 })
+
