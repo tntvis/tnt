@@ -1,15 +1,14 @@
 NODE_BIN_DIR = ./node_modules/.bin
-NODE_JSDOC_TEMPLATES_DIR=./node_modules/jsdoc/templates/docstrap
 GENERATED_FILES = \
 	ePeek.js \
 	ePeek.min.js
 
 all: $(GENERATED_FILES)
 
-.PHONY: clean all
+.PHONY: clean all test
 
-test: ePeek.js
-	$(NODE_BIN_DIR)/mocha-phantomjs test/test.html
+test:
+	$(NODE_BIN_DIR)/mocha-phantomjs --reporter spec test/test.html
 
 ePeek.js: $(shell node_modules/.bin/smash --list lib/index.js) package.json
 	@rm -f $@
