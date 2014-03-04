@@ -8,6 +8,9 @@ all: $(GENERATED_FILES)
 
 .PHONY: clean all
 
+test: ePeek.js
+	$(NODE_BIN_DIR)/mocha-phantomjs test/test.html
+
 ePeek.js: $(shell node_modules/.bin/smash --list lib/index.js) package.json
 	@rm -f $@
 	$(NODE_BIN_DIR)/smash lib/index.js > $@
