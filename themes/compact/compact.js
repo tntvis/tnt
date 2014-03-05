@@ -50,7 +50,7 @@ var epeek_theme = function() {
 	var tooltip = epeek.tooltip()
 	    .type("table");
 	gBrowser.gene_info_callback      = gB.tooltip(tooltip);
-	gBrowser.gene_search_callback    = ensGenes_cbak;
+	gBrowser.xref_search_callback    = xref_cbak;
 	gBrowser.ensgene_search_callback = ensGene_cbak;
 
 	// We set the original data so we can always come back
@@ -419,7 +419,7 @@ var epeek_theme = function() {
 
     };
 
-    var ensGenes_cbak = function(ensGenes) {
+    var xref_cbak = function(ensGenes) {
 	// The ensGenes select + number of ensGenes
 	var ensGene_sel = gene_select(ensGenes);
 	ensGene_sel.on("change", function() {
