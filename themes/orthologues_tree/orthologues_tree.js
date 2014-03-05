@@ -8,6 +8,7 @@ var epeek_theme = function() {
 
     var gBrowser;
     var orthologues_tree;
+    var orthologues_tree_update;
 
     var gene_name;
 
@@ -37,6 +38,7 @@ var epeek_theme = function() {
 
 	// Create a new tree browser
 	orthologues_tree = epeek.species_tree();
+	orthologues_tree_update = orthologues_tree.update();
 
 	orthologues_tree(document.getElementById(gene_orthologues_tree_id));
 
@@ -54,7 +56,7 @@ var epeek_theme = function() {
     var homologues_cbak = function (homologues) {
 	hide_spinner();
 	var orthologues_by_species = classify_orthologues_by_species(homologues);
-	orthologues_tree.update_data(orthologues_by_species);
+	orthologues_tree_update(orthologues_by_species);
     };
 
     var gene_info_callback = function (gene) {
