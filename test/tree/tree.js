@@ -10,11 +10,11 @@ describe('ePeek Tree', function () {
     describe('Newick reader', function () {
 	it("Exists and is called tree.parse_newick", function () {
 	    assert.isDefined(epeek.tree.parse_newick);
-	})
+	});
 
 	it("Can read a simple tree", function () {
 	    assert.isDefined(tree);
-	})
+	});
 	it("The returned tree has the correct structure", function () {
 	    assert.property(tree, "name");
 	    assert.property(tree, "branchset");
@@ -22,8 +22,8 @@ describe('ePeek Tree', function () {
 	    assert.property(tree.branchset[0], "branchset");
 	    assert.strictEqual(tree.branchset[0].branchset[0].name, "human");
 	    assert.notProperty(tree.branchset[0].branchset[0], "branchset");
-	})
-    })
+	});
+    });
 
     describe('ePeek.tree.tree', function () {
 	var mytree = epeek.tree.tree(tree);
@@ -37,8 +37,53 @@ describe('ePeek Tree', function () {
 	    var orig_data = mynewtree.data();
 	    assert.deepEqual(mytree, orig_data);
 	    assert.strictEqual(mynewtree.data().name, "anc2");
-	})
+	});
 
+	it('Inserts ids in all the nodes', function () {
+	    var nodes_with_ids = 0;
+	    var nodes = 0;
+	    mytree.apply(function (node) {
+		nodes++;
+		if (node.property('_id') !== undefined) {
+		    nodes_with_ids++;
+		}
+	    });
+	    assert.strictEqual(nodes_with_ids, nodes);
+	});
+
+	it("Doesn't override ids", function () {
+	    var node = mytree.find_node_by_name('human');
+	    assert.notEqual(node.property('_id'), 1);
+	    assert.strictEqual(node.property('_id'), 3);
+	});
+
+	it("Can retrieve ids", function () {
+	    assert.property(mytree, "id");
+	    var id = mytree.id();
+	    assert.isDefined(id);
+	    assert.strictEqual(id, 1);
+	});
+
+	it("Can retrieve names", function () {
+	    assert.property(mytree, "node_name");
+	    var root_name = mytree.node_name();
+	    assert.strictEqual(root_name, "");
+	    var node = mytree.find_node_by_name('chimp');
+	    var node_name = node.node_name();
+	    assert.strictEqual(node_name, 'chimp');
+	});
+
+	it('Has the correct number of parents', function () {
+	    var parents = 0;
+	    var nodes = 0;
+	    mytree.apply(function (node) {
+		nodes++;
+		if (node.property('_parent') !== undefined) {
+		    parents++;
+		}
+	    });
+	    assert.strictEqual(parents+1, nodes);
+	});
 
 	describe('API', function () {
 	    describe('find_node_by_name', function () {
@@ -94,20 +139,6 @@ describe('ePeek Tree', function () {
 		    assert.isDefined(lca);
 		    assert.property(lca, "find_node_by_name");
 		})
-	    });
-
-	    describe('nodes have parents', function () {
-		it('has the correct number of parents', function () {
-		    var parents = 0;
-		    var nodes = 0;
-		    mytree.apply(function(node) {
-			nodes++;
-			if (node.property('_parent') !== undefined) {
-			    parents++;
-			}
-		    });
-		    assert.strictEqual(parents+1, nodes);
-		});
 	    });
 
 	    describe('is_leaf', function () {
@@ -195,6 +226,28 @@ describe('ePeek Tree', function () {
 		    assert.isTrue(_.contains(visited_nodes, "human"));
 		    assert.isTrue(_.contains(visited_nodes, "anc2"));
 		    assert.isTrue(_.contains(visited_nodes, "anc1"));
+		});
+	    });
+
+	    describe("subtree", function () {
+		var subtree;
+		it("Creates subtrees", function () {
+		    var nodes = [];
+		    nodes.push(mytree.find_node_by_name('human'));
+		    nodes.push(mytree.find_node_by_name('mouse'));
+		    subtree = mytree.subtree(nodes)
+		    assert.isDefined(subtree);
+		});
+
+		it("Prunes the tree correctly", function () {
+		    var ids_in_subtrees = [];
+		    subtree.apply(function (node) {
+			console.log("NODE IN SUBTREE:");
+			console.log(node.id());
+			ids_in_subtrees.push(node.id());
+		    });
+		    assert.isArray(ids_in_subtrees);
+		    assert.lengthOf(ids_in_subtrees, 3);
 		});
 	    });
 
