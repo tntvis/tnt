@@ -168,7 +168,34 @@ describe('ePeek Tree', function () {
 	    });
 
 	    describe('upstream', function() {
-		it("Sets a new property on each upstream node");
+		var mytree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
+		var mynewtree = epeek.tree.tree(mytree);
+		var node = mynewtree.find_node_by_name('human');
+		it("Visits the correct number of antecesors", function () {
+		    var visited_parents = [];
+		    node.upstream(function (el) {
+			visited_parents.push(el.property('name'));
+		    });
+		    assert.strictEqual(visited_parents.length, 3);
+		    assert.isTrue(_.contains(visited_parents, "human"));
+		    assert.isTrue(_.contains(visited_parents, "anc2"));
+		    assert.isTrue(_.contains(visited_parents, "anc1"));
+		});
+		it("Sets properties in the antecesors", function () {
+		    node.upstream(function (el) {
+			el.property('visited_node', 1);
+		    });
+		    var visited_nodes = [];
+		    mynewtree.apply(function (node) {
+			if (node.property('visited_node') === 1) {
+			    visited_nodes.push(node.data().name);
+			}
+		    });
+		    assert.strictEqual(visited_nodes.length, 3);
+		    assert.isTrue(_.contains(visited_nodes, "human"));
+		    assert.isTrue(_.contains(visited_nodes, "anc2"));
+		    assert.isTrue(_.contains(visited_nodes, "anc1"));
+		});
 	    });
 
 	});
