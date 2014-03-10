@@ -229,6 +229,14 @@ describe('ePeek Tree', function () {
 		});
 	    });
 
+	    describe("get_all_leaves", function () {
+		it("Returns all the leaves", function () {
+		    var leaves = mytree.get_all_leaves();
+		    assert.isArray(leaves);
+		    assert.lengthOf(leaves, 3);
+		});
+	    });
+
 	    describe("subtree", function () {
 		var subtree;
 		it("Creates subtrees", function () {
@@ -240,14 +248,53 @@ describe('ePeek Tree', function () {
 		});
 
 		it("Prunes the tree correctly", function () {
-		    var ids_in_subtrees = [];
+		    var ids_in_subtree = [];
 		    subtree.apply(function (node) {
-			console.log("NODE IN SUBTREE:");
-			console.log(node.id());
-			ids_in_subtrees.push(node.id());
+			ids_in_subtree.push(node.id());
 		    });
-		    assert.isArray(ids_in_subtrees);
-		    assert.lengthOf(ids_in_subtrees, 3);
+		    assert.isArray(ids_in_subtree);
+		    assert.lengthOf(ids_in_subtree, 3);
+		    assert.isTrue(_.contains(ids_in_subtree, 1));
+		    assert.isTrue(_.contains(ids_in_subtree, 3));
+		    assert.isTrue(_.contains(ids_in_subtree, 5));
+		});
+
+		it("Prunes correcly trees that doesn't include the root", function () {
+		    var nodes = [];
+		    nodes.push(mytree.find_node_by_name('human'));
+		    nodes.push(mytree.find_node_by_name('chimp'));
+		    var subtree = mytree.subtree(nodes);
+		    assert.isDefined(subtree);
+		    var ids_in_subtree = [];
+		    subtree.apply(function (node) {
+			ids_in_subtree.push(node.id());
+		    });
+		    assert.isArray(ids_in_subtree);
+		    assert.lengthOf(ids_in_subtree, 3);
+		    assert.strictEqual(subtree.id(), 2);
+		    assert.isTrue(_.contains(ids_in_subtree, 2));
+		    assert.isTrue(_.contains(ids_in_subtree, 3));
+		    assert.isTrue(_.contains(ids_in_subtree, 4));
+		});
+
+		it("Returns an identical copy on a subtree with all the leaves", function () {
+		    var leaves = mytree.get_all_leaves();
+		    _.each(leaves, function (el) { console.log("::" + el.property('_id')) })
+		    var subtree = mytree.subtree(leaves);
+		    assert.isDefined(subtree);
+		    var tree_nodes = [];
+		    mytree.apply(function (node) {
+			console.log("T: " + node.property('_id'));
+			tree_nodes.push(node);
+		    });
+		    var subtree_nodes = [];
+		    subtree.apply(function (node) {
+			console.log("ST: " + node.property('_id'));
+			subtree_nodes.push(node);
+		    });
+		    console.log(tree_nodes.length);
+		    console.log(subtree_nodes.length);
+		    assert.strictEqual(tree_nodes.length, subtree_nodes.length);
 		});
 	    });
 
