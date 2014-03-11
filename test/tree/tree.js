@@ -279,21 +279,16 @@ describe('ePeek Tree', function () {
 
 		it("Returns an identical copy on a subtree with all the leaves", function () {
 		    var leaves = mytree.get_all_leaves();
-		    _.each(leaves, function (el) { console.log("::" + el.property('_id')) })
 		    var subtree = mytree.subtree(leaves);
 		    assert.isDefined(subtree);
 		    var tree_nodes = [];
 		    mytree.apply(function (node) {
-			console.log("T: " + node.property('_id'));
 			tree_nodes.push(node);
 		    });
 		    var subtree_nodes = [];
 		    subtree.apply(function (node) {
-			console.log("ST: " + node.property('_id'));
 			subtree_nodes.push(node);
 		    });
-		    console.log(tree_nodes.length);
-		    console.log(subtree_nodes.length);
 		    assert.strictEqual(tree_nodes.length, subtree_nodes.length);
 		});
 	    });
