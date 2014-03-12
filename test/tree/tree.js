@@ -23,6 +23,14 @@ describe('ePeek Tree', function () {
 	    assert.strictEqual(tree.branchset[0].branchset[0].name, "human");
 	    assert.notProperty(tree.branchset[0].branchset[0], "branchset");
 	});
+
+	it("Reads the branch lenghts", function () {
+	    var newick = "((human:0.2,chimp:0.3),mouse:0.5)";
+	    var tree = epeek.tree.parse_newick(newick);
+	    assert.closeTo(tree.branchset[1].length, 0.5, 0.05);
+	    assert.closeTo(tree.branchset[0].branchset[0].length, 0.2, 0.05);
+	    assert.closeTo(tree.branchset[0].branchset[1].length, 0.3, 0.05);
+	});
     });
 
     describe('ePeek.tree.tree', function () {
