@@ -1,4 +1,6 @@
 describe('ePeek REST', function () {
+    this.timeout(5000);
+
     it("Exists and is called eRest", function () {
 	assert.isDefined(epeek.eRest);
     })
@@ -112,7 +114,55 @@ describe('ePeek REST', function () {
 			     }
 			   })
 	    })
-	})
+	});
+
+	describe('Genomic alignment blocks', function () {
+	    it("Has a url.aln_block field", function () {
+		assert.isDefined(rest.url.aln_block);
+	    });
+	    var aln_block_url = rest.url.aln_block({
+		species : 'homo_sapiens',
+		chr     : 2,
+		from    : 106040000,
+		to      : 106041500,
+		method  : 'LASTZ_NET',
+		species_set : ['human', 'mouse']
+	    });
+	    it ("Has the correct url", function () {
+		assert.equal(aln_block_url, "http://beta.rest.ensembl.org/alignment/block/region/homo_sapiens/2:106040000-106041500.json?method=LASTZ_NET&species_set=human&species_set=mouse");
+	    });
+	    it("Retrieves genomic align blocks", function (done) {
+	    	rest.call ({ url : aln_block_url,
+	    		     success : function (resp) {
+	    			 assert.isArray(resp);
+	    			 assert.strictEqual(resp.length, 1);
+				 assert.property(resp[0], "tree");
+				 assert.property(resp[0], "alignments");
+				 assert.isArray(resp[0].alignments);
+				 assert.isObject(resp[0].alignments[0]);
+				 assert.property(resp[0].alignments[0], "start");
+				 assert.property(resp[0].alignments[0], "end");
+				 assert.strictEqual(resp[0].alignments[0].species, "homo_sapiens");
+				 assert.isObject(resp[0].alignments[1]);
+				 assert.property(resp[0].alignments[1], "start");
+				 assert.property(resp[0].alignments[1], "end");
+				 assert.strictEqual(resp[0].alignments[1].species, "mus_musculus");
+	    			 setTimeout(done, delay);
+	    		     }
+	    		   });
+	    });
+	    it("Fires the error callback on wrong url", function (done) {
+		rest.call( {url : aln_block_url + "xxx",
+			    error : function (err) {
+				assert.isDefined(err);
+				assert.equal(err.status, 400);
+				assert.equal(err.readyState, 4);
+				assert.equal(err.statusText, "Bad Request");
+				setTimeout(done, delay);
+			    }
+			   })
+	    });
+	});
 
 	describe('Ensembl Gene Ids', function () {
 	    it("Has a url.gene field", function () {
