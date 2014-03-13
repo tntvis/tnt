@@ -26,9 +26,8 @@ var epeek_theme = function() {
 	    .attr("selected", 1);
 
 	sT
-	    .layout("vertical")
-	    .data(epeek.tree.parse_newick(newick))
-	    .width(750);
+	    .layout(epeek.tree.layout.radial().width(650))
+	    .data(epeek.tree.parse_newick(newick));
 
 	sT(div);
     };
