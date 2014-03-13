@@ -93,6 +93,22 @@ describe('ePeek Tree', function () {
 	    assert.strictEqual(parents+1, nodes);
 	});
 
+	it('Inserts correct distances to root', function () {
+	    var newick = "((human:0.2,chimp:0.3):0.2,mouse:0.5)";
+	    var data = epeek.tree.parse_newick(newick);
+	    var tree = epeek.tree.tree(data);
+	    assert.isDefined(tree.root_dist);
+	    assert.isFunction(tree.root_dist);
+	    var root_dists = [];
+	    tree.apply(function (node) {
+		root_dists.push(node.root_dist());
+	    });
+	    var undef_dists = _.filter(root_dists, function(d) {return d === undefined});
+	    assert.strictEqual(undef_dists.length, 0);
+	    var human = tree.find_node_by_name('human');
+	    assert.closeTo(human.root_dist(),0.4, 0.01);
+	});
+
 	describe('API', function () {
 	    describe('find_node_by_name', function () {
 		var newtree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
