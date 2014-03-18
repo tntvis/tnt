@@ -27,23 +27,35 @@ var epeek_theme = function() {
 	};
 
 	// Different labels
+
+	// The empty label shows no label
 	var empty_label = epeek.tree.label.text()
 	    .text(function (d) {
 		return "";
 	    })
+
+	// The original label shows the name of the node (default)
 	var original_label = epeek.tree.label.text(); // Default options (ie. unchanged names)
+
+	// The clean label shows the names substituting underscores with spaces
 	var clean_label = epeek.tree.label.text() // Same as default but without underscores
 	    .text(function (d) {
 		return d.name.replace(/_/g, ' ');
 	    });
+
+	// The prefix label shows the first 7 characters of the labels appending '...' at the end
 	var prefix_label = epeek.tree.label.text() // Showing only 7 characters
 	    .text(function (d) {
 		return d.name.substr(0,6) + "...";
 	    });
+
+	// The common label shows the common name of the species
 	var common_label = epeek.tree.label.text()
 	    .text(function (d) {
 		return scientific_to_common[d.name]
 	    });
+
+	// The image label shows a picture of the species
 	var image_label = epeek.tree.label.img()
 	    .src(function (d) {
 		return names_to_pics[d.name];
@@ -54,6 +66,8 @@ var epeek_theme = function() {
 	    .height(function () {
 		return 50;
 	    });
+
+	// The mixed label shows a picture for the leaves and the name of the internal nodes
 	var mixed_label = function (node) {
 	    if (node.branchset !== undefined) { // internal nodew
 		original_label.call(this, node);
@@ -61,6 +75,12 @@ var epeek_theme = function() {
 		image_label.call(this, node);
 	    }
 	}
+	mixed_label.remove = image_label.remove;
+
+	// The joined label shows a picture + the common name
+	var joined_label = epeek.tree.label.composite()
+	    .add_label(image_label)
+	    .add_label(common_label);
 
 	// The menu to change the labels dynamically
 	var menu_pane = d3.select(div)
@@ -92,6 +112,9 @@ var epeek_theme = function() {
 		    break;
 		case "mixed" :
 		    sT.label(mixed_label);
+		    break;
+		case "joined" :
+		    sT.label(joined_label);
 		    break;
 		}
 
@@ -133,6 +156,12 @@ var epeek_theme = function() {
 	    .append("option")
 	    .attr("value", "mixed")
 	    .text("text + image");
+
+	label_type_menu
+	    .append("option")
+	    .attr("value", "joined")
+	    .text("joined img + text");
+
 	sT
 	    .data(epeek.tree.parse_newick(newick))
 	    .duration(2000)
