@@ -80,7 +80,13 @@ var epeek_theme = function() {
 	// The joined label shows a picture + the common name
 	var joined_label = epeek.tree.label.composite()
 	    .add_label(image_label)
-	    .add_label(common_label);
+	// This is the same 'common label' as the one above
+	// but we are not reusing that one because add_label
+	// adjusts automatically the transform of the labels
+	    .add_label(epeek.tree.label.text()
+		       .text(function (d) {
+			   return scientific_to_common[d.name]
+		       }));
 
 	// The menu to change the labels dynamically
 	var menu_pane = d3.select(div)
