@@ -7,7 +7,7 @@ var epeek_theme = function() {
 
 	// var newick = "((homo_sapiens,pan_troglodytes),mus_musculus);";
 
-	var newick = "((((2,1),(5,4)),3),6)";
+	var newick = "(((2,4),(5,1)),3)";
 
 	var data = epeek.tree.parse_newick(newick);
 
@@ -24,14 +24,18 @@ var epeek_theme = function() {
 	setTimeout(function() {
 
             // Helper function to get the lowest value in                                                   
-            // the subnode -- this is used in the sort cbak                                                 
+            // the subnode -- this is used in the sort cbak
             var get_lowest_val = function (node) {
                 var lowest = 1000;
-                node.apply(function (n) {
-                    if (node.node_name() < lowest) {
-                        lowest = node.node_name();
+		node.apply(function (n) {
+                    if (n.node_name() === "") {
+			return;
                     }
-		});
+                    var val = parseInt(n.node_name());
+                    if (val < lowest) {
+                        lowest = val;
+                    }
+                });
                 return lowest;
             };
 

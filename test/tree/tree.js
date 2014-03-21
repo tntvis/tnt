@@ -366,7 +366,7 @@ describe('ePeek Tree', function () {
 		});
 
 		it("Sorts based on a numerical value", function () {
-		    var newick = "(((2,1),(5,4)),3)";
+		    var newick = "(((4,2),(5,1)),3)";
 		    var data = epeek.tree.parse_newick(newick);
 		    var tree = epeek.tree.tree(data);
 		    var ids = [];
@@ -379,8 +379,12 @@ describe('ePeek Tree', function () {
 		    var get_lowest_val = function (node) {
 			var lowest = 1000;
 			node.apply(function (n) {
-			    if (node.node_name() < lowest) {
-				lowest = node.node_name();
+			    if (n.node_name() === "") {
+			    	return;
+			    }
+			    var val = parseInt(n.node_name());
+			    if (val < lowest) {
+				lowest = val;
 			    }
 			});
 			return lowest;
@@ -389,8 +393,12 @@ describe('ePeek Tree', function () {
 		    tree.sort(function (node1, node2) {
 			var lowest1 = get_lowest_val(node1);
 			var lowest2 = get_lowest_val(node2);
-			if (lowest1 < lowest2) return -1;
-			if (lowest1 > lowest2) return 1;
+			if (lowest1 < lowest2) {
+			    return -1;
+			}
+			if (lowest1 > lowest2) {
+			    return 1;
+			}
 			return 0;
 		    });
 
@@ -399,10 +407,14 @@ describe('ePeek Tree', function () {
 			sorted_ids.push(node.id());
 		    });
 
-		    assert.notEqual(ids[3], sorted_ids[3]);
-		    assert.strictEqual(ids[3], 4);
-		    assert.strictEqual(sorted_ids[3], 5);
+		    assert.operator(_.indexOf(ids, 3), '<', _.indexOf(ids, 6));
+		    assert.operator(_.indexOf(sorted_ids, 6), '<', _.indexOf(sorted_ids, 3));
+
+		    assert.operator(_.indexOf(ids, 7), '<', _.indexOf(ids, 8));
+		    assert.operator(_.indexOf(sorted_ids, 8), '<', _.indexOf(sorted_ids, 7));
+
 		});
+
 	    });
 
 	});
