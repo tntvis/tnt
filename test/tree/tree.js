@@ -317,6 +317,42 @@ describe('ePeek Tree', function () {
 		});
 	    });
 
+	    describe("node_present", function () {
+		it("Returns true if node is present", function () {
+		    var present = mytree.node_present(function (node) {
+			return node.id() === 5;
+		    });
+		    assert.strictEqual(present, true);
+		});
+
+		it("Returns false if node is absent", function () {
+		    var present = mytree.node_present(function (node) {
+			return node._id === -1;
+		    });
+		    assert.strictEqual(present, false);
+		});
+
+	    });
+
+	    describe("sort", function () {
+		it("Sorts the nodes", function () {
+		    var ids = [];
+		    mytree.apply(function (node) {
+			ids.push(node.id());
+		    });
+		    mytree.sort(function (node) {
+			return node.id() === 5;
+		    });
+		    var sorted = [];
+		    mytree.apply(function (node) {
+			sorted.push(node.id());
+		    });
+		    assert.notEqual(ids[1], sorted[1]);
+		    assert.equal(ids[1], 2);
+		    assert.equal(sorted[1], 5);
+		});
+	    });
+
 	});
 
     });
