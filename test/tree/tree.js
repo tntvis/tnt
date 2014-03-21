@@ -319,14 +319,14 @@ describe('ePeek Tree', function () {
 
 	    describe("node_present", function () {
 		it("Returns true if node is present", function () {
-		    var present = mytree.node_present(function (node) {
+		    var present = mytree.present(function (node) {
 			return node.id() === 5;
 		    });
 		    assert.strictEqual(present, true);
 		});
 
 		it("Returns false if node is absent", function () {
-		    var present = mytree.node_present(function (node) {
+		    var present = mytree.present(function (node) {
 			return node._id === -1;
 		    });
 		    assert.strictEqual(present, false);
@@ -335,14 +335,27 @@ describe('ePeek Tree', function () {
 	    });
 
 	    describe("sort", function () {
-		it("Sorts the nodes", function () {
+		it("Swaps two leaves", function () {
 		    var ids = [];
 		    mytree.apply(function (node) {
 			ids.push(node.id());
 		    });
-		    mytree.sort(function (node) {
-			return node.id() === 5;
+
+		    // Lets sort
+		    mytree.sort(function (node1, node2) {
+			if (node1.present(function (n) {
+			    return n.id() === 5;
+			})) {
+			    return -1;
+			}
+			if (node2.present(function (n) {
+			    return n.id() === 5;
+			})) {
+			    return 1
+			}
+			return 0
 		    });
+
 		    var sorted = [];
 		    mytree.apply(function (node) {
 			sorted.push(node.id());
@@ -350,6 +363,45 @@ describe('ePeek Tree', function () {
 		    assert.notEqual(ids[1], sorted[1]);
 		    assert.equal(ids[1], 2);
 		    assert.equal(sorted[1], 5);
+		});
+
+		it("Sorts based on a numerical value", function () {
+		    var newick = "(((2,1),(5,4)),3)";
+		    var data = epeek.tree.parse_newick(newick);
+		    var tree = epeek.tree.tree(data);
+		    var ids = [];
+		    tree.apply(function (node) {
+			ids.push(node.id());
+		    });
+
+		    // Helper function to get the lowest value in
+		    // the subnode -- this is used in the sort cbak
+		    var get_lowest_val = function (node) {
+			var lowest = 1000;
+			node.apply(function (n) {
+			    if (node.node_name() < lowest) {
+				lowest = node.node_name();
+			    }
+			});
+			return lowest;
+		    };
+
+		    tree.sort(function (node1, node2) {
+			var lowest1 = get_lowest_val(node1);
+			var lowest2 = get_lowest_val(node2);
+			if (lowest1 < lowest2) return -1;
+			if (lowest1 > lowest2) return 1;
+			return 0;
+		    });
+
+		    var sorted_ids = [];
+		    tree.apply(function (node) {
+			sorted_ids.push(node.id());
+		    });
+
+		    assert.notEqual(ids[3], sorted_ids[3]);
+		    assert.strictEqual(ids[3], 4);
+		    assert.strictEqual(sorted_ids[3], 5);
 		});
 	    });
 
