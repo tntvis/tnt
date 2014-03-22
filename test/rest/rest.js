@@ -164,6 +164,28 @@ describe('ePeek REST', function () {
 	    });
 	});
 
+	describe('Ensembl GeneTrees', function () {
+	    it("Has a url.gene_tree field", function () {
+		assert.isDefined(rest.url.gene_tree);
+	    });
+	    var gene_tree_url = rest.url.gene_tree({
+		id : "ENSGT00390000003602"
+	    });
+	    console.log(gene_tree_url);
+	    it("Has the correct url", function () {
+		assert.equal(gene_tree_url, "http://beta.rest.ensembl.org/genetree/id/ENSGT00390000003602.json?sequence=none");
+	    });
+	    it("Retrieves gene trees", function (done) {
+		rest.call ({ url : gene_tree_url,
+			     success : function (resp) {
+				 assert.isObject(resp);
+				 // TODO: Include more structural tests
+				 setTimeout(done, delay);
+			     }
+			   });
+	    });
+	});
+
 	describe('Ensembl Gene Ids', function () {
 	    it("Has a url.gene field", function () {
 		assert.isDefined(rest.url.gene)
