@@ -68,14 +68,33 @@ var epeek_theme = function() {
 	    });
 
 	// The mixed label shows a picture for the leaves and the name of the internal nodes
-	var mixed_label = function (node) {
-	    if (node.branchset !== undefined) { // internal nodew
-		original_label.call(this, node);
-	    } else { // leaf
-		image_label.call(this, node);
-	    }
-	}
-	mixed_label.remove = image_label.remove;
+	// var mixed_label = function (node) {
+	//     if (node.branchset !== undefined) { // internal node
+	// 	original_label.call(this, node);
+	//     } else { // leaf
+	// 	image_label.call(this, node);
+	//     }
+	// }
+	// mixed_label.remove = image_label.remove;
+
+	// var internal_label = epeek.tree.label.text()
+	//     .text(function (node) {
+	// 	if (node.is_leaf()) {
+	// 	    return ""
+	// 	}
+	// 	return node.name;
+	//     })
+	//     .width(function (node) {
+	// 	console.log("NODE:");
+	// 	console.log(node);
+	// 	if (node.children === undefined) {
+	// 	    return 0;
+	// 	}
+	// 	return node.name.length * this.fontsize();
+	//     });
+	// var mixed_label = epeek.tree.label.composite()
+	//     .add_label(original_label)
+	//     .add_label(image_label);
 
 	// The joined label shows a picture + the common name
 	var joined_label = epeek.tree.label.composite()
@@ -116,9 +135,9 @@ var epeek_theme = function() {
 		case "image" :
 		    sT.label(image_label);
 		    break;
-		case "mixed" :
-		    sT.label(mixed_label);
-		    break;
+		// case "mixed" :
+		//     sT.label(mixed_label);
+		//     break;
 		case "joined" :
 		    sT.label(joined_label);
 		    break;
@@ -158,10 +177,10 @@ var epeek_theme = function() {
 	    .attr("value", "image")
 	    .text("species image");
 
-	label_type_menu
-	    .append("option")
-	    .attr("value", "mixed")
-	    .text("text + image");
+	// label_type_menu
+	//     .append("option")
+	//     .attr("value", "mixed")
+	//     .text("text + image");
 
 	label_type_menu
 	    .append("option")

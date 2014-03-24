@@ -10,7 +10,8 @@ var epeek_theme = function() {
 		} else {
 		    return node.id.accession
 		}
-	    });
+	    })
+	    .fontsize(10);
 
 	sT
 	    .layout(epeek.tree.layout.vertical().width(600).scale(false))
