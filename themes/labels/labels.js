@@ -53,6 +53,14 @@ var epeek_theme = function() {
 	var common_label = epeek.tree.label.text()
 	    .text(function (d) {
 		return scientific_to_common[d.name]
+	    })
+
+	var separated_label = epeek.tree.label.text()
+	    .text(function (d) {
+		return scientific_to_common[d.name]
+	    })
+	    .height(function (d) {
+		return 50;
 	    });
 
 	// The image label shows a picture of the species
@@ -132,6 +140,9 @@ var epeek_theme = function() {
 		case "common" :
 		    sT.label(common_label);
 		    break;
+		case "separated" :
+		    sT.label(separated_label);
+		    break;
 		case "image" :
 		    sT.label(image_label);
 		    break;
@@ -171,6 +182,11 @@ var epeek_theme = function() {
 	    .append("option")
 	    .attr("value", "common")
 	    .text("common name");
+
+	label_type_menu
+	    .append("option")
+	    .attr("value", "separated")
+	    .text("Vertical separation");
 
 	label_type_menu
 	    .append("option")
