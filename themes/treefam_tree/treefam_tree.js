@@ -47,10 +47,10 @@ var epeek_theme = function() {
 				}
 			})
 			.width(function() {
-				return 25;
+				return 17;
 			})
 			.height(function() {
-				return 25;
+				return 17;
 			});
 		// The joined label shows a picture + the common name
 		var joined_label = epeek.tree.label.composite()
@@ -94,16 +94,31 @@ var epeek_theme = function() {
 			.attr("value", "taxonomy")
 			.text("taxonomy");
 
+		 var node_event_color =function(d) {
+			 if (d.events && d.events.type && d.events.type === 'speciation') {
+				return 'green';
+			} else if (d.events && d.events.type && d.events.type === 'duplication') {
+				return 'red';
+			} else {
+				return 'orange';
+			}
+		 };
 
 		sT
 			.data(data.tree)
-			.duration(2000)
-			.layout(epeek.tree.layout.vertical().width(500).scale(false))
-			.label(joined_label);
+		// .duration(2000)
+		.layout(epeek.tree.layout.vertical().width(500).scale(false))
+			 // .node_color_cbak(event_foreground_color)
+			 // .fgColor('yellow')
+			.label(joined_label)
+			.node_color(node_event_color)
+			// .foreground_color('green')
+			;
+			console.log("color is "+ sT.fgColor);
 
 		// The visualization is started at this point
 		sT(div);
-
+		sT.foreground_color('green');
 		setTimeout(function() {
 			//   data.tree.sort(function (node) {
 			// return node.id() === 5;
