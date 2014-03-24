@@ -39,7 +39,9 @@ var epeek_theme = function() {
 	    .data(epeek.tree.parse_newick(newick))
 	    .duration(2000)
 	    .layout(epeek.tree.layout.vertical().width(600).scale(false));
-	    // .scale(false);
+
+	sT
+	    .label().height(function(){return 50});
 
 	// The visualization is started at this point
 	sT(div);
