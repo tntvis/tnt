@@ -18,7 +18,7 @@ var epeek_theme = function() {
     var loc_re = /^(\w+):(\w+):(\d+)-(\d+)$/;
     var ens_re = /^ENS\w+\d+$/;
 
-    var path = epeek.scriptPath("compact.js");
+    var path = epeek.utils.script_path("compact.js");
 
     var gBrowser;
     var gBrowserTheme = function(gB, div) {

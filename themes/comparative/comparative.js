@@ -3,7 +3,7 @@ var epeek_theme = function() {
 
     var genomeBrowsers;
 
-    var pathToScript = epeek.scriptPath('comparative.js');
+    var pathToScript = epeek.utils.script_path('comparative.js');
 
     var species_to_icon_filename = {
 	'human' : "Homo_sapiens.png",

@@ -5,7 +5,7 @@ var epeek_theme = function() {
 
 	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;"
 
-	var path = epeek.scriptPath("labels.js");
+	var path = epeek.utils.script_path("labels.js");
 	var pics_path = path + "/pics/";
 
 	var scientific_to_common = {

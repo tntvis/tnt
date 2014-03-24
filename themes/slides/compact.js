@@ -12,7 +12,7 @@ var epeek_theme_compact = function() {
     var show_links   = true;
     var title   = "e!Peek";
 
-    var path = epeek.scriptPath("compact.js");
+    var path = epeek.utils.script_path("compact.js");
 
     var qr_tooltip = epeek.tooltip()
 	.type("plain");

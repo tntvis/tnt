@@ -1,5 +1,5 @@
-describe("epeek.misc.iteratorInt", function () {
-    var i = epeek.misc.iteratorInt();
+describe("epeek.utils.iteratorInt", function () {
+    var i = epeek.utils.iteratorInt();
     it("Returns a callback", function () {
 	assert.isDefined(i);
 	assert.isFunction(i);
@@ -14,7 +14,7 @@ describe("epeek.misc.iteratorInt", function () {
     });
 
     it("Can start from custom values", function () {
-	var j = epeek.misc.iteratorInt(100);
+	var j = epeek.utils.iteratorInt(100);
 	assert.strictEqual(j(), 100);
     });
 
