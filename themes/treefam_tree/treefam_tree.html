@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>e!Peek Theme: TreeFam tree</title>
+<title>e!Peek Themes</title>
 
 <style>
   @import url(../../index.css)
@@ -27,19 +27,19 @@
   </header>
 
 
-  <h1>TreeFam tree </h1>
-  <div id="treefamTree"></div>
+  <h1>TreeFam Gene Trees</h1>
+  <div id="speciesTree"></div>
 
   <script>
     (function() {
     var st = epeek.tree()
     var theme = epeek_theme();
-    theme(st, document.getElementById("treefamTree"));
+    theme(st, document.getElementById("speciesTree"));
     }());
   </script>
 
   <h2>Overview</h2>
-  <p>Nodes can be swapped</p>
+  <p>Trees may have scaled branches</p>
   <pre><code class="javascript">
 var epeek_theme = function() {
     var theme = function (sT, div) {
@@ -52,7 +52,7 @@ var epeek_theme = function() {
 
   <footer>
     <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
-    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli/Fabian Schreiber</a>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
   </footer>
 
 

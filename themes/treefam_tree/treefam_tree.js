@@ -13,6 +13,32 @@ var epeek_theme = function() {
 		// var data = epeek.tree.parse_newick(ensembl_json);
 		// var data = epeek.tree.parse_nhx(nhx);
 		var data = JSON.parse(ensembl_json);
+		var menu_pane = d3.select(div)
+			.append("div")
+			.append("span")
+			.text("Layout:  ");
+		var sel = menu_pane
+			.append("select")
+			.on("change", function(d) {
+				switch (this.value) {
+					case "unscaled":
+						sT.layout().scale(false);
+						break;
+					case "scaled":
+						sT.layout().scale(true);
+						break;
+				};
+				sT.update();
+			});
+		sel
+			.append("option")
+			.attr("value", "unscaled")
+			.attr("selected", 1)
+			.text("Unscaled");
+		sel
+			.append("option")
+			.attr("value", "scaled")
+			.text("Scaled");
 
 		// var tree = epeek.tree.tree(data);
 		var gene_label = epeek.tree.label.text().text(function(d) {
@@ -94,31 +120,43 @@ var epeek_theme = function() {
 			.attr("value", "taxonomy")
 			.text("taxonomy");
 
-		 var node_event_color =function(d) {
-			 if (d.events && d.events.type && d.events.type === 'speciation') {
-				return 'green';
-			} else if (d.events && d.events.type && d.events.type === 'duplication') {
-				return 'red';
-			} else {
-				return 'orange';
-			}
-		 };
+
 
 		sT
 			.data(data.tree)
-		// .duration(2000)
+		// .duration(5000)
 		.layout(epeek.tree.layout.vertical().width(500).scale(false))
-			 // .node_color_cbak(event_foreground_color)
-			 // .fgColor('yellow')
 			.label(joined_label)
-			.node_color(node_event_color)
-			// .foreground_color('green')
-			;
-			console.log("color is "+ sT.fgColor);
+			.link_color(function(link) {
+				var col = "steelblue";
+				if (link.source && link.source.events) {
+					switch (link.source.events.type) {
+						case "speciation":
+							col = "darkgreen";
+							break
+						case "duplication":
+							col = "darkred";
+							break
+					}
+					return col
+				}
+			})
+			.node_color(function(node) {
+				if (node.events && node.events.type && node.events.type === 'speciation') {
+					return 'green';
+				} else if (node.events && node.events.type && node.events.type === 'duplication') {
+					return 'red';
+				} else {
+					return 'orange';
+				}
+			});
+		// .foreground_color('green')
+		;
+		console.log("color is " + sT.fgColor);
 
 		// The visualization is started at this point
 		sT(div);
-		sT.foreground_color('green');
+		// sT.foreground_color('green');
 		setTimeout(function() {
 			//   data.tree.sort(function (node) {
 			// return node.id() === 5;
