@@ -391,15 +391,7 @@ describe('ePeek Tree', function () {
 		    };
 
 		    tree.sort(function (node1, node2) {
-			var lowest1 = get_lowest_val(node1);
-			var lowest2 = get_lowest_val(node2);
-			if (lowest1 < lowest2) {
-			    return -1;
-			}
-			if (lowest1 > lowest2) {
-			    return 1;
-			}
-			return 0;
+			return get_lowest_val(node1) - get_lowest_val(node2);
 		    });
 
 		    var sorted_ids = [];
