@@ -24,8 +24,12 @@ var epeek_theme = function() {
 
     var theme = function(gB, div) {
 	
-	gB.background_color("#FFFFFF")
 	gB(div);
+
+	var gene_track = epeek.genome.track.gene()
+	    .height(200)
+	    .background_color("#FFFFFF");
+	gB.add_track(gene_track);
 
 	var legend_div = d3.select(div)
 	    .append("div")
@@ -36,9 +40,11 @@ var epeek_theme = function() {
 	    .text("Gene legend:");
 
 	d3.selectAll("ePeek_biotype")
-	    .data(gB.genes());
+	    .data(gene_track.layout().genes());
 
-	gB.genes_callback = function (genes) {
+	gene_track.update().success = function (genes) {
+	// gB.genes_callback = function (genes) {
+	    console.log(" ======> GENES CALLBACK IS CALLED");
 	    // We set the color of the gene explicitely.
 	    genes.map(gene_color);
 
@@ -70,7 +76,7 @@ var epeek_theme = function() {
 		.style("width", "10px")
 		.style("height", "10px")
 		.style("border", "1px solid #000")
-		.style("background", function(d){console.log("D: " + d); return colors[d]});
+		.style("background", function(d){return colors[d]});
 	    new_legend
 		.append("text")
 		.text(function(d){return d});

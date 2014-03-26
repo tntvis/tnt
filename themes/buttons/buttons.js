@@ -74,7 +74,14 @@ var epeek_theme = function() {
 	    .append("text")
 	    .text("1");
 
+	var gene_track = epeek.genome.track.gene()
+	    .height(200)
+	    .foreground_color("#586471");
+
 	gB(div);
+
+	gB.add_track(gene_track)
+
 	gB.start();
     };
 

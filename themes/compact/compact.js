@@ -24,6 +24,9 @@ var epeek_theme = function() {
     var n_orth_div_id;
     var n_para_div_id;
 
+    var fgColor = "#586471";
+    var bgColor = "#DDDDDD"
+
     var gBrowser;
 
     /** The closure returned by the theme
@@ -137,28 +140,28 @@ var epeek_theme = function() {
 	    .attr("class", "ePeek_TabBlock")
 	    .attr("id", "ePeek_" + div_id + "_ensGene_option")
 	    .style("width", gBrowser.width() + "px")
-	    .style("background-color", gBrowser.background_color());
+	    .style("background-color", gBrowserTheme.background_color());
 
 	var orthoBox = opts_pane
 	    .append("div")
 	    .attr("class", "ePeek_TabBlock")
 	    .attr("id", "ePeek_" + div_id + "_ortho_option")
 	    .style("width", gBrowser.width() + "px")
-	    .style("background-color", gBrowser.background_color());
+	    .style("background-color", gBrowserTheme.background_color());
 
 	var ParaBox = opts_pane
 	    .append("div")
 	    .attr("class", "ePeek_TabBlock")
 	    .attr("id", "ePeek_" + div_id + "_para_option")
 	    .style("width", gBrowser.width() + "px")
-	    .style("background-color", gBrowser.background_color());
+	    .style("background-color", gBrowserTheme.background_color());
 
 	var searchBox = opts_pane
 	    .append("div")
 	    .attr("class", "ePeek_TabBlock")
 	    .attr("id", "ePeek_" + div_id + "_search_option")
 	    .style("width", gBrowser.width() + "px")
-	    .style("background-color", gBrowser.background_color());
+	    .style("background-color", gBrowserTheme.background_color());
 
 	// The SearchBox
 	var p = searchBox
@@ -182,7 +185,7 @@ var epeek_theme = function() {
 	var browser_title = d3.select(div)
 	    .append("h1")
 	    .text(title)
-	    .style("color", gBrowser.foreground_color())
+	    .style("color", gBrowserTheme.foreground_color())
 	    .style("display", function(){
 		if (show_title) {
 		    return "auto"
@@ -210,8 +213,14 @@ var epeek_theme = function() {
 		to      : gBrowser.to()
 	    }
 	}
-	gBrowser(div);
 
+	var gene_track = epeek.genome.track.gene()
+	    .height(200)
+	    .foreground_color(gBrowserTheme.foreground_color())
+	    .background_color(gBrowserTheme.background_color());
+
+	gBrowser(div);
+	gBrowser.add_track(gene_track);
 
 	// The GeneInfo Panel
 	d3.select(div).select(".ePeek_groupDiv")
@@ -290,7 +299,6 @@ var epeek_theme = function() {
 	qrtag.target("ePeek_" + div_id + "_qrtag_div");
 	qrtag.id("ePeek_" + div_id + "_QRcode");
 	qrtag.image();
-
 
 	return;
     };
@@ -405,8 +413,8 @@ var epeek_theme = function() {
 	    .classed("ePeek_gene_info_active", true)
 	    .append("p")
 	    .attr("class", "ePeek_gene_info_paragraph")
-	    .style("color", gBrowser.foreground_color().darker())
-	    .style("background-color", gBrowser.background_color().brighter())
+	    .style("color", gBrowserTheme.foreground_color().darker())
+	    .style("background-color", gBrowserTheme.background_color().brighter())
 	    .style("height", gBrowser.height() + "px")
 	    .html(function () {
 		return "<h1>" + gene.external_name + "</h1>" +
@@ -418,10 +426,10 @@ var epeek_theme = function() {
 	sel.append("span")
 	    .attr("class", "ePeek_text_rotated")
 	    .style("top", ~~gBrowser.height()/2 + "px")
-	    .style("background-color", gBrowser.foreground_color())
+	    .style("background-color", gBrowserTheme.foreground_color())
 	    .append("text")
 	    .attr("class", "ePeek_link")
-	    .style("color", gBrowser.background_color())
+	    .style("color", gBrowserTheme.background_color())
 	    .text("[Close]")
 	    .on("click", function() {d3.select("#ePeek_" + div_id + "_gene_info" + " p").remove();
 				     d3.select("#ePeek_" + div_id + "_gene_info" + " span").remove();
@@ -529,6 +537,22 @@ var epeek_theme = function() {
 	    return title;
 	}
 	title = s;
+	return gBrowserTheme;
+    };
+
+    gBrowserTheme.foreground_color = function (c) {
+	if (!arguments.length) {
+	    return fgColor;
+	}
+	fgColor = c;
+	return gBrowserTheme;
+    };
+
+    gBrowserTheme.background_color = function (c) {
+	if (!arguments.length) {
+	    return bgColor;
+	}
+	bgColor = c;
 	return gBrowserTheme;
     };
 

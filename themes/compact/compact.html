@@ -35,8 +35,11 @@
   <script>
 
     (function() {
-        var gB = epeek.genome().species("human").gene("brca2").width(950).height(200).foreground_color("#586471");
-        var gBTheme = epeek_theme().show_title(false);
+        var gB = epeek.genome().species("human").gene("brca2").width(950);
+        var gBTheme = epeek_theme()
+                       .show_title(false)
+                       .foreground_color("#586471")
+                       .background_color("#DDDDDD");
         gBTheme(gB, document.getElementById("genomeBrowser"));
     })();
  
