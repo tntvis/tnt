@@ -1,75 +1,84 @@
 describe("Themes", function () {
     describe("Track", function () {
-
+	var delay = 300;
 	describe("Minimal", function () {
-	    it("Loads", function () {
+	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_minimal();
 		theme(st, document.getElementById("TestID"));
+		setTimeout(done, delay);
 	    });
 	});
 
 	describe("Legend", function () {
-	    it("Loads", function () {
+	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_legend();
 		theme(st, document.getElementById("TestID"));
+		setTimeout(done, delay);
 	    });
 	});
 
-	describe("Pins", function () {
+	describe("Pins", function (done) {
 	    it("Loads", function () {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_pins();
 		theme(st, document.getElementById("TestID"));
+		setTimeout(done, delay);
 	    });
 	});
 
 	describe("Tooltips", function () {
-	    it("Loads", function () {
+	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_tooltips();
 		theme(st, document.getElementById("TestID"));
+		setTimeout(done, delay);
 	    });
 	});
 
 	describe("Resizable Div", function () {
-	    it("Loads", function () {
+	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_resizable_div();
 		theme(st, document.getElementById("TestID"));
+		setTimeout(done, delay);
 	    });
 	});
 
 	describe("Compact", function () {
-	    it("Loads", function () {
+	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_compact();
 		theme(st, document.getElementById("TestID"));
+		setTimeout(done, delay);
 	    });
 	});
 
 	describe("Buttons", function () {
-	    it("Loads", function () {
+	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_buttons();
 		theme(st, document.getElementById("TestID"));
+		setTimeout(done, delay);
 	    });
 	});
 
 	describe("Resize", function () {
-	    it("Loads", function () {
+	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_resize();
 		theme(st, document.getElementById("TestID"));
+		setTimeout(done, delay);
 	    });
 	});
 
 	describe("Mobile", function () {
-	    it("Loads", function () {
+	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_mobile();
 		theme(st, document.getElementById("TestID"));
+		setTimeout(done, delay);
 	    });
 	});
 

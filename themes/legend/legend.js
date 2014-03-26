@@ -70,7 +70,7 @@ var epeek_theme_track_legend = function() {
 		.style("width", "10px")
 		.style("height", "10px")
 		.style("border", "1px solid #000")
-		.style("background", function(d){console.log("D: " + d); return colors[d]});
+		.style("background", function(d){return colors[d]});
 	    new_legend
 		.append("text")
 		.text(function(d){return d});
