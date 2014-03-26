@@ -1,4 +1,4 @@
-var epeek_theme = function() {
+var epeek_theme_track_comparative = function() {
     "use strict";
 
     var genomeBrowsers;
@@ -210,7 +210,7 @@ var epeek_theme = function() {
 		    });
 
 		gB.start();
-	    }, i * 1500);	    
+	    }, i * 500);	    
 	}
 
 

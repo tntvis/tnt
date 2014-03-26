@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
   </head>
   <body>
-    <div id="mocha"></div>
+    <div id="TestID"></div>
     <script src="../node_modules/mocha/mocha.js"></script>
     <script src="../node_modules/chai/chai.js"></script>
     <script src="../node_modules/underscore/underscore-min.js"></script>
@@ -15,10 +15,42 @@
     </script>
     <script src="../lib/d3.min.js"></script>
     <script src="../ePeek.js"></script>
+
     <!-- Here we include all the test files -->
     <script src="rest/rest.js"></script>
     <script src="utils/utils.js"></script>
     <script src="tree/tree.js"></script>
+
+    <!-- Test the themes -->
+    <!-- Track themes -->
+    <script src="../themes/minimal/minimal.js"></script>
+    <script src="../themes/legend/legend.js"></script>
+    <script src="../themes/pins/pins.js"></script>
+    <script src="../themes/tooltips/tooltips.js"></script>
+    <script src="../themes/resizable-div/resizable-div.js"></script>
+    <script src="../themes/compact/compact.js"></script>
+    <script src="../themes/buttons/buttons.js"></script>
+    <script src="../themes/resize/resize.js"></script>
+    <script src="../themes/mobile/mobile.js"></script>
+    <script src="../themes/comparative/comparative.js"></script>
+    <script src="../themes/orthologues_tree/orthologues_tree.js"></script>
+
+    <!-- Tree themes -->
+    <script src="../themes/sort_nodes/sort_nodes.js"></script>
+    <script src="../themes/ensembl_species/ensembl_species.js"></script>
+    <script src="../themes/species_tree/species_tree.js"></script>
+    <script src="../themes/swap_nodes/swap_nodes.js"></script>
+    <script src="../themes/tree/tooltip/tooltip.js"></script>
+    <script src="../themes/ensembl_gene_tree/ensembl_gene_tree.js"></script>
+    <script src="../themes/scaled_branches/scaled_branches.js"></script>
+    <script src="../themes/labels/labels.js"></script>
+    <script src="../themes/colors/colors.js"></script>
+    <script src="../themes/treefam_tree/treefam_tree.js"></script>
+    <script src="../themes/collapse_nodes/collapse_nodes.js"></script>
+    <script src="../themes/layout_transition/layout_transition.js"></script>
+
+    <script src="themes/themes.js"></script>
+
     <script>
       if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
       else { mocha.run(); }

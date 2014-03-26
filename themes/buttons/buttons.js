@@ -1,4 +1,4 @@
-var epeek_theme = function() {
+var epeek_theme_track_buttons = function() {
 
     var factor = 0.2;
     var gBrowser;

@@ -9,7 +9,7 @@ function getLoc() {
     return loc;
 }
 
-var epeek_theme = function() {
+var epeek_theme_track_mobile = function() {
     "use strict";
 
     // Regular expressions for user input

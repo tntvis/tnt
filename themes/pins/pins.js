@@ -1,4 +1,4 @@
-var epeek_theme = function() {
+var epeek_theme_track_pins = function() {
 
     var theme = function(gB, div) {
 	// We put several pins

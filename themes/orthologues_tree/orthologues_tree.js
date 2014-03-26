@@ -1,5 +1,5 @@
 
-var epeek_theme = function() {
+var epeek_theme_track_orthologues_tree = function() {
     "use strict";
 
     // The IDs of the divs where the label and the tree are to be put

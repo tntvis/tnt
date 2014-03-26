@@ -1,4 +1,4 @@
-var epeek_theme = function() {
+var epeek_theme_track_tooltips = function() {
     "use strict";
 
     var theme = function(gB, div) {

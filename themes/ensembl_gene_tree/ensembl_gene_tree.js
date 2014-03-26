@@ -1,4 +1,4 @@
-var epeek_theme = function() {
+var epeek_theme_tree_ensembl_gene_tree = function() {
     "use strict";
 
     var tree_theme = function (sT, div) {

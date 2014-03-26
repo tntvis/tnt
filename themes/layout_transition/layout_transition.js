@@ -1,5 +1,5 @@
 
-var epeek_theme = function() {
+var epeek_theme_tree_layout_transition = function() {
     "use strict";
 
     var tree_theme = function (sT, div) {

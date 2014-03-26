@@ -1,4 +1,4 @@
-var epeek_theme = function() {
+var epeek_theme_track_compact = function() {
     "use strict";
 
     // Regular expressions for user input

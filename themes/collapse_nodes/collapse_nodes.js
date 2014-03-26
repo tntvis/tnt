@@ -1,4 +1,4 @@
-var epeek_theme = function() {
+var epeek_theme_tree_collapse_nodes = function() {
     "use strict";
 
     var tree_theme = function(sT, div) {
@@ -18,9 +18,6 @@ var epeek_theme = function() {
             
         var tree = sT.tree();
         sT.node_info_callback = function(node){
-                console.log(node);
-                console.log(this);
-                
                 // console.log(sT.data());
                    sT
                    .toggle_node(node)

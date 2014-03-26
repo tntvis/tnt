@@ -1,4 +1,4 @@
-var epeek_theme = function() {
+var epeek_theme_track_resize = function() {
 
     var pathToScript = epeek.utils.script_path("resize.js");
 

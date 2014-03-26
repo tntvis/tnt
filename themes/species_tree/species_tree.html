@@ -62,7 +62,7 @@ var newick = "((mouse,human),(zebrafish,fugu))";
                   .data(epeek.tree.parse_newick(newick))
                   .width(360)
                   .duration(1000);
-    var theme = epeek_theme();
+    var theme = epeek_theme_species_tree();
     theme(st, document.getElementById("speciesTree"));
     }());
   </script>

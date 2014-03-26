@@ -1,5 +1,4 @@
-
-var epeek_theme = function() {
+var epeek_theme_track_resizable_div = function() {
 
     var theme = function(gB, div) {
 	var div_theme = d3.select(div);
