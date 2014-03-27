@@ -1,7 +1,13 @@
+var clean_div = function () {
+    d3.select("#TestID").selectAll("*").remove();
+};
+
 describe("Themes", function () {
     describe("Track", function () {
-	var delay = 300;
+
+	var delay = 500;
 	describe("Minimal", function () {
+	    after(clean_div);
 	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_minimal();
@@ -11,6 +17,7 @@ describe("Themes", function () {
 	});
 
 	describe("Legend", function () {
+	    after(clean_div);
 	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_legend();
@@ -20,6 +27,7 @@ describe("Themes", function () {
 	});
 
 	describe("Pins", function (done) {
+	    after(clean_div);
 	    it("Loads", function () {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_pins();
@@ -29,6 +37,7 @@ describe("Themes", function () {
 	});
 
 	describe("Tooltips", function () {
+	    after(clean_div);
 	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_tooltips();
@@ -38,6 +47,7 @@ describe("Themes", function () {
 	});
 
 	describe("Resizable Div", function () {
+	    after(clean_div);
 	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_resizable_div();
@@ -47,6 +57,7 @@ describe("Themes", function () {
 	});
 
 	describe("Compact", function () {
+	    after(clean_div);
 	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_compact();
@@ -56,6 +67,7 @@ describe("Themes", function () {
 	});
 
 	describe("Buttons", function () {
+	    after(clean_div);
 	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_buttons();
@@ -65,6 +77,7 @@ describe("Themes", function () {
 	});
 
 	describe("Resize", function () {
+	    after(clean_div);
 	    it("Loads", function (done) {
 		var st = epeek.genome();
 		var theme = epeek_theme_track_resize();
@@ -105,10 +118,42 @@ describe("Themes", function () {
     describe("Trees", function () {
 
 	describe("Ensembl Species", function () {
+	    after(clean_div);
+	    var st = epeek.tree();
+	    var theme = epeek_theme_tree_ensembl_species();
+
 	    it("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_ensembl_species();
 		theme(st, document.getElementById("TestID"));
+	    });
+
+	    it("Doesn't break when selecting different releases", function () {
+		var sel = d3.select("#TestID").select("select");
+		var cbak = sel.on("change");
+		var node = sel.node();
+		node.value = 13;
+		cbak.call(node);
+	    });
+
+	});
+
+	describe("Sort Nodes", function () {
+	    after(clean_div);
+	    var st = epeek.tree();
+	    var theme = epeek_theme_tree_sort_nodes();
+
+	    it("Loads", function () {
+		theme(st, document.getElementById("TestID"));
+	    });
+
+	    it("Doesn't break when selecting different sorting/coloring criteria", function () {
+		var sels = d3.select("#TestID").selectAll("select")[0];
+
+		for (var i=0; i<sels.length; i++) {
+		    var sel = sels[i];
+		    var cbak = d3.select(sel).on("change");
+		    sel.value = "Protein-coding genes";
+		    cbak.call(sel);
+		}
 	    });
 	});
 
@@ -128,15 +173,9 @@ describe("Themes", function () {
 	//     });
 	// });
 
-	describe("Sort Nodes", function () {
-	    it("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_sort_nodes();
-		theme(st, document.getElementById("TestID"));
-	    });
-	});
 
 	describe("Swap Nodes", function () {
+	    after(clean_div);
 	    it("Loads", function () {
 		var st = epeek.tree();
 		var theme = epeek_theme_tree_swap_nodes();
@@ -145,9 +184,11 @@ describe("Themes", function () {
 	});
 
 	describe("Tooltips", function () {
+	    after(clean_div);
+	    var st = epeek.tree();
+	    var theme = epeek_theme_tree_tooltip();
+
 	    it("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_tooltip();
 		theme(st, document.getElementById("TestID"));
 	    });
 	});
@@ -176,7 +217,7 @@ describe("Themes", function () {
 	    });
 	});
 
-	describe("Labels", function () {
+	describe("Colors", function () {
 	    it("Loads", function () {
 		var st = epeek.tree();
 		var theme = epeek_theme_tree_colors();

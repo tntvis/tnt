@@ -116,7 +116,6 @@ var epeek_theme_tree_sort_nodes = function() {
 	    })
 	    .node_info_callback = sT.tooltip(epeek.tooltip().type("table"));
 
-
 	sT
 	    .label()
 	    .height(function(){return 20});
@@ -141,7 +140,7 @@ var epeek_theme_tree_sort_nodes = function() {
             if (n.property(prop) === "") {
 		return;
             }
-	    var val = parseInt(n.property(prop));
+	    var val = parseFloat(n.property(prop));
             if (val > highest) {
                 highest = val;
             }
