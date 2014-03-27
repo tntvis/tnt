@@ -47,7 +47,7 @@ var epeek_theme = function() {
 	gBrowser = gB;
 
 	// Set the gBrowser's callbacks
-	gBrowser.gene_info_callback      = gene_info_cbak;
+	// gBrowser.gene_info_callback      = gene_info_cbak;
 	gBrowser.gene_search_callback    = ensGenes_cbak;
 	gBrowser.ensgene_search_callback = ensGene_cbak;
 
@@ -214,10 +214,18 @@ var epeek_theme = function() {
 	    }
 	}
 
+	var tooltip = epeek.tooltip.table()
+	    // .type("table");
 	var gene_track = epeek.genome.track.gene()
 	    .height(200)
 	    .foreground_color(gBrowserTheme.foreground_color())
 	    .background_color(gBrowserTheme.background_color());
+
+	var tt = gene_track.tooltip(tooltip);
+	console.log("TT:");
+	console.log(tt);
+
+	    // .info_callback(gene_track.tooltip(tooltip));
 
 	gBrowser(div);
 	gBrowser.add_track(gene_track);
@@ -413,9 +421,9 @@ var epeek_theme = function() {
 	    .classed("ePeek_gene_info_active", true)
 	    .append("p")
 	    .attr("class", "ePeek_gene_info_paragraph")
-	    .style("color", gBrowserTheme.foreground_color().darker())
-	    .style("background-color", gBrowserTheme.background_color().brighter())
-	    .style("height", gBrowser.height() + "px")
+	    // .style("color", gBrowserTheme.foreground_color().darker())
+	    // .style("background-color", gBrowserTheme.background_color().brighter())
+	    // .style("height", gBrowser.height() + "px")
 	    .html(function () {
 		return "<h1>" + gene.external_name + "</h1>" +
 		    "Ensembl ID: <i>" + gene.ID + "</i><br />" +

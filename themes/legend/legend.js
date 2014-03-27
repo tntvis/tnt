@@ -42,10 +42,7 @@ var epeek_theme = function() {
 	d3.selectAll("ePeek_biotype")
 	    .data(gene_track.layout().genes());
 
-	gene_track.update().success = function (genes) {
-	// gB.genes_callback = function (genes) {
-	    console.log(" ======> GENES CALLBACK IS CALLED");
-	    // We set the color of the gene explicitely.
+	gene_track.update().success (function (genes) {
 	    genes.map(gene_color);
 
 	    // And we setup/update the legend
@@ -84,7 +81,7 @@ var epeek_theme = function() {
 		.exit()
 		.remove();
 		
-	};
+	});
 
 	var gene_color =  function (gene) {
 	    gene.color = colors[biotype_to_legend[gene.biotype]];
