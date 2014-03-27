@@ -1,11 +1,17 @@
-var epeek_theme = function() {
+var epeek_theme_track_tooltips = function() {
     "use strict";
 
     var theme = function(gB, div) {
-	gB.gene_info_callback = gB.tooltip(); // gene info callback
+
+	var gene_track = epeek.genome.track.gene()
+	    .background_color('#EEEEEE')
+	    .foreground_color('green')
+	    .height(200);
+
+	gene_track.info_callback(gene_track.tooltip());
 
 	gB(div);
-
+	gB.add_track(gene_track);
 	gB.start();
     };
 

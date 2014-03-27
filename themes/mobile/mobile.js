@@ -9,7 +9,7 @@ function getLoc() {
     return loc;
 }
 
-var epeek_theme = function() {
+var epeek_theme_track_mobile = function() {
     "use strict";
 
     // Regular expressions for user input
@@ -18,7 +18,7 @@ var epeek_theme = function() {
     var loc_re = /^(\w+):(\w+):(\d+)-(\d+)$/;
     var ens_re = /^ENS\w+\d+$/;
 
-    var path = epeek.scriptPath("compact.js");
+    var path = epeek.utils.script_path("compact.js");
 
     var gBrowser;
     var gBrowserTheme = function(gB, div) {
@@ -100,11 +100,11 @@ var epeek_theme = function() {
 	// We listen on orthologues options
 	orth_select.on("change", function() {
 //	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
-	    gBrowser.ensGene_lookup(this.value);
+	    gBrowser.start({
+		gene : this.value
+	    });
 	});
- 
-
-    };
+     };
 
     var gene_info_callback = function(gene) {
 	// We first remove previous data and elements
@@ -223,7 +223,7 @@ var epeek_theme = function() {
 		//           || document.body.clientWidth;
 	    
 		var w = document.documentElement.clientWidth;
-		gBrowser.resize(w-20);
+		gBrowser.width(w-20);
             }, 500);
 	}
     };

@@ -28,8 +28,8 @@
   <script>
 
     (function() {
-         var gB = epeek.genome().species("human").gene("brca2").width(800).height(200).foreground_color("#586471");
-         var gBTheme = epeek_theme();
+         var gB = epeek.genome().species("human").gene("brca2").width(800);
+         var gBTheme = epeek_theme_track_resizable_div();
          gBTheme(gB, document.getElementById("genomeBrowser"));
     })();
 

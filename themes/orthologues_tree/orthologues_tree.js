@@ -1,5 +1,5 @@
 
-var epeek_theme = function() {
+var epeek_theme_track_orthologues_tree = function() {
     "use strict";
 
     // The IDs of the divs where the label and the tree are to be put
@@ -7,7 +7,8 @@ var epeek_theme = function() {
     var gene_orthologues_tree_id;
 
     var gBrowser;
-    var tree_update;
+    var orthologues_tree;
+    var orthologues_tree_update;
 
     var gene_name;
 
@@ -36,8 +37,8 @@ var epeek_theme = function() {
 	    .attr("id", gene_orthologues_tree_id);
 
 	// Create a new tree browser
-	var orthologues_tree = epeek.species_tree();
-	tree_update = orthologues_tree.update();
+	orthologues_tree = epeek.species_tree();
+	orthologues_tree_update = orthologues_tree.update();
 
 	orthologues_tree(document.getElementById(gene_orthologues_tree_id));
 
@@ -55,7 +56,7 @@ var epeek_theme = function() {
     var homologues_cbak = function (homologues) {
 	hide_spinner();
 	var orthologues_by_species = classify_orthologues_by_species(homologues);
-	tree_update(orthologues_by_species);
+	orthologues_tree_update(orthologues_by_species);
     };
 
     var gene_info_callback = function (gene) {

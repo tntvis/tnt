@@ -1,9 +1,9 @@
-var epeek_theme = function() {
+var epeek_theme_track_comparative = function() {
     "use strict";
 
     var genomeBrowsers;
 
-    var pathToScript = epeek.scriptPath('comparative.js');
+    var pathToScript = epeek.utils.script_path('comparative.js');
 
     var species_to_icon_filename = {
 	'human' : "Homo_sapiens.png",
@@ -210,7 +210,7 @@ var epeek_theme = function() {
 		    });
 
 		gB.start();
-	    }, i * 1500);	    
+	    }, i * 500);	    
 	}
 
 

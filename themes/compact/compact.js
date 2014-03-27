@@ -1,4 +1,4 @@
-var epeek_theme = function() {
+var epeek_theme_track_compact = function() {
     "use strict";
 
     // Regular expressions for user input
@@ -12,7 +12,10 @@ var epeek_theme = function() {
     var show_links   = true;
     var title   = "e!Peek";
 
-    var path = epeek.scriptPath("compact.js");
+    var path = epeek.utils.script_path("compact.js");
+
+    var qr_tooltip = epeek.tooltip()
+	.type("plain");
 
     // div_ids to display different elements
     // They have to be set dynamically because the IDs contain the div_id of the main element containing the plug-in
@@ -46,9 +49,7 @@ var epeek_theme = function() {
 
 	gBrowser = gB;
 
-	// Set the gBrowser's callbacks
-	// gBrowser.gene_info_callback      = gene_info_cbak;
-	gBrowser.gene_search_callback    = ensGenes_cbak;
+	gBrowser.xref_search_callback    = xref_cbak;
 	gBrowser.ensgene_search_callback = ensGene_cbak;
 
 	// We set the original data so we can always come back
@@ -214,18 +215,13 @@ var epeek_theme = function() {
 	    }
 	}
 
-	var tooltip = epeek.tooltip.table()
-	    // .type("table");
 	var gene_track = epeek.genome.track.gene()
 	    .height(200)
 	    .foreground_color(gBrowserTheme.foreground_color())
 	    .background_color(gBrowserTheme.background_color());
 
-	var tt = gene_track.tooltip(tooltip);
-	console.log("TT:");
-	console.log(tt);
-
-	    // .info_callback(gene_track.tooltip(tooltip));
+	gene_track
+	    .info_callback(gene_track.tooltip());
 
 	gBrowser(div);
 	gBrowser.add_track(gene_track);
@@ -252,7 +248,7 @@ var epeek_theme = function() {
 	    .append("span")
 	    .attr("class", "ePeek_link_label")
 	    .attr("title", "Open in a new window")
-	    .on("click", function() {var link = buildLink("desktop"); window.open(link, "_blank")});
+	.on("click", function() {console.log("here"); var link = buildLink("desktop"); window.open(link, "_blank")});
 	epeekweb
 	    .append("img")
 	    .attr("src", path + "../../themes/pics/open_in_new_window.png")
@@ -296,7 +292,7 @@ var epeek_theme = function() {
 	// d3.select("#ePeek_" + div_id + "_QRcode").remove();
 
 	var tooltip_obj = '<div id="ePeek_' + div_id + '_qrtag_div"></id>';
-	epeek.tooltip.call(this).plain(tooltip_obj);
+	qr_tooltip.call(this, tooltip_obj);
 
 	var qrtag = new QRtag();
 	qrtag.data(buildLink("mobile"));
@@ -471,7 +467,7 @@ var epeek_theme = function() {
 
     };
 
-    var ensGenes_cbak = function(ensGenes) {
+    var xref_cbak = function(ensGenes) {
 	// The ensGenes select + number of ensGenes
 	var ensGene_sel = gene_select(ensGenes);
 	ensGene_sel.on("change", function() {
@@ -580,12 +576,12 @@ var epeek_theme = function() {
     ///*********************////
     // Private methods
     var buildLink = function(platform) {
-	var url = "http://www.ebi.ac.uk/~mp/ePeek/clients/";
+	var url = "http://www.ebi.ac.uk/~mp/minimalGenomeBrowser/themes/";
 	var postfix = "";
 	if (platform === "desktop") {
-	    url = url + "default.html";
+	    url = url + "compact/compact.html";
 	} else if (platform === "mobile") {
-	    url = url + "mobile.html";
+	    url = url + "mobile/mobile.html";
 	    postfix = "#browser";
 	}
 	url = url + "?loc=" + gBrowser.species() + ":" + gBrowser.chr() + ":" + gBrowser.from() + "-" + gBrowser.to() + postfix;

@@ -81,22 +81,22 @@ var url = rest.url.region ({ species : "homo_sapiens",
                             }),
   </code></pre>
 
-  <p><a name="species_gene" href="#species_gene">#</a> rest.url.<b>species_gene</b> (&lt;object&gt;)</p>
-  <p>This method returns the <a href="http://beta.rest.ensembl.org">Ensembl REST</a> url to retrieve Ensembl genes associated with the given name / external reference in the specified species. It uses the <a href="http://beta.rest.ensembl.org/documentation/info/xref_external">xrefs/symbol/:species/:symbol</a> endpoint. Its argument is an object that must have the following fields:</p>
+  <p><a name="xref" href="#xref">#</a> rest.url.<b>xref</b> (&lt;object&gt;)</p>
+  <p>This method returns the <a href="http://beta.rest.ensembl.org">Ensembl REST</a> url to retrieve Ensembl objects associated with the given name / external reference in the specified species. It uses the <a href="http://beta.rest.ensembl.org/documentation/info/xref_external">xrefs/symbol/:species/:symbol</a> endpoint. Its argument is an object that must have the following fields:</p>
 
   <p>
     <ul>
-      <li><b>species</b>   : The species the symbol refers to</li>
-      <li><b>gene_name</b> : The name / symbol to look for in the specified genome</li>
+      <li><b>species</b> : The species the symbol refers to</li>
+      <li><b>name</b>    : The name / symbol to look for in the specified genome</li>
     </ul>
   </p>
 
   <p>Example:</p>
 
   <pre><code class="javascript">
-var url =  rest.url.species_gene ({ species : "human",
-                                     gene_name : "BRCA2"
-                                   }),
+var url =  rest.url.xref ({ species : "human",
+                            name    : "BRCA2"
+                          }),
   </code></pre>
 
   <p><a name="homologues" href="#homologues">#</a> rest.url.<b>homologues</b> (&lt;object&gt;)</p>

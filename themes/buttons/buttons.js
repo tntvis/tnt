@@ -1,9 +1,9 @@
-var epeek_theme = function() {
+var epeek_theme_track_buttons = function() {
 
     var factor = 0.2;
     var gBrowser;
 
-    var path = epeek.scriptPath("buttons.js");
+    var path = epeek.utils.script_path("buttons.js");
 
     var theme = function(gB, div) {
 	gBrowser = gB;

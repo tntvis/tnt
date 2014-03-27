@@ -40,7 +40,7 @@
 
         var gBs = [ epeek.genome().species("human").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor),
                     epeek.genome().species("mouse").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor) ];
-        gBTheme = epeek_theme();
+        gBTheme = epeek_theme_track_comparative();
         gBTheme(gBs, document.getElementById("genomeBrowser"));
 
   })();

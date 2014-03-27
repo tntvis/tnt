@@ -1,16 +1,47 @@
-var epeek_theme = function() {
+var epeek_theme_track_pins = function() {
 
     var theme = function(gB, div) {
-	// We put several pins
-	var pin1_url = gB.pin([32900000, 32910000]);
-        var pin2_url = gB.pin([32890000]);
-// 	var pin3_url = gB.pin([32880000]);
-// 	var pin4_url = gB.pin([32870000]);
-// 	var pin5_url = gB.pin([32860000]);
-// 	var pin6_url = gB.pin([32850000]);
-
 	// We start the genome browser
 	gB(div);
+
+	var gene_track = epeek.genome.track.gene()
+	    .height(150)
+	    .background_color("#EEEEEE")
+	    .foreground_color("green");
+
+	var pin_track1 = epeek.genome.track.pin()
+	    .height(30)
+	    .background_color("#EEEEEE")
+	    .pin_color("blue");
+
+	var pin_track1_updater = pin_track1.retriever.local()
+	    .retriever(function () {
+		return [
+		    { pos : 32900000 },
+		    { pos : 32910000 }
+		]
+	    });
+	pin_track1.update(pin_track1_updater);
+
+
+	var pin_track2 = epeek.genome.track.pin()
+	    .height(30)
+	    .background_color("#EEEEEE")
+	    .pin_color("red");
+
+	var pin_track2_updater = pin_track2.retriever.local()
+	    .retriever(function () {
+		return [
+		    { pos : 32890000 }
+		]
+	    });
+	pin_track2.update(pin_track2_updater);
+	
+
+	gB.add_track(gene_track);
+	gB.add_track(pin_track1);
+	gB.add_track(pin_track2);
+
 	gB.start();
 
 	// We set up a small legend for the pins
@@ -24,7 +55,7 @@ var epeek_theme = function() {
 
 	legend_div1
 	    .append("img")
-	    .attr("src", pin1_url)
+	    .attr("src", pin_track1.pin_url())
 	    .attr("width", "15");
 
 	legend_div1
@@ -38,7 +69,7 @@ var epeek_theme = function() {
 
 	legend_div2
 	    .append("img")
-	    .attr("src", pin2_url)
+	    .attr("src", pin_track2.pin_url())
 	    .attr("width", "15");
 
 	legend_div2

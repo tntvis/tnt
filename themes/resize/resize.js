@@ -1,6 +1,6 @@
-var epeek_theme = function() {
+var epeek_theme_track_resize = function() {
 
-    var pathToScript = epeek.scriptPath("resize.js");
+    var pathToScript = epeek.utils.script_path("resize.js");
 
     var theme = function(gB, div) {
 	var div_theme = d3.select(div);

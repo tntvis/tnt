@@ -4,6 +4,10 @@
   "dependencies": {
     "smash": "0",
     "uglify-js": "2",
-    "jsdoc": "3"
+    "chai": "~1.9.0",
+    "mocha-phantomjs": "~3.3.2",
+    "phantomjs": "~1.9.7-1",
+    "mocha": "~1.17.1",
+    "underscore": "~1.6.0"
   }
 }

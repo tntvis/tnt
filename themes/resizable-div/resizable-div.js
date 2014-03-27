@@ -1,5 +1,4 @@
-
-var epeek_theme = function() {
+var epeek_theme_track_resizable_div = function() {
 
     var theme = function(gB, div) {
 	var div_theme = d3.select(div);
@@ -8,16 +7,21 @@ var epeek_theme = function() {
 	    .style("resize", "both")
 	    .style("overflow", "hidden");
 
+	var gene_track = epeek.genome.track.gene()
+	    .foreground_color('#586471')
+	    .height(200);
+
 	div_theme.watch("width", function(oldWidth, newWidth) {
 	    gB.width(parseInt(newWidth)-15);
 	});
 
 	div_theme.watch("height", function(oldHeight, newHeight) {
-	    gB.height(parseInt(newHeight)-50);
+	    gene_track.height(parseInt(newHeight)-50);
 	});
 
 
 	gB(div);
+	gB.add_track(gene_track);
 	gB.start();
     };
 

@@ -22,13 +22,18 @@
   <a href="../../index.html"><h2>Tooltips</h2></a>
 
   <h2><a name="querying" href="#querying">#</a>The Tooltip object</h2>
-  <p>The e!Peek plug-in offers its own tooltip library. This has been designed to work well with svg elements, although it also works with other HTML elements. To create a tooltip you need to call the epeek.<a href="#tooltip">tooltip</a> method.</p>
+  <p>The e!Peek plug-in offers its own tooltip library. This has been designed to work well with svg elements, although it also works with other HTML elements. To create a tooltip object you need to call the epeek.<a href="#tooltip">tooltip</a> method. What you get back is a closure that can create tooltip objects.</p>
 
   <p><aside>Check also how tooltips are used in the <a href="../genome/index.html#tooltip">epeek.genome</a> plugin</aside></p>
   <p>Tipycally, a tooltip is displayed as a consequence of a <i>mouse event</i> (normally, by clicking an element). This is mostly required in order to get the correct <i>x</i> and <i>y</i> coordinates of the element and place the tooltip near the selected element. The following code illustrates how epeek tooltips can be used:</p>
 
   <pre><code class="javascript">
 (function() {
+   // Here we create a new tooltip closure
+   // This closure will display a new tooltip every time it is called with the data to display
+   var tooltip = epeek.tooltip()
+                      .type("table");
+
    // This is the function that is called on every click on the html element
    // Here we are hard-coding the information that will go into the tooltip
    // But it can also be passed as a parameter.
@@ -42,7 +47,9 @@
                                { "label" : "Row3", "value" : "Value3" }
                              ]
                  };
-      epeek.tooltip.call(this).table(info);
+
+      // The tooltip is displayed as a result of calling the tooltip closure with new data
+      tooltip.call(this, info);
    };
 
    // An svg element is created
@@ -58,47 +65,67 @@
 })();
   </code></pre>
 
-  <p>In the code above, <i>epeek.tooltip.call(this)</i> creates a new tooltip on the element referred by <i>this</i>. This tooltip is filled by the tooltip.<a href="#table">table</a> method with the information provided as its argument. The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call">call</a> javascript method is needed in order to pass the contextual information to the tooltip and make sure that the coordinates of the <i>clicked</i> element are taken into account when placing the tooltip in the right position</p>
+  <p>In the code above, a new <i>tooltip closure</i> is created as a result of calling the epeek.<a href="#tooltip">tooltip</a> method. This closure is configurable via its methods (see below). Every time this closure is called with new data, a new tooltip is displayed</p>
 
-  <p>There are two things needed by the epeek.<a href="#tooltip">tooltip</a> method to work. The first one is a div element where the tooltip can be attached (outside the <i>svg</i> element). The second one is the coordinates of the <i>clicked</i> element and this is achieved setting the context of the tooltip code with <i>call</i> (see previous paragraph).
+  <p>The tooltip closure is called with <i>tooltip.call(this, info)</i> to display a new tooltip on the element referred by <i>this</i>. The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call">call</a> javascript method is needed in order to pass the contextual information to the tooltip and make sure that the coordinates of the <i>clicked</i> element are taken into account when placing the tooltip in the right position.</p>
 
-  <p><a name="tooltip" href="#tooltip">#</a> epeek.<b>tooltip</b>()</p>
-  <p>This method creates a new tooltip on the clicked element. The tooltip itself is attached to the first <i>div</i> ancestor of the element in the <i>DOM</i> tree. This tooltip is empty and needs to be populated with the tooltip.<a href="plain">plain</a>, tooltip<a href="#header">header</a> or tooltip.<a href="table">table</a> methods</p>
+  <p>There are two things needed by epeek.<a href="#tooltip">tooltip</a> to work. The first one is a DOM element (a div element) where the tooltip can be attached in the DOM (outside the <i>svg</i> element). The second one is the coordinates of the <i>clicked</i> element and this is achieved setting the context of the tooltip code with <i>call</i> (see previous paragraph).
 
-  <p><a name="plain" href="#plain">#</a> tooltip.<b>plain</b> (&lt;string&gt;)</p>
-  <p>This method populates the <a href="#tooltip">tooltip</a> with the string given as its argument. This string can be valid html. For example:</p>
+  <p><a name="tooltip" href="#tooltip">#</a> epeek.<b>tooltip</b> ()</p>
+  <p>This method returns a new tooltip closure. When this closure is executed with new data, it creates a new tooltip on the clicked element. The tooltip itself is attached to the first <i>div</i> ancestor of the <i>clicked</i> element in the <i>DOM</i> tree. The format of the data to display depends on the epeek.<a href="#type">type</a> of data to display in the tooltip. See below for details on how to pass new data to the tooltip closure</p>
 
-  <pre><code class="javascript">
-var tooltip_string = '&lt;p&gt;Hello world&lt;/p&gt;';
-epeek.tooltip.call(this).plain(tooltip_string);
-  </code></pre>
+  <p><a name="type" href="#type">#</a> epeek.<b>type</b> (string)</p>
+  <p>This method gets/sets the <i>type</i> of information that the tooltip will contain. Currently supported options are <i>plain</i>, <i>header</i> or <i>table</i>. The latter is the default. The tooltip closure will expect a different format of data depending on this <i>type</i>:</p>
 
-  <p><a name="table" href="#table">#</a> tooltip.<b>table</b> (&lt;object&gt;)</p>
-  <p>This method populates the <a href="#tooltip">tooltip</a> with a table-based content. When called, the method expects an object with the following fields as its argument:</p>
+  <ul>
+    <li><b>plain:</b> If the type of the tooltip closure is set to <i>plain</i>, the tooltip will display the passed data <i>as is</i>. This data will be interpreted as <i>html</i>. For example:
+	<pre><code class="javascript">
+var tooltip = epeek.tooltip()
+                   .type("plain");
+tooltip.call(this, '&lt;p&gt;Hello world&lt;/p&gt;');
+	</code></pre>
+    </li>
 
-  <p>
-    <ul>
-      <li><b>header</b> : {entry_object} -- An object (see below)</li>
-      <li><b>rows</b>   : [{entry_object}, {entry_object},...] -- An array of objects</li>
-    </ul>
-  </p>
+    <li><b>header:</b> If the type of the tooltip closure is set to <i>header</i>, the data that it will expect is an object having a <i>header</i> field with some text to display as a header and a <i>data</i> field with the actual data to display. For example:
+      <pre><code class="javascript">
+var tooltip = epeek.tooltip()
+                   .type("header");
+tooltip.call(this, { header : 'This is my header',
+                     data   : '&lt;p&gt;Hello world&lt;/p&gt;' });
+      </code></pre>
 
-  <p>Where an {entry_object} is an object with the following fields:</p>
+    </li>
 
-  <p>
-    <ul>
-      <li><b>label</b> : The name of the new field</li>
-      <li><b>value</b> : Its value</li>
-    </ul>
-  </p>
+    <li><b>table</b>: If the type of the tooltip closure is set to <i>table</i>, the closure will display a table inside of the tooltip. This data has to have the following format:
 
-  <p>See the code above for an example</p>
+      <p>
+	<ul>
+	  <li><b>header</b> : {entry_object} -- An object (see below)</li>
+	  <li><b>rows</b>   : [{entry_object}, {entry_object},...] -- An array of objects</li>
+	</ul>
+      </p>
+
+      Where an {entry_object} is an object with wht following fields:
+      <p>
+	<ul>
+	  <li><b>label</b> : The name of the new field</li>
+	  <li><b>value</b> : Its value</li>
+	</ul>
+      </p>
+
+      See the code above for an example
+    </li>
+
+  </ul>
 
   <p><a name="background_color" href="#background_color">#</a> tooltip.<b>background_color</b> ([string])</p>
   <p>This method gets/sets the background color of the tooltip. This color should be expressed as a valid hexadecimal number (including the "#" prefix) like "#FFFFFF":
 
   <pre><code class="javascript">
-var tooltip = epeek.tooltip().background_color("#CCDD00");
+var tooltip = epeek.tooltip()
+                   .type("plain")
+                   .background_color("#CCDD00");
+
   </code></pre>
 
   <p><a name="foreground_color" href="#foreground_color">#</a> tooltip.<b>foreground_color</b> ([string])</p>
@@ -106,6 +133,7 @@ var tooltip = epeek.tooltip().background_color("#CCDD00");
 
   <pre><code class="javascript">
 var tooltip = epeek.tooltip()
+                   .type("plain")
                    .background_color("#CCDD00")
                    .foreground_color("#0022FF");
   </code></pre>
