@@ -10,7 +10,8 @@ var epeek_theme_tree_ensembl_species = function() {
 	var sel = menu_pane
 	    .append("select")
 	    .on("change", function(d) {
-		sT.subtree(ensembl_species[this.value]);
+	    sT.prune_by_names(ensembl_species[this.value]);	
+		// sT.subtree(ensembl_species[this.value]);
 		sT.update();
 	    });
 
