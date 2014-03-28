@@ -9,6 +9,10 @@ var epeek_theme_track_resize = function() {
 	div_theme
 	    .style("border", "1px solid gray");
 
+	var gene_track = epeek.genome.track.gene()
+	    .foreground_color("#586471")
+	    .height(200);
+
 	var table = div_theme
 	    .append("table")
 	    .attr("border", "0px")
@@ -39,9 +43,10 @@ var epeek_theme_track_resize = function() {
 	    .append("img")
 	    .attr("src", pathToScript + "../pics/chevron_active_right.png")
 	    .on("click", function() {
-		gB.height(300);
+		gene_track.height(300);
 	    });
 
+	gB.add_track(gene_track);
 	gB.start();
 
     };
