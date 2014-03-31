@@ -40,7 +40,7 @@ var epeek_theme_track_legend = function() {
 	    .text("Gene legend:");
 
 	d3.selectAll("ePeek_biotype")
-	    .data(gene_track.layout().genes());
+	    .data(gene_track.layout().elements());
 
 	gene_track.update().success (function (genes) {
 	    genes.map(gene_color);
