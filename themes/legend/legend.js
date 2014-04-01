@@ -28,7 +28,8 @@ var epeek_theme_track_legend = function() {
 
 	var gene_track = epeek.genome.track.gene()
 	    .height(200)
-	    .background_color("#FFFFFF");
+	    .background_color("#FFFFFF")
+	    .plotter(epeek.genome.feature.gene());
 	gB.add_track(gene_track);
 
 	var legend_div = d3.select(div)

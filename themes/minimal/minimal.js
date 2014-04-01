@@ -6,19 +6,22 @@ var epeek_theme_track_minimal = function() {
 	var gene_track = epeek.genome.track.gene()
 	    .height(200)
 	    .foreground_color("red")
-	    .background_color("#cccccc");
+	    .background_color("#cccccc")
+	    .plotter(epeek.genome.feature.gene());
 
 	// Gene Track2
 	var gene_track2 = epeek.genome.track.gene()
 	    .height(100)
 	    .foreground_color("blue")
-	    .background_color("#DDDD00");
+	    .background_color("#DDDD00")
+	    .plotter(epeek.genome.feature.gene());
 
 	// Pin Track1
 	var pin_track1 = epeek.genome.track.pin()
 	    .height(30)
 	    .pin_color("blue")
-	    .background_color("#cccccc");
+	    .background_color("#cccccc")
+	    .plotter(epeek.genome.feature.pin());
 
 	var pin1_updater = pin_track1.retriever.local()
 	    .retriever(function () {return [
@@ -29,14 +32,14 @@ var epeek_theme_track_minimal = function() {
 		    pos : 32896000
 		}
 	    ]});
-
 	pin_track1.update(pin1_updater);
 
 	// Block Track1
 	var block_track = epeek.genome.track.block()
 	    .height(30)
 	    .foreground_color("blue")
-	    .background_color("#FFCFDD");
+	    .background_color("#FFCFDD")
+	    .plotter(epeek.genome.feature.block());
 	var block_updater = block_track.retriever.local()
 	    .retriever(function () {return [
 		{

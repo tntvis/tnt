@@ -7,12 +7,14 @@ var epeek_theme_track_pins = function() {
 	var gene_track = epeek.genome.track.gene()
 	    .height(150)
 	    .background_color("#EEEEEE")
-	    .foreground_color("green");
+	    .foreground_color("green")
+	    .plotter(epeek.genome.feature.gene());
 
 	var pin_track1 = epeek.genome.track.pin()
 	    .height(30)
 	    .background_color("#EEEEEE")
-	    .pin_color("blue");
+	    .pin_color("blue")
+	    .plotter(epeek.genome.feature.pin());
 
 	var pin_track1_updater = pin_track1.retriever.local()
 	    .retriever(function () {
@@ -27,7 +29,8 @@ var epeek_theme_track_pins = function() {
 	var pin_track2 = epeek.genome.track.pin()
 	    .height(30)
 	    .background_color("#EEEEEE")
-	    .pin_color("red");
+	    .pin_color("red")
+	    .plotter(epeek.genome.feature.pin());
 
 	var pin_track2_updater = pin_track2.retriever.local()
 	    .retriever(function () {

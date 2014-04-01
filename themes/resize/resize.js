@@ -11,7 +11,8 @@ var epeek_theme_track_resize = function() {
 
 	var gene_track = epeek.genome.track.gene()
 	    .foreground_color("#586471")
-	    .height(200);
+	    .height(200)
+	    .plotter(epeek.genome.feature.gene());
 
 	var table = div_theme
 	    .append("table")
