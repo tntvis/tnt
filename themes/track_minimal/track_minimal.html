@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
 
   <script src="../../ePeek.js"></script>
-  <script src="minimal.js"></script>
+  <script src="track_minimal.js"></script>
 
   <header>
     <a style="margin-left:1em;" href="../../index.html">Overview</a>
@@ -29,9 +29,10 @@
   <div id="genomeBrowser"></div>
   <script>
     (function() {
-        var gB = epeek.track.genome().species("human").gene("brca2").width(950);
-        var gBTheme = epeek_theme_track_minimal();
-        gBTheme(gB, document.getElementById("genomeBrowser"));
+        <!-- var gB = epeek.track().species("human").gene("brca2").width(950); -->
+	var t = epeek.track().from(20).to(500);
+        var theme = epeek_theme_track_track_minimal();
+        theme(t, document.getElementById("genomeBrowser"));
     })();
  
   </script>

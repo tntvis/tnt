@@ -4,17 +4,17 @@ var epeek_theme_track_pins = function() {
 	// We start the genome browser
 	gB(div);
 
-	var gene_track = epeek.genome.track.gene()
+	var gene_track = epeek.track.track.gene()
 	    .height(150)
 	    .background_color("#EEEEEE")
 	    .foreground_color("green")
-	    .plotter(epeek.genome.feature.gene());
+	    .plotter(epeek.track.feature.gene());
 
-	var pin_track1 = epeek.genome.track.pin()
+	var pin_track1 = epeek.track.track.pin()
 	    .height(30)
 	    .background_color("#EEEEEE")
 	    .pin_color("blue")
-	    .plotter(epeek.genome.feature.pin());
+	    .plotter(epeek.track.feature.pin());
 
 	var pin_track1_updater = pin_track1.retriever.local()
 	    .retriever(function () {
@@ -26,11 +26,11 @@ var epeek_theme_track_pins = function() {
 	pin_track1.update(pin_track1_updater);
 
 
-	var pin_track2 = epeek.genome.track.pin()
+	var pin_track2 = epeek.track.track.pin()
 	    .height(30)
 	    .background_color("#EEEEEE")
 	    .pin_color("red")
-	    .plotter(epeek.genome.feature.pin());
+	    .plotter(epeek.track.feature.pin());
 
 	var pin_track2_updater = pin_track2.retriever.local()
 	    .retriever(function () {
@@ -41,9 +41,10 @@ var epeek_theme_track_pins = function() {
 	pin_track2.update(pin_track2_updater);
 	
 
-	gB.add_track(gene_track);
-	gB.add_track(pin_track1);
-	gB.add_track(pin_track2);
+	gB
+	    .add_track(gene_track)
+	    .add_track(pin_track1)
+	    .add_track(pin_track2);
 
 	gB.start();
 

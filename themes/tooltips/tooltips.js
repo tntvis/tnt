@@ -3,11 +3,11 @@ var epeek_theme_track_tooltips = function() {
 
     var theme = function(gB, div) {
 
-	var gene_track = epeek.genome.track.gene()
+	var gene_track = epeek.track.track.gene()
 	    .background_color('#EEEEEE')
 	    .foreground_color('green')
 	    .height(200)
-	    .plotter(epeek.genome.feature.gene());
+	    .plotter(epeek.track.feature.gene());
 
 	gene_track.info_callback(gene_track.tooltip());
 

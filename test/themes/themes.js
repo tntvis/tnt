@@ -9,7 +9,7 @@ describe("Themes", function () {
 	describe("Minimal", function () {
 	    after(clean_div);
 	    it("Loads", function (done) {
-		var st = epeek.genome();
+		var st = epeek.track.genome();
 		var theme = epeek_theme_track_minimal();
 		theme(st, document.getElementById("TestID"));
 		setTimeout(done, delay);
@@ -19,7 +19,7 @@ describe("Themes", function () {
 	describe("Legend", function () {
 	    after(clean_div);
 	    it("Loads", function (done) {
-		var st = epeek.genome();
+		var st = epeek.track.genome();
 		var theme = epeek_theme_track_legend();
 		theme(st, document.getElementById("TestID"));
 		setTimeout(done, delay);
@@ -29,7 +29,7 @@ describe("Themes", function () {
 	describe("Pins", function (done) {
 	    after(clean_div);
 	    it("Loads", function () {
-		var st = epeek.genome();
+		var st = epeek.track.genome();
 		var theme = epeek_theme_track_pins();
 		theme(st, document.getElementById("TestID"));
 		setTimeout(done, delay);
@@ -39,7 +39,7 @@ describe("Themes", function () {
 	describe("Tooltips", function () {
 	    after(clean_div);
 	    it("Loads", function (done) {
-		var st = epeek.genome();
+		var st = epeek.track.genome();
 		var theme = epeek_theme_track_tooltips();
 		theme(st, document.getElementById("TestID"));
 		setTimeout(done, delay);
@@ -49,7 +49,7 @@ describe("Themes", function () {
 	describe("Resizable Div", function () {
 	    after(clean_div);
 	    it("Loads", function (done) {
-		var st = epeek.genome();
+		var st = epeek.track.genome();
 		var theme = epeek_theme_track_resizable_div();
 		theme(st, document.getElementById("TestID"));
 		setTimeout(done, delay);
@@ -59,7 +59,7 @@ describe("Themes", function () {
 	describe("Compact", function () {
 	    after(clean_div);
 	    it("Loads", function (done) {
-		var st = epeek.genome();
+		var st = epeek.track.genome();
 		var theme = epeek_theme_track_compact();
 		theme(st, document.getElementById("TestID"));
 		setTimeout(done, delay);
@@ -69,7 +69,7 @@ describe("Themes", function () {
 	describe("Buttons", function () {
 	    after(clean_div);
 	    it("Loads", function (done) {
-		var st = epeek.genome();
+		var st = epeek.track.genome();
 		var theme = epeek_theme_track_buttons();
 		theme(st, document.getElementById("TestID"));
 		setTimeout(done, delay);
@@ -79,7 +79,7 @@ describe("Themes", function () {
 	describe("Resize", function () {
 	    after(clean_div);
 	    it("Loads", function (done) {
-		var st = epeek.genome();
+		var st = epeek.track.genome();
 		var theme = epeek_theme_track_resize();
 		theme(st, document.getElementById("TestID"));
 		setTimeout(done, delay);
@@ -88,16 +88,25 @@ describe("Themes", function () {
 
 	describe("Mobile", function () {
 	    it("Loads", function (done) {
-		var st = epeek.genome();
+		var st = epeek.track.genome();
 		var theme = epeek_theme_track_mobile();
 		theme(st, document.getElementById("TestID"));
 		setTimeout(done, delay);
 	    });
 	});
 
+	describe("Genome-less Minimal", function () {
+	    it ("Loads", function (done) {
+		var st = epeek.track.genome();
+		var theme = epeek_theme_track_track_minimal();
+		theme (st, document.getElementById("TestID"));
+		setTimeout(done, delay);
+	    });
+	});
+
 	// describe("Comparative", function () {
 	//     it("Loads", function (done) {
-	// 	var st = epeek.genome();
+	// 	var st = epeek.track.genome();
 	// 	var theme = epeek_theme_track_comparative();
 	// 	theme(st, document.getElementById("TestID"));
 	// 	setTimeout(done, 1500);
@@ -106,7 +115,7 @@ describe("Themes", function () {
 
 	// describe("Orthologues Tree", function () {
 	//     it("Loads", function () {
-	// 	var st = epeek.genome();
+	// 	var st = epeek.track.genome();
 	// 	var theme = epeek_theme_track_orthologues_tree();
 	// 	theme(st, document.getElementById("TestID"));
 	//     });

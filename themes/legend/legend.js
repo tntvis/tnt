@@ -26,10 +26,10 @@ var epeek_theme_track_legend = function() {
 	
 	gB(div);
 
-	var gene_track = epeek.genome.track.gene()
+	var gene_track = epeek.track.track.gene()
 	    .height(200)
 	    .background_color("#FFFFFF")
-	    .plotter(epeek.genome.feature.gene());
+	    .plotter(epeek.track.feature.gene());
 	gB.add_track(gene_track);
 
 	var legend_div = d3.select(div)

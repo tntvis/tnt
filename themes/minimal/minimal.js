@@ -49,10 +49,11 @@ var epeek_theme_track_minimal = function() {
 	    ]});
 	block_track.update(block_updater);
 
-	gB.add_track(gene_track);
-	gB.add_track(gene_track2);
-	gB.add_track(pin_track1);
-	gB.add_track(block_track);
+	gB
+	    .add_track(gene_track)
+	    .add_track(gene_track2)
+	    .add_track(pin_track1)
+	    .add_track(block_track);
 
 	gB.start();
     };

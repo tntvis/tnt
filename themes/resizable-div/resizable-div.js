@@ -7,10 +7,10 @@ var epeek_theme_track_resizable_div = function() {
 	    .style("resize", "both")
 	    .style("overflow", "hidden");
 
-	var gene_track = epeek.genome.track.gene()
+	var gene_track = epeek.track.track.gene()
 	    .foreground_color('#586471')
 	    .height(200)
-	    .plotter(epeek.genome.feature.gene());
+	    .plotter(epeek.track.feature.gene());
 
 	div_theme.watch("width", function(oldWidth, newWidth) {
 	    gB.width(parseInt(newWidth)-15);
