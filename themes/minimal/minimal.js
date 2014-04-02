@@ -49,11 +49,19 @@ var epeek_theme_track_minimal = function() {
 	    ]});
 	block_track.update(block_updater);
 
+	// Axis Track1
+	var axis_track = epeek.track.track.axis()
+	    .height(30)
+	    .foreground_color("white")
+	    .background_color("black");
+
+	// We add the tracks
 	gB
 	    .add_track(gene_track)
 	    .add_track(gene_track2)
 	    .add_track(pin_track1)
-	    .add_track(block_track);
+	    .add_track(block_track)
+	    .add_track(axis_track);
 
 	gB.start();
     };

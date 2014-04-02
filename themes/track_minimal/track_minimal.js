@@ -27,7 +27,16 @@ var epeek_theme_track_track_minimal = function() {
 
 	block_track.update(block_updater);
 
-	gB.add_track(block_track);
+	// Axis Track1
+	var axis_track = epeek.track.track.axis()
+	    .height(30)
+	    .foreground_color("white")
+	    .background_color("black")
+	    .plotter(epeek.track.feature.axis());
+
+	gB
+	    .add_track(block_track)
+	    .add_track(axis_track);
 
 	gB.start();
     };
