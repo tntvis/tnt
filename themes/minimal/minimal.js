@@ -50,10 +50,11 @@ var epeek_theme_track_minimal = function() {
 	block_track.update(block_updater);
 
 	// Axis Track1
-	var axis_track = epeek.track.track.axis()
+	var axis_track = epeek.track.track.empty()
 	    .height(30)
-	    .foreground_color("white")
-	    .background_color("black");
+	    .foreground_color("black")
+	    .background_color("white")
+	    .plotter(epeek.track.feature.axis());
 
 	// We add the tracks
 	gB
