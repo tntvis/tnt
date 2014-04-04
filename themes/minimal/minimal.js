@@ -2,67 +2,71 @@ var epeek_theme_track_minimal = function() {
 
     var theme = function(gB, div) {
 	gB(div);
+
 	// Gene Track1
-	var gene_track = epeek.track.track.gene()
-	    .height(200)
+	var gene_track = epeek.track.track()
 	    .foreground_color("red")
 	    .background_color("#cccccc")
-	    .plotter(epeek.track.feature.gene());
+	    .height(200)
+	    .data(epeek.track.data.gene())
+	    .display(epeek.track.feature.gene());
 
 	// Gene Track2
-	var gene_track2 = epeek.track.track.gene()
+	var gene_track2 = epeek.track.track()
 	    .height(100)
 	    .foreground_color("blue")
 	    .background_color("#DDDD00")
-	    .plotter(epeek.track.feature.gene());
+	    .data(epeek.track.data.gene())
+	    .display(epeek.track.feature.gene());
 
 	// Pin Track1
-	var pin_track1 = epeek.track.track.pin()
+	var pin_track1 = epeek.track.track()
 	    .height(30)
-	    .pin_color("blue")
 	    .background_color("#cccccc")
-	    .plotter(epeek.track.feature.pin());
-
-	var pin1_updater = pin_track1.retriever.local()
-	    .retriever(function () {return [
-		{
-		    pos : 32890000
-		},
-		{
-		    pos : 32896000
-		}
-	    ]});
-	pin_track1.update(pin1_updater);
+	    .data(epeek.track.data.pin()
+		  .update(
+		      epeek.track.retriever.local()
+			  .retriever (function () {
+			      return [
+				  {
+				      pos : 32890000
+				  },
+				  {
+				      pos : 32896000
+				  }
+			      ]
+			  })
+		  )
+		 )
+	    .display(epeek.track.feature.pin()
+		     .pin_color("blue"));
 
 	// Block Track1
-	var block_track = epeek.track.track.block()
+	var block_track = epeek.track.track()
 	    .height(30)
 	    .foreground_color("blue")
 	    .background_color("#FFCFDD")
-	    .plotter(epeek.track.feature.block());
-	var block_updater = block_track.retriever.local()
-	    .retriever(function () {return [
-		{
-		    start : 32890000,
-		    end   : 32890500,
-		}
-	    ]});
-	block_track.update(block_updater);
-
-	// Axis Track1
-	var axis_track = epeek.track.track.empty()
-	    .height(30)
-	    .foreground_color("black")
-	    .background_color("white")
-	    .plotter(epeek.track.feature.axis());
+	    .data(epeek.track.data.block()
+		  .update(
+		      epeek.track.retriever.local()
+			  .retriever (function () {
+			      return [
+				  {
+				      start : 32890000,
+				      end   : 32890500
+				  }
+			      ]
+			  })
+		  )
+		 )
+	    .display(epeek.track.feature.block());
 
 	// We add the tracks
 	gB
 	    .add_track(gene_track)
 	    .add_track(gene_track2)
 	    .add_track(pin_track1)
-	    .add_track(block_track)
-	    .add_track(axis_track);
+	    .add_track(block_track);
 
 	gB.start();
     };
