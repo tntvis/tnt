@@ -26,10 +26,11 @@ var epeek_theme_track_legend = function() {
 	
 	gB(div);
 
-	var gene_track = epeek.track.track.gene()
+	var gene_track = epeek.track.track()
 	    .height(200)
 	    .background_color("#FFFFFF")
-	    .plotter(epeek.track.feature.gene());
+	    .display(epeek.track.feature.gene())
+	    .data(epeek.track.data.gene());
 	gB.add_track(gene_track);
 
 	var legend_div = d3.select(div)
@@ -41,9 +42,9 @@ var epeek_theme_track_legend = function() {
 	    .text("Gene legend:");
 
 	d3.selectAll("ePeek_biotype")
-	    .data(gene_track.layout().elements());
+	    .data(gene_track.display().layout().elements());
 
-	gene_track.update().success (function (genes) {
+	gene_track.data().update().success (function (genes) {
 	    genes.map(gene_color);
 
 	    // And we setup/update the legend

@@ -215,14 +215,16 @@ var epeek_theme_track_compact = function() {
 	    }
 	}
 
-	var gene_track = epeek.track.track.gene()
+	var gene_track = epeek.track.track()
 	    .height(200)
 	    .foreground_color(gBrowserTheme.foreground_color())
 	    .background_color(gBrowserTheme.background_color())
-	    .plotter(epeek.track.feature.gene());
+	    .display(epeek.track.feature.gene())
+	    .data(epeek.track.data.gene());
 
 	gene_track
-	    .info_callback(gene_track.tooltip());
+	    .display()
+	    .info_callback(gene_track.display().tooltip());
 
 	gBrowser(div);
 	gBrowser.add_track(gene_track);

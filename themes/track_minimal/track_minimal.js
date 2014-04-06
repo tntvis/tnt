@@ -15,7 +15,8 @@ var epeek_theme_track_track_minimal = function() {
 	    .height(30)
 	    .foreground_color("blue")
 	    .background_color("#FFCFDD")
-	    .data(epeek.track.data.block()
+	    .data(epeek.track.data()
+		  .index("start")
 		  .update(
 		      epeek.track.retriever.local()
 			  .retriever (function () {

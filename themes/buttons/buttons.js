@@ -74,10 +74,11 @@ var epeek_theme_track_buttons = function() {
 	    .append("text")
 	    .text("1");
 
-	var gene_track = epeek.track.track.gene()
+	var gene_track = epeek.track.track()
 	    .height(200)
 	    .foreground_color("#586471")
-	    .plotter(epeek.track.feature.gene());
+	    .display(epeek.track.feature.gene())
+	    .data(epeek.track.data.gene());
 
 	gB(div);
 
