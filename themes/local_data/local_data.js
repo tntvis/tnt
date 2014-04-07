@@ -38,12 +38,62 @@ var epeek_theme_track_local_data = function() {
 		  .update(
 		      epeek.track.retriever.async()
 			  .url('/themes/local_data/track1.json')
-			  .callback(function (err, resp) {
-			      if (err) {
-				  console.log(err);
-			      }
-			      return JSON.parse(resp.responseText);
-			  })
+		  )
+		 )
+	    .display(epeek.track.feature.block());
+
+	// Block Track2
+	var block_track2 = epeek.track.track()
+	    .height(20)
+	    .foreground_color(fg_color)
+	    .background_color(bg_color)
+	    .data(epeek.track.data()
+		  .index("start")
+		  .update(
+		      epeek.track.retriever.async()
+			  .url('/themes/local_data/track2.json')
+		  )
+		 )
+	    .display(epeek.track.feature.block());
+
+	// Block Track3
+	var block_track3 = epeek.track.track()
+	    .height(20)
+	    .foreground_color(fg_color)
+	    .background_color(bg_color)
+	    .data(epeek.track.data()
+		  .index("start")
+		  .update(
+		      epeek.track.retriever.async()
+			  .url('/themes/local_data/track3.json')
+		  )
+		 )
+	    .display(epeek.track.feature.block());
+
+	// Block Track4
+	var block_track4 = epeek.track.track()
+	    .height(20)
+	    .foreground_color(fg_color)
+	    .background_color(bg_color)
+	    .data(epeek.track.data()
+		  .index("start")
+		  .update(
+		      epeek.track.retriever.async()
+			  .url('/themes/local_data/track4.json')
+		  )
+		 )
+	    .display(epeek.track.feature.block());
+
+	// Block Track5
+	var block_track5 = epeek.track.track()
+	    .height(20)
+	    .foreground_color(fg_color)
+	    .background_color(bg_color)
+	    .data(epeek.track.data()
+		  .index("start")
+		  .update(
+		      epeek.track.retriever.async()
+			  .url('/themes/local_data/track5.json')
 		  )
 		 )
 	    .display(epeek.track.feature.block());
@@ -52,7 +102,11 @@ var epeek_theme_track_local_data = function() {
 	gB
 	    .add_track(location)
 	    .add_track(axis)
-	    .add_track(block_track1);
+	    .add_track(block_track1)
+	    .add_track(block_track2)
+	    .add_track(block_track3)
+	    .add_track(block_track4)
+	    .add_track(block_track5);
 
 	gB.start();
     };
