@@ -3,12 +3,12 @@ var epeek_theme_track_track_minimal = function() {
     var theme = function(gB, div) {
 	gB(div);
 
-	gB.limits(function (done) {
+	gB.limits (function (done) {
 	    var lims = {
 		right : 1000
 	    }
 	    done(lims);
-	})
+	});
 
 	// Block Track1
 	var block_track = epeek.track.track()
