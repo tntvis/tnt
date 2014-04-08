@@ -96,11 +96,18 @@ describe("Themes", function () {
 	});
 
 	describe("Genome-less Minimal", function () {
-	    it ("Loads", function (done) {
-		var st = epeek.track.genome();
+	    it ("Loads", function () {
+		var st = epeek.track().from(0).to(500);
 		var theme = epeek_theme_track_track_minimal();
 		theme (st, document.getElementById("TestID"));
-		setTimeout(done, delay);
+	    });
+	});
+
+	describe("Swap tracks", function () {
+	    it ("Loads", function () {
+		var st = epeek.track().from(0).to(500);
+		var theme = epeek_theme_track_swap_tracks();
+		theme (st, document.getElementById("TestID"));
 	    });
 	});
 

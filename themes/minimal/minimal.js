@@ -26,7 +26,7 @@ var epeek_theme_track_minimal = function() {
 	    .data(epeek.track.data()
 		  .index("pos")
 		  .update(
-		      epeek.track.retriever.local()
+		      epeek.track.retriever.sync()
 			  .retriever (function () {
 			      return [
 				  {
@@ -50,7 +50,7 @@ var epeek_theme_track_minimal = function() {
 	    .data(epeek.track.data()
 		  .index("start")
 		  .update(
-		      epeek.track.retriever.local()
+		      epeek.track.retriever.sync()
 			  .retriever (function () {
 			      return [
 				  {

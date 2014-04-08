@@ -9,10 +9,11 @@ var epeek_theme_track_resize = function() {
 	div_theme
 	    .style("border", "1px solid gray");
 
-	var gene_track = epeek.track.track.gene()
+	var gene_track = epeek.track.track()
 	    .foreground_color("#586471")
 	    .height(200)
-	    .plotter(epeek.track.feature.gene());
+	    .display(epeek.track.feature.gene())
+	    .data(epeek.track.data.gene());
 
 	var table = div_theme
 	    .append("table")

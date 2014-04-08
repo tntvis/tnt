@@ -1,4 +1,4 @@
-var epeek_theme_track_track_minimal = function() {
+var epeek_theme_track_swap_tracks = function() {
 
     var theme = function(gB, div) {
 	gB.limits (function (done) {

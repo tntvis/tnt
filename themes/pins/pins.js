@@ -4,41 +4,48 @@ var epeek_theme_track_pins = function() {
 	// We start the genome browser
 	gB(div);
 
-	var gene_track = epeek.track.track.gene()
+	var gene_track = epeek.track.track()
 	    .height(150)
 	    .background_color("#EEEEEE")
 	    .foreground_color("green")
-	    .plotter(epeek.track.feature.gene());
+	    .display(epeek.track.feature.gene())
+	    .data(epeek.track.data.gene());
 
-	var pin_track1 = epeek.track.track.pin()
+	var pin_track1 = epeek.track.track()
 	    .height(30)
 	    .background_color("#EEEEEE")
-	    .pin_color("blue")
-	    .plotter(epeek.track.feature.pin());
+	    .display(epeek.track.feature.pin()
+		     .pin_color("blue"));
 
-	var pin_track1_updater = pin_track1.retriever.local()
-	    .retriever(function () {
-		return [
-		    { pos : 32900000 },
-		    { pos : 32910000 }
-		]
-	    });
-	pin_track1.update(pin_track1_updater);
+	var pin_track1_updater = epeek.track.data()
+	    .index("pos")
+	    .update (epeek.track.retriever.sync()
+		     .retriever(function () {
+			 return [
+			     { pos : 32900000 },
+			     { pos : 32910000 }
+			 ]
+		     })
+		    );
+	pin_track1.data(pin_track1_updater);
 
 
-	var pin_track2 = epeek.track.track.pin()
+	var pin_track2 = epeek.track.track()
 	    .height(30)
 	    .background_color("#EEEEEE")
-	    .pin_color("red")
-	    .plotter(epeek.track.feature.pin());
+	    .display(epeek.track.feature.pin()
+		     .pin_color("red"))
 
-	var pin_track2_updater = pin_track2.retriever.local()
-	    .retriever(function () {
-		return [
-		    { pos : 32890000 }
-		]
-	    });
-	pin_track2.update(pin_track2_updater);
+	var pin_track2_updater = epeek.track.data()
+	    .index("pos")
+	    .update (epeek.track.retriever.sync()
+		     .retriever(function () {
+			 return [
+			     { pos : 32890000 }
+			 ]
+		     })
+		    );
+	pin_track2.data(pin_track2_updater);
 	
 
 	gB
@@ -59,7 +66,7 @@ var epeek_theme_track_pins = function() {
 
 	legend_div1
 	    .append("img")
-	    .attr("src", pin_track1.pin_url())
+	    .attr("src", pin_track1.display().pin_url())
 	    .attr("width", "15");
 
 	legend_div1
@@ -73,7 +80,7 @@ var epeek_theme_track_pins = function() {
 
 	legend_div2
 	    .append("img")
-	    .attr("src", pin_track2.pin_url())
+	    .attr("src", pin_track2.display().pin_url())
 	    .attr("width", "15");
 
 	legend_div2

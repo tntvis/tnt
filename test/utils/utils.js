@@ -4,18 +4,18 @@ describe("epeek.utils", function () {
 	assert.isObject(epeek.utils);
     });
 
-    describe("epeek.utils.iteratorInt", function () {
+    describe("epeek.utils.iterator", function () {
 	it("Exists and is a method", function () {
-	    assert.isDefined(epeek.utils.iteratorInt);
-	    assert.isFunction(epeek.utils.iteratorInt);
+	    assert.isDefined(epeek.utils.iterator);
+	    assert.isFunction(epeek.utils.iterator);
 	});
 
 	it("Returns a callback", function () {
-	    assert.isDefined(epeek.utils.iteratorInt());
-	    assert.isFunction(epeek.utils.iteratorInt());
+	    assert.isDefined(epeek.utils.iterator());
+	    assert.isFunction(epeek.utils.iterator());
 	});
 
-	var i = epeek.utils.iteratorInt();
+	var i = epeek.utils.iterator();
 	it("Returns a callback", function () {
 	    assert.isDefined(i);
 	    assert.isFunction(i);
@@ -30,7 +30,7 @@ describe("epeek.utils", function () {
 	});
 
 	it("Can start from custom values", function () {
-	    var j = epeek.utils.iteratorInt(100);
+	    var j = epeek.utils.iterator(100);
 	    assert.strictEqual(j(), 100);
 	});
     });
