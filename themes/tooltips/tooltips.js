@@ -10,7 +10,7 @@ var epeek_theme_track_tooltips = function() {
 	    .data(epeek.track.data.gene())
 	    .display(epeek.track.feature.gene());
 
-	gene_track.display().info_callback(gene_track.display().tooltip());
+	gene_track.display().info(gene_track.display().tooltip());
 
 	gB(div);
 	gB.add_track(gene_track);

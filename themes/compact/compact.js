@@ -224,7 +224,7 @@ var epeek_theme_track_compact = function() {
 
 	gene_track
 	    .display()
-	    .info_callback(gene_track.display().tooltip());
+	    .info(gene_track.display().tooltip());
 
 	gBrowser(div);
 	gBrowser.add_track(gene_track);
