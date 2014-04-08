@@ -49,8 +49,8 @@ var epeek_theme_track_compact = function() {
 
 	gBrowser = gB;
 
-	gBrowser.xref_search_callback    = xref_cbak;
-	gBrowser.ensgene_search_callback = ensGene_cbak;
+	gBrowser.xref_search(xref_cbak);
+	gBrowser.ensgene_search(ensGene_cbak);
 
 	// We set the original data so we can always come back
 	// The values are set when the core plug-in is about to start
