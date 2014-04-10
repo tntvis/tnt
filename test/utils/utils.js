@@ -1,51 +1,160 @@
-describe("epeek.utils", function () {
-    it("Exists", function () {
+describe ("epeek.utils", function () {
+    it ("Exists", function () {
 	assert.isDefined(epeek.utils);
 	assert.isObject(epeek.utils);
     });
 
-    describe("epeek.utils.iterator", function () {
-	it("Exists and is a method", function () {
+    describe ("epeek.utils.iterator", function () {
+	it ("Exists and is a method", function () {
 	    assert.isDefined(epeek.utils.iterator);
 	    assert.isFunction(epeek.utils.iterator);
 	});
 
-	it("Returns a callback", function () {
+	it ("Returns a callback", function () {
 	    assert.isDefined(epeek.utils.iterator());
 	    assert.isFunction(epeek.utils.iterator());
 	});
 
 	var i = epeek.utils.iterator();
-	it("Returns a callback", function () {
+	it ("Returns a callback", function () {
 	    assert.isDefined(i);
 	    assert.isFunction(i);
 	});
 
-	it("Starts with 0 by default", function () {
+	it ("Starts with 0 by default", function () {
 	    assert.strictEqual(i(), 0);
 	});
 
-	it("Creates new values", function () {
+	it ("Creates new values", function () {
 	    assert.strictEqual(i(), 1);
 	});
 
-	it("Can start from custom values", function () {
+	it ("Can start from custom values", function () {
 	    var j = epeek.utils.iterator(100);
 	    assert.strictEqual(j(), 100);
 	});
     });
 
-    describe("epeek.utils.script_path", function () {
-	it("Exists and is a method", function () {
+    describe ("epeek.utils.script_path", function () {
+	it ("Exists and is a method", function () {
 	    assert.isDefined(epeek.utils.script_path);
 	    assert.isFunction(epeek.utils.script_path);
 	});
 
-	it("Finds the absolute path to a script", function () {
+	it ("Finds the absolute path to a script", function () {
 	    var path = epeek.utils.script_path("ePeek.js");
 	    assert.isDefined(path);
 	    assert.notEqual(path, "");
 	});
+    });
+
+    describe ("epeek.utils.api", function () {
+	it ("Exists and is a method", function () {
+	    assert.isDefined(epeek.utils.api);
+	    assert.isFunction(epeek.utils.api);
+	});
+
+	// Namespace to attach getters/setters
+	var namespace = {};
+	var api = epeek.utils.api(namespace);
+
+	describe ("Getter/Setter", function () {
+	    var props = {
+	    	prop1 : 1,
+	    	prop2 : "two",
+	    	prop3 : function () {return 3}
+	    };
+
+	    it("Stores default values", function () {
+		api.getset('property1', 5);
+		assert.strictEqual(namespace.property1(), 5);
+	    });
+
+	    it ("Sets properties in batches", function () {
+	    	api.getset(props);
+	    	assert.isDefined(namespace.prop1);
+	    	assert.strictEqual(namespace.prop1(), 1);
+	    	assert.strictEqual(namespace.prop2(), "two");
+	    	assert.isFunction(namespace.prop3());
+	    });
+
+	    it ("Allows api properties to be accessed from the properties object", function () {
+	    	assert.strictEqual(namespace.prop1(), props.prop1);
+	    	namespace.prop1(2);
+	    	assert.strictEqual(namespace.prop1(), 2);
+	    	assert.strictEqual(namespace.prop1(), props.prop1);
+	    });
+
+	    it ("Allows api properties to be changed from the properties object", function () {
+		assert.strictEqual(namespace.prop1(), props.prop1);
+		props.prop1 = 2000;
+		assert.strictEqual(namespace.prop1(), 2000);
+		assert.strictEqual(namespace.prop1(), props.prop1);
+	    });
+
+	    it ("Masks properties with new ones", function () {
+		var props = {
+		    prop1 : 2
+		};
+		api.getset(props);
+		assert.strictEqual(namespace.prop1(), 2);
+		props.prop1 = 1000;
+		api.getset(props);
+		assert.strictEqual(namespace.prop1(), 1000);
+	    });
+
+	});
+
+	describe ("Getter", function () {
+	    it ("Stores default values", function () {
+	    	api.get('ro_property1', "a given value");
+	    	assert.strictEqual(namespace.ro_property1(), "a given value");
+	    });
+
+	    it ("Complains on setting", function () {
+		assert.throws(function () {
+		    namespace.ro_property1("another value")
+		}, /is defined only as a getter/);
+	    });
+	});
+
+	describe ("Setter", function () {
+	    it ("Stores default values", function () {
+	    	api.set('wo_property1', "a hidden value");
+	    });
+
+	    it ("Complains on getting", function () {
+		assert.throws(function () {
+		    namespace.wo_property1()
+		}, /is defined only as a setter/);
+	    });
+
+	    it ("Allows to get the values from the object", function () {
+	    	wo_methods = {
+	    	    my_property : 5
+	    	};
+		api.set(wo_methods);
+	    	namespace.my_property("changed");
+	    	assert.strictEqual(wo_methods.my_property, "changed");
+	    });
+	});
+
+	describe ("Checks", function () {
+	    it ("Stores and run checks by method name", function () {
+		api.check('prop1', function (val) {return val > 0});
+
+		assert.doesNotThrow (function () {
+		    namespace.prop1(10);
+		});
+
+		assert.throws (function () {
+		    namespace.prop1(-1);
+		}, /doesn't seem to be valid for this method/);
+
+		assert.strictEqual(namespace.prop1(), 10);
+	    });
+	});
+
     });
 
 });
