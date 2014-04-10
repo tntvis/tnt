@@ -153,6 +153,7 @@ describe ("epeek.utils", function () {
 
 		assert.strictEqual(namespace.prop1(), 10);
 	    });
+
 	});
 
     });
