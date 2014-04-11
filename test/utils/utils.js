@@ -199,6 +199,27 @@ describe ("epeek.utils", function () {
 		}, /doesn't seem to be valid for this method/);
 	    });
 
+	    it ("Registers checks on multiple methods at the same time", function () {
+		api.getset({
+		    one : 1,
+		    two : 2,
+		    three : 3
+		});
+		api.check(['one', 'two', 'three'], function (x) {return x>0});
+		assert.throws (function () {
+		    namespace.one(-1);
+		}, /doesn't seem to be valid for this method/);
+
+		assert.throws (function () {
+		    namespace.two(-1);
+		}, /doesn't seem to be valid for this method/);
+
+		assert.doesNotThrow (function () {
+		    namespace.one(10);
+		});
+		assert.strictEqual(namespace.one(), 10);
+	    });
+
 	});
 
 	describe ("Transform", function () {
@@ -228,12 +249,26 @@ describe ("epeek.utils", function () {
 	    });
 
 	    it ("Can be attached via the method interface", function () {
-		namespace.kk.transform(function (val) {return Math.abs(val)});
-		assert.strictEqual(namespace.kk(), 1);
-		assert.doesNotThrow(function () {
+		namespace.kk.transform (function (val) {return Math.abs(val)});
+		assert.strictEqual (namespace.kk(), 1);
+		assert.doesNotThrow (function () {
 		    namespace.kk(-10);
 		});
 		assert.strictEqual(namespace.kk(), 10);
+	    });
+
+	    it ("Registers transforms on multiple methods at the same time", function () {
+		api.transform(['one', 'two', 'three'], function (x) {return Math.abs(x)});
+
+		assert.doesNotThrow (function () {
+		    namespace.one(-10);
+		});
+ 		assert.strictEqual(namespace.one(), 10);
+
+		assert.doesNotThrow (function () {
+		    namespace.two(-20);
+		});
+		assert.strictEqual(namespace.two(), 20);
 	    });
 
 	});
