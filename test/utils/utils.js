@@ -143,7 +143,7 @@ describe ("epeek.utils", function () {
 	    });
 	});
 
-	describe ("Checks", function () {
+	describe ("Check", function () {
 	    it ("Stores and run checks by method name", function () {
 		api.check('prop1', function (val) { return val > 0 });
 
@@ -190,9 +190,18 @@ describe ("epeek.utils", function () {
 		
 	    });
 
+	    it ("Can be attached via the method interface", function () {
+		api.getset("kk", 1);
+		namespace.kk.check(function (val) {return val > 0});
+		assert.strictEqual(namespace.kk(), 1);
+		assert.throws(function () {
+		    namespace.kk(-1);
+		}, /doesn't seem to be valid for this method/);
+	    });
+
 	});
 
-	describe ("Transforms", function () {
+	describe ("Transform", function () {
 
 	    it ("Stores and run transforms by method name", function () {
 		api.getset('another_prop', 1);
@@ -216,6 +225,15 @@ describe ("epeek.utils", function () {
 		assert.doesNotThrow (function () {
 		    namespace.another_prop2(20);
 		});
+	    });
+
+	    it ("Can be attached via the method interface", function () {
+		namespace.kk.transform(function (val) {return Math.abs(val)});
+		assert.strictEqual(namespace.kk(), 1);
+		assert.doesNotThrow(function () {
+		    namespace.kk(-10);
+		});
+		assert.strictEqual(namespace.kk(), 10);
 	    });
 
 	});
