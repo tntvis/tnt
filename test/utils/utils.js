@@ -70,6 +70,10 @@ describe ("epeek.utils", function () {
 		assert.strictEqual(namespace.property1(), 5);
 	    });
 
+	    it("Allows to retrieve the method name", function () {
+		assert.strictEqual(namespace.property1.method_name, 'property1');
+	    });
+
 	    it ("Sets properties in batches", function () {
 	    	api.getset(props);
 	    	assert.isDefined(namespace.prop1);
@@ -141,7 +145,7 @@ describe ("epeek.utils", function () {
 
 	describe ("Checks", function () {
 	    it ("Stores and run checks by method name", function () {
-		api.check('prop1', function (val) {return val > 0});
+		api.check('prop1', function (val) { return val > 0 });
 
 		assert.doesNotThrow (function () {
 		    namespace.prop1(10);
@@ -152,6 +156,66 @@ describe ("epeek.utils", function () {
 		}, /doesn't seem to be valid for this method/);
 
 		assert.strictEqual(namespace.prop1(), 10);
+	    });
+
+	    it ("Stores and run checks by method", function () {
+		api.check(namespace.prop1, function (val) { return val < 100});
+
+		assert.doesNotThrow (function () {
+		    namespace.prop1(20);
+		});
+
+		assert.throws (function () {
+		    namespace.prop1(200);
+		}, /doesn't seem to be valid for this method/);
+
+		assert.strictEqual(namespace.prop1(), 20);
+	    });
+
+	    it ("Works with chai's assert", function () {
+		api.check(namespace.prop2, function (val) { assert.isNumber (val) });
+		assert.throws (function () {
+		    namespace.prop2("not a number");
+		}, /expected 'not a number' to be a number/);
+	    });
+
+	    it ("Accepts an optional argument with the error message", function () {
+		api.check(namespace.prop3,
+			  function (val) { return typeof (val) === 'function' },
+			  'Argument should be a function');
+
+		assert.throws (function () {
+		    namespace.prop3("not a function");
+		}, 'Argument should be a function');
+		
+	    });
+
+	});
+
+	describe ("Transforms", function () {
+
+	    it ("Stores and run transforms by method name", function () {
+		api.getset('another_prop', 1);
+		api.check('another_prop', function (val) { return val < 10 });
+		assert.throws (function () {
+		    namespace.another_prop(20);
+		}, /doesn't seem to be valid for this method/);
+		api.transform('another_prop', function (val) { return val % 10 });
+		assert.doesNotThrow (function () {
+		    namespace.another_prop(20);
+		});
+	    });
+
+	    it ("Stores and run transforms by method", function () {
+		api.getset('another_prop2', 1);
+		api.check('another_prop2', function (val) { return val < 10 });
+		assert.throws (function () {
+		    namespace.another_prop2(20);
+		}, /doesn't seem to be valid for this method/);
+		api.transform(namespace.another_prop2, function (val) { return val % 10 });
+		assert.doesNotThrow (function () {
+		    namespace.another_prop2(20);
+		});
 	    });
 
 	});
