@@ -10,6 +10,10 @@ var epeek_theme_track_comparative = function() {
 	'mouse' : "Mus_musculus.png",
     };
 
+    var bgColor = "#DCE6E6";
+    var fgColor = "#0099CC";
+    var height  = 150;
+
     // Now, gBs is an array of gBs
     var gBrowserTheme = function(gBs, div) {
 
@@ -175,6 +179,14 @@ var epeek_theme_track_comparative = function() {
 		    .append("div")
 		    .attr("id", "ePeek_comparative" + i)
 
+		var track = epeek.track.track()
+		    .foreground_color(fgColor)
+		    .background_color(bgColor)
+		    .height(height)
+		    .data(epeek.track.data.gene())
+		    .display(epeek.track.feature.gene());
+
+		gB.add_track(track);
 		gB(document.getElementById("ePeek_comparative" + i));
 
 		// TODO: Should we have a getter in genome.js to retrieve this groupDiv?
@@ -208,6 +220,7 @@ var epeek_theme_track_comparative = function() {
 		    .on("mouseout", function(){
 			d3.select(this).attr("src", pathToScript + "../pics/chevron_inactive_right.png")
 		    });
+
 
 		gB.start();
 	    }, i * 500);	    

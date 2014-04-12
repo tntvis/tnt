@@ -33,13 +33,12 @@
 
   (function() {
         var width   = 800;
-        var height  = 150;
         var gene    = "BRCA2";
         var bgColor = "#DCE6E6";
         var fgColor = "#0099CC";
 
-        var gBs = [ epeek.genome().species("human").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor),
-                    epeek.genome().species("mouse").width(width).height(height).gene(gene).allow_drag(false).background_color(bgColor).foreground_color(fgColor) ];
+        var gBs = [ epeek.track.genome().species("human").width(width).gene(gene).allow_drag(false),
+                    epeek.track.genome().species("mouse").width(width).gene(gene).allow_drag(false)];
         gBTheme = epeek_theme_track_comparative();
         gBTheme(gBs, document.getElementById("genomeBrowser"));
 
