@@ -273,6 +273,33 @@ describe ("epeek.utils", function () {
 
 	});
 
+	describe ("Method", function () {
+	    it ("Stores and retrieves api methods (not getters / setters)", function () {
+		var method1 = function () {
+		    return 1;
+		};
+		api.method('method1', method1);
+		assert.strictEqual(namespace.method1(), 1);
+	    });
+
+	    it ("Stores and retrieves api methods in batches", function () {
+		var method2 = function () {
+		    return 2
+		};
+		var method3 = function () {
+		    return 3;
+		};
+		var methods = {
+		    method2 : method2,
+		    method3 : method3
+		};
+
+		api.method(methods);
+		assert.strictEqual(namespace.method2(), 2);
+		assert.strictEqual(namespace.method3(), 3);
+	    });
+	});
+
     });
 
 });
