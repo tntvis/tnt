@@ -70,10 +70,6 @@ describe ("epeek.utils", function () {
 		assert.strictEqual(namespace.property1(), 5);
 	    });
 
-	    it("Allows to retrieve the method name", function () {
-		assert.strictEqual(namespace.property1.method_name, 'property1');
-	    });
-
 	    it ("Sets properties in batches", function () {
 	    	api.getset(props);
 	    	assert.isDefined(namespace.prop1);
@@ -118,7 +114,7 @@ describe ("epeek.utils", function () {
 	    it ("Complains on setting", function () {
 		assert.throws(function () {
 		    namespace.ro_property1("another value")
-		}, /is defined only as a getter/);
+		}, /^Method defined only as a getter/);
 	    });
 	});
 
@@ -130,7 +126,7 @@ describe ("epeek.utils", function () {
 	    it ("Complains on getting", function () {
 		assert.throws(function () {
 		    namespace.wo_property1()
-		}, /is defined only as a setter/);
+		}, /^Method defined only as a setter/);
 	    });
 
 	    it ("Allows to get the values from the object", function () {
@@ -199,6 +195,25 @@ describe ("epeek.utils", function () {
 		}, /doesn't seem to be valid for this method/);
 	    });
 
+	    it ("Allows chainable checks via the method interface", function () {
+		api.getset('another_method', 200);
+		namespace.another_method
+		    .check (function (val) {
+			return val > 0;
+		    })
+		    .check (function (val) {
+			return val < 1000;
+		    });
+
+		assert.throws (function () {
+		    namespace.another_method(-1);
+		}, /doesn't seem to be valid for this method/);
+
+		assert.throws (function () {
+		    namespace.another_method(1001);
+		}, /doesn't seem to be valid for this method/);
+	    });
+
 	    it ("Registers checks on multiple methods at the same time", function () {
 		api.getset({
 		    one : 1,
@@ -255,6 +270,21 @@ describe ("epeek.utils", function () {
 		    namespace.kk(-10);
 		});
 		assert.strictEqual(namespace.kk(), 10);
+	    });
+
+	    it ("Allows chainable transforms via the method interface", function () {
+		api.getset('another_method2', 200);
+		namespace.another_method2
+		    .transform (function (val) {
+			return Math.abs(val);;
+		    })
+		    .check (function (val) {
+			return val > 0;;
+		    });
+
+		assert.doesNotThrow (function () {
+		    namespace.another_method2(-1);
+		});
 	    });
 
 	    it ("Registers transforms on multiple methods at the same time", function () {
