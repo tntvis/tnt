@@ -25,8 +25,8 @@ var epeek_theme_tree_ensembl_species = function() {
 	    .attr("selected", 1);
 
 	sT
-	    .layout(epeek.tree.layout.radial().width(650))
-	    .data(epeek.tree.parse_newick(newick));
+	    .data(epeek.tree.parse_newick(newick))
+	    .layout(epeek.tree.layout.radial().width(650).scale(false));
 
 	sT(div);
     };
