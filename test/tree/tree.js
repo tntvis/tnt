@@ -1,3 +1,6 @@
+var _t = {"tree":{"events":{"type":"speciation"},"branch_length":0,"children":[{"events":{"type":"speciation"},"branch_length":0.290309,"children":[{"events":{"type":"duplication"},"branch_length":0.553716,"children":[{"sequence":{"location":"groupV:2282380-2283414","id":[{"source":"EnsEMBL","accession":"ENSGACP00000004057"}]},"branch_length":0.009886,"id":{"source":"EnsEMBL","accession":"ENSGACG00000003104"},"taxonomy":{"scientific_name":"Gasterosteus aculeatus","id":69293}},{"sequence":{"location":"groupIV:26610147-26611181","id":[{"source":"EnsEMBL","accession":"ENSGACP00000025919"}]},"branch_length":0.010517,"id":{"source":"EnsEMBL","accession":"ENSGACG00000019610"},"taxonomy":{"scientific_name":"Gasterosteus aculeatus","id":69293}}],"confidence":{"value":100,"type":"boostrap"},"taxonomy":{"scientific_name":"Gasterosteus aculeatus","id":69293}},{"sequence":{"location":"3:10019898-10027054","id":[{"source":"EnsEMBL","accession":"ENSORLP00000002154"}]},"branch_length":0.799164,"id":{"source":"EnsEMBL","accession":"ENSORLG00000001736"},"taxonomy":{"scientific_name":"Oryzias latipes","id":8090}}],"confidence":{"value":100,"type":"boostrap"},"taxonomy":{"scientific_name":"Smegmamorpha","id":129949}},{"events":{"type":"duplication"},"branch_length":0.967267,"children":[{"events":{"type":"duplication"},"branch_length":0.044409,"children":[{"sequence":{"location":"LG11:12303551-12304465","id":[{"source":"EnsEMBL","accession":"ENSLOCP00000005677"}]},"branch_length":0.053459,"id":{"source":"EnsEMBL","accession":"ENSLOCG00000004738"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}},{"sequence":{"location":"LG4:788515-789902","id":[{"source":"EnsEMBL","accession":"ENSLOCP00000001145"}]},"branch_length":0.077798,"id":{"source":"EnsEMBL","accession":"ENSLOCG00000001021"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}}],"confidence":{"value":63,"type":"boostrap"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}},{"sequence":{"location":"LG7:27649875-27652376","id":[{"source":"EnsEMBL","accession":"ENSLOCP00000017148"}]},"branch_length":0.008044,"id":{"source":"EnsEMBL","accession":"ENSLOCG00000013911"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}}],"confidence":{"value":63,"type":"boostrap"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}}],"taxonomy":{"scientific_name":"Neopterygii","id":41665}},"rooted":1,"id":"ENSGT00540000072363","type":"gene tree"};
+
+
 describe('ePeek Tree', function () {
     it("Exists and is called tree", function () {
         assert.isDefined(epeek.tree);
@@ -7,15 +10,15 @@ describe('ePeek Tree', function () {
     var tree = epeek.tree.parse_newick(newick);
 
     // Newick
-    describe('Newick reader', function () {
-	it("Exists and is called tree.parse_newick", function () {
+    describe ('Newick reader', function () {
+	it ("Exists and is called tree.parse_newick", function () {
 	    assert.isDefined(epeek.tree.parse_newick);
 	});
 
-	it("Can read a simple tree", function () {
+	it ("Can read a simple tree", function () {
 	    assert.isDefined(tree);
 	});
-	it("The returned tree has the correct structure", function () {
+	it ("The returned tree has the correct structure", function () {
 	    assert.property(tree, "name");
 	    assert.property(tree, "children");
 	    assert.property(tree.children[0], "name");
@@ -24,7 +27,7 @@ describe('ePeek Tree', function () {
 	    assert.notProperty(tree.children[0].children[0], "children");
 	});
 
-	it("Reads the branch lenghts", function () {
+	it ("Reads the branch lenghts", function () {
 	    var newick = "((human:0.2,chimp:0.3),mouse:0.5)";
 	    var tree = epeek.tree.parse_newick(newick);
 	    assert.closeTo(tree.children[1].length, 0.5, 0.05);
@@ -33,12 +36,19 @@ describe('ePeek Tree', function () {
 	});
     });
 
-    describe('ePeek.tree.tree', function () {
+    describe ('ePeek.tree.tree', function () {
 	var mytree = epeek.tree.tree(tree);
-	it("Can create trees", function () {
+	it ("Can create trees", function () {
 	    assert.isDefined(mytree);
 	})
-	it("Can return the original data", function () {
+
+	it ("Can create trees from JSON objects", function () {
+	    var this_tree = epeek.tree.tree(_t.tree);
+	    assert.isDefined(this_tree);
+	    assert.isDefined(this_tree.children);
+	});
+
+	it ("Can return the original data", function () {
 	    var mytree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
 	    var mynewtree = epeek.tree.tree(mytree);
 	    assert.property(mytree, "name");
@@ -47,7 +57,7 @@ describe('ePeek Tree', function () {
 	    assert.strictEqual(mynewtree.data().name, "anc2");
 	});
 
-	it('Inserts ids in all the nodes', function () {
+	it ('Inserts ids in all the nodes', function () {
 	    var nodes_with_ids = 0;
 	    var nodes = 0;
 	    mytree.apply(function (node) {
@@ -59,7 +69,7 @@ describe('ePeek Tree', function () {
 	    assert.strictEqual(nodes_with_ids, nodes);
 	});
 
-	it("Doesn't override ids", function () {
+	it ("Doesn't override ids", function () {
 	    var node = mytree.find_node_by_name('human');
 	    assert.notEqual(node.property('_id'), 1);
 	    assert.strictEqual(node.property('_id'), 3);
@@ -110,6 +120,45 @@ describe('ePeek Tree', function () {
 	});
 
 	describe('API', function () {
+
+	    describe('find_node_by_field', function () {
+		var tree_from_newick = epeek.tree.tree(epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2"));
+		var tree_from_json   = epeek.tree.tree(_t.tree);
+
+		it ("Finds a node by name", function () {
+		    assert.isDefined (tree_from_newick);
+		    assert.typeOf (tree_from_newick, 'function');
+
+		    var node = tree_from_newick.find_node_by_field ('human', 'name');
+		    assert.isDefined (node);
+		    assert.strictEqual (node.data().name, 'human');
+		});
+
+		it ("Accepts a callback as a second argument", function () {
+		    var cbak = function (node_data) {
+			return node_data.name;
+		    };
+		    var node = tree_from_newick.find_node_by_field ('human', cbak);
+		    assert.isDefined (node);
+		    assert.strictEqual (node.data().name, 'human');
+		});
+
+		it ("Can reach deep properties", function () {
+		    assert.isDefined (tree_from_json);
+		    assert.typeOf (tree_from_json, 'function');
+		    var cbak = function (node_data) {
+			if (node_data.children === undefined) {
+			    console.log(node_data.id.accession);
+			    return node_data.id.accession;
+			}
+		    };
+		    var node = tree_from_json.find_node_by_field ('ENSGACG00000003104', cbak);
+		    assert.isDefined (node);
+		    assert.strictEqual (node.data().id.accession, 'ENSGACG00000003104');
+		});
+
+	    });
+
 	    describe('find_node_by_name', function () {
 		var newtree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
 		var mynewtree = epeek.tree.tree(newtree);
