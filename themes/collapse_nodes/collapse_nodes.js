@@ -17,13 +17,13 @@ var epeek_theme_tree_collapse_nodes = function() {
             .layout(epeek.tree.layout.vertical().width(600).scale(false));
             
         var tree = sT.tree();
-        sT.node_info_callback = function(node){
+        sT.node_info (function(node){
                 // console.log(sT.data());
                    sT
                    .toggle_node(node)
                     .update();
                 // node.toggle_node()
-            };
+        });
 
         
         // console.log(sT.data());

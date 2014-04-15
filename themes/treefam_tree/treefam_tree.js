@@ -180,14 +180,14 @@ var epeek_theme_tree_treefam_tree = function() {
 					return 'orange';
 				}
 			});
-		// sT.node_info_callback = function(node_data) {
+		// sT.node_info (function(node_data) {
 		// 	// console.log(sT.data());
 		// 	sT
 		// 		.toggle_node(node_data)
 		// 		.update();
 		// 	// node.toggle_node()
-		// };
-		sT.node_dbl_info_callback = function(node_data){
+		// });
+	    sT.node_dbl_info (function(node_data){
 			console.log("double clicked node on "+node_data._id);
 			console.log(node_data);
 			// var found_node = 
@@ -196,7 +196,7 @@ var epeek_theme_tree_treefam_tree = function() {
 				// sT.update();
 		// 		.toggle_node(node)
 		// 		.update();
-		}
+	    });
 		// double click
 		// hide rest of tree
 
