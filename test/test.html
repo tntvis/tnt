@@ -15,18 +15,22 @@
       assert = chai.assert;
     </script>
     <script src="../lib/d3.min.js"></script>
+    <link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
     <script src="../ePeek.js"></script>
 
     <!-- Here we include all the test files -->
-    <script src="rest/rest.js"></script>
-    <script src="utils/utils.js"></script>
-    <script src="tree/tree.js"></script>
-    <script src="tree/label.js"></script>
-    <script src="tree/tree_vis.js"></script>
+<!--     <script src="rest/rest.js"></script> -->
+<!--     <script src="utils/utils.js"></script> -->
+<!--     <script src="tree/tree.js"></script> -->
+<!--     <script src="tree/label.js"></script> -->
+<!--     <script src="tree/tree_vis.js"></script> -->
 
     <!-- Test the themes -->
     <!-- Track themes -->
+    <h3>Sort nodes</h3>
+    <div id="minimal"></div>
     <script src="../themes/minimal/minimal.js"></script>
+
     <script src="../themes/legend/legend.js"></script>
     <script src="../themes/pins/pins.js"></script>
     <script src="../themes/tooltips/tooltips.js"></script>
@@ -41,17 +45,52 @@
     <script src="../themes/swap_tracks/swap_tracks.js"></script>
 
     <!-- Tree themes -->
+    <h3>Sort nodes</h3>
+    <div id="sort_nodes"></div>
     <script src="../themes/sort_nodes/sort_nodes.js"></script>
+
+    <h3>Ensembl species</h3>
+    <div id="ensembl_species"></div>
     <script src="../themes/ensembl_species/ensembl_species.js"></script>
-    <script src="../themes/species_tree/species_tree.js"></script>
+
+<!--     <h3>Species Tree</h3> -->
+<!--     <div id="species_tree"></div> -->
+<!--     <script src="../themes/species_tree/species_tree.js"></script> -->
+
+    <h3>Swap Nodes</h3>
+    <div id="swap_nodes"></div>
     <script src="../themes/swap_nodes/swap_nodes.js"></script>
+
+    <h3>Tooltips</h3>
+    <div id="tooltips"></div>
     <script src="../themes/tree/tooltip/tooltip.js"></script>
+
+    <h3>Ensembl Gene Tree</h3>
+    <div id="ensembl_gene_tree"></div>
     <script src="../themes/ensembl_gene_tree/ensembl_gene_tree.js"></script>
+
+    <h3>Scaled Branches</h3>
+    <div id="scaled_branches"></div>
     <script src="../themes/scaled_branches/scaled_branches.js"></script>
+
+    <h3>Labels</h3>
+    <div id="labels"></div>
     <script src="../themes/labels/labels.js"></script>
+
+    <h3>Colors</h3>
+    <div id="colors"></div>
     <script src="../themes/colors/colors.js"></script>
+
+    <h3>TreeFam tree</h3>
+    <div id="treefam_tree"></div>
     <script src="../themes/treefam_tree/treefam_tree.js"></script>
+
+    <h3>Collapse Nodes</h3>
+    <div id="collapse_nodes"></div>
     <script src="../themes/collapse_nodes/collapse_nodes.js"></script>
+
+    <h3>Layout Transition</h3>
+    <div id="layout_transition"></div>
     <script src="../themes/layout_transition/layout_transition.js"></script>
 
     <script src="themes/themes.js"></script>

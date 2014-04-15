@@ -9,7 +9,7 @@ var epeek_theme_tree_tooltip = function() {
 	    .data(epeek.tree.parse_newick(newick))
 	    .duration(2000)
 	    .layout(epeek.tree.layout.vertical().width(600).scale(false))
-	    .node_info_callback = sT.tooltip();
+	    .node_info(sT.tooltip());
 
 	// The visualization is started at this point
 	sT(div);
