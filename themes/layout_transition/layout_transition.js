@@ -2,6 +2,9 @@
 var epeek_theme_tree_layout_transition = function() {
     "use strict";
 
+    var width = 760;
+    var scale = false;
+
     var tree_theme = function (sT, div) {
 	// In the div, we set up a "select" to transition between a radial and a vertical tree
 	var menu_pane = d3.select(div)
@@ -12,7 +15,8 @@ var epeek_theme_tree_layout_transition = function() {
 	var sel = menu_pane
 	    .append("select")
 	    .on("change", function(d) {
-		sT.layout(this.value)
+		var layout = epeek.tree.layout[this.value]().width(width).scale(scale)
+		sT.layout(layout)
 		sT.update();
 	    });
 
@@ -47,9 +51,8 @@ var epeek_theme_tree_layout_transition = function() {
 
 	sT
 	    .data(epeek.tree.parse_newick(newick))
-	    .duration(2000)
-	    .width(760)
-	    .layout("vertical");
+	    .layout(epeek.tree.layout.vertical().width(width).scale(scale))
+	    .duration(2000);
 
 	// The visualization is started at this point
 	sT(div);
