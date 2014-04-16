@@ -29,7 +29,6 @@ var epeek_theme_track_pins = function() {
 		    );
 	pin_track1.data(pin_track1_updater);
 
-
 	var pin_track2 = epeek.track.track()
 	    .height(30)
 	    .background_color("#EEEEEE")

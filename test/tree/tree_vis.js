@@ -26,10 +26,7 @@ describe ('ePeek tree_vis', function () {
 	assert.isDefined (tree);
     });
 
-    it ('Runs on a div', function () {
-	tree (document.getElementById ("TestID"));
-    });
-    
+   
 });
 
 
