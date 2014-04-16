@@ -1,89 +1,98 @@
-var epeek_theme_tree_tree_annotation = function() {
+var epeek_theme_tree_tree_annotation = function () {
 
-    var theme = function(div) {
+    var theme = function (div) {
+
+	// The height of tree labels and tracks
+	var height = 20;
 
 	// Create tree and annot
 	var tree = epeek.tree();
 	var annot = epeek.track();
 
-	// configure the tree
+	// Create sub-divs for tree and annot
+	var tree_div = d3.select(div)
+	    .append("div")
+	    .attr("class", "tree_pane");
+
+	var annot_div = d3.select(div)
+	    .append("div")
+	    .attr("class", "annot_pane");
+
+	// TREE SIDE
+	// Configure the tree
 	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:\
 95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;";
 	tree
-	    .data(epeek.tree.parse_newick(newick))
-	    .layout(epeek.tree.layout.vertical().width(500).scale(false))
-	    .label(epeek.tree.label.text().height(20));
+	    .data (epeek.tree.parse_newick (newick))
+	    .layout (epeek.tree.layout.vertical()
+		     .width(430)
+		     .scale(false))
+	    .label (epeek.tree.label.text()
+		    .height(height));
 
-	tree(div);
+	// Plot the tree
+	tree(tree_div.node());
 
-	// Gene Track1
-	var gene_track = epeek.track.track()
-	    .foreground_color("red")
-	    .background_color("#cccccc")
-	    .height(200)
-	    .data(epeek.track.data.gene())
-	    .display(epeek.track.feature.gene());
+	// TRACK SIDE
+	var leaves = tree.tree().get_all_leaves();
 
-	// Gene Track2
-	var gene_track2 = epeek.track.track()
-	    .height(100)
-	    .foreground_color("blue")
-	    .background_color("#DDDD00")
-	    .data(epeek.track.data.gene())
-	    .display(epeek.track.feature.gene());
+	var tracks = [];
+	for (var i=0; i<leaves.length; i++) {
+            // Block Track1
+	    var block_track = epeek.track.track()
+		.height(height)
+		.foreground_color("steelblue")
+		.background_color("#EBF5FF")
+		.data(epeek.track.data()
+		      .index("start")
+		      .update(
+			  epeek.track.retriever.sync()
+			      .retriever (function () {
+				  return [
+				      {
+					  start : 233,
+					  end   : 260
+				      },
+				      {
+					  start : 350,
+					  end   : 423
+				      }
+				  ]
+			      })
+		      )
+		     )
+		.display(epeek.track.feature.block());
 
-	// Pin Track1
-	var pin_track1 = epeek.track.track()
-	    .height(30)
-	    .background_color("#cccccc")
-	    .data(epeek.track.data()
-		  .index("pos")
-		  .update(
-		      epeek.track.retriever.sync()
-			  .retriever (function () {
-			      return [
-				  {
-				      pos : 32890000
-				  },
-				  {
-				      pos : 32896000
-				  }
-			      ]
-			  })
-		  )
-		 )
-	    .display(epeek.track.feature.pin()
-		     .pin_color("blue"));
+	    tracks.push (block_track);
+	}
 
-	// Block Track1
-	var block_track = epeek.track.track()
-	    .height(30)
-	    .foreground_color("blue")
-	    .background_color("#FFCFDD")
-	    .data(epeek.track.data()
-		  .index("start")
-		  .update(
-		      epeek.track.retriever.sync()
-			  .retriever (function () {
-			      return [
-				  {
-				      start : 32890000,
-				      end   : 32890500
-				  }
-			      ]
-			  })
-		  )
-		 )
-	    .display(epeek.track.feature.block());
+	// We set up the limits for the annotation part
+        annot.limits (function (done) {
+            var lims = {
+                right : 1000
+            }
+            done(lims);
+        });
+
+	// An axis track
+	var axis = epeek.track.track()
+            .height(20)
+            .foreground_color("black")
+            .background_color("white")
+            .display(epeek.track.feature.axis()
+                     .orientation("bottom")
+                    );
+
 
 	// We add the tracks
-	// gB
-	//     .add_track(gene_track)
-	//     .add_track(gene_track2)
-	//     .add_track(pin_track1)
-	//     .add_track(block_track);
-
-	// gB.start();
+	annot
+	    .from(0)
+	    .to(1000)
+	    .width(300)
+	    .add_track(tracks)
+	    .add_track(axis);
+	annot(annot_div.node());
+	annot.start();
     };
 
     return theme;
