@@ -107,11 +107,11 @@ var epeek_theme_track_buttons = function() {
     };
 
     theme.left = function() {
-	gBrowser.left(1+factor);
+	gBrowser.move_left(1+factor);
     };
 
     theme.right = function() {
-	gBrowser.right(1+factor);
+	gBrowser.move_right(1+factor);
     };
 
     theme.zoomIn = function() {

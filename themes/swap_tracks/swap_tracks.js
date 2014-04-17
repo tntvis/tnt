@@ -1,12 +1,6 @@
 var epeek_theme_track_swap_tracks = function() {
 
     var theme = function(gB, div) {
-	gB.limits (function (done) {
-	    var lims = {
-		right : 1000
-	    }
-	    done(lims);
-	});
 
 	// Block Track1
 	var block_track1 = epeek.track.track()
@@ -67,6 +61,7 @@ var epeek_theme_track_swap_tracks = function() {
 	    .display(epeek.track.feature.location());
 
 	gB
+	    .right(1000)
 	    .add_track(loc_track)
 	    .add_track(axis_track)
 	    .add_track(block_track1)

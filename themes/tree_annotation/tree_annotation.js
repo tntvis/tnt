@@ -20,8 +20,7 @@ var epeek_theme_tree_tree_annotation = function () {
 
 	// TREE SIDE
 	// Configure the tree
-	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:\
-95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;";
+	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:\95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;";
 	tree
 	    .data (epeek.tree.parse_newick (newick))
 	    .layout (epeek.tree.layout.vertical()
@@ -67,12 +66,13 @@ var epeek_theme_tree_tree_annotation = function () {
 	}
 
 	// We set up the limits for the annotation part
-        annot.limits (function (done) {
-            var lims = {
-                right : 1000
-            }
-            done(lims);
-        });
+        // annot.limits (function (done) {
+        //     var lims = {
+        //         right : 1000
+        //     }
+        //     done(lims);
+        // });
+	annot.right (1000);
 
 	// An axis track
 	var axis = epeek.track.track()

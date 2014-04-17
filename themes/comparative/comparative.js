@@ -108,7 +108,7 @@ var epeek_theme_track_comparative = function() {
 	    .append("button")
 	    .on ("click", function() {
 		for (var i = 0; i < gBs.length; i++) {
-		    gBs[i].left(1.2);
+		    gBs[i].move_left(1.2);
 		}});
 	left_button
 	    .append("img")
@@ -140,7 +140,7 @@ var epeek_theme_track_comparative = function() {
 	    .append("button")
 	    .on ("click", function() {
 		for (var i = 0; i < gBs.length; i++) {
-		    gBs[i].right(1.2);
+		    gBs[i].move_right(1.2);
 		}
 	    });
 	right_button
@@ -198,7 +198,7 @@ var epeek_theme_track_comparative = function() {
 		    .attr("src", pathToScript + "../pics/chevron_inactive_left.png")
 		    .attr("height", 150)
 		    .attr("width", 25)
-		    .on("click", function(){gB.left(1.2)})
+		    .on("click", function(){gB.move_left(1.2)})
 		    .on("mouseover", function(){
 			d3.select(this).attr("src", pathToScript + "../pics/chevron_active_left.png")
 		    })
@@ -213,7 +213,7 @@ var epeek_theme_track_comparative = function() {
 		    .attr("src", pathToScript + "../pics/chevron_inactive_right.png")
 		    .attr("height", 150)
 		    .attr("width", 25)
-		    .on("click", function(){gB.right(1.2)})
+		    .on("click", function(){gB.move_right(1.2)})
 		    .on("mouseover", function(){
 			d3.select(this).attr("src", pathToScript + "../pics/chevron_active_right.png")
 		    })
