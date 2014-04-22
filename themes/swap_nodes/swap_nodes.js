@@ -47,24 +47,6 @@ var epeek_theme_tree_swap_nodes = function() {
                 return 0;
             });
 
-
-	    // tree.sort(function (node1, node2) {
-	    // 	if (node1.present(function (n) {
-            //         return n.id() === 5;
-            //     })) {
-            //         return -1;
-	    // 	}
-            //     if (node2.present(function (n) {
-            //         return n.id() === 5;
-            //     })) {
-            //         return 1
-            //     }
-            //     return 0
-	    // });
-
-	    // tree.sort(function (node) {
-	    // 	return node.id() === 5;
-	    // });
 	    sT.update();
 	}, 2000);
 
