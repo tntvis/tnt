@@ -13,6 +13,7 @@ test:
 ePeek.js: $(shell node_modules/.bin/smash --list lib/index.js) package.json
 	@rm -f $@
 	$(NODE_BIN_DIR)/smash lib/index.js > $@
+	sass lib/scss/ePeek.scss:lib/ePeek.css	
 	@chmod a-w $@
 
 ePeek.min.js: ePeek.js
