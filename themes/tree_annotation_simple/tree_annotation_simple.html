@@ -13,10 +13,9 @@
 
   <!-- ePeek -->
   <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
-  <link rel="stylesheet" href="css/tree_annotation.css" type="text/css" />
 
   <script src="../../ePeek.js"></script>
-  <script src="tree_annotation.js"></script>
+  <script src="tree_annotation_simple.js"></script>
 
   <header>
     <a style="margin-left:1em;" href="../../index.html">Overview</a>
@@ -30,8 +29,9 @@
   <div id="annot_tree"></div>
   <script>
     (function() {
-        var gBTheme = epeek_theme_tree_tree_annotation();
-        gBTheme (document.getElementById("annot_tree"));
+        var gB = epeek.tree_annot();
+        var gBTheme = epeek_theme_tree_tree_annotation_simple();
+        gBTheme (gB, document.getElementById("annot_tree"));
     })();
  
   </script>

@@ -26,6 +26,16 @@ text.ePeek_tree_label {
   .ePeek_tree_link .absent {
     stroke: "fff"; }
 
+.ePeek_tree_container {
+  /* float : left; */
+  display: inline-block;
+  vertical-align: top; }
+
+.ePeek_annot_container {
+  /* float: right; */
+  display: inline-block;
+  vertical-align: top; }
+
 body {
   font-size: 100%; }
 
