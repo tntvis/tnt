@@ -93,7 +93,7 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 		       .index("start")
 		       .update (epeek.track.retriever.sync()
 				.retriever (function () {
-				    return data[sp];
+				    return data[sp] || [];
 				})
 			       )
 		      )

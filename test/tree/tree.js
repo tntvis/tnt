@@ -228,6 +228,15 @@ describe('ePeek Tree', function () {
 		});
 	    });
 
+	    describe('toggle_node', function () {
+		it ("hides nodes");
+		it ("un-hides nodes");
+	    });
+	    describe('is_collapsed', function () {
+		it ("Returns true on collapsed nodes");
+		it ("Returns false on real leaves");
+	    });
+
 	    describe('parent', function () {
 		var newtree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
 		var mynewtree = epeek.tree.tree(newtree);
