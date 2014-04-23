@@ -97,7 +97,7 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 				})
 			       )
 		      )
-		.display(epeek.track.feature.block());
+		.display(epeek.track.feature.ensembl());
 	};
 
 
@@ -115,6 +115,7 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 var data = {
     'homo_sapiens' : [
 	{
+	    type  : 'high',
 	    start : 233,
 	    end   : 260
 	},
@@ -139,12 +140,14 @@ var data = {
     ],
     'callithrix_jacchus' : [
 	{
+	    type  : 'high',
 	    start : 250,
 	    end   : 333
 	}
     ],
     'mus_musculus' : [
 	{
+	    type  : 'high',
 	    start : 24,
 	    end   : 123
 	},
