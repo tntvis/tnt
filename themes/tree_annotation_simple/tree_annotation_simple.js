@@ -103,6 +103,7 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 
 	ta.tree(tree);
 	ta.annotation(annot);
+	ta.ruler("both");
 	ta.track(track);
 
 	ta(div);
