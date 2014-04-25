@@ -282,6 +282,14 @@ describe ("Themes", function () {
 		theme(st, document.getElementById("layout_transition"));
 	    });
 	});
+
+	describe ("Simple Annotation", function () {
+	    it ("Loads", function () {
+		var st = epeek.tree_annot();
+		var theme = epeek_theme_tree_tree_annotation_simple();
+		theme (st, document.getElementById("simple_annotation"));
+	    });
+	});
 	
     });
 });
