@@ -78,7 +78,7 @@ var epeek_theme_tree_tree_annotation_simple = function () {
         });
 
 	// TRACK SIDE
-	var annot = epeek.track()
+	annot
 	    .from(0)
 	    .to(1000)
 	    .width(300)
