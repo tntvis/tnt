@@ -43,14 +43,53 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 			)
 		.label (label);
 
-	    // var reduce = function (raw) {
-	    // 	var obj = {};
+	    var reduce_row = function (row) {
+		var data = [];
+		var curr = {
+		    streak : 0,
+		    val    : undefined,
+		    start  : 1
+		};
+		var curr_streak = 0;
+		for (var i=0; i<row.length; i++) {
+		    if (curr.val === undefined) {
+			curr.val = row[i];
+		    }
+		    if (row[i] === curr.val) {
+			curr.streak++;
+		    } else {
+			if (curr.val > 0 && curr.streak > 5) {
+			    data.push ({ start : curr.start,
+					 end   : i,
+					 type  : (curr.val > 1) ? 'high' : 'low'
+				      });
+			}
+			curr.streak = 1;
+			curr.val    = row[i];
+			curr.start  = i;
+		    }
+		}
+		if (curr.val > 0) {
+		    data.push ({ start : curr.start,
+				end   : row.length,
+				 type  : (curr.val > 1) ? 'high' : 'low'
+			      });
+		}
 
-	    // 	for (var i=0; i<raw[0].length; i++) {
+		return data;
+	    };
 
-	    // 	}
+	    var reduce = function (rows) {
+		var obj = {};
 
-	    // };
+		for (var id in rows) {
+		    if (rows.hasOwnProperty (id)) {
+			obj[id] = reduce_row(rows[id]);
+		    }
+		}
+
+		return obj;
+	    };
 
 	    var process_aln = function (seqs) {
 		var cons_seqs = {};
@@ -81,34 +120,42 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 		    }
 		}
 
-		console.log(cons_seqs);
+		var processed = reduce (cons_seqs);
+		return processed;
 	    };
 
-	    process_aln(tree.tree().get_all_leaves());
+	    var leaves = tree.tree().get_all_leaves();
+	    var data = process_aln(leaves);
 
 	    // TRACK SIDE
 	    annot
 		.from(0)
-		.to(1000)
-		.width(300)
-		.right(1000);
+		.width(300);
 
 	    var track = function (leaf) {
-		var sp = leaf.name;
+		var id = leaf._id;
 		return epeek.track.track()
                     .foreground_color("steelblue")
                     .background_color("#EBF5FF")
                     .data (epeek.track.data()
 			   .index("start")
 			   .update ( epeek.track.retriever.sync()
-				     .retriever (aln_process)
+				     .retriever (function () {
+					 return data[id] || [];
+				     })
 				   )
 			  )
 		    .display(epeek.track.feature.ensembl());
             };
 
+	    var max_val = d3.max(leaves, function (d) {return d.data().sequence.mol_seq.seq.length});
+
 	    ta.tree(tree);
-	    ta.annotation(annot);
+	    ta.annotation(annot
+			  .to(max_val)
+			  .right(max_val)
+			  .zoom_out(max_val)
+			 );
 	    ta.ruler("both");
 	    ta.track(track);
 	    
