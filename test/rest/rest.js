@@ -168,18 +168,87 @@ describe('ePeek REST', function () {
 	    it("Has a url.gene_tree field", function () {
 		assert.isDefined(rest.url.gene_tree);
 	    });
+
 	    var gene_tree_url = rest.url.gene_tree({
 		id : "ENSGT00390000003602"
 	    });
-	    console.log(gene_tree_url);
+
 	    it("Has the correct url", function () {
 		assert.equal(gene_tree_url, "http://beta.rest.ensembl.org/genetree/id/ENSGT00390000003602.json?sequence=none");
 	    });
+
 	    it("Retrieves gene trees", function (done) {
 		rest.call ({ url : gene_tree_url,
 			     success : function (resp) {
 				 assert.isObject(resp);
 				 // TODO: Include more structural tests
+				 setTimeout(done, delay);
+			     }
+			   });
+	    });
+
+	    it("Doesn't retrieve aligned sequences by default", function (done) {
+	    	rest.call ({ url : gene_tree_url,
+	    		     success : function (resp) {
+				 var check_seq = function (node) {
+				     if (node.children === undefined) {
+					 assert.isDefined(node.sequence);
+					 assert.isUndefined(node.sequence.mol_seq);
+				     } else {
+					 for (var i=0; i<node.children.length; i++) {
+					     check_seq(node.children[i]);
+					 }
+				     }
+				 }
+				 check_seq(resp.tree);
+				 setTimeout(done, delay);
+	    		     }
+	    		   });
+	    });
+
+	    it("Retrieves un-aligned sequences when sequence flag is passed", function (done) {
+		var gene_tree_url = rest.url.gene_tree ({
+		    id : "ENSGT00390000003602",
+		    sequence : 1
+		});
+		rest.call ({ url : gene_tree_url,
+			     success : function (resp) {
+				 var check_seq = function (node) {
+				     if (node.children === undefined) {
+					 assert.isDefined(node.sequence);
+					 assert.isDefined(node.sequence.mol_seq);
+					 assert.strictEqual(node.sequence.mol_seq.is_aligned, 0);
+				     } else {
+					 for (var i=0; i<node.children.length; i++) {
+					     check_seq(node.children[i]);
+					 }
+				     }
+				 }
+				 check_seq(resp.tree);
+				 setTimeout(done, delay);
+			     }
+			   });
+	    });
+
+	    it("Retrieves aligned sequences when align flag is passed", function (done) {
+		var gene_tree_url = rest.url.gene_tree ({
+		    id      : "ENSGT00390000003602",
+		    aligned : 1
+		});
+		rest.call ({ url : gene_tree_url,
+			     success : function (resp) {
+				 var check_seq = function (node) {
+				     if (node.children === undefined) {
+					 assert.isDefined(node.sequence);
+					 assert.isDefined(node.sequence.mol_seq);
+					 assert.strictEqual(node.sequence.mol_seq.is_aligned, 1);
+				     } else {
+					 for (var i=0; i<node.children.length; i++) {
+					     check_seq(node.children[i]);
+					 }
+				     }
+				 }
+				 check_seq(resp.tree);
 				 setTimeout(done, delay);
 			     }
 			   });
