@@ -41,9 +41,7 @@ var epeek_theme_track_line_track = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.bezier()
-		     .limits ([0,100])
-		    );
+	    .display(epeek.track.feature.area());
 
 	t
 	    .add_track(axis_track)

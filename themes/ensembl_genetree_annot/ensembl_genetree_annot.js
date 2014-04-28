@@ -93,8 +93,13 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 
 	    var process_aln = function (seqs) {
 		var cons_seqs = {};
+		var conservation = {};
 		for (var i=0; i<seqs.length; i++) {
 		    cons_seqs[seqs[i].data()._id] = [];
+		}
+
+		for (var i=0; i<seqs.length; i++) {
+		    conservation[seqs[i].data()._id] = [];
 		}
 
 		for (var i=0; i<seqs[0].data().sequence.mol_seq.seq.length; i++) {
@@ -117,11 +122,16 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 			    f = 2;
 			}
 			cons_seqs[seqs[j].data()._id].push(f);
+			conservation[seqs[j].data()._id].push({
+			    pos : i,
+			    val : val
+			})
 		    }
 		}
 
-		var processed = reduce (cons_seqs);
-		return processed;
+		// var processed = reduce (cons_seqs);
+		// return processed;
+		return conservation;
 	    };
 
 	    var leaves = tree.tree().get_all_leaves();
@@ -138,21 +148,21 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
                     .foreground_color("steelblue")
                     .background_color("#EBF5FF")
                     .data (epeek.track.data()
-			   .index("start")
+			   .index("pos")
 			   .update ( epeek.track.retriever.sync()
 				     .retriever (function () {
 					 return data[id] || [];
 				     })
 				   )
 			  )
-		    .display(epeek.track.feature.ensembl());
+		    .display(epeek.track.feature.area());
             };
 
 	    var max_val = d3.max(leaves, function (d) {return d.data().sequence.mol_seq.seq.length});
 
 	    ta.tree(tree);
 	    ta.annotation(annot
-			  .to(max_val)
+			  .to(200)
 			  .right(max_val)
 			  .zoom_out(max_val)
 			 );
