@@ -5,52 +5,52 @@ describe ("epeek.utils", function () {
     });
 
     describe ("epeek.utils.reduce", function () {
-// 	it ("Exists and is a method", function () {
-// 	    assert.isDefined(epeek.utils.reduce);
-// 	    assert.isFunction(epeek.utils.reduce);
-// 	});
+	it ("Exists and is a method", function () {
+	    assert.isDefined(epeek.utils.reduce);
+	    assert.isFunction(epeek.utils.reduce);
+	});
 
-// 	it ("Returns a callback", function () {
-// 	    assert.isDefined(epeek.utils.reduce());
-// 	    assert.isFunction(epeek.utils.iterator());
-// 	});
+	it ("Returns a callback", function () {
+	    assert.isDefined(epeek.utils.reduce());
+	    assert.isFunction(epeek.utils.iterator());
+	});
 
-// 	it ("Doesn't filter when smooth=0 and redundant = false function", function () {
-// 	    var r = epeek.utils.reduce()
-// 		.smooth(0)
-// 		.redundant (function () {
-// 		    return false
-// 		});
+	it ("Doesn't filter when smooth=0 and redundant = false function", function () {
+	    var r = epeek.utils.reduce()
+		.smooth(0)
+		.redundant (function () {
+		    return false
+		});
 
-// 	    var reduced = r(data);
-// 	    assert.isDefined (reduced);
-// 	    assert.isArray (reduced);
+	    var reduced = r(data);
+	    assert.isDefined (reduced);
+	    assert.isArray (reduced);
 
-// 	    for (var i=0; i<data.length; i++) {
-// 		assert.equal (reduced[i], data[i]);
-// 	    }
-// 	});
+	    for (var i=0; i<data.length; i++) {
+		assert.equal (reduced[i], data[i]);
+	    }
+	});
 
-// 	it ("Filters based on redundant", function () {
-// 	    var data = [{ pos:1,
-// 			  val:1
-// 			},
-// 			{ pos:2,
-// 			  val:1
-// 			},
-// 			{ pos:3,
-// 			  val:1
-// 			}
-// 		       ];
+	it ("Filters based on redundant", function () {
+	    var data = [{ pos:1,
+			  val:1
+			},
+			{ pos:2,
+			  val:1
+			},
+			{ pos:3,
+			  val:1
+			}
+		       ];
 
-// 	    var r = epeek.utils.reduce()
-// 		.smooth(1);
+	    var r = epeek.utils.reduce()
+		.smooth(1);
 
-// 	    var reduced = r(data);
-// 	    assert.isDefined (reduced);
-// 	    assert.isArray (reduced);
-// 	    assert.strictEqual (reduced.length, 2); // First and last data points
-// 	});
+	    var reduced = r(data);
+	    assert.isDefined (reduced);
+	    assert.isArray (reduced);
+	    assert.strictEqual (reduced.length, 2); // First and last data points
+	});
 
 	it ("Smooths", function () {
 	    var data = [ { pos : 1,
@@ -81,7 +81,6 @@ describe ("epeek.utils", function () {
 
 	    var smoothed = r(data);
 	    assert.strictEqual (smoothed.length, data.length);
-	    console.log(smoothed);
 
 	    assert.strictEqual (smoothed[0].val, 4.5);
 	    assert.strictEqual (smoothed[1].val, 4.5);

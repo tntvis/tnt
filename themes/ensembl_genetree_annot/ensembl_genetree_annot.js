@@ -82,9 +82,11 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	    var reduce = function (rows) {
 		var obj = {};
 
+		var red = epeek.utils.reduce();
 		for (var id in rows) {
 		    if (rows.hasOwnProperty (id)) {
-			obj[id] = reduce_row(rows[id]);
+			// obj[id] = reduce_row(rows[id]);
+			obj[id] = red(rows[id]);
 		    }
 		}
 
@@ -131,7 +133,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 
 		// var processed = reduce (cons_seqs);
 		// return processed;
-		return conservation;
+		return reduce (conservation);
 	    };
 
 	    var leaves = tree.tree().get_all_leaves();
@@ -162,7 +164,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 
 	    ta.tree(tree);
 	    ta.annotation(annot
-			  .to(200)
+			  .to(max_val)
 			  .right(max_val)
 			  .zoom_out(max_val)
 			 );
@@ -174,63 +176,4 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
     }
 
     return theme;
-};
-
-var data = {
-    'homo_sapiens' : [
-        {
-            type  : 'high',
-            start : 233,
-            end   : 260
-        },
-        {
-            start : 350,
-            end   : 423
-        }
-    ],
-    'pan_troglodytes' : [
-        {
-            start : 153,
-            end   : 160
-        },
-        {
-            start : 250,
-            end   : 333
-        },
-        {
-            start : 550,
-            end   : 633
-        }
-    ],
-    'callithrix_jacchus' : [
-        {
-            type  : 'high',
-            start : 250,
-            end   : 333
-	}
-    ],
-    'mus_musculus' : [
-	{
-            type  : 'high',
-            start : 24,
-            end   : 123
-	},
-        {
-            start : 553,
-            end   : 564
-	}
-    ],
-    'taeniopygia_guttata' : [
-        {
-            start : 450,
-            end   : 823
-        }
-    ],
-    'danio_rerio' : [
-        {
-            start : 153,
-            end   : 165
-        }
-    ]
-
 };
