@@ -4,6 +4,173 @@ describe ("epeek.utils", function () {
 	assert.isObject(epeek.utils);
     });
 
+    describe ("epeek.utils.reduce", function () {
+// 	it ("Exists and is a method", function () {
+// 	    assert.isDefined(epeek.utils.reduce);
+// 	    assert.isFunction(epeek.utils.reduce);
+// 	});
+
+// 	it ("Returns a callback", function () {
+// 	    assert.isDefined(epeek.utils.reduce());
+// 	    assert.isFunction(epeek.utils.iterator());
+// 	});
+
+// 	it ("Doesn't filter when smooth=0 and redundant = false function", function () {
+// 	    var r = epeek.utils.reduce()
+// 		.smooth(0)
+// 		.redundant (function () {
+// 		    return false
+// 		});
+
+// 	    var reduced = r(data);
+// 	    assert.isDefined (reduced);
+// 	    assert.isArray (reduced);
+
+// 	    for (var i=0; i<data.length; i++) {
+// 		assert.equal (reduced[i], data[i]);
+// 	    }
+// 	});
+
+// 	it ("Filters based on redundant", function () {
+// 	    var data = [{ pos:1,
+// 			  val:1
+// 			},
+// 			{ pos:2,
+// 			  val:1
+// 			},
+// 			{ pos:3,
+// 			  val:1
+// 			}
+// 		       ];
+
+// 	    var r = epeek.utils.reduce()
+// 		.smooth(1);
+
+// 	    var reduced = r(data);
+// 	    assert.isDefined (reduced);
+// 	    assert.isArray (reduced);
+// 	    assert.strictEqual (reduced.length, 2); // First and last data points
+// 	});
+
+	it ("Smooths", function () {
+	    var data = [ { pos : 1,
+			   val : 5
+			 },
+			 { pos : 2,
+			   val : 3
+			 },
+			 { pos : 3,
+			   val : 4
+			 },
+			 { pos : 4,
+			   val : 7
+			 },
+			 { pos : 5,
+			   val : 6
+			 },
+			 { pos : 6,
+			   val : 5
+			 },
+			 { pos : 7,
+			   val : 1
+			 }
+		       ];
+	    var r = epeek.utils.reduce()
+		.smooth (3)
+		.redundant (function () {return false});
+
+	    var smoothed = r(data);
+	    assert.strictEqual (smoothed.length, data.length);
+	    console.log(smoothed);
+
+	    assert.strictEqual (smoothed[0].val, 4.5);
+	    assert.strictEqual (smoothed[1].val, 4.5);
+ 	    assert.strictEqual (smoothed[2].val, 4.75);
+ 	    assert.strictEqual (smoothed[3].val, 4.75);
+	    assert.strictEqual (smoothed[4].val, 4.75);
+	    assert.strictEqual (smoothed[5].val, 4.75);
+
+	});
+
+	var red = epeek.utils.reduce();
+	describe ("API", function () {
+
+	    describe ('smooth', function () {
+		it ("Has a 'smooth' method", function () {
+		    assert.isFunction (red.smooth);
+		});
+
+		it ("Has 5 by default", function () {
+		    assert.strictEqual (red.smooth(), 5);
+		});
+
+		it ("Is also a setter", function () {
+		    assert.doesNotThrow (function () {
+			red.smooth(1);
+		    });
+		    assert.strictEqual (red.smooth(), 1);
+		});
+
+	    });
+
+	    describe ('key', function () {
+		it ("Has a 'key' method", function () {
+		    assert.isFunction (red.key);
+		});
+		
+		it ("Has 'val' key as default", function () {
+		    assert.strictEqual (red.key(), 'val');
+		});
+
+		it ("Is also a setter", function () {
+		    assert.doesNotThrow (function () {
+			red.key('start');
+		    });
+		    assert.strictEqual (red.key(), 'start');
+		});
+		
+	    });
+
+	    describe ('redundant', function () {
+		it ("Has a 'redundant' method", function () {
+		    assert.isFunction (red.redundant);
+		});
+
+		it ("By default returns true on similar (<20%) values", function () {
+		    var f = red.redundant();
+		    assert.isTrue (f(10,10));
+		    assert.isTrue (f(10,9));
+		    assert.isTrue (f(9,10));
+		    assert.isTrue (f(10,8));
+		    assert.isTrue (f(8,10));
+		    assert.isFalse (f(10,7));
+		    assert.isFalse (f(7,10));
+		});
+
+		it ("Is also a setter", function () {
+		    assert.doesNotThrow (function () {
+			red.redundant (function (a, b) {
+			    if (a < b) {
+				return ((b-a) <= (b * .5));
+			    }
+			    return ((a-b) <= (a * .5));
+			});
+		    });
+
+		    var f = red.redundant();
+		    assert.isTrue (f(10,8));
+		    assert.isTrue (f(10,5));
+		    assert.isTrue (f(5,10));
+		    assert.isFalse (f(10,4));
+		    assert.isFalse (f(4,10));
+		});
+
+	    });
+	    
+	}); // describe API end
+
+    });
+
     describe ("epeek.utils.iterator", function () {
 	it ("Exists and is a method", function () {
 	    assert.isDefined(epeek.utils.iterator);
@@ -16,11 +183,6 @@ describe ("epeek.utils", function () {
 	});
 
 	var i = epeek.utils.iterator();
-	it ("Returns a callback", function () {
-	    assert.isDefined(i);
-	    assert.isFunction(i);
-	});
-
 	it ("Starts with 0 by default", function () {
 	    assert.strictEqual(i(), 0);
 	});
