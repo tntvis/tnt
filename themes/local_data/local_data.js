@@ -6,12 +6,7 @@ var epeek_theme_track_local_data = function() {
 	var fg_color = "#1873CC";
 	var bg_color = "#D1E3F5";
 
-	gB.limits (function (done) {
-	    var lims = {
-		right : 1000
-	    }
-	    done(lims);
-	});
+	gB.right (1000);
 
 	var axis = epeek.track.track()
 	    .height(30)
