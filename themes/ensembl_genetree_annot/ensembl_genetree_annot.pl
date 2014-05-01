@@ -34,30 +34,12 @@ my $genetree = $genetree_adaptor->fetch_by_stable_id ($tree_id);
 
 my $treehash = TreeHash->new();
 $treehash->aligned(1);
+$treehash->exon_boundaries(1);
 
 my $hash = $treehash->convert($genetree);
 my $json = JSON::PP->new();
 
-$json->pretty(1);
+$json->pretty(0);
 my $str = $json->encode($hash);
-#print "$str\n";
-
-
-
-# fill_gene_structure($hash->{tree}, []);
-
-
-sub fill_gene_structure {
-  my ($tree, $members) = @_;
-
-  if (! defined $tree->{children}) {
-    my $ens_id = $tree->{id}->{accession};
-    my $seq = $tree->{sequence}->{mol_seq};
-
-  }
-
-  for my $child (@{$tree->{children}}) {
-    fill_gene_structure ($child, $members);
-  }
-}
+print "$str\n";
 
