@@ -8,7 +8,6 @@ var epeek_theme_track_swap_tracks = function() {
 	    .foreground_color("blue")
 	    .background_color("white")
 	    .data(epeek.track.data()
-		  .index("start")
 		  .update(
 		      epeek.track.retriever.sync()
 			  .retriever (function () {
@@ -21,7 +20,10 @@ var epeek_theme_track_swap_tracks = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.block());
+	    .display(epeek.track.feature.block()
+		     .index(function (d) {
+			 return d.start;
+		     }));
 
 	// Block Track1
 	var block_track2 = epeek.track.track()
@@ -29,7 +31,6 @@ var epeek_theme_track_swap_tracks = function() {
 	    .foreground_color("red")
 	    .background_color("white")
 	    .data(epeek.track.data()
-		  .index("start")
 		  .update(
 		      epeek.track.retriever.sync()
 			  .retriever (function () {
@@ -42,7 +43,10 @@ var epeek_theme_track_swap_tracks = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.block());
+	    .display(epeek.track.feature.block()
+		     .index(function (d) {
+			 return d.start;
+		     }));
 
 	// Axis Track1
 	var axis_track = epeek.track.track()
@@ -71,7 +75,11 @@ var epeek_theme_track_swap_tracks = function() {
 	block_ids.push(block_track1.id());
 	block_ids.push(block_track2.id());
 
-	var order = [[4,3,2,1],[4,3,1,2]];
+	var order = [[loc_track, axis_track, block_track2, block_track1],
+		     [loc_track, axis_track, block_track1, block_track2]
+		    ];
+
+	// var order = [[4,3,2,1],[4,3,1,2]];
 	var i = 2;
 	var swap_tracks = function () {
 	    gB.reorder(order[i++%2]);

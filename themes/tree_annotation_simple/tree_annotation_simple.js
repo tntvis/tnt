@@ -90,14 +90,16 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 		.foreground_color("steelblue")
 		.background_color("#EBF5FF")
 		.data (epeek.track.data()
-		       .index("start")
 		       .update (epeek.track.retriever.sync()
 				.retriever (function () {
 				    return data[sp] || [];
 				})
 			       )
 		      )
-		.display(epeek.track.feature.ensembl());
+		.display(epeek.track.feature.ensembl()
+			 .index(function (d) {
+			     return d.start;
+			 }));
 	};
 
 

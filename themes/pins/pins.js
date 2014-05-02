@@ -15,10 +15,12 @@ var epeek_theme_track_pins = function() {
 	    .height(30)
 	    .background_color("#EEEEEE")
 	    .display(epeek.track.feature.pin()
-		     .pin_color("blue"));
+		     .pin_color("blue")
+		     .index(function (d) {
+			 return d.pos
+		     }));
 
 	var pin_track1_updater = epeek.track.data()
-	    .index("pos")
 	    .update (epeek.track.retriever.sync()
 		     .retriever(function () {
 			 return [
@@ -33,10 +35,12 @@ var epeek_theme_track_pins = function() {
 	    .height(30)
 	    .background_color("#EEEEEE")
 	    .display(epeek.track.feature.pin()
-		     .pin_color("red"))
+		     .pin_color("red")
+		     .index(function (d) {
+			 return d.pos
+		     }));
 
 	var pin_track2_updater = epeek.track.data()
-	    .index("pos")
 	    .update (epeek.track.retriever.sync()
 		     .retriever(function () {
 			 return [

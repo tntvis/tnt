@@ -11,7 +11,6 @@ var epeek_theme_track_track_minimal = function() {
 	    .foreground_color("blue")
 	    .background_color("#FFCFDD")
 	    .data(epeek.track.data()
-		  .index("start")
 		  .update(
 		      epeek.track.retriever.sync()
 			  .retriever (function () {
@@ -24,7 +23,10 @@ var epeek_theme_track_track_minimal = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.block());
+	    .display(epeek.track.feature.block()
+		     .index(function (d) {
+			 return d.start;
+		     }));
 
 	// Axis Track1
 	var axis_track = epeek.track.track()

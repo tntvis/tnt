@@ -24,7 +24,6 @@ var epeek_theme_track_minimal = function() {
 	    .height(30)
 	    .background_color("#cccccc")
 	    .data(epeek.track.data()
-		  .index("pos")
 		  .update(
 		      epeek.track.retriever.sync()
 			  .retriever (function () {
@@ -40,7 +39,10 @@ var epeek_theme_track_minimal = function() {
 		  )
 		 )
 	    .display(epeek.track.feature.pin()
-		     .pin_color("blue"));
+		     .pin_color("blue")
+		     .index(function (d) {
+			 return d.pos;
+		     }));
 
 	// Block Track1
 	var block_track = epeek.track.track()
@@ -48,7 +50,6 @@ var epeek_theme_track_minimal = function() {
 	    .foreground_color("blue")
 	    .background_color("#FFCFDD")
 	    .data(epeek.track.data()
-		  .index("start")
 		  .update(
 		      epeek.track.retriever.sync()
 			  .retriever (function () {
@@ -61,7 +62,10 @@ var epeek_theme_track_minimal = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.block());
+	    .display(epeek.track.feature.block()
+		     .index(function (d) {
+			 return d.start;
+		     }));
 
 	// We add the tracks
 	gB
