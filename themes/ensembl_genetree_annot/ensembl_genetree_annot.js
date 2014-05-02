@@ -28,7 +28,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	});
 
 
-	d3.json('http://127.0.0.1:1337/themes/ensembl_genetree_annot/ENSGT00390000003602.json', function (err, resp) {
+	d3.json('/themes/ensembl_genetree_annot/ENSGT00390000003602.json', function (err, resp) {
 	    deploy_vis(resp);
 	});
 
