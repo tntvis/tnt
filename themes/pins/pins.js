@@ -7,8 +7,9 @@ var epeek_theme_track_pins = function() {
 	var gene_track = epeek.track.track()
 	    .height(150)
 	    .background_color("#EEEEEE")
-	    .foreground_color("green")
-	    .display(epeek.track.feature.gene())
+	    .display(epeek.track.feature.gene()
+		     .foreground_color("green")
+		    )
 	    .data(epeek.track.data.gene());
 
 	var pin_track1 = epeek.track.track()

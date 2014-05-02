@@ -217,9 +217,10 @@ var epeek_theme_track_compact = function() {
 
 	var gene_track = epeek.track.track()
 	    .height(200)
-	    .foreground_color(gBrowserTheme.foreground_color())
 	    .background_color(gBrowserTheme.background_color())
-	    .display(epeek.track.feature.gene())
+	    .display(epeek.track.feature.gene()
+		     .foreground_color(gBrowserTheme.foreground_color())
+		    )
 	    .data(epeek.track.data.gene());
 
 	gene_track

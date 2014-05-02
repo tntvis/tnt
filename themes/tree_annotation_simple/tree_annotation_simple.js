@@ -87,7 +87,6 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 	var track = function (leaf) {
 	    var sp = leaf.name;
 	    return epeek.track.track()
-		.foreground_color("steelblue")
 		.background_color("#EBF5FF")
 		.data (epeek.track.data()
 		       .update (epeek.track.retriever.sync()
@@ -97,6 +96,7 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 			       )
 		      )
 		.display(epeek.track.feature.ensembl()
+			 .foreground_color("steelblue")
 			 .index(function (d) {
 			     return d.start;
 			 }));

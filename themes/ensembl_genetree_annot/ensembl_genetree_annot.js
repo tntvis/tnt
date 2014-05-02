@@ -141,8 +141,23 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 		return reduce (conservation);
 	    };
 
+	    var get_boundaries = function (nodes) {
+		var boundaries = {};
+		for (var i=0; i<nodes.length; i++) {
+		    var leaf = nodes[i];
+		    var this_boundaries = [];
+		    var bs = leaf.data().exon_boundaries.boundaries;
+		    for (var j=0; j<bs.length; j++) {
+			this_boundaries.push({loc: bs[j]});
+		    }
+		    boundaries[leaf.id()] = this_boundaries;
+		}
+		return boundaries;
+	    };
+
 	    var leaves = tree.tree().get_all_leaves();
 	    var data = process_aln(leaves);
+	    var exon_boundaries = get_boundaries(leaves);
 
 	    // TRACK SIDE
 	    annot
@@ -152,20 +167,32 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	    var track = function (leaf) {
 		var id = leaf._id;
 		return epeek.track.track()
-                    .foreground_color("steelblue")
                     .background_color("#EBF5FF")
                     .data (epeek.track.data()
 			   .update ( epeek.track.retriever.sync()
 				     .retriever (function () {
-					 return data[id] || [];
+					 return {
+					     'conservation' : data[id] || [],
+					     'boundaries'   : exon_boundaries[id] || []
+					 }
 				     })
 				   )
 			  )
-		    .display(epeek.track.feature.area()
-			     .index(function (d) {
-				 return d.pos;
-			     }));
-            };
+		    .display( epeek.track.feature.composite()
+			      .add ('conservation', epeek.track.feature.area()
+				    .foreground_color("steelblue")
+				    .index(function (d) {
+					return d.pos;
+				    })
+				   )
+			      .add ('boundaries', epeek.track.feature.vline()
+				    .foreground_color("red")
+				    .index(function (d) {
+					return d.loc;
+				    })
+				   )
+			    );
+	    };
 
 	    var max_val = d3.max(leaves, function (d) {return d.data().sequence.mol_seq.seq.length});
 

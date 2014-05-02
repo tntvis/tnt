@@ -76,8 +76,9 @@ var epeek_theme_track_buttons = function() {
 
 	var gene_track = epeek.track.track()
 	    .height(200)
-	    .foreground_color("#586471")
-	    .display(epeek.track.feature.gene())
+	    .display(epeek.track.feature.gene()
+		     .foreground_color("#586471")
+		    )
 	    .data(epeek.track.data.gene());
 
 	gB(div);

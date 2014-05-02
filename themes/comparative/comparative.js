@@ -180,11 +180,12 @@ var epeek_theme_track_comparative = function() {
 		    .attr("id", "ePeek_comparative" + i)
 
 		var track = epeek.track.track()
-		    .foreground_color(fgColor)
 		    .background_color(bgColor)
 		    .height(height)
 		    .data(epeek.track.data.gene())
-		    .display(epeek.track.feature.gene());
+		    .display(epeek.track.feature.gene()
+			     .foreground_color(fgColor)
+			    );
 
 		gB.add_track(track);
 		gB(document.getElementById("ePeek_comparative" + i));

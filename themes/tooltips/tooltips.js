@@ -5,10 +5,11 @@ var epeek_theme_track_tooltips = function() {
 
 	var gene_track = epeek.track.track()
 	    .background_color('#EEEEEE')
-	    .foreground_color('green')
 	    .height(200)
 	    .data(epeek.track.data.gene())
-	    .display(epeek.track.feature.gene());
+	    .display(epeek.track.feature.gene()
+		     .foreground_color('green')
+		    );
 
 	gene_track.display().info(gene_track.display().tooltip());
 

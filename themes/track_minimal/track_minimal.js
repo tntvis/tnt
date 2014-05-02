@@ -8,7 +8,6 @@ var epeek_theme_track_track_minimal = function() {
 	// Block Track1
 	var block_track = epeek.track.track()
 	    .height(30)
-	    .foreground_color("blue")
 	    .background_color("#FFCFDD")
 	    .data(epeek.track.data()
 		  .update(
@@ -24,6 +23,7 @@ var epeek_theme_track_track_minimal = function() {
 		  )
 		 )
 	    .display(epeek.track.feature.block()
+		     .foreground_color("blue")
 		     .index(function (d) {
 			 return d.start;
 		     }));
@@ -31,7 +31,6 @@ var epeek_theme_track_track_minimal = function() {
 	// Axis Track1
 	var axis_track = epeek.track.track()
 	    .height(30)
-	    .foreground_color("black")
 	    .background_color("white")
 	    .display(epeek.track.feature.axis()
 		     .orientation("top")
@@ -40,7 +39,6 @@ var epeek_theme_track_track_minimal = function() {
 	// Location Track1
 	var loc_track = epeek.track.track()
 	    .height(30)
-	    .foreground_color("black")
 	    .background_color("white")
 	    .display(epeek.track.feature.location());
 
