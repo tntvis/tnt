@@ -155,14 +155,16 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
                     .foreground_color("steelblue")
                     .background_color("#EBF5FF")
                     .data (epeek.track.data()
-			   .index("pos")
 			   .update ( epeek.track.retriever.sync()
 				     .retriever (function () {
 					 return data[id] || [];
 				     })
 				   )
 			  )
-		    .display(epeek.track.feature.area());
+		    .display(epeek.track.feature.area()
+			     .index(function (d) {
+				 return d.pos;
+			     }));
             };
 
 	    var max_val = d3.max(leaves, function (d) {return d.data().sequence.mol_seq.seq.length});
