@@ -23,8 +23,11 @@ var epeek_theme_track_sequence_track = function() {
 	    .data(epeek.track.data()
 		  .update(
 		      epeek.track.retriever.sync()
-			  .retriever (function () {
-			      return seq_info;
+			  .retriever (function (loc) {
+			      console.log(seq_info);
+			      console.log(loc);
+			      return seq_info.slice(loc.from, loc.to);
+			      // return seq_info;
 			  })
 		  )
 		 )
