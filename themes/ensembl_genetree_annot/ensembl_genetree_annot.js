@@ -21,11 +21,11 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 
 	var rest = epeek.eRest();
 
-	var gene_tree_id = "ENSGT00390000003602";
-	var gene_tree_url = rest.url.gene_tree ({
-	    id : gene_tree_id,
-	    aligned : true
-	});
+	// var gene_tree_id = "ENSGT00390000003602";
+	// var gene_tree_url = rest.url.gene_tree ({
+	//     id : gene_tree_id,
+	//     aligned : true
+	// });
 
 
 	d3.json('/themes/ensembl_genetree_annot/ENSGT00390000003602.json', function (err, resp) {
@@ -48,41 +48,40 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 			)
 		.label (label);
 
-	    var reduce_row = function (row) {
-		var data = [];
-		var curr = {
-		    streak : 0,
-		    val    : undefined,
-		    start  : 1
-		};
-		var curr_streak = 0;
-		for (var i=0; i<row.length; i++) {
-		    if (curr.val === undefined) {
-			curr.val = row[i];
-		    }
-		    if (row[i] === curr.val) {
-			curr.streak++;
-		    } else {
-			if (curr.val > 0 && curr.streak > 5) {
-			    data.push ({ start : curr.start,
-					 end   : i,
-					 type  : (curr.val > 1) ? 'high' : 'low'
-				      });
-			}
-			curr.streak = 1;
-			curr.val    = row[i];
-			curr.start  = i;
-		    }
-		}
-		if (curr.val > 0) {
-		    data.push ({ start : curr.start,
-				end   : row.length,
-				 type  : (curr.val > 1) ? 'high' : 'low'
-			      });
-		}
-
-		return data;
-	    };
+	    // var reduce_row = function (row) {
+	    //     var data = [];
+	    // 	var curr = {
+	    // 	    streak : 0,
+	    // 	    val    : undefined,
+	    // 	    start  : 1
+	    // 	};
+	    // 	var curr_streak = 0;
+	    // 	for (var i=0; i<row.length; i++) {
+	    // 	    if (curr.val === undefined) {
+	    // 		curr.val = row[i];
+	    // 	    }
+	    // 	    if (row[i] === curr.val) {
+	    // 		curr.streak++;
+	    // 	    } else {
+	    // 		if (curr.val > 0 && curr.streak > 5) {
+	    // 		    data.push ({ start : curr.start,
+	    // 				 end   : i,
+	    // 				 type  : (curr.val > 1) ? 'high' : 'low'
+	    // 			       });
+	    // 		}
+	    // 		curr.streak = 1;
+	    // 		curr.val    = row[i];
+	    // 		curr.start  = i;
+	    // 	    }
+	    // 	}
+	    // 	if (curr.val > 0) {
+	    // 	    data.push ({ start : curr.start,
+	    // 			 end   : row.length,
+	    // 			 type  : (curr.val > 1) ? 'high' : 'low'
+	    // 		       });
+	    // 	}
+	    // 	return data;
+	    // };
 
 	    var reduce = function (rows) {
 		var obj = {};
@@ -98,12 +97,8 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 		return obj;
 	    };
 
-	    var process_aln = function (seqs) {
-		var cons_seqs = {};
+	    var get_conservation = function (seqs) {
 		var conservation = {};
-		for (var i=0; i<seqs.length; i++) {
-		    cons_seqs[seqs[i].data()._id] = [];
-		}
 
 		for (var i=0; i<seqs.length; i++) {
 		    conservation[seqs[i].data()._id] = [];
@@ -112,23 +107,15 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 		for (var i=0; i<seqs[0].data().sequence.mol_seq.seq.length; i++) {
 		    var cons = {};
 		    for (var j=0; j<seqs.length; j++) {
-			var p = seqs[j].data();
-			if (cons[p.sequence.mol_seq.seq[i]] === undefined) {
-			    cons[p.sequence.mol_seq.seq[i]] = 0;
-			}
-			cons[p.sequence.mol_seq.seq[i]]++;
+		    	var p = seqs[j].data();
+		    	if (cons[p.sequence.mol_seq.seq[i]] === undefined) {
+		    	    cons[p.sequence.mol_seq.seq[i]] = 0;
+		    	}
+		    	cons[p.sequence.mol_seq.seq[i]]++;
 		    }
 
 		    for (var j=0; j<seqs.length; j++) {
 			var val = cons[seqs[j].data().sequence.mol_seq.seq[i]] / seqs.length;
-			var f = 0;
-			if (val > 0.33 && val < 0.66) {
-			    f = 1;
-			}
-			if (val > 0.66) {
-			    f = 2;
-			}
-			cons_seqs[seqs[j].data()._id].push(f);
 			conservation[seqs[j].data()._id].push({
 			    pos : i,
 			    val : val
@@ -136,8 +123,6 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 		    }
 		}
 
-		// var processed = reduce (cons_seqs);
-		// return processed;
 		return reduce (conservation);
 	    };
 
@@ -155,10 +140,53 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 		return boundaries;
 	    };
 
-	    var leaves = tree.tree().get_all_leaves();
-	    var data = process_aln(leaves);
-	    var exon_boundaries = get_boundaries(leaves);
+	    var get_aln_gaps = function (nodes) {
+		var gaps_info = {};
+		for (var i=0; i<nodes.length; i++) {
+		    var leaf = nodes[i];
+		    var this_no_gap_start = undefined;
+		    var this_no_gaps = [];
+		    var g = leaf.data().sequence.mol_seq.seq;
+		    for (var j=0; j<g.length; j++) {
+			if (g[j] !== '-') {
+			    if (this_no_gap_start === undefined) {
+				this_no_gap_start = j;
+			    }
+			} else {
+			    if (this_no_gap_start !== undefined) {
+				this_no_gaps.push({start : this_no_gap_start,
+						end   : j
+					       });
+				this_no_gap_start = undefined;
+			    }
+			}
+		    }
+		    gaps_info[leaf.id()] = this_no_gaps;
+		}
+		return gaps_info;
+	    };
 
+	    var get_seq_info = function (nodes) {
+		var seq_info = {};
+		for (var i=0; i<nodes.length; i++) {
+		    var leaf = nodes[i];
+		    var this_seq = [];
+		    var s = leaf.data().sequence.mol_seq.seq;
+		    for (var j=0; j<s.length; j++) {
+			this_seq.push({pos : j,
+				       nt  : s[j]
+				      });
+		    }
+		    seq_info[leaf.id()] = this_seq;
+		}
+		return seq_info;
+	    };
+
+	    var leaves = tree.tree().get_all_leaves();
+	    // var conservation = get_conservation(leaves);
+	    var exon_boundaries = get_boundaries(leaves);
+	    var aln_gaps = get_aln_gaps(leaves);
+	    var seq_info = get_seq_info(leaves);
 	    // TRACK SIDE
 	    annot
 		.from(0)
@@ -170,25 +198,43 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
                     .background_color("#EBF5FF")
                     .data (epeek.track.data()
 			   .update ( epeek.track.retriever.sync()
-				     .retriever (function () {
+				     .retriever (function (loc) {
+					 var seq_range = (loc.to - loc.from) <= 50 ? seq_info[id].slice(loc.from, loc.to) : []
 					 return {
-					     'conservation' : data[id] || [],
-					     'boundaries'   : exon_boundaries[id] || []
+					     // 'conservation' : conservation[id] || [],
+					     'gaps'         : aln_gaps[id] || [],
+					     'boundaries'   : exon_boundaries[id] || [],
+					     'sequence'     : seq_range
 					 }
 				     })
 				   )
 			  )
 		    .display( epeek.track.feature.composite()
-			      .add ('conservation', epeek.track.feature.area()
-				    .foreground_color("steelblue")
-				    .index(function (d) {
-					return d.pos;
-				    })
-				   )
+			      // .add ('conservation', epeek.track.feature.area()
+			      // 	    .foreground_color("steelblue")
+			      // 	    .index(function (d) {
+			      // 		return d.pos;
+			      // 	    })
+			      // 	   )
+			      .add ('gaps', epeek.track.feature.ensembl()
+			      	    .foreground_color('green')
+			      	    .index(function (d) {
+			      		return d.start;
+			      	    })
+			      	   )
 			      .add ('boundaries', epeek.track.feature.vline()
 				    .foreground_color("red")
 				    .index(function (d) {
 					return d.loc;
+				    })
+				   )
+			      .add ('sequence', epeek.track.feature.sequence()
+				    .foreground_color("black")
+				    .sequence(function (d) {
+					return d.nt;
+				    })
+				    .index(function (d) {
+					return d.pos;
 				    })
 				   )
 			    );
@@ -201,6 +247,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 			  .to(max_val)
 			  .right(max_val)
 			  .zoom_out(max_val)
+			  .zoom_in(30)
 			 );
 	    ta.ruler("both");
 	    ta.track(track);
