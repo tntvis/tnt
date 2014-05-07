@@ -15,19 +15,32 @@ describe ("epeek.utils", function () {
 	    assert.isFunction(epeek.utils.iterator());
 	});
 
-	it ("Doesn't filter when smooth=0 and redundant = false function", function () {
+	it ("Doesn't filter when smooth=0 and redundant=false", function () {
+	    var data = [{ pos:1,
+			  val:1
+			},
+			{ pos:2,
+			  val:1
+			},
+			{ pos:3,
+			  val:1
+			}
+		       ];
+
 	    var r = epeek.utils.reduce()
 		.smooth(0)
 		.redundant (function () {
 		    return false
 		});
 
+	    console.log("REDUCED:");
+	    console.log(reduced);
 	    var reduced = r(data);
 	    assert.isDefined (reduced);
 	    assert.isArray (reduced);
 
 	    for (var i=0; i<data.length; i++) {
-		assert.equal (reduced[i], data[i]);
+	    	assert.equal (reduced[i], data[i]);
 	    }
 	});
 
@@ -80,6 +93,8 @@ describe ("epeek.utils", function () {
 		.redundant (function () {return false});
 
 	    var smoothed = r(data);
+	    console.log("SMOOTHED:");
+	    console.log(smoothed);
 	    assert.strictEqual (smoothed.length, data.length);
 
 	    assert.strictEqual (smoothed[0].val, 4.5);
@@ -112,20 +127,20 @@ describe ("epeek.utils", function () {
 
 	    });
 
-	    describe ('key', function () {
-		it ("Has a 'key' method", function () {
-		    assert.isFunction (red.key);
+	    describe ('value', function () {
+		it ("Has a 'value' method", function () {
+		    assert.isFunction (red.value);
 		});
 		
 		it ("Has 'val' key as default", function () {
-		    assert.strictEqual (red.key(), 'val');
+		    assert.strictEqual (red.value(), 'val');
 		});
 
 		it ("Is also a setter", function () {
 		    assert.doesNotThrow (function () {
-			red.key('start');
+			red.value('start');
 		    });
-		    assert.strictEqual (red.key(), 'start');
+		    assert.strictEqual (red.value(), 'start');
 		});
 		
 	    });
