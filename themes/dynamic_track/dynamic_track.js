@@ -60,7 +60,7 @@ var epeek_theme_track_dynamic_track = function() {
 		  .update(
 		      epeek.track.retriever.sync()
 			  .retriever (function (loc) {
-			      return filter_blocks(data, loc);
+			      return filter_blocks (data, loc);
 			  })
 		  )
 		 )

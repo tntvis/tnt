@@ -83,19 +83,54 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	    // 	return data;
 	    // };
 
+            var red = epeek.utils.reduce.block()
+		.smooth(0)
+		.value("start")
+		.value2("end");
+
 	    var reduce = function (rows) {
 		var obj = {};
-
-		var red = epeek.utils.reduce();
 		for (var id in rows) {
 		    if (rows.hasOwnProperty (id)) {
 			// obj[id] = reduce_row(rows[id]);
 			obj[id] = red(rows[id]);
 		    }
 		}
-
 		return obj;
 	    };
+
+            var filter_conservation = function (data, loc) {
+		var sub_data = [];
+		var from = loc.from;
+		var to = loc.to;
+		for (var i=0; i<data.length; i++) {
+                    var item = data[i];
+                    if ((item.start >= loc.from && item.start <= loc.to) ||
+			(item.end >= loc.from && item.end <= loc.to)){
+			sub_data.push(item);
+                    }
+		}
+
+		if ((loc.to - loc.from) < 50) {
+                reduce
+			.redundant (function (a, b) {
+                        return false
+			});
+		} else if ((loc.to - loc.from) < 200) {
+                reduce
+			.redundant(function (a, b) {
+                            return Math.abs(a-b)<3;
+			});
+		} else {
+                reduce
+			.redundant(function (a, b) {
+                            return Math.abs(a-b)<10;
+			});
+		}
+
+		return reduce(sub_data);
+            // return sub_data;                                                                                      
+            };
 
 	    var get_conservation = function (seqs) {
 		var conservation = {};
