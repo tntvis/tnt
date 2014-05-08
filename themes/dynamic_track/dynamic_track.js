@@ -9,15 +9,15 @@ var epeek_theme_track_dynamic_track = function() {
 	    // .redundant(function (a, b) {
 	    // 	return Math.abs(a-b)<50;
 	    // })
-	    .join(function (obj1, obj2) {
-	    	return {
-		    'object' : {
-	    		'start' : obj1.object.start,
-	    		'end'   : obj2.end
-	    	    },
-		    'value'  : obj2.end
-		}
-	    });
+	    // .join(function (obj1, obj2) {
+	    // 	return {
+	    // 	    'object' : {
+	    // 		'start' : obj1.object.start,
+	    // 		'end'   : obj2.end
+	    // 	    },
+	    // 	    'value'  : obj2.end
+	    // 	}
+	    // });
 
 	var filter_blocks = function (data, loc) {
 	    var sub_data = [];
