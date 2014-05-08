@@ -83,6 +83,7 @@ describe ("epeek.utils", function () {
 		});
 
 	    var reduced = r(data);
+
 	    assert.isDefined (reduced);
 	    assert.isArray (reduced);
 
@@ -107,6 +108,7 @@ describe ("epeek.utils", function () {
 		.smooth(1);
 
 	    var reduced = r(data);
+
 	    assert.isDefined (reduced);
 	    assert.isArray (reduced);
 	    assert.strictEqual (reduced.length, 2); // First and last data points
