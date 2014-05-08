@@ -28,9 +28,10 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	// });
 
 
-	d3.json('/themes/ensembl_genetree_annot/ENSGT00390000003602.json', function (err, resp) {
-	    deploy_vis(resp);
-	});
+	d3.json('/themes/ensembl_genetree_annot/ENSGT00390000003602.json',
+		function (err, resp) {
+		    deploy_vis(resp);
+		});
 
 	// rest.call ({url : gene_tree_url,
 	// 	    success : function (resp) {
@@ -83,17 +84,17 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	    // 	return data;
 	    // };
 
-            var red = epeek.utils.reduce.block()
+            var reduce = epeek.utils.reduce.block()
 		.smooth(0)
 		.value("start")
 		.value2("end");
 
-	    var reduce = function (rows) {
+	    var reduce_all = function (rows) {
 		var obj = {};
 		for (var id in rows) {
 		    if (rows.hasOwnProperty (id)) {
 			// obj[id] = reduce_row(rows[id]);
-			obj[id] = red(rows[id]);
+			obj[id] = reduce(rows[id]);
 		    }
 		}
 		return obj;
@@ -128,8 +129,8 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 			});
 		}
 
-		return reduce(sub_data);
-            // return sub_data;                                                                                      
+		return reduce (sub_data);
+            // return sub_data;
             };
 
 	    var get_conservation = function (seqs) {
@@ -158,7 +159,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 		    }
 		}
 
-		return reduce (conservation);
+		return reduce_all (conservation);
 	    };
 
 	    var get_boundaries = function (nodes) {
@@ -189,9 +190,9 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 			    }
 			} else {
 			    if (this_no_gap_start !== undefined) {
-				this_no_gaps.push({start : this_no_gap_start,
-						end   : j
-					       });
+				this_no_gaps.push( {start : this_no_gap_start,
+						    end   : j
+						   });
 				this_no_gap_start = undefined;
 			    }
 			}
@@ -237,7 +238,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 					 var seq_range = (loc.to - loc.from) <= 50 ? seq_info[id].slice(loc.from, loc.to) : []
 					 return {
 					     // 'conservation' : conservation[id] || [],
-					     'gaps'         : aln_gaps[id] || [],
+					     'gaps'         : filter_conservation(aln_gaps[id], loc) || [],
 					     'boundaries'   : exon_boundaries[id] || [],
 					     'sequence'     : seq_range
 					 }
@@ -275,7 +276,9 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 			    );
 	    };
 
-	    var max_val = d3.max(leaves, function (d) {return d.data().sequence.mol_seq.seq.length});
+	    var max_val = d3.max(leaves, function (d) {
+		return d.data().sequence.mol_seq.seq.length
+	    });
 
 	    ta.tree(tree);
 	    ta.annotation(annot
