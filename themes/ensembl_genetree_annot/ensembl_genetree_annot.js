@@ -89,18 +89,34 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 		.value("start")
 		.value2("end");
 
-	    var reduce_all = function (rows) {
-		var obj = {};
-		for (var id in rows) {
-		    if (rows.hasOwnProperty (id)) {
-			// obj[id] = reduce_row(rows[id]);
-			obj[id] = reduce(rows[id]);
+	    // var reduce_all = function (rows) {
+	    // 	var obj = {};
+	    // 	for (var id in rows) {
+	    // 	    if (rows.hasOwnProperty (id)) {
+	    // 		// obj[id] = reduce_row(rows[id]);
+	    // 		obj[id] = reduce(rows[id]);
+	    // 	    }
+	    // 	}
+	    // 	return obj;
+	    // };
+
+	    var filter_exon_boundaries = function (data, loc) {
+		var sub_data = [];
+		var from = loc.from;
+		var to = loc.to;
+		for (var i=0; i<data.length; i++) {
+		    var item = data[i];
+		    if (item.loc >= loc.from && item.loc <= loc.to) {
+			sub_data.push(item);
 		    }
 		}
-		return obj;
+		return sub_data;
 	    };
 
-            var filter_conservation = function (data, loc) {
+            var reduce_gaps = function (data, loc) {
+		if (!data || data.length === 0) {
+		    return data;
+		}
 		var sub_data = [];
 		var from = loc.from;
 		var to = loc.to;
@@ -112,20 +128,20 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
                     }
 		}
 
-		if ((loc.to - loc.from) < 50) {
-                reduce
+		if ((loc.to - loc.from) < 100) {
+                    reduce
 			.redundant (function (a, b) {
-                        return false
+                            return false
 			});
 		} else if ((loc.to - loc.from) < 200) {
-                reduce
+                    reduce
 			.redundant(function (a, b) {
-                            return Math.abs(a-b)<3;
+                            return Math.abs(a-b)<=3;
 			});
 		} else {
-                reduce
+                    reduce
 			.redundant(function (a, b) {
-                            return Math.abs(a-b)<10;
+                            return Math.abs(a-b)<=10;
 			});
 		}
 
@@ -133,34 +149,34 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
             // return sub_data;
             };
 
-	    var get_conservation = function (seqs) {
-		var conservation = {};
+	    // var get_conservation = function (seqs) {
+	    // 	var conservation = {};
 
-		for (var i=0; i<seqs.length; i++) {
-		    conservation[seqs[i].data()._id] = [];
-		}
+	    // 	for (var i=0; i<seqs.length; i++) {
+	    // 	    conservation[seqs[i].data()._id] = [];
+	    // 	}
 
-		for (var i=0; i<seqs[0].data().sequence.mol_seq.seq.length; i++) {
-		    var cons = {};
-		    for (var j=0; j<seqs.length; j++) {
-		    	var p = seqs[j].data();
-		    	if (cons[p.sequence.mol_seq.seq[i]] === undefined) {
-		    	    cons[p.sequence.mol_seq.seq[i]] = 0;
-		    	}
-		    	cons[p.sequence.mol_seq.seq[i]]++;
-		    }
+	    // 	for (var i=0; i<seqs[0].data().sequence.mol_seq.seq.length; i++) {
+	    // 	    var cons = {};
+	    // 	    for (var j=0; j<seqs.length; j++) {
+	    // 	    	var p = seqs[j].data();
+	    // 	    	if (cons[p.sequence.mol_seq.seq[i]] === undefined) {
+	    // 	    	    cons[p.sequence.mol_seq.seq[i]] = 0;
+	    // 	    	}
+	    // 	    	cons[p.sequence.mol_seq.seq[i]]++;
+	    // 	    }
 
-		    for (var j=0; j<seqs.length; j++) {
-			var val = cons[seqs[j].data().sequence.mol_seq.seq[i]] / seqs.length;
-			conservation[seqs[j].data()._id].push({
-			    pos : i,
-			    val : val
-			})
-		    }
-		}
+	    // 	    for (var j=0; j<seqs.length; j++) {
+	    // 		var val = cons[seqs[j].data().sequence.mol_seq.seq[i]] / seqs.length;
+	    // 		conservation[seqs[j].data()._id].push({
+	    // 		    pos : i,
+	    // 		    val : val
+	    // 		})
+	    // 	    }
+	    // 	}
 
-		return reduce_all (conservation);
-	    };
+	    // 	return reduce_all (conservation);
+	    // };
 
 	    var get_boundaries = function (nodes) {
 		var boundaries = {};
@@ -235,11 +251,11 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
                     .data (epeek.track.data()
 			   .update ( epeek.track.retriever.sync()
 				     .retriever (function (loc) {
-					 var seq_range = (loc.to - loc.from) <= 50 ? seq_info[id].slice(loc.from, loc.to) : []
+					 var seq_range = (loc.to - loc.from) <= 50 ? seq_info[id].slice(loc.from, loc.to) : [];
 					 return {
 					     // 'conservation' : conservation[id] || [],
-					     'gaps'         : filter_conservation(aln_gaps[id], loc) || [],
-					     'boundaries'   : exon_boundaries[id] || [],
+					     'gaps'         : reduce_gaps(aln_gaps[id], loc) || [],
+					     'boundaries'   : filter_exon_boundaries(exon_boundaries[id], loc) || [],
 					     'sequence'     : seq_range
 					 }
 				     })

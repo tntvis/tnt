@@ -67,7 +67,8 @@ var epeek_theme_track_dynamic_track = function() {
 	    .display(epeek.track.feature.block()
 		     .foreground_color("blue")
 		     .index(function (d) {
-			 return d.start + '-' + d.end;
+			 return d.start;
+			 // return d.start + '-' + d.end;
 		     }));
 
 	// Axis Track1
