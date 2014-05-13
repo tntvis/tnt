@@ -3,9 +3,13 @@ var epeek_theme_track_dynamic_track = function() {
     var theme = function(gB, div) {
 	gB(div);
 
-	var reduce = epeek.utils.reduce.block()
+	var block_reduce = epeek.utils.reduce.block()
 	    .smooth(0)
-	    .value("start")
+	    .value("start");
+
+	var line_reduce = epeek.utils.reduce.line()
+	    .value("val");
+
 	    // .redundant(function (a, b) {
 	    // 	return Math.abs(a-b)<50;
 	    // })
@@ -18,6 +22,43 @@ var epeek_theme_track_dynamic_track = function() {
 	    // 	    'value'  : obj2.end
 	    // 	}
 	    // });
+
+	var filter_line = function (data, loc) {
+	    var sub_data = [];
+	    var from = loc.from;
+	    var to = loc.to;
+	    for (var i=0; i<data.length; i++) {
+		var item = data[i];
+		if ((item.pos >= loc.from) && (item.pos <=loc.to)) {
+		    sub_data.push(item);
+		}
+	    }
+
+	    if ((loc.to - loc.from) < 50) {
+		line_reduce
+		    .smooth(0)
+		    .redundant (function (a, b) {
+			return false;
+		    });
+	    } else if ((loc.to - loc.from) < 200) {
+		line_reduce
+		    .smooth(2)
+		    .redundant (function (a, b) {
+			return Math.abs (a-b) < 0.2;
+		    })
+	    } else {
+		line_reduce
+		    .smooth(5)
+		    .redundant (function (a, b) {
+			return Math.abs (a-b) <= 0.3;
+		    })
+	    }
+
+
+	    var reduced_data = line_reduce (sub_data);
+
+	    return reduced_data;
+	};
 
 	var filter_blocks = function (data, loc) {
 	    var sub_data = [];
@@ -32,35 +73,53 @@ var epeek_theme_track_dynamic_track = function() {
 	    }
 	    
 	    if ((loc.to - loc.from) < 50) {
-		reduce
+		block_reduce
 		    .redundant (function (a, b) {
 			return false
 		    });
 	    } else if ((loc.to - loc.from) < 200) {
-		reduce
+		block_reduce
 		    .redundant(function (a, b) {
 			return Math.abs(a-b)<3;
 		    });
 	    } else {
-		reduce
+		block_reduce
 		    .redundant(function (a, b) {
 			return Math.abs(a-b)<10;
 		    });
 	    }
 
-	    return reduce(sub_data);
+	    return block_reduce(sub_data);
 	    // return sub_data;
 	};
 
-	// Block Track1
-	var block_track = epeek.track.track()
+	// Line Track1
+	var line_track = epeek.track.track()
 	    .height(30)
-	    .background_color("#FFCFDD")
+	    .background_color("lightgrey")
 	    .data(epeek.track.data()
 		  .update(
 		      epeek.track.retriever.sync()
 			  .retriever (function (loc) {
-			      return filter_blocks (data, loc);
+			      return filter_line(data_line, loc);
+			  })
+		  )
+		 )
+	    .display(epeek.track.feature.line()
+		     .foreground_color("blue")
+		     .index(function (d) {
+			 return d.pos;
+		     }));
+
+	// Block Track1
+	var block_track = epeek.track.track()
+	    .height(30)
+	    .background_color("lightgrey")
+	    .data(epeek.track.data()
+		  .update(
+		      epeek.track.retriever.sync()
+			  .retriever (function (loc) {
+			      return filter_blocks (data_block, loc);
 			  })
 		  )
 		 )
@@ -68,7 +127,6 @@ var epeek_theme_track_dynamic_track = function() {
 		     .foreground_color("blue")
 		     .index(function (d) {
 			 return d.start;
-			 // return d.start + '-' + d.end;
 		     }));
 
 	// Axis Track1
@@ -92,7 +150,8 @@ var epeek_theme_track_dynamic_track = function() {
 	    .zoom_in(10)
 	    .add_track(loc_track)
 	    .add_track(axis_track)
-	    .add_track(block_track);
+	    .add_track(block_track)
+	    .add_track(line_track);
 
 	gB.start();
     };
@@ -100,7 +159,7 @@ var epeek_theme_track_dynamic_track = function() {
     return theme;
 };
 
-var data = [
+var data_block = [
     { start : 540,
       end   : 542
     },
@@ -115,5 +174,75 @@ var data = [
     },
     { start : 558,
       end   : 560
+    }
+];
+
+
+var data_line = [
+    { pos : 1,
+      val : 0.5
+    },
+    { pos : 2,
+      val : 0.4
+    },
+    { pos : 3,
+      val : 0.8
+    },
+    { pos : 4,
+      val : 0.5
+    },
+    { pos : 5,
+      val : 0.7
+    },
+    { pos : 6,
+      val : 0.3
+    },
+    { pos : 7,
+      val : 0.4
+    },
+    { pos : 8,
+      val : 0
+    },
+    { pos : 9,
+      val : 0.7
+    },
+    { pos : 10,
+      val : 0.6
+    },
+    { pos : 11,
+      val : 0.6
+    },
+    { pos : 12,
+      val : 0.5
+    },
+    { pos : 13,
+      val : 0.9
+    },
+    { pos : 14,
+      val : 0.8
+    },
+    { pos : 15,
+      val : 0.4
+    },
+    { pos : 16,
+      val : 0.7
+    },
+    { pos : 17,
+      val : 0.5
+    },
+    { pos : 18,
+      val : 0.6
+    },
+    { pos : 19,
+      val : 0.8
+    },
+    { pos : 20,
+      val : 0.5
+    },
+    { pos : 21,
+      val : 0.5
+    },
+    { pos : 22,
+      val : 0.5
     }
 ];
