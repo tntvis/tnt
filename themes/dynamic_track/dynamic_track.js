@@ -105,8 +105,8 @@ var epeek_theme_track_dynamic_track = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.line()
-		     .foreground_color("blue")
+	    .display(epeek.track.feature.area()
+		     .foreground_color("#440044")
 		     .index(function (d) {
 			 return d.pos;
 		     }));
