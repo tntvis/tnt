@@ -69,94 +69,50 @@ sub _convert_node {
   my ($self, $node) = @_;
   my $hash;
 
-  # my $type  = $node->get_tagvalue('node_type');
-  # my $boot  = $node->get_tagvalue('bootstrap');
-  my $tax   = $node->taxon_id();
-
-  # $hash->{branch_length} = $node->distance_to_parent() + 0;
-  if($tax) {
-    $hash->{taxonomy} = { id => $tax->taxon_id + 0, scientific_name => $tax->node_name };
+  my $NCBITaxon_adaptor = $node->adaptor->db->get_NCBITaxonAdaptor();
+  my $taxon_id   = $node->taxon_id();
+  my $taxon = $NCBITaxon_adaptor->fetch_node_by_taxon_id($taxon_id);
+  if ($taxon) {
+    $hash->{tax} = {
+		    'id' => $taxon_id + 0,
+		    'scientific_name' => $taxon->scientific_name,
+		    'alias_name' => $taxon->ensembl_alias_name
+		   }
   }
-  # if($boot) {
-  #   $hash->{confidence} = { type => "boostrap", value => $boot + 0 };
-  # }
-  # if($type) { # && $type ~~ [qw/duplication dubious/]) {
-  #   $hash->{events} = { type => $type };
-  # }
 
-  if(check_ref($node, 'Bio::EnsEMBL::Compara::GeneTreeMember')) {
-    print STDERR $node, "\n";
-    my $gene = $node->gene_member();
+  my $n_members = $node->n_members();
+  if (defined $n_members) {
+    $hash->{n_members} = $n_members + 0;
+  }
 
-    if ($self->exon_boundaries()) {
-      my $core_gene = $gene->get_Gene();
-      my $transcript = $core_gene->canonical_transcript;
-      my $exons = [];
+  my $p_value = $node->pvalue();
+  if ($p_value) {
+    $hash->{p_value} = $p_value + 0;
+  }
 
-      my $curr_pos = 0;
-      my $all_exons = $transcript->get_all_translateable_Exons;
+  my $p_value_lim = $node->pvalue_lim();
+  if ($p_value_lim) {
+    $hash->{p_value_lim} = $p_value_lim;
+  }
 
-      if ($self->aligned) {
-	  ## TODO: Duplicated (see $aligned below)
-	my $mol_seq = ($self->cdna()) ? $node->alignment_string('cds') : $node->alignment_string();
-	my $offsets = [];
-	my $gaps = 0;
-	for (my $i=0; $i<length($mol_seq); $i++) {
-	  if (substr($mol_seq, $i, 1) eq '-') {
-	    $gaps++;
-	    next;
-	  }
-	  push @$offsets, $gaps;
-	}
+  my $is_node_significant = $node->is_node_significant();
+  if ($is_node_significant) {
+    $hash->{is_node_significant} = $is_node_significant + 0;
+  }
 
-	for (my $i=0; $i<scalar(@$all_exons)-1; $i++) {
-	  my $exon = $all_exons->[$i];
-	  my $l = POSIX::ceil($exon->length / 3);
+  my $is_contraction = $node->is_contraction();
+  if ($is_contraction) {
+    $hash->{is_contraction} = $is_contraction + 0;
+  }
 
-	  $curr_pos += $l;
-	  push @$exons, $curr_pos + $offsets->[$curr_pos];
-	}
-      } else {
-	for (my $i=0; $i<scalar(@$all_exons)-1; $i++) {
-	  my $exon = $all_exons->[$i];
-	  my $l = $exon->length;
+  my $is_expansion = $node->is_expansion();
+  if ($is_expansion) {
+    $hash->{is_expansion} = $is_expansion + 0;
+  }
 
-	  $curr_pos += $l;
-	  push @$exons, $curr_pos;
-	}
-      }
-      $hash->{exon_boundaries} = { 'number_of_exons' => scalar @$all_exons,
-				   'boundaries'      => $exons
-				 };
-    }
-
-    $hash->{id} = { source => "EnsEMBL", accession => $gene->stable_id() };
-
-    my $genome_db = $node->genome_db();
-    my $taxid = $genome_db->taxon_id();
-    $hash->{taxonomy} = 
-      { id => $taxid + 0, scientific_name => $genome_db->taxon->scientific_name() }
-	if $taxid;
-
-    $hash->{sequence} = 
-      {
-       id       => [ { source => 'EnsEMBL', accession => $node->stable_id() } ],
-       location => sprintf('%s:%d-%d',$gene->chr_name(), $gene->dnafrag_start(), $gene->dnafrag_end())
-      };
-    $hash->{sequence}->{name} = $node->display_label() if $node->display_label();
-
-    if(! $self->no_sequences()) {
-      my $aligned = $self->aligned();
-      my $mol_seq;
-      if($aligned) {
-        $mol_seq = ($self->cdna()) ? $node->alignment_string('cds') : $node->alignment_string();
-      }
-      else {
-        $mol_seq = ($self->cdna()) ? $node->other_sequence('cds') : $node->sequence();
-      }
-
-      $hash->{sequence}->{mol_seq} = { is_aligned => $aligned + 0, seq => $mol_seq };
-    }
+  my $name = $node->node_name();
+  if ($name) {
+    $hash->{name} = $name;
   }
 
   return $hash;
