@@ -36,6 +36,10 @@
     var theme = epeek_theme_tree_labels();
     theme(st, document.getElementById("speciesTree"));
     }());
+
+    saveSvgAsPng(d3.select("svg").node(), "image.png", 3);
+<!--     saveSvgAsPng(document.getElementById("speciesTree"), "image.png", 3); -->
+
   </script>
 
   <h2>Overview</h2>
