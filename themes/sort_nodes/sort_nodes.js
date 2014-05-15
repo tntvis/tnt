@@ -114,7 +114,7 @@ var epeek_theme_tree_sort_nodes = function() {
 		}
 		return "steelblue";
 	    })
-	    .node_info (sT.tooltip(epeek.tooltip().type("table")));
+	    .node_info (sT.tooltip(epeek.tooltip.table()));
 
 	sT
 	    .label()

@@ -14,8 +14,7 @@ var epeek_theme_track_compact = function() {
 
     var path = epeek.utils.script_path("compact.js");
 
-    var qr_tooltip = epeek.tooltip()
-	.type("plain");
+    var qr_tooltip = epeek.tooltip.plain();
 
     // div_ids to display different elements
     // They have to be set dynamically because the IDs contain the div_id of the main element containing the plug-in
