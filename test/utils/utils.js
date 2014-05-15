@@ -145,11 +145,12 @@ describe ("epeek.utils", function () {
 	    assert.strictEqual (smoothed.length, data.length);
 
 	    assert.strictEqual (smoothed[0].val, 4.5);
-	    assert.strictEqual (smoothed[1].val, 4.5);
- 	    assert.strictEqual (smoothed[2].val, 4.75);
- 	    assert.strictEqual (smoothed[3].val, 4.75);
-	    assert.strictEqual (smoothed[4].val, 4.75);
-	    assert.strictEqual (smoothed[5].val, 4.75);
+	    assert.strictEqual (smoothed[1].val, 5);
+ 	    assert.strictEqual (smoothed[2].val, 5);
+ 	    assert.strictEqual (smoothed[3].val, 5);
+	    assert.strictEqual (smoothed[4].val, 4.5);
+	    assert.strictEqual (smoothed[5].val, 5);
+	    assert.strictEqual (smoothed[6].val, 5.5);
 
 	});
 
