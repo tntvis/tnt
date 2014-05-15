@@ -16,7 +16,7 @@
   <script src="../../ePeek.js"></script>
 
   <!-- Tree.js -->
-  <script src="labels.js"></script>
+  <script src="png_export.js"></script>
 
   <header>
     <a style="margin-left:1em;" href="../../index.html">Overview</a>
@@ -27,15 +27,20 @@
   </header>
 
 
-  <h1>Labels on trees</h1>
+  <h1>Export to PNG</h1>
   <div id="speciesTree"></div>
 
   <script>
     (function() {
     var st = epeek.tree()
-    var theme = epeek_theme_tree_labels();
+    var theme = epeek_theme_tree_png_export();
     theme(st, document.getElementById("speciesTree"));
     }());
+
+    <!-- var png_export = epeek.utils.exports() -->
+    <!--                    .filename("image.png"); -->
+    <!-- png_export(document.getElementById("speciesTree")); -->
+    <!-- saveSvgAsPng(d3.select("svg").node(), "image.png", 1); -->
 
 
   </script>

@@ -1,11 +1,11 @@
-var epeek_theme_tree_labels = function() {
+var epeek_theme_tree_png_export = function() {
     "use strict";
 
     var tree_theme = function (sT, div) {
 
 	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;"
 
-	var path = epeek.utils.script_path("labels.js");
+	var path = epeek.utils.script_path("png_export.js");
 	var pics_path = path + "/pics/";
 
 	var scientific_to_common = {
@@ -203,6 +203,16 @@ var epeek_theme_tree_labels = function() {
 	    .attr("value", "joined")
 	    .text("joined img + text");
 
+	var png_export = epeek.utils.png()
+	    .filename('epeek_tree.png');
+
+	var export_button = d3.select(div)
+	    .append("button")
+	    .text("Export as PNG")
+	    .on('click', function () {
+		png_export(div);
+	    });
+
 	sT
 	    .data(epeek.tree.parse_newick(newick))
 	    .duration(2000)
@@ -215,3 +225,113 @@ var epeek_theme_tree_labels = function() {
 
     return tree_theme;
 };
+
+
+// (function() {
+//     var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
+
+//     function inlineImages(callback) {
+// 	var images = document.querySelectorAll('svg image');
+// 	var left = images.length;
+// 	if (left == 0) {
+// 	    callback();
+// 	}
+// 	for (var i = 0; i < images.length; i++) {
+// 	    var image = images[i];
+// 	    var img = new Image();
+// 	    img.src = image.getAttribute('href');
+// 	    // For some reason, img and image are re-used in the img.onload, so we have an async problem
+// 	    // that I had to solved creating a new scope with a new anon function passing img and image as arguments
+// 	    (function (img, image) {
+// 		img.onload = function() {
+// 		    var canvas = document.createElement('canvas');
+// 		    var ctx = canvas.getContext('2d');
+// 		    canvas.width = img.width;
+// 		    canvas.height = img.height;
+// 		    ctx.drawImage(img, 0, 0);
+// 		    var uri = canvas.toDataURL('image/png');
+// 		    image.setAttribute('href', uri);
+// 		    left--;
+// 		    if (left == 0) {
+// 			callback();
+// 		    }
+// 		}
+// 	    })(img, image);
+// 	}
+//     }
+
+//   function moveChildren(src, dest) {
+//     while (src.children.length > 0) {
+//       var child = src.children[0];
+//       dest.appendChild(child);
+//     }
+//     return dest;
+//   }
+
+//   function styles(dom) {
+//     var used = "";
+//     var sheets = document.styleSheets;
+//     for (var i = 0; i < sheets.length; i++) {
+//       var rules = sheets[i].cssRules || [];
+//       for (var j = 0; j < rules.length; j++) {
+//         var rule = rules[j];
+//         if (typeof(rule.style) != "undefined") {
+//           var elems = dom.querySelectorAll(rule.selectorText);
+//           if (elems.length > 0) {
+//             used += rule.selectorText + " { " + rule.style.cssText + " }\n";
+//           }
+//         }
+//       }
+//     }
+
+//     var s = document.createElement('style');
+//     s.setAttribute('type', 'text/css');
+//     s.innerHTML = "<![CDATA[\n" + used + "\n]]>";
+
+//     var defs = document.createElement('defs');
+//     defs.appendChild(s);
+//     return defs;
+//   }
+
+//   window.saveSvgAsPng = function(el, name, scaleFactor) {
+//     scaleFactor = scaleFactor || 1;
+
+//     inlineImages( function() {
+//       var outer = document.createElement("div");
+//       var clone = el.cloneNode(true);
+//       var width = parseInt(clone.getAttribute("width"));
+//       var height = parseInt(clone.getAttribute("height"));
+
+//       clone.setAttribute("version", "1.1");
+//       clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+//       clone.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+//       clone.setAttribute("width", width * scaleFactor);
+//       clone.setAttribute("height", height * scaleFactor);
+//       var scaling = document.createElement("g");
+//       scaling.setAttribute("transform", "scale(" + scaleFactor + ")");
+//       clone.appendChild(moveChildren(clone, scaling));
+//       outer.appendChild(clone);
+
+//       clone.insertBefore(styles(clone), clone.firstChild);
+
+//       var svg = doctype + outer.innerHTML;
+//       var image = new Image();
+//       image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
+// 	console.log(svg);
+//       image.onload = function() {
+//         var canvas = document.createElement('canvas');
+//         canvas.width = image.width;
+//         canvas.height = image.height;
+//         var context = canvas.getContext('2d');
+//         context.drawImage(image, 0, 0);
+
+//         var a = document.createElement('a');
+//         a.download = name;
+//         a.href = canvas.toDataURL('image/png');
+//         document.body.appendChild(a);
+//         a.click();
+//       }
+//     });
+//   }
+// })();
+
