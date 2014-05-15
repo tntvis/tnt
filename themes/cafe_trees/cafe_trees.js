@@ -4,6 +4,12 @@ var epeek_theme_tree_cafe_tree = function() {
     var theme = function (tree, div) {
 
         var label = epeek.tree.label.text()
+	    .color(function (d) {
+		if (d.n_members === 0) {
+		    return 'lightgrey'
+		}
+		return 'black';
+	    })
             .text(function (node) {
                 if (node.children) {
                     return node.n_members;
@@ -14,7 +20,42 @@ var epeek_theme_tree_cafe_tree = function() {
             .fontsize(10)
 	    .height(15);
 
-	// var tooltip = epeek.tooltip.table();
+	var tooltip = epeek.tooltip.table()
+	    .allow_drag(false);
+	var cafe_tooltip = function (node) {
+	    var obj = {};
+	    obj.header = {
+		label : "Taxon",
+		value : node.tax.alias_name +
+		    (node.tax.timetree_mya ? (" ~" + node.tax.timetree_mya +
+						     " MYA" ) : '') +
+		    " (" +
+		    node.tax.scientific_name +
+		    ")"
+
+	    };
+	    obj.rows = [
+		{ label : "Node ID",
+		  value : node.id
+		},
+		{ label : "Members",
+		  value : node.n_members
+		},
+		{ label : "p-value",
+		  value : node.pvalue
+		},
+		{ label : "Lambda",
+		  value : node.lambda
+		},
+		{ label : "Taxon ID:",
+		  value : node.tax.id
+		},
+		{ label : "Scientific Name:",
+		  value : node.tax.scientific_name
+		}
+	    ];
+	    tooltip.call(this, obj);
+	};
 
 	d3.json('/themes/cafe_trees/ENSGT00550000074414.json',
 		function (err, resp) {
@@ -50,7 +91,7 @@ var epeek_theme_tree_cafe_tree = function() {
 		    }
 		    return 'steelblue';
 		})
-		.node_info (tree.tooltip());
+		.node_info (cafe_tooltip);
 
 
 	    tree(div);

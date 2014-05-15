@@ -76,8 +76,14 @@ sub _convert_node {
     $hash->{tax} = {
 		    'id' => $taxon_id + 0,
 		    'scientific_name' => $taxon->scientific_name,
-		    'alias_name' => $taxon->ensembl_alias_name
+		    'alias_name' => $taxon->ensembl_alias_name,
+		    'timetree_mya' => $taxon->get_tagvalue('ensembl timetree mya') || 0 + 0
 		   }
+  }
+
+  my $node_id = $node->node_id();
+  if (defined ($node_id)) {
+    $hash->{id} = $node_id + 0;
   }
 
   my $n_members = $node->n_members();
@@ -85,9 +91,14 @@ sub _convert_node {
     $hash->{n_members} = $n_members + 0;
   }
 
-  my $p_value = $node->pvalue();
-  if ($p_value) {
-    $hash->{p_value} = $p_value + 0;
+  my $pvalue = $node->pvalue();
+  if ($pvalue) {
+    $hash->{pvalue} = $pvalue + 0;
+  }
+
+  my $lambdas = $node->lambdas();
+  if ($lambdas) {
+    $hash->{lambda} = $lambdas + 0;
   }
 
   my $p_value_lim = $node->pvalue_lim();
