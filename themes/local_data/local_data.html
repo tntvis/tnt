@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>e!Peek Themes</title>
+
+<style>
+  @import url(../../index.css)
+</style>
+
+<div id="body">
+
+  <!-- D3 -->
+  <script src="../../lib/d3.min.js"></script>
+
+  <!-- ePeek -->
+  <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
+
+  <script src="../../ePeek.js"></script>
+  <script src="local_data.js"></script>
+
+  <header>
+    <a style="margin-left:1em;" href="../../index.html">Overview</a>
+    <a style="margin-left:1em;" href="../index.html"><b>Themes</b></a>
+    <a style="margin-left:1em;" href="../../index.html">Examples</a>
+    <a style="margin-left:1em;" href="../../doc/api/index.html">Documentation</a>
+    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
+  </header>
+
+  <h1>The Local Data Theme</h1>
+  <div id="myTracks"></div>
+  <script>
+    (function() {
+        var tracks = epeek.track().width(950).from(0);
+        var theme = epeek_theme_track_local_data();
+        theme(tracks, document.getElementById("myTracks"));
+    })();
+ 
+  </script>
+
+  <h2>Overview</h2>
+  <p><aside><i>Panning</i> and <i>zooming</i> are still possible in the minimal theme</aside></p>
+
+  <pre><code>
+var epeek_theme = function() {
+    var theme = function(gB, div) {
+        gB(div);
+        gB.start();
+    };
+    return theme;
+};
+  </code></pre>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
+</div>
+<script src="../../highlight.v0.min.js"></script>

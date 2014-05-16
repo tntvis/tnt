@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>e!Peek</title>
+
+<!-- Remote JQuery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<!-- Local JQuery-URL-Parser -->
+<script src="lib/jQuery-URL-Parser/purl.js"></script>
+
+<!-- Remote D3.js -->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<!-- Remote QRTag -->
+<script type="text/javascript" src="http://api.qrtag.net/js"></script>
+
+</head>
+
+<body>
+<div id="genomeBrowser"></div>
+
+<!-- minimalGenomeBrowser -->
+<link rel="stylesheet" href="../lib/ePeek.css" type="text/css" />
+<script src="../lib/minimalGenomeBrowser.js"></script>
+
+<script>
+  (function() {
+  var gB = genomeBrowser().width(700);
+
+  if ($.url().param("loc") !== undefined) {
+    console.log("LOC FOUND: " + $.url().param("loc"));
+    gB = gB.parseLocation($.url().param("loc"));
+  }
+
+  if ($.url().param("species") !== undefined) {
+    gB = gB.species($.url().param("species"));
+  }
+
+  if ($.url().param("chr") !== undefined) {
+    var chr = $.url().param("chr");
+    var from = $.url().param("from");
+    var to = $.url().param("to");
+    gB = gB.chr(chr).from(from).to(to);
+  }
+
+  // This means that we are giving preference to genes over locations
+  if ($.url().param("gene") !== undefined) {
+    gB = gB.gene($.url().param("gene"));
+  }
+
+  if ($.url().param("show_links") !== undefined) {
+    var links = $.url().param("show_links");
+    if (links === "false") {
+     gB = gB.show_links(false);
+    }
+    if (links === "true") {
+     gB = gB.show_links(true);
+    }
+  }
+
+  if ($.url().param("show_options") !== undefined) {
+    var options = $.url().param("show_options");
+    if (options === "false") {
+      gB = gB.show_options(false);
+    }
+    if (options === "true") {
+      gB = gB.show_options(true);
+    }
+  }
+
+  if ($.url().param("orthologues") !== undefined) {
+    var orthologues = $.url().param("orthologues");
+    if (orthologues === "false") {
+      gB = gB.orthologues(false)
+    }
+    if (orthologues === "true") {
+      gB = gB.orthologues(true);
+    }
+    gB = gB.orthologues($.url().param("orthologues"));
+  }
+
+  gB(document.getElementById("genomeBrowser"));
+  })()
+</script>
+
+</body>

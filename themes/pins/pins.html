@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>e!Peek Themes</title>
+
+<style>
+  @import url(../../index.css)
+</style>
+
+<div id="body">
+
+  <!-- D3 -->
+  <script src="../../lib/d3.min.js"></script>
+
+  <!-- ePeek -->
+  <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
+
+  <script src="../../ePeek.js"></script>
+  <script src="pins.js"></script>
+
+  <header>
+    <a style="margin-left:1em;" href="../../index.html">Overview</a>
+    <a style="margin-left:1em;" href="../index.html"><b>Themes</b></a>
+    <a style="margin-left:1em;" href="../../index.html">Examples</a>
+    <a style="margin-left:1em;" href="../../doc/api/index.html">Documentation</a>
+    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
+  </header>
+
+  <h1>Adding custom marks</h1>
+  <div id="genomeBrowser"></div>
+  <script>
+    (function() {
+        var gB = epeek.track.genome().species("human").chr(13).from(32549927).to(33179245).width(950);
+        var gBTheme = epeek_theme_track_pins();
+        gBTheme(gB, document.getElementById("genomeBrowser"));
+    })();
+ 
+  </script>
+
+  <h2>Overview</h2>
+  <p><aside>Checkout this feature in the <a href="../../doc/api/genome/index.html#pin">API documentation</a></aside></p>
+  <p>The epeek plug-in allows a basic way of marking genomic locations in the genome browser. This is done using the genome.<a href="../../doc/api/genome/index.html#pin">pin</a> method. Currently, these marks are represented as pins with six different colors. The source code of this theme looks like:</p>
+
+  <p><aside>Checkout the complete <a href="">source code</a> of the theme</aside></p>
+
+  <pre><code class="javascript">
+var theme = function(gB, div) {
+   // We put several pins
+   var pin1_url = gB.pin([32900000, 32910000]);
+   var pin2_url = gB.pin([32890000]);
+   var pin3_url = gB.pin([32880000, 32870000]);
+
+   // We start the genome browser
+   gB(div);
+   gB.start();
+};
+  </code></pre>
+
+  <p>In a real example, pin locations may not be hardcoded in the theme's code and come via methods exposed in its API</p>
+  <p>Everytime the <a href="../../doc/api/genome/index.html#pin">pin</a> method is called, a different pin color is associated with the passed locations. The URLs returned by the methods can be used to write a custom legend for the marks. They can also be used to use the same pin color for new locations. See its <a href="../../doc/api/genome/index.html#pin">API documentation</a> for more details</p>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
+</div>
+<script src="../../highlight.v0.min.js"></script>

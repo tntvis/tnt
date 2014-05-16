@@ -1,0 +1,74 @@
+@import "lib/scss/main";
+
+/* OPTIONS */
+.ePeek_options_pane {
+    display : block;
+    
+    span {
+	@include normal-font;
+    }
+}
+
+
+div {
+    .ePeek_TabBlock {
+	display  : block;
+	height   : 40px;
+	position : absolute;
+	opacity  : 0;
+
+	@include transition(all, 0.5s);
+    }
+    .ePeek_TabBlock_active {
+	opacity : 1;
+	z-index : 1000;
+    }
+}
+
+.ePeek_option_label {
+    margin-right        : 10px;
+#     border-bottom-style : solid;
+    cursor              : pointer;
+}
+
+.ePeek_link_label, .ePeek_qrtag_label {
+    margin-right     : 10px;
+#     border-top-style : solid;
+    cursor           : pointer;
+}
+
+.ePeek_top_option {
+    display    : inline;
+    position   : absolute;
+    top        : 50%;
+    margin-top : -10px;
+}
+
+.ePeek_options_pane span, .ePeek_links_pane span {
+    @include normal-font;
+}
+
+.ePeek_options_pane, .ePeek_links_pane {
+    margin : 10px 10px 10px 5px;
+}
+
+.ePeek_links_pane {
+    position : absolute;
+    right : 0px;
+}
+
+.ePeek_text_rotated {
+    display     : block;
+    position    : absolute;
+    z-index     : 1002;
+    right       : 0px;
+
+    @include rotate;
+}
+
+.ePeek_link {
+    cursor : pointer;
+}
+
+
+

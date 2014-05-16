@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+</head>
+
+<body>
+  <p>This is my gene:</p>
+  <div id="genomeBrowser"></div>
+
+
+<!-- minimalGenomeBrowser code -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <link rel="stylesheet" href="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser.css" type="text/css" />
+  <script src="http://www.ebi.ac.uk/~mp/minimalGenomeBrowser_min.js"></script>
+
+  <script>
+    (function() {
+        var gB = genomeBrowser().searchBox(true).species("human").gene("SNORD73");
+        gB(document.getElementById("genomeBrowser"));
+    })()
+  </script>
+<!-- END -->
+
+
+</body>
+</html>
