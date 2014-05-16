@@ -46,7 +46,7 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 		}
 
 		tree.tree().sort (cond);
-		tree.update();
+		ta.update();
 	    });
 
 	sel

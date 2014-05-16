@@ -77,12 +77,12 @@ var epeek_theme_tree_compare = function () {
 		    	    tree
 		    		.data(resp.tree)
 		    		.label(label_en);
-		    	    tree.update();
+		    	    ta.update();
 			});
 		}
 
 		// tree.tree().sort (cond);
-		tree.update();
+		ta.update();
 	    });
 
 	
