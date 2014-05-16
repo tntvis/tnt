@@ -9,6 +9,4 @@
 node_modules/
 npm-debug.log
 build/
-ePeek.js
-ePeek.min.js
 user-images/
