@@ -78,7 +78,7 @@ text.ePeek_tooWide_text {
   opacity: 1; }
 
 .ePeek_gene {
-  filter: alpha(opacity=60);
+  filter: alpha(opacity=0.6);
   #    opacity: 0.6; }
 
 div .ePeek_gene_info {

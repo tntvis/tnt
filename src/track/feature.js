@@ -701,66 +701,66 @@ epeek.track.feature.block = function () {
 
 };
 
-epeek.track.feature.pin = function () {
-    // The path to the current ePeek.js script. Needed to reach the pngs
-    var path = epeek.utils.script_path("ePeek.js");
-    var pin_color = "red";
-//    var pin_url = path + "lib/pins/pin_red.png";
-    var pins_icons = [path + "lib/pins/pin_red.png",
-                      path + "lib/pins/pin_blue.png",
-                      path + "lib/pins/pin_green.png",
-                      path + "lib/pins/pin_yellow.png",
-                      path + "lib/pins/pin_magenta.png",
-                      path + "lib/pins/pin_gray.png"];
+// epeek.track.feature.pin = function () {
+//     // The path to the current ePeek.js script. Needed to reach the pngs
+//     var path = epeek.utils.script_path("ePeek.js");
+//     var pin_color = "red";
+// //    var pin_url = path + "lib/pins/pin_red.png";
+//     var pins_icons = [path + "lib/pins/pin_red.png",
+//                       path + "lib/pins/pin_blue.png",
+//                       path + "lib/pins/pin_green.png",
+//                       path + "lib/pins/pin_yellow.png",
+//                       path + "lib/pins/pin_magenta.png",
+//                       path + "lib/pins/pin_gray.png"];
 
 
-    // 'Inherit' from epeek.track.feature
-    var feature = epeek.track.feature();
+//     // 'Inherit' from epeek.track.feature
+//     var feature = epeek.track.feature();
 
-    feature.pin_color = function(c) {
-        if (!arguments.length) {
-            return pin_color;
-        }
-        pin_color = c;
-        if (c === "red") {
-            feature.pin_url (pins_icons[0]);
-        }
-        if (c === "blue") {
-            feature.pin_url (pins_icons[1]);
-        }
-        if (c === "green") {
-            feature.pin_url (pins_icons[2]);
-        }
-        return feature;
-    };
+//     feature.pin_color = function(c) {
+//         if (!arguments.length) {
+//             return pin_color;
+//         }
+//         pin_color = c;
+//         if (c === "red") {
+//             feature.pin_url (pins_icons[0]);
+//         }
+//         if (c === "blue") {
+//             feature.pin_url (pins_icons[1]);
+//         }
+//         if (c === "green") {
+//             feature.pin_url (pins_icons[2]);
+//         }
+//         return feature;
+//     };
 
 
-    feature.create(function (new_elems, xScale) {
-	var track = this;
-	new_elems
-	    .append("image")
-	    .attr("xlink:href", feature.pin_url())
-	    .attr("x", function (d) {
-		return xScale(d.pos)
-	    })
-	    .attr("y", track.height() - 25)
-	    .attr("width", "20px")
-	    .attr("height", "20px");
-    });
+//     feature.create(function (new_elems, xScale) {
+// 	var track = this;
+// 	new_elems
+// 	    .append("image")
+// 	    .attr("xlink:href", feature.pin_url())
+// 	    .attr("x", function (d) {
+// 		return xScale(d.pos)
+// 	    })
+// 	    .attr("y", track.height() - 25)
+// 	    .attr("width", "20px")
+// 	    .attr("height", "20px");
+//     });
 
-    feature.mover(function (pins, xScale) {
-	pins
-	    .select("image")
-	    .attr("x", function (d) {
-		return xScale(d.pos);
-	    });
-    });
+//     feature.mover(function (pins, xScale) {
+// 	pins
+// 	    .select("image")
+// 	    .attr("x", function (d) {
+// 		return xScale(d.pos);
+// 	    });
+//     });
 
-    epeek.utils.api (feature)
-	.getset ('pin_url', path + "lib/pins/pin_red.png");
+//     epeek.utils.api (feature)
+// 	.getset ('pin_url', path + "lib/pins/pin_red.png");
 
-    return feature;
-};
+//     return feature;
+// };
 
 epeek.track.feature.axis = function () {
     var xAxis;
