@@ -1,4 +1,4 @@
-epeek.utils.api = function (who) {
+tnt.utils.api = function (who) {
 
     var _methods = function () {
 	var m = [];

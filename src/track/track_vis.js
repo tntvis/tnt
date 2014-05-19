@@ -1,6 +1,6 @@
 "use strict"
 
-epeek.track = function() {
+tnt.track = function() {
 
     //// Private vars
     var svg;
@@ -46,14 +46,14 @@ epeek.track = function() {
     var track_vis = function(div) {
 	div_id = d3.select(div).attr("id");
 
-	// The original div is classed with the ePeek class
+	// The original div is classed with the tnt class
 	d3.select(div)
-	    .classed("ePeek", true);
+	    .classed("tnt", true);
 
 	// TODO: Move the styling to the scss?
 	var browserDiv = d3.select(div)
 	    .append("div")
-	    .attr("id", "ePeek_" + div_id)
+	    .attr("id", "tnt_" + div_id)
 	    .style("position", "relative")
 	    .style("border", "2px solid")
 	    .style("border-radius", "20px")
@@ -63,12 +63,12 @@ epeek.track = function() {
 
 	var groupDiv = browserDiv
 	    .append("div")
-	    .attr("class", "ePeek_groupDiv");
+	    .attr("class", "tnt_groupDiv");
 
 	// The SVG
 	svg = groupDiv
 	    .append("svg")
-	    .attr("class", "ePeek_svg")
+	    .attr("class", "tnt_svg")
 	    .attr("width", width)
 	    .attr("height", height);
 
@@ -76,12 +76,12 @@ epeek.track = function() {
 	    .append("g")
             .attr("transform", "translate(0,20)")
             .append("g")
-	    .attr("class", "ePeek_g");
+	    .attr("class", "tnt_g");
 
 	// caps
 	svg_g
 	    .append("rect")
-	    .attr("id", "ePeek_" + div_id + "_5pcap")
+	    .attr("id", "tnt_" + div_id + "_5pcap")
 	    .attr("x", 0)
 	    .attr("y", 0)
 	    .attr("width", 0)
@@ -89,7 +89,7 @@ epeek.track = function() {
 	    .attr("fill", "red");
 	svg_g
 	    .append("rect")
-	    .attr("id", "ePeek_" + div_id + "_3pcap")
+	    .attr("id", "tnt_" + div_id + "_3pcap")
 	    .attr("x", width-cap_width)
 	    .attr("y", 0)
 	    .attr("width", 0)
@@ -99,8 +99,8 @@ epeek.track = function() {
 	// The Zooming/Panning Pane
 	pane = svg_g
 	    .append("rect")
-	    .attr("class", "ePeek_pane")
-	    .attr("id", "ePeek_" + div_id + "_pane")
+	    .attr("class", "tnt_pane")
+	    .attr("id", "tnt_" + div_id + "_pane")
 	    .attr("width", width)
 	    .attr("height", height)
 	    .style("fill", bgColor);
@@ -108,8 +108,8 @@ epeek.track = function() {
 	// ** TODO: Wouldn't be better to have these messages by track?
 	var tooWide_text = svg_g
 	    .append("text")
-	    .attr("class", "ePeek_wideOK_text")
-	    .attr("id", "ePeek_" + div_id + "_tooWide")
+	    .attr("class", "tnt_wideOK_text")
+	    .attr("id", "tnt_" + div_id + "_tooWide")
 	    .attr("fill", bgColor)
 	    .text("Region too wide");
 
@@ -122,7 +122,7 @@ epeek.track = function() {
     };
 
     // API
-    var api = epeek.utils.api (track_vis)
+    var api = tnt.utils.api (track_vis)
 	.getset (exports)
 	.getset (limits)
 	.getset (loc);
@@ -288,10 +288,10 @@ epeek.track = function() {
 
 	// We are resizing
 	if (div_id !== undefined) {
-	    d3.select("#ePeek_" + div_id).select("svg").attr("width", w);
+	    d3.select("#tnt_" + div_id).select("svg").attr("width", w);
 	    // Resize the zooming/panning pane
-	    d3.select("#ePeek_" + div_id).style("width", (parseInt(w) + cap_width*2) + "px");
-	    d3.select("#ePeek_" + div_id + "_pane").attr("width", w);
+	    d3.select("#tnt_" + div_id).style("width", (parseInt(w) + cap_width*2) + "px");
+	    d3.select("#tnt_" + div_id + "_pane").attr("width", w);
 
 	    // Replot
 	    width = w;
@@ -351,14 +351,14 @@ epeek.track = function() {
 	svg.attr("height", h + height_offset);
 
 	// div
-	d3.select("#ePeek_" + div_id)
+	d3.select("#tnt_" + div_id)
 	    .style("height", (h + 10 + height_offset) + "px");
 
 	// caps
-	d3.select("#ePeek_" + div_id + "_5pcap")
+	d3.select("#tnt_" + div_id + "_5pcap")
 	    .attr("height", h)
 	    .move_to_front();
-	d3.select("#ePeek_" + div_id + "_3pcap")
+	d3.select("#tnt_" + div_id + "_3pcap")
 	    .attr("height", h)
 	    .move_to_front();
 
@@ -367,7 +367,7 @@ epeek.track = function() {
 	    .attr("height", h + height_offset);
 
 	// tooWide_text. TODO: Is this still needed?
-	var tooWide_text = d3.select("#ePeek_" + div_id + "_tooWide");
+	var tooWide_text = d3.select("#tnt_" + div_id + "_tooWide");
 	var bb = tooWide_text[0][0].getBBox();
 	tooWide_text
 	    .attr("y", ~~(h/2) - bb.height/2);
@@ -378,7 +378,7 @@ epeek.track = function() {
     var _init_track = function (track) {
 	track.g = svg.select("g").select("g")
 	    .append("g")
-	    .attr("class", "ePeek_track")
+	    .attr("class", "tnt_track")
 	    .attr("height", track.height());
 
 	// Rect for the background color
@@ -453,7 +453,7 @@ epeek.track = function() {
 	}
     };
     // The deferred_cbak is deferred at least this amount of time or re-scheduled if deferred is called before
-    var _deferred = epeek.utils.defer_cancel(_move_cbak, 300);
+    var _deferred = tnt.utils.defer_cancel(_move_cbak, 300);
 
     var _move = function (new_xScale) {
 	if (new_xScale !== undefined && drag_allowed) {
@@ -463,7 +463,7 @@ epeek.track = function() {
 	// Check if we are in the edges
 	var domain = xScale.domain();
 	if (domain[0] <= 5) {
-	    d3.select("#ePeek_" + div_id + "_5pcap")
+	    d3.select("#tnt_" + div_id + "_5pcap")
 		.attr("width", cap_width)
 		.transition()
 		.duration(200)
@@ -471,7 +471,7 @@ epeek.track = function() {
 	}
 
 	if (domain[1] >= (limits.right)-5) {
-	    d3.select("#ePeek_" + div_id + "_3pcap")
+	    d3.select("#tnt_" + div_id + "_3pcap")
 		.attr("width", cap_width)
 		.transition()
 		.duration(200)

@@ -1,10 +1,10 @@
-epeek.tree.tree = function (data) {
+tnt.tree.tree = function (data) {
     "use strict";
 
     var node = function () {
     };
 
-    var api = epeek.utils.api (node);
+    var api = tnt.utils.api (node);
 
     // API
 //     node.nodes = function() {
@@ -31,7 +31,7 @@ epeek.tree.tree = function (data) {
     };
 
     var create_ids = function () {
-	var i = epeek.utils.iterator(1);
+	var i = tnt.utils.iterator(1);
 	// We can't use apply because apply creates new trees on every node
 	// We should use the direct data instead
 	apply_to_data (data, function (d) {
@@ -98,7 +98,7 @@ epeek.tree.tree = function (data) {
 	}
 	if (data.children !== undefined) {
 	    for (var i=0; i<data.children.length; i++) {
-		var n = epeek.tree.tree(data.children[i]);
+		var n = tnt.tree.tree(data.children[i]);
 		var found = n.find_node_by_field(value, field);
 		if (found !== undefined) {
 		    return found;
@@ -156,7 +156,7 @@ epeek.tree.tree = function (data) {
 	for (var i = 1; i<nodes.length; i++) {
 	    lca_node = _lca(lca_node, nodes[i]);
 	}
-	return epeek.tree.tree(lca_node);
+	return tnt.tree.tree(lca_node);
     });
 
     var _lca = function(node1, node2) {
@@ -186,7 +186,7 @@ epeek.tree.tree = function (data) {
 	if (parent !== undefined) {
 	    parent.upstream(cbak);
 	}
-//	epeek.tree.tree(parent).upstream(cbak);
+//	tnt.tree.tree(parent).upstream(cbak);
 // 	node.upstream(node._parent, cbak);
     });
 
@@ -284,7 +284,7 @@ epeek.tree.tree = function (data) {
 	    return false;
 	});
 
-	return epeek.tree.tree(subtree.children[0]);
+	return tnt.tree.tree(subtree.children[0]);
     });
 
     // TODO: This method visits all the nodes
@@ -310,7 +310,7 @@ epeek.tree.tree = function (data) {
 
 	var new_children = [];
 	for (var i=0; i<data.children.length; i++) {
-	    new_children.push(epeek.tree.tree(data.children[i]));
+	    new_children.push(tnt.tree.tree(data.children[i]));
 	}
 
 	new_children.sort(cbak);
@@ -320,7 +320,7 @@ epeek.tree.tree = function (data) {
 	}
 
 	for (var i=0; i<data.children.length; i++) {
-	    epeek.tree.tree(data.children[i]).sort(cbak);
+	    tnt.tree.tree(data.children[i]).sort(cbak);
 	}
     });
 
@@ -328,7 +328,7 @@ epeek.tree.tree = function (data) {
 	cbak(node);
 	if (data.children !== undefined) {
 	    for (var i=0; i<data.children.length; i++) {
-		var n = epeek.tree.tree(data.children[i])
+		var n = tnt.tree.tree(data.children[i])
 		n.apply(cbak);
 	    }
 	}
@@ -347,7 +347,7 @@ epeek.tree.tree = function (data) {
     });
 
     // It looks like the cluster can't be used for anything useful here
-    // It is now included as an optional parameter to the epeek.tree() method call
+    // It is now included as an optional parameter to the tnt.tree() method call
     // so I'm commenting the getter
     // node.cluster = function() {
     // 	return cluster;
@@ -379,7 +379,7 @@ epeek.tree.tree = function (data) {
 	}
 	var children = [];
 	for (var i=0; i<data.children.length; i++) {
-	    children.push(epeek.tree.tree(data.children[i]));
+	    children.push(tnt.tree.tree(data.children[i]));
 	}
 	return children;
     });
@@ -388,7 +388,7 @@ epeek.tree.tree = function (data) {
 	if (data._parent === undefined) {
 	    return undefined;
 	}
-	return epeek.tree.tree(data._parent);
+	return tnt.tree.tree(data._parent);
     });
 
     return node;

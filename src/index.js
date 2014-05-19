@@ -1,4 +1,4 @@
-import "epeek.js";
+import "tnt.js";
 import "utils/";
 import "track/";
 import "rest/";

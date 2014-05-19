@@ -1,4 +1,4 @@
-epeek.tree.label = function () {
+tnt.tree.label = function () {
 "use strict";
 
     // TODO: Not sure if we should be removing by default prev labels
@@ -8,11 +8,11 @@ epeek.tree.label = function () {
     // text to img labels and we need to remove the label of a different type
     var label = function (node) {
 	label.display().call(this, node)
-	    .attr("class", "ePeek_tree_label")
+	    .attr("class", "tnt_tree_label")
 	    .attr("transform", "translate (" + label.transform()()[0] + " " + label.transform()()[1] + ")");
     };
 
-    var api = epeek.utils.api (label)
+    var api = tnt.utils.api (label)
 	.getset ('width', function () { throw "Need a width callback" })
 	.getset ('height', function () { throw "Need a height callback" })
 	.getset ('display', function () { throw "Need a display callback" })
@@ -20,7 +20,7 @@ epeek.tree.label = function () {
 
     api.method ('remove', function () {
 	d3.select(this)
-	    .selectAll(".ePeek_tree_label")
+	    .selectAll(".tnt_tree_label")
 	    .remove();
     });
 
@@ -28,10 +28,10 @@ epeek.tree.label = function () {
 };
 
 // Text based labels
-epeek.tree.label.text = function () {
-    var label = epeek.tree.label();
+tnt.tree.label.text = function () {
+    var label = tnt.tree.label();
 
-    var api = epeek.utils.api (label)
+    var api = tnt.utils.api (label)
 	.getset ('fontsize', 10)
 	.getset ('color', "#000")
 	.getset ('text', function (d) {
@@ -74,10 +74,10 @@ epeek.tree.label.text = function () {
 };
 
 // Image based labels
-epeek.tree.label.img = function () {
-    var label = epeek.tree.label();
+tnt.tree.label.img = function () {
+    var label = tnt.tree.label();
 
-    var api = epeek.utils.api (label)
+    var api = tnt.utils.api (label)
 	.getset ('src', function () {})
 
     label.display (function (node) {
@@ -102,7 +102,7 @@ epeek.tree.label.img = function () {
 };
 
 // Labels made of 2+ simple labels
-epeek.tree.label.composite = function () {
+tnt.tree.label.composite = function () {
 
     var labels = [];
 
@@ -112,7 +112,7 @@ epeek.tree.label.composite = function () {
 	}
     };
 
-    var api = epeek.utils.api (label)
+    var api = tnt.utils.api (label)
 
     api.method ('add_label', function (display) {
 	var curr_labels = [];
@@ -121,7 +121,7 @@ epeek.tree.label.composite = function () {
 	}
 
 	display._super_ = {};
-	epeek.utils.api (display._super_)
+	tnt.utils.api (display._super_)
 	    .get ('transform', display.transform());
 
 	display.transform( function (node) {

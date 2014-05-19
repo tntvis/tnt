@@ -1,5 +1,4 @@
-
-epeek.eRest = function() {
+tnt.eRest = function() {
 
     // Prefixes to use the REST API.
     // These are modified in the localREST setter
@@ -15,18 +14,6 @@ epeek.eRest = function() {
     // Number of connections made to the database
     var connections = 0;
 
-    /** eRest gets a new object to interact with the Ensembl REST server
-	@namespace
-	@alias epeek.eRest
-	@example
-	var eRest = epeek.eRest();
-	eRest.call( {
-	   url     : eRest.url("species_gene", {species : "human", gene_name : "BRCA1"}),
-       success : function (resp) {
-	   // resp contains the response from the REST server
-	   }
-	} );
-    */
     var eRest = function() {
     };
 
@@ -35,7 +22,7 @@ epeek.eRest = function() {
 	region : 5000000
     };
 
-    var api = epeek.utils.api (eRest);
+    var api = tnt.utils.api (eRest);
 
 
     /** <strong>localREST</strong> points the queries to a local REST service to debug.
@@ -77,7 +64,7 @@ epeek.eRest = function() {
 
 
     eRest.url = {};
-    var url_api = epeek.utils.api (eRest.url);
+    var url_api = tnt.utils.api (eRest.url);
 	/** eRest.url.<strong>region</strong> returns the ensembl REST url to retrieve the genes included in the specified region
 	    @param {object} obj - An object literal with the following fields:<br />
 <ul>

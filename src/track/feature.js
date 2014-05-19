@@ -1,6 +1,6 @@
 
 // FEATURE VIS
-epeek.track.feature = function () {
+tnt.track.feature = function () {
 
     ////// Vars exposed in the API
     var exports = {
@@ -10,7 +10,7 @@ epeek.track.feature = function () {
 	info    : function () {},
 	guider  : function () {},
 	index   : undefined,
-	layout  : epeek.track.layout.identity(),
+	layout  : tnt.track.layout.identity(),
 	foreground_color : '#000'
     };
 
@@ -20,7 +20,7 @@ epeek.track.feature = function () {
 
     var reset = function () {
     	var track = this;
-    	track.g.selectAll(".ePeek_elem").remove();
+    	track.g.selectAll(".tnt_elem").remove();
     };
 
     var init = function (width) {
@@ -49,10 +49,10 @@ epeek.track.feature = function () {
 
 	var vis_elems;
 	if (field !== undefined) {
-	    vis_elems = svg_g.selectAll(".ePeek_elem_" + field)
+	    vis_elems = svg_g.selectAll(".tnt_elem_" + field)
 		.data(data_elems, exports.index);
 	} else {
-	    vis_elems = svg_g.selectAll(".ePeek_elem")
+	    vis_elems = svg_g.selectAll(".tnt_elem")
 		.data(data_elems, function (d) {
 		    if (d !== undefined) {
 			return exports.index(d);
@@ -68,8 +68,8 @@ epeek.track.feature = function () {
 
 	new_elem
 	    .append("g")
-	    .attr("class", "ePeek_elem")
-	    .classed("ePeek_elem_" + field, field)
+	    .attr("class", "tnt_elem")
+	    .classed("tnt_elem_" + field, field)
 	    .call(feature.plot, track, xScale);
 
 	vis_elems
@@ -84,9 +84,9 @@ epeek.track.feature = function () {
 	// TODO: Is selecting the elements to move too slow?
 	// It would be nice to profile
 	if (field !== undefined) {
-	    elems = svg_g.selectAll(".ePeek_elem_" + field);
+	    elems = svg_g.selectAll(".tnt_elem_" + field);
 	} else {
-	    elems = svg_g.selectAll(".ePeek_elem");
+	    elems = svg_g.selectAll(".tnt_elem");
 	}
 
 	exports.mover.call(this, elems, xScale);
@@ -96,12 +96,12 @@ epeek.track.feature = function () {
 	if (field !== undefined) {
 	    var track = this;
 	    var svg_g = track.g;
-	    svg_g.selectAll(".ePeek_elem_" + field).move_to_front();
+	    svg_g.selectAll(".tnt_elem_" + field).move_to_front();
 	}
     };
 
     // API
-    epeek.utils.api (feature)
+    tnt.utils.api (feature)
 	.getset (exports)
 	.method ({
 	    reset  : reset,
@@ -115,7 +115,7 @@ epeek.track.feature = function () {
     return feature;
 };
 
-epeek.track.feature.composite = function () {
+tnt.track.feature.composite = function () {
     var displays = {};
     var display_order = [];
 
@@ -166,7 +166,7 @@ epeek.track.feature.composite = function () {
     };
 
     // API
-    epeek.utils.api (features)
+    tnt.utils.api (features)
 	.method ({
 	    reset  : reset,
 	    update : update,
@@ -179,9 +179,9 @@ epeek.track.feature.composite = function () {
     return features;
 };
 
-epeek.track.feature.sequence = function () {
-    // 'Inherit' from epeek.track.feature
-    var feature = epeek.track.feature();
+tnt.track.feature.sequence = function () {
+    // 'Inherit' from tnt.track.feature
+    var feature = tnt.track.feature();
 
     var seq = function (d) {
 	return d.sequence;
@@ -224,17 +224,17 @@ epeek.track.feature.sequence = function () {
     return feature;
 };
 
-epeek.track.feature.gene = function () {
+tnt.track.feature.gene = function () {
 
-    // 'Inherit' from epeek.track.feature
-    var feature = epeek.track.feature()
-	.layout(epeek.track.layout.feature())
+    // 'Inherit' from tnt.track.feature
+    var feature = tnt.track.feature()
+	.layout(tnt.track.layout.feature())
 	.index(function (d) {
 	    return d.ID;
 	});
 
     var tooltip = function () {
-        var tooltip = epeek.tooltip.table();
+        var tooltip = tnt.tooltip.table();
         var gene_tooltip = function(gene) {
             var obj = {};
             obj.header = {
@@ -298,7 +298,7 @@ epeek.track.feature.gene = function () {
 
 	new_elems
 	    .append("text")
-	    .attr("class", "ePeek_name")
+	    .attr("class", "tnt_name")
 	    .attr("x", function (d) {
 		return xScale(d.start);
 	    })
@@ -363,7 +363,7 @@ epeek.track.feature.gene = function () {
 	    })
     });
 
-    epeek.utils.api (feature)
+    tnt.utils.api (feature)
 	.method ({
 	    tooltip : tooltip
 	});
@@ -372,8 +372,8 @@ epeek.track.feature.gene = function () {
     return feature;
 };
 
-epeek.track.feature.area = function () {
-    var feature = epeek.track.feature.line();
+tnt.track.feature.area = function () {
+    var feature = tnt.track.feature.line();
     var line = feature.line();
 
     var area = d3.svg.area()
@@ -403,8 +403,8 @@ epeek.track.feature.area = function () {
 
 	track.g
 	    .append("path")
-	    .attr("class", "ePeek_area")
-	    .classed("ePeek_elem", true)
+	    .attr("class", "tnt_area")
+	    .classed("tnt_elem", true)
 	    .datum(data_points)
 	    .attr("d", area)
 	    .attr("fill", d3.rgb(feature.foreground_color()).brighter());
@@ -418,7 +418,7 @@ epeek.track.feature.area = function () {
 
 	area.x(line.x());
 	track.g
-	    .select(".ePeek_area")
+	    .select(".tnt_area")
 	    .datum(data_points)
 	    .attr("d", area);
     });
@@ -427,8 +427,8 @@ epeek.track.feature.area = function () {
 
 };
 
-epeek.track.feature.line = function () {
-    var feature = epeek.track.feature();
+tnt.track.feature.line = function () {
+    var feature = tnt.track.feature();
 
     var x = function (d) {
 	return d.pos;
@@ -499,7 +499,7 @@ epeek.track.feature.line = function () {
 	
 	track.g
 	    .append("path")
-	    .attr("class", "ePeek_elem")
+	    .attr("class", "tnt_elem")
 	    .attr("d", line(data_points))
 	    .style("stroke", feature.foreground_color())
 	    .style("stroke-width", 4)
@@ -520,9 +520,9 @@ epeek.track.feature.line = function () {
     return feature;
 };
 
-epeek.track.feature.conservation = function () {
-    // 'Inherit' from epeek.track.feature.area
-    var feature = epeek.track.feature.area();
+tnt.track.feature.conservation = function () {
+    // 'Inherit' from tnt.track.feature.area
+    var feature = tnt.track.feature.area();
 
     var area_create = feature.create(); // We 'save' area creation
     feature.create  (function (points, xScale) {
@@ -534,9 +534,9 @@ epeek.track.feature.conservation = function () {
     return feature;
 };
 
-epeek.track.feature.ensembl = function () {
-    // 'Inherit' from epeek.track.feature
-    var feature = epeek.track.feature();
+tnt.track.feature.ensembl = function () {
+    // 'Inherit' from tnt.track.feature
+    var feature = tnt.track.feature();
 
     feature.guider (function (width) {
 	var track = this;
@@ -612,9 +612,9 @@ epeek.track.feature.ensembl = function () {
     return feature;
 };
 
-epeek.track.feature.vline = function () {
-    // 'Inherit' from epeek.track.feature
-    var feature = epeek.track.feature();
+tnt.track.feature.vline = function () {
+    // 'Inherit' from tnt.track.feature
+    var feature = tnt.track.feature();
 
     feature.create (function (new_elems, xScale) {
 	var track = this;
@@ -648,9 +648,9 @@ epeek.track.feature.vline = function () {
 
 };
 
-epeek.track.feature.block = function () {
-    // 'Inherit' from epeek.track.feature
-    var feature = epeek.track.feature();
+tnt.track.feature.block = function () {
+    // 'Inherit' from tnt.track.feature
+    var feature = tnt.track.feature();
 
     feature.create(function (new_elems, xScale) {
 
@@ -701,9 +701,9 @@ epeek.track.feature.block = function () {
 
 };
 
-// epeek.track.feature.pin = function () {
-//     // The path to the current ePeek.js script. Needed to reach the pngs
-//     var path = epeek.utils.script_path("ePeek.js");
+// tnt.track.feature.pin = function () {
+//     // The path to the current tnt.js script. Needed to reach the pngs
+//     var path = tnt.utils.script_path("tnt.js");
 //     var pin_color = "red";
 // //    var pin_url = path + "lib/pins/pin_red.png";
 //     var pins_icons = [path + "lib/pins/pin_red.png",
@@ -714,8 +714,8 @@ epeek.track.feature.block = function () {
 //                       path + "lib/pins/pin_gray.png"];
 
 
-//     // 'Inherit' from epeek.track.feature
-//     var feature = epeek.track.feature();
+//     // 'Inherit' from tnt.track.feature
+//     var feature = tnt.track.feature();
 
 //     feature.pin_color = function(c) {
 //         if (!arguments.length) {
@@ -756,17 +756,17 @@ epeek.track.feature.block = function () {
 // 	    });
 //     });
 
-//     epeek.utils.api (feature)
+//     tnt.utils.api (feature)
 // 	.getset ('pin_url', path + "lib/pins/pin_red.png");
 
 //     return feature;
 // };
 
-epeek.track.feature.axis = function () {
+tnt.track.feature.axis = function () {
     var xAxis;
     var orientation = "top";
 
-    // Axis doesn't inherit from epeek.track.feature
+    // Axis doesn't inherit from tnt.track.feature
     var feature = {};
     feature.reset = function () {
 	xAxis = undefined;
@@ -804,7 +804,7 @@ epeek.track.feature.axis = function () {
     return feature;
 };
 
-epeek.track.feature.location = function () {
+tnt.track.feature.location = function () {
     var row;
 
     var feature = {};

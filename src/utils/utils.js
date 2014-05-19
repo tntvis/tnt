@@ -1,6 +1,6 @@
-epeek.utils = {};
+tnt.utils = {};
 
-epeek.utils.iterator = function(init_val) {
+tnt.utils.iterator = function(init_val) {
     var i = init_val || 0;
     var iter = function () {
 	return i++;
@@ -8,7 +8,7 @@ epeek.utils.iterator = function(init_val) {
     return iter;
 };
 
-epeek.utils.script_path = function (script_name) { // script_name is the filename
+tnt.utils.script_path = function (script_name) { // script_name is the filename
     var script_scaped = script_name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     var script_re = new RegExp(script_scaped + '$');
     var script_re_sub = new RegExp('(.*)' + script_scaped + '$');
@@ -25,7 +25,7 @@ epeek.utils.script_path = function (script_name) { // script_name is the filenam
     return path;
 };
 
-epeek.utils.defer_cancel = function (cbak, time) {
+tnt.utils.defer_cancel = function (cbak, time) {
     var tick;
 
     var defer_cancel = function () {

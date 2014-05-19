@@ -1,12 +1,12 @@
 "use strict";
 
-epeek.track.id = epeek.utils.iterator(1);
+tnt.track.id = tnt.utils.iterator(1);
 
-epeek.track.track = function () {
+tnt.track.track = function () {
 
     var read_conf = {
 	// Unique ID for this track
-	id : epeek.track.id()
+	id : tnt.track.id()
     };
 
     var display;
@@ -15,8 +15,8 @@ epeek.track.track = function () {
 	// foreground_color : d3.rgb('#000000'),
 	background_color : d3.rgb('#CCCCCC'),
 	height           : 250,
-	// data is the object (normally a epeek.track.data object) used to retrieve and update data for the track
-	data             : epeek.track.data.empty()
+	// data is the object (normally a tnt.track.data object) used to retrieve and update data for the track
+	data             : tnt.track.data.empty()
     };
 
     // The returned object / closure
@@ -24,7 +24,7 @@ epeek.track.track = function () {
     };
 
     // API
-    var api = epeek.utils.api (track)
+    var api = tnt.utils.api (track)
 	.getset (conf)
 	.get (read_conf);
 

@@ -1,6 +1,6 @@
-epeek.track.layout = {};
+tnt.track.layout = {};
 
-epeek.track.layout.identity = function () {
+tnt.track.layout.identity = function () {
     // vars exposed in the API:
     var elements;
 
@@ -9,7 +9,7 @@ epeek.track.layout.identity = function () {
 	elements = new_elements;
     }
 
-    var api = epeek.utils.api (l)
+    var api = tnt.utils.api (l)
 	.method ({ height   : function () {},
 		   elements : function () {return elements}
 		 });
@@ -18,7 +18,7 @@ epeek.track.layout.identity = function () {
 };
 
 // The overlap detector used for genes
-epeek.track.layout.feature = function() {
+tnt.track.layout.feature = function() {
     // Private vars
     var max_slots;
 
@@ -166,7 +166,7 @@ epeek.track.layout.feature = function() {
     };
 
     // API
-    var api = epeek.utils.api (genes_layout)
+    var api = tnt.utils.api (genes_layout)
 	.getset (conf)
 	.get (conf_ro)
 	.method ({

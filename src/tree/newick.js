@@ -58,7 +58,7 @@
  * }
  */
 
-epeek.tree.parse_newick = function (s) {
+tnt.tree.parse_newick = function (s) {
     var ancestors = [];
     var tree = {};
     var tokens = s.split(/\s*(;|\(|\)|,|:)\s*/);
@@ -93,7 +93,7 @@ epeek.tree.parse_newick = function (s) {
     return tree;
 };
 
-epeek.tree.parse_nhx = function(s) {
+tnt.tree.parse_nhx = function(s) {
     var ancestors = [];
     var tree = {};
     // var tokens = s.split(/\s*(;|\(|\)|,|:)\s*/);

@@ -1,34 +1,34 @@
 "use strict";
 
-epeek.track.data = function() {
+tnt.track.data = function() {
 
     var track_data = function () {
     };
 
     // Getters / Setters
-    epeek.utils.api (track_data)
+    tnt.utils.api (track_data)
 	    .getset ('label', "")
 	    .getset ('elements', [])
 	    .getset ('update', function () {});
 
 
     // The retrievers. They need to access 'elements'
-    epeek.track.retriever = {};
+    tnt.track.retriever = {};
 
-    epeek.track.retriever.sync = function() {
+    tnt.track.retriever.sync = function() {
 	var update_track = function(obj) {
         // Object has a location and a plug-in defined callback
             track_data.elements(update_track.retriever()(obj.loc));
             obj.on_success();
 	};
 
-	epeek.utils.api (update_track)
+	tnt.utils.api (update_track)
 	    .getset ('retriever', function () {})
 
 	return update_track;
     };
 
-    epeek.track.retriever.async = function () {
+    tnt.track.retriever.async = function () {
 	var url = '';
 
 	var update_track = function (obj) {
@@ -38,16 +38,16 @@ epeek.track.data = function() {
 	    }); 
 	};
 
-	epeek.utils.api (update_track)
+	tnt.utils.api (update_track)
 	    .getset ('url', '');
 
 	return update_track;
     };
 
-    epeek.track.retriever.ensembl = function() {
+    tnt.track.retriever.ensembl = function() {
 	var success = [function () {}];
 	var endpoint;
-	var eRest = epeek.eRest();
+	var eRest = tnt.eRest();
 	var update_track = function(obj) {
             // Object has loc and a plug-in defined callback
             var loc         = obj.loc;
@@ -68,7 +68,7 @@ epeek.track.data = function() {
 
 	};
 
-	epeek.utils.api(update_track)
+	tnt.utils.api(update_track)
 	    .getset('endpoint');
 
     // TODO: We don't have a way of resetting the success array
@@ -91,11 +91,11 @@ epeek.track.data = function() {
 
 
 // A predefined track for genes
-epeek.track.data.gene = function () {
-    var track = epeek.track.data();
+tnt.track.data.gene = function () {
+    var track = tnt.track.data();
 	// .index("ID");
 
-    var updater = epeek.track.retriever.ensembl()
+    var updater = tnt.track.retriever.ensembl()
 	.endpoint("region")
     // TODO: If success is defined here, means that it can't be user-defined
     // is that good? enough? API?
@@ -115,10 +115,10 @@ epeek.track.data.gene = function () {
 
 // A predefined track displaying no external data
 // it is used for location and axis tracks for example
-epeek.track.data.empty = function () {
+tnt.track.data.empty = function () {
 
-    var track = epeek.track.data();
-    var updater = epeek.track.retriever.sync();
+    var track = tnt.track.data();
+    var updater = tnt.track.retriever.sync();
     track.update(updater);
 
     return track;

@@ -1,10 +1,10 @@
 "use strict"
 
-epeek.track.genome = function() {
+tnt.track.genome = function() {
 
     // Private vars
     var ens_re = /^ENS\w+\d+$/;
-    var eRest = epeek.eRest();
+    var eRest = tnt.eRest();
     var chr_length;
 
     // Vars exposed in the API
@@ -23,20 +23,20 @@ epeek.track.genome = function() {
 
 
     // We "inherit" from track
-    var genome_browser = epeek.track();
+    var genome_browser = tnt.track();
 
     // The location and axis track
-    var location_track = epeek.track.track()
+    var location_track = tnt.track.track()
 	.height(20)
 	.background_color("white")
-	.data(epeek.track.data.empty())
-	.display(epeek.track.feature.location());
+	.data(tnt.track.data.empty())
+	.display(tnt.track.feature.location());
 
-    var axis_track = epeek.track.track()
+    var axis_track = tnt.track.track()
 	.height(20)
 	.background_color("white")
-	.data(epeek.track.data.empty())
-	.display(epeek.track.feature.axis());
+	.data(tnt.track.data.empty())
+	.display(tnt.track.feature.axis());
 
     genome_browser
 	.add_track(location_track)
@@ -186,7 +186,7 @@ epeek.track.genome = function() {
 		'paralogues'  : paralogues};
     };
 
-    var api = epeek.utils.api(genome_browser)
+    var api = tnt.utils.api(genome_browser)
 	.getset (conf);
 
     api.method ({

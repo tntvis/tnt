@@ -1,4 +1,4 @@
-epeek.tree.diagonal = function () {
+tnt.tree.diagonal = function () {
 
     var d = function (diagonalPath) {
 	var source = diagonalPath.source;
@@ -10,7 +10,7 @@ epeek.tree.diagonal = function () {
 	return d.path()(pathData, radial_calc.call(this,pathData))
     };
 
-    var api = epeek.utils.api (d)
+    var api = tnt.utils.api (d)
 	.getset ('projection')
 	.getset ('path')
     
@@ -77,7 +77,7 @@ epeek.tree.diagonal = function () {
 // 	      return [d.y, d.x]});
 
 // vertical diagonal for rect branches
-epeek.tree.diagonal.vertical = function () {
+tnt.tree.diagonal.vertical = function () {
     var projection = function(d) { 
 	return [d.y, d.x];
     }
@@ -93,7 +93,7 @@ epeek.tree.diagonal.vertical = function () {
 	    "L" + dst;
     };
 
-    return epeek.tree.diagonal()
+    return tnt.tree.diagonal()
       	.path(path)
       	.projection(projection);
 };
@@ -104,7 +104,7 @@ epeek.tree.diagonal.vertical = function () {
 // 	  	  return [d.y, d.x / 180 * Math.PI];
 // 	      });
 
-epeek.tree.diagonal.radial = function () {
+tnt.tree.diagonal.radial = function () {
     var path = function(pathData, obj) {
       	var src = pathData[0];
       	var mid = pathData[1];
@@ -125,7 +125,7 @@ epeek.tree.diagonal.radial = function () {
       	return [r * Math.cos(a), r * Math.sin(a)];
     };
 
-    return epeek.tree.diagonal()
+    return tnt.tree.diagonal()
       	.path(path)
       	.projection(projection)
 };

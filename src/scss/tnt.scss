@@ -25,26 +25,26 @@ svg {
     }
 }
 
-.ePeek_groupDiv {
+.tnt_groupDiv {
     position : relative;
     margin : 0px 3px 5px 3px;
 }
 
 rect {
-    &.ePeek_pane {
+    &.tnt_pane {
 	cursor : move;
 	opacity : 0;
 	pointer-events : all;
 
 	@include transition(opacity, 1s);
     }
-    &.ePeek_dark_pane {
+    &.tnt_dark_pane {
 	opacity : 0.4;
     }
 }
 
 text {
-    &.ePeek_wideOK_text {
+    &.tnt_wideOK_text {
 	font-family:Impact, Charcoal, sans-serif;
 	font-size  : 2em;
 	cursor : move;
@@ -52,12 +52,12 @@ text {
 
 	@include transition(opacity, 1s);
     }
-    &.ePeek_tooWide_text {
+    &.tnt_tooWide_text {
 	opacity : 1;
     }
 }
 
-.ePeek_gene {
+.tnt_gene {
     filter: alpha(opacity=$gene-opacity);
 #    opacity: $gene-opacity;
 }
@@ -65,7 +65,7 @@ text {
 
 // The tooltip for gene info
 div {
-    .ePeek_gene_info {
+    .tnt_gene_info {
 	display  : block;
 	position : absolute;
 	top      : 0px;
@@ -78,13 +78,13 @@ div {
 	}
 
     }
-    .ePeek_gene_info_active {
+    .tnt_gene_info_active {
 	opacity : 1;
 	z-index : 1001;
     }
 }
 
-.ePeek_zmenu {
+.tnt_zmenu {
 	     @include tiny-font;
       	     width : 180px;
 	     border-style : solid;
@@ -115,13 +115,13 @@ div {
 }
 
 
-.ePeek_locRow {
+.tnt_locRow {
     margin : 8px 0px 5px 5px;
     span {
     	 @include small-font;
     }
 }
 
-.ePeek_name {
+.tnt_name {
     @include normal-font;
 }

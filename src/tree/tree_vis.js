@@ -1,10 +1,10 @@
-epeek.tree = function () {
+tnt.tree = function () {
  "use strict";
 
     var conf = {
 	duration         : 500,      // Duration of the transitions
-	label            : epeek.tree.label.text(),
-	layout           : epeek.tree.layout.vertical(),
+	label            : tnt.tree.label.text(),
+	layout           : tnt.tree.layout.vertical(),
 	node_info        : function () {},
 	node_dbl_info    : function () {},
 	link_color       : 'steelblue',
@@ -19,7 +19,7 @@ epeek.tree = function () {
     var ease = "cubic-in-out";
 
     // If labels should be skipped
-    // TODO: Replace this with a valid epeek.tree.label that does nothing
+    // TODO: Replace this with a valid tnt.tree.label that does nothing
     // var skip_labels = false;
 
     // TODO: Don't know if this is useful or not
@@ -64,7 +64,7 @@ epeek.tree = function () {
 
         var tree_div = d3.select(div)
             .append("div")
-	    .attr("class", "ePeek_groupDiv");
+	    .attr("class", "tnt_groupDiv");
 
 	var cluster = conf.layout.cluster;
 
@@ -112,7 +112,7 @@ epeek.tree = function () {
 
 	vis = svg
 	    .append("g")
-	    .attr("id", "ePeek_st_" + div_id)
+	    .attr("id", "tnt_st_" + div_id)
 	    .attr("transform",
 		  "translate(" +
 		  conf.layout.translate_vis()[0] +
@@ -125,21 +125,21 @@ epeek.tree = function () {
 	curr.links = cluster.links(curr.nodes);
 
 	// LINKS
-	var link = vis.selectAll("path.ePeek_tree_link")
+	var link = vis.selectAll("path.tnt_tree_link")
 	    .data(curr.links, function(d){return d.target._id});
 	link
 	    	.enter()
 		.append("path")
-	    	.attr("class", "ePeek_tree_link")
+	    	.attr("class", "tnt_tree_link")
 	    	.attr("id", function(d) {
-	    	    return "ePeek_tree_link_" + div_id + "_" + d.target._id;
+	    	    return "tnt_tree_link_" + div_id + "_" + d.target._id;
 	    	})
 	    	.attr("fill", "none")
 	    	.style("stroke", conf.link_color)
 		.attr("d", diagonal);	    
 
 	// NODES
-	var node = vis.selectAll("g.ePeek_tree_node")
+	var node = vis.selectAll("g.tnt_tree_node")
 	    .data(curr.nodes, function(d) {return d._id});
 
 	var new_node = node
@@ -147,16 +147,16 @@ epeek.tree = function () {
 	    .attr("class", function(n) {
 		if (n.children) {
 		    if (n.depth == 0) {
-			return "root ePeek_tree_node"
+			return "root tnt_tree_node"
 		    } else {
-			return "inner ePeek_tree_node"
+			return "inner tnt_tree_node"
 		    }
 		} else {
-		    return "leaf ePeek_tree_node"
+		    return "leaf tnt_tree_node"
 		}
 	    })
 	    .attr("id", function(d) {
-		return "ePeek_tree_node_" + div_id + "_" + d._id
+		return "tnt_tree_node_" + div_id + "_" + d._id
 	    })
 	    .attr("transform", transform);
 
@@ -181,7 +181,7 @@ epeek.tree = function () {
 // 	    // LABELS
 // 	    new_node
 // 		.append("text")
-// 		.attr("class", "ePeek_tree_label")
+// 		.attr("class", "tnt_tree_label")
 // 		.style("fill", function(d) {return d.children === undefined ? fgColor : bgColor})
 // 	    // .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
 // 	    // .attr("transform", function(d) {return "translate(10 5)" + layout === "vertical" ? "" : ("rotate(" + (d.x < 180 ? 0 : 180) + ")")})
@@ -258,11 +258,11 @@ epeek.tree = function () {
 	    curr.links = cluster.links(curr.nodes);
 
             // NODES
-	    var node = vis.selectAll("g.ePeek_tree_node")
+	    var node = vis.selectAll("g.tnt_tree_node")
 		.data(curr.nodes, function(d) {return d._id});
 
 	    // LINKS
-	    var link = vis.selectAll("path.ePeek_tree_link")
+	    var link = vis.selectAll("path.tnt_tree_link")
 		.data(curr.links, function(d){return d.target._id});
 	    
 	    var exit_link = link
@@ -274,9 +274,9 @@ epeek.tree = function () {
 	    link
 		.enter()
 		.append("path")
-		.attr("class", "ePeek_tree_link")
+		.attr("class", "tnt_tree_link")
 		.attr("id", function (d) {
-		    return "ePeek_tree_link_" + div_id + "_" + d.target._id;
+		    return "tnt_tree_link_" + div_id + "_" + d.target._id;
 		})
 		.attr("fill", "none")
 		.attr("stroke", conf.link_color)
@@ -306,16 +306,16 @@ epeek.tree = function () {
 		.attr("class", function(n) {
 		    if (n.children) {
 			if (n.depth == 0) {
-			    return "root ePeek_tree_node"
+			    return "root tnt_tree_node"
 			} else {
-			    return "inner ePeek_tree_node"
+			    return "inner tnt_tree_node"
 			}
 		    } else {
-			return "leaf ePeek_tree_node"
+			return "leaf tnt_tree_node"
 		    }
 		})
 		.attr("id", function (d) {
-		    return "ePeek_tree_node_" + div_id + "_" + d._id;
+		    return "tnt_tree_node_" + div_id + "_" + d._id;
 		})
 		.attr("transform", transform);
    
@@ -342,7 +342,7 @@ epeek.tree = function () {
 // 	    if (!skip_labels) {
 // 		new_node
 // 		    .append("text")
-// 		    .attr("class", "ePeek_tree_label")
+// 		    .attr("class", "tnt_tree_label")
 // 		    .style("fill", function(d) {return d.children === undefined ? fgColor : bgColor})
 // 		// .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
 // 		// .attr("transform", function(d) {return "translate(10 5)" + layout === "vertical" ? "" : ("rotate(" + (d.x < 180 ? 0 : 180) + ")")})
@@ -373,7 +373,7 @@ epeek.tree = function () {
     };
 
     // API
-    var api = epeek.utils.api (tree)
+    var api = tnt.utils.api (tree)
 	.getset (conf)
 
     // TODO: Rewrite data using getset / finalizers & transforms
@@ -387,11 +387,11 @@ epeek.tree = function () {
 	curr.data = d;
 
 	// Set up a new tree based on the data
-	var newtree = epeek.tree.tree(base.data);
+	var newtree = tnt.tree.tree(base.data);
 
 	// The nodes are marked because we want to be able to join data after selecting a subtree
-	// var i = epeek.misc.iteratorInt();
-	// newtree.apply(function(d) {d.property('__epeek_id__', i())});
+	// var i = tnt.misc.iteratorInt();
+	// newtree.apply(function(d) {d.property('__tnt_id__', i())});
 	// newtree.apply(function(d) {d.property('__inSubTree__', {prev : true, curr : true})});
 
 	tree.tree(newtree);
@@ -458,7 +458,7 @@ epeek.tree = function () {
 // // 	    copy_data (curr.data.children[i], prev_data, function(d) {return true});
 // // 	}
 // // 	prev.data = prev_data;
-// // 	prev.tree = epeek.tree(prev.data);
+// // 	prev.tree = tnt.tree(prev.data);
 
 // 	//  We set up the curr data and tree
 // 	var curr_nodes = [];
@@ -480,7 +480,7 @@ epeek.tree = function () {
 // 	}
 
 // 	curr.data = curr_data;
-// 	curr.tree = epeek.tree.tree(curr.data);
+// 	curr.tree = tnt.tree.tree(curr.data);
 
 // 	return tree;
 //     };
@@ -555,8 +555,8 @@ epeek.tree = function () {
     };
 
     api.method ('tooltip', function () {
-	// var tooltip = epeek.tooltip().type("table");
-	var tooltip = epeek.tooltip.table();
+	// var tooltip = tnt.tooltip().type("table");
+	var tooltip = tnt.tooltip.table();
 	var tree_tooltip = function (node) {
 	    var obj = {};
 	    obj.header = {
@@ -593,13 +593,13 @@ epeek.tree = function () {
     // 	    reset_tree(species_tree);
     // 	    var sp_names = get_names_of_present_species(sp_counts);
     // 	    var present_nodes  = get_tree_nodes_by_names(species_tree, sp_names);
-    // 	    var lca_node = epeek_tree.lca(present_nodes)
+    // 	    var lca_node = tnt_tree.lca(present_nodes)
 
     // 	    decorate_tree(lca_node);
     // 	    nodes_present(species_tree, present_nodes);
 
     // 	    vis.selectAll("path.link")
-    // 		.data(cluster.links(epeek_tree))
+    // 		.data(cluster.links(tnt_tree))
     // 		.transition()
     // 		.style("stroke", function(d){
     // 	    	    if (d.source.real_present === 1) {
@@ -612,7 +612,7 @@ epeek.tree = function () {
     // 		});
 
     // 	    vis.selectAll("circle")
-    // 		.data(epeek_tree.filter(function(n) { return n.x !== undefined; }))
+    // 		.data(tnt_tree.filter(function(n) { return n.x !== undefined; }))
     // 		.attr("class", function(d) {
     // 		    if (d.real_present) {
     // 			return "present";
@@ -624,7 +624,7 @@ epeek.tree = function () {
     // 		})
 
     // 	    var labels = vis.selectAll("text")
-    // 		.data(epeek_tree.filter(function(d) { return d.x !== undefined && !d.children; }))
+    // 		.data(tnt_tree.filter(function(d) { return d.x !== undefined && !d.children; }))
     // 		.transition()
     // 		.style("fill", function (d) {
     // 		    if (d.name === tree.species()) {
@@ -649,20 +649,20 @@ epeek.tree = function () {
 
     // var decorate_tree = function (node) {
     // 	if (node !== undefined) {
-    // 	    epeek_tree.apply(node, function(n) {n.present_node = 1});
+    // 	    tnt_tree.apply(node, function(n) {n.present_node = 1});
     // 	}
     // };
 
     // var reset_tree = function (node) {
     // 	if (node !== undefined) {
-    // 	    epeek_tree.apply(node, function(n) {n.present_node = 0; n.real_present = 0;});
+    // 	    tnt_tree.apply(node, function(n) {n.present_node = 0; n.real_present = 0;});
     // 	}
     // }
 
 
     var nodes_present = function (tree, nodes) {
 	for (var i = 0; i < nodes.length; i++) {
-	    var tree_node = epeek_tree.find_node_by_name(tree, nodes[i].name);
+	    var tree_node = tnt_tree.find_node_by_name(tree, nodes[i].name);
 	    if (tree_node === undefined) {
 		console.log("NO NODE FOUND WITH NAME " + nodes[i]);
 	    } else {

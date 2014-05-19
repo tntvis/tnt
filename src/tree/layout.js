@@ -1,6 +1,6 @@
 // Based on the code by Ken-ichi Ueda in http://bl.ocks.org/kueda/1036776#d3.phylogram.js
 
-epeek.tree.layout = function () {
+tnt.tree.layout = function () {
 
     var l = function () {
     };
@@ -11,7 +11,7 @@ epeek.tree.layout = function () {
 	// .children(function (d) {return d.branchset})
 	.separation(function () {return 1});
 
-    var api = epeek.utils.api (l)
+    var api = tnt.utils.api (l)
 	.getset ('scale', true)
 	.getset ('max_leaf_label_width', 0)
 	.method ("cluster", cluster)
@@ -41,13 +41,13 @@ epeek.tree.layout = function () {
     return l;
 };
 
-epeek.tree.layout.vertical = function () {
-    var layout = epeek.tree.layout();
+tnt.tree.layout.vertical = function () {
+    var layout = tnt.tree.layout();
 
-    var api = epeek.utils.api (layout)
+    var api = tnt.utils.api (layout)
 	.getset ('width', 360)
 	.get ('translate_vis', [20,20])
-	.method ('diagonal', epeek.tree.diagonal.vertical)
+	.method ('diagonal', tnt.tree.diagonal.vertical)
 	.method ('transform_node', function (d) {
     	    return "translate(" + d.y + "," + d.x + ")";
 	});
@@ -72,8 +72,8 @@ epeek.tree.layout.vertical = function () {
     return layout;
 };
 
-epeek.tree.layout.radial = function () {
-    var layout = epeek.tree.layout();
+tnt.tree.layout.radial = function () {
+    var layout = tnt.tree.layout();
     var default_width = 360;
     var r = default_width / 2;
 
@@ -81,13 +81,13 @@ epeek.tree.layout.radial = function () {
     	width : 360
     };
 
-    var api = epeek.utils.api (layout)
+    var api = tnt.utils.api (layout)
 	.getset (conf)
 	.getset ('translate_vis', [r, r*1.3]) // TODO: 1.3 should be replaced by a sensible value
 	.method ('transform_node', function (d) {
 	    return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
 	})
-	.method ('diagonal', epeek.tree.diagonal.radial)
+	.method ('diagonal', tnt.tree.diagonal.radial)
 	.method ('height', function () { return conf.width });
 
     // Changes in width affect changes in r

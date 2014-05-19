@@ -1,20 +1,20 @@
-epeek.tree_annot = function () {
+tnt.tree_annot = function () {
 "use strict";
 
     // Defaults
     var tree_conf = {
 	tree : undefined,
 	track : function (leaf) {
-	    var t = epeek.track.track()
+	    var t = tnt.track.track()
 		.background_color("#EBF5FF")
-		.data(epeek.track.data()
+		.data(tnt.track.data()
 		      .index('start')
-		      .update(epeek.track.retriever.sync()
+		      .update(tnt.track.retriever.sync()
 			      .retriever (function () {
 				  return  []
 			      })
 			     ))
-		.display(epeek.track.feature.block()
+		.display(tnt.track.feature.block()
 			 .foreground_color("steelblue")
 			);
 
@@ -29,15 +29,15 @@ epeek.tree_annot = function () {
 
 	var group_div = d3.select(div)
 	    .append("div")
-	    .attr("class", "ePeek_groupDiv");
+	    .attr("class", "tnt_groupDiv");
 
 	var tree_div = group_div
 	    .append("div")
-	    .attr("class", "ePeek_tree_container");
+	    .attr("class", "tnt_tree_container");
 
 	var annot_div = group_div
 	    .append("div")
-	    .attr("class", "ePeek_annot_container");
+	    .attr("class", "tnt_annot_container");
 
 	tree_conf.tree (tree_div.node());
 
@@ -50,7 +50,7 @@ epeek.tree_annot = function () {
 	for (var i=0; i<leaves.length; i++) {
             // Block Track1
 	    (function  (leaf) {
-		epeek.track.id = function () {
+		tnt.track.id = function () {
 		    if (tree_conf.key === undefined) {
 			return  leaf.id();
 		    }
@@ -66,23 +66,23 @@ epeek.tree_annot = function () {
         }
 
 	// An axis track
-	epeek.track.id = function () {
+	tnt.track.id = function () {
 	    return "axis-top";
 	};
-	var axis_top = epeek.track.track()
+	var axis_top = tnt.track.track()
 	    .height(0)
 	    .background_color("white")
-	    .display(epeek.track.feature.axis()
+	    .display(tnt.track.feature.axis()
 		     .orientation("top")
 		    );
 
-	epeek.track.id = function () {
+	tnt.track.id = function () {
 	    return "axis-bottom";
 	};
-	var axis = epeek.track.track()
+	var axis = tnt.track.track()
             .height(18)
             .background_color("white")
-            .display(epeek.track.feature.axis()
+            .display(tnt.track.feature.axis()
                      .orientation("bottom")
 		    );
 
@@ -117,7 +117,7 @@ epeek.tree_annot = function () {
 		if (curr_track === undefined) {
 		    // New leaf -- no track for it
 		    (function (leaf) {
-			epeek.track.id = function () {
+			tnt.track.id = function () {
 			    if (tree_conf.key === undefined) {
 				return leaf.id();
 			    }
@@ -139,7 +139,7 @@ epeek.tree_annot = function () {
 	return tree_annot;
     };
 
-    var api = epeek.utils.api (tree_annot)
+    var api = tnt.utils.api (tree_annot)
 	.getset (tree_conf);
     
     return tree_annot;

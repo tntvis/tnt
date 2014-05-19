@@ -1,4 +1,4 @@
-epeek.utils.reduce = function () {
+tnt.utils.reduce = function () {
     var smooth = 5;
     var value = 'val';
     var redundant = function (a, b) {
@@ -90,9 +90,9 @@ epeek.utils.reduce = function () {
     return reduce;
 };
 
-epeek.utils.reduce.block = function () {
+tnt.utils.reduce.block = function () {
 
-    var reduce = epeek.utils.reduce()
+    var reduce = tnt.utils.reduce()
 	.value('start');
 
     var value2 = 'end';
@@ -151,8 +151,8 @@ epeek.utils.reduce.block = function () {
     return reduce;
 };
 
-epeek.utils.reduce.line = function () {
-    var reduce = epeek.utils.reduce();
+tnt.utils.reduce.line = function () {
+    var reduce = tnt.utils.reduce();
 
     reduce.reducer ( function (arr) {
 	var redundant = reduce.redundant();
