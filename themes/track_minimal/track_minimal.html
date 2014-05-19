@@ -12,9 +12,9 @@
   <script src="../../lib/d3.min.js"></script>
 
   <!-- ePeek -->
-  <link rel="stylesheet" href="../../lib/ePeek.css" type="text/css" />
+  <link rel="stylesheet" href="../../lib/tnt.css" type="text/css" />
 
-  <script src="../../ePeek.js"></script>
+  <script src="../../lib/tnt.js"></script>
   <script src="track_minimal.js"></script>
 
   <header>
@@ -29,8 +29,8 @@
   <div id="genomeBrowser"></div>
   <script>
     (function() {
-	var t = epeek.track().from(20).to(500);
-        var theme = epeek_theme_track_track_minimal();
+	var t = tnt.track().from(20).to(500);
+        var theme = tnt_theme_track_track_minimal();
         theme(t, document.getElementById("genomeBrowser"));
     })();
  
