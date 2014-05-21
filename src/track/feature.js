@@ -446,6 +446,22 @@ tnt.track.feature.line = function () {
 	return line;
     };
 
+    feature.x = function (cbak) {
+	if (!arguments.length) {
+	    return x;
+	}
+	x = cbak;
+	return feature;
+    };
+
+    feature.y = function (cbak) {
+	if (!arguments.length) {
+	    return y;
+	}
+	y = cbak;
+	return feature;
+    };
+
     feature.tension = function (t) {
 	if (!arguments.length) {
 	    return tension;
