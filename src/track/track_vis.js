@@ -274,6 +274,14 @@ tnt.track = function() {
 	return track_vis;
     });
 
+    api.method('tracks', function (new_tracks) {
+	if (!arguments.length) {
+	    return tracks
+	}
+	tracks = new_tracks;
+	return track_vis;
+    });
+
     // 
     api.method ('width', function (w) {
 	// TODO: Allow suffixes like "1000px"?
@@ -454,6 +462,10 @@ tnt.track = function() {
     };
     // The deferred_cbak is deferred at least this amount of time or re-scheduled if deferred is called before
     var _deferred = tnt.utils.defer_cancel(_move_cbak, 300);
+
+    // api.method('update', function () {
+    // 	_move();
+    // });
 
     var _move = function (new_xScale) {
 	if (new_xScale !== undefined && drag_allowed) {
