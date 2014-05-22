@@ -95,28 +95,29 @@ var tnt_theme = function () {
 	var display_select = d3.select(div)
 	    .append("select")
 	    .on("change", function () {
-		var display;
+		var tracks = ta.annotation().tracks();
 		switch (this.value) {
 		case 'blocks' : 
-		    display = tnt.track.feature.ensembl()
-			.foreground_color ('steelblue')
-			.index (function (d) {
-			    return d.start;
-			});
+		    for (var i=1; i<tracks.length-1; i++) {
+			tracks[i]
+		    	    .display( tnt.track.feature.ensembl()
+				      .foreground_color ('steelblue')
+				      .index (function (d) {
+					  return d.start;
+				      }));
+		    }
 		    break;
-		case 'line' :
-		    display = tnt.track.feature.area()
-			.foreground_color ('steelblue')
-			.index (function (d) {
-			    return d.pos
-			});
-		    break;
-		}
 
-		var tracks = ta.annotation().tracks();
-		for (var i=1; i<tracks.length-1; i++) {
-		    tracks[i]
-		    	.display(display);
+		case 'line' :
+		    for (var i=1; i<tracks.length-1; i++) {
+			tracks[i]
+		    	    .display( tnt.track.feature.area()
+				      .foreground_color ('steelblue')
+				      .index (function (d) {
+					  return d.pos;
+				      }));
+		    }
+		    break;
 		}
 
 		var leaves = tree.tree().get_all_leaves();
