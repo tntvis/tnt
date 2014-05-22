@@ -1,128 +1,38 @@
-<!DOCTYPE html>
+---
+layout : default
+title : TnT
+type : overview
+---
 
+<h1>{{ page.title }}</h1>
+<h2>Visualization of Trees and Tracks</h2>
+{% include widget.html %}
 
-<meta charset="utf-8">
-<!-- <link rel="canonical" href="http://d3js.org/"> -->
-<title>TnT</title>
-<style>
+<p><aside>Drag your mouse, zoom in/out</aside></p>
 
-@import url(index.css);
+<p><b>TnT</b> is a javascript library for displaying trees and track-based annotations in any web document. It has been designed with a powerful API that allows the creation of expressive and dynamic tree and annotation visualizations with a few lines of javascript code. You only need to insert a few lines in your page and let the plug-in do the rest</p>
+<p>See <a href={{ page.baseurl }}/themes/index.html>more examples</a></p>
+<p>Check out the <a href={{ page.baseurl }}/doc/api/index.html>Documentation</a></p>
 
-</style>
+<h2><a name="introduction" href="#introduction">#</a>Introduction</h2>
+<p>The TnT plug-in consists of two components. The TnT core plug-in where the main functionalities of the plug-in are defined and a TnT <i>theme</i> that defines the actual view of your tree and how to interact with it. Although this may seem very abstract, it is in practice very simple, and converts TnT into a very powerful and customizable plug-in.
+<p>The easiest way to embed TnT in your site is by using one of the distributed <i>themes</i>. The general pattern of a theme looks something likes this:</p>
 
-<div id="body">
+{% highlight html linenos %}
+<script src="http://emepyc.github.io/tnt/v1/tnt.min.js" charset="utf-8"></script>
+<script src="http://emepyc.github.io/tnt/v1/themes/compact.min.js" charset="utf-8"></script>
+{% endhighlight %}
 
-  <!-- D3 -->
-  <script src="lib/d3.min.js"></script>
+{% highlight javascript linenos %}
+var t = tnt.tree().width(620); // other methods can be included here
+var theme = tnt_theme(); // other methods can be included here
+theme (t, document.getElementById('DOM_element_id');
+{% endhighlight %}
 
-  <!-- TnT -->
-  <link rel="stylesheet" href="lib/tnt.css" type="text/css" />
+<p><aside>Check more <a href={{ page.baseurl }}/examples/index.html>examples</a></aside></p>
+<p>The two lines of the first block link with the TnT core library and one of the pre-defined themes respectively.
+  The first line of the second block gets the tnt object. This object is configurable via a set of methods. All these methods are explained in the library <a href={{ page.baseurl }}/doc/api/index.html>API documentation</a> and the most important ones are explained below</p>
+<p>A theme object is obtained in line #3. This object can also be configured with its own set of methods.</p>
+<p>This theme object is itself a <i>closure</i> or code reference, that can be called with two parameters, the first one is the ePeek object and the other one is a DOM element (normally a <i>div</i> element).
+</p>
 
-  <script src="lib/tnt.js"></script>
-  <script src="themes/tree_annot/front/front.js"></script>
-
-  <header>
-    <b><a href="./index.html">Overview</a></b>
-    <a style="margin-left:1em;" href="./themes/index.html">Themes</a>
-    <a style="margin-left:1em;" href="./">Examples</a>
-    <a style="margin-left:1em;" href="doc/api/index.html">Documentation</a>
-    <a style="margin-left:1em;" href="https://github.com/emepyc/tnt">Source</a>
-  </header>
-
-  <h1>TnT</h1>
-
-  <div id="example_tree"></div>
-
-  <script>
-
- (function () {
-   var ta = tnt.tree_annot();
-   var theme = tnt_theme()
-   theme(ta, document.getElementById('example_tree'));
- })();
-  
-  </script>
-
-  <p><aside>Drag your mouse, zoom in/out</aside></p>
-
-  <p><b>TnT</b> is a Javascript plug-in for displaying trees and track-based annotations in any web document. It has been designed with a powerful API that allows to create expressive and dynamic tree and annotation views with a few lines of Javascript code. You only need to insert a few lines of Javascript in your page and let the plug-in do the rest.
-  <p>See <a href="./themes/index.html">more examples</a></p>
-  <p>Check out the <a href="./doc/api/index.html">Documentation</a></p>
-  
-  <h2><a name="introduction" href="#introduction">#</a>Introduction</h2>
-  <p>The TnT plug-in consists of two components. The TnT core plug-in where the main functionalities of the plug-in are defined and a TnT <i>theme</i> that defines the actual view of your tree and how to interact with it. Although this may seem very abstract, it is in practice very simple, and converts TnT into a very powerful and customizable plug-in.
-  <p>The easiest way to embed TnT in your site is by using one of the distributed <i>themes</i>. The general pattern of a theme looks something likes this:</p>
-
-  <pre><code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/ePeek.min.js" charset="utf-8">&lt;/script></code>
-<code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/themes/compact.min.js" charset="utf-8">&lt;/script></code></pre>
-  <pre><code class="javascript">
-var gB = epeek().width(920); // other methods can be included here
-var gBTheme = epeek_theme(); // other methods can be included here
-gBTheme(gB, document.getElementById('DOM_element_id');
-    </code></pre>
-
-  <p><aside>Check more <a href="http://www.ebi.ac.uk/~mp/ePeek/examples/">examples</a></aside></p>
-  <p>The two lines of the first block link with the e!Peek core library and one of the pre-defined themes respectively.
-    The first line of the second block gets the epeek object. This object is configurable via a set of methods. All these methods are explained in the plug-in <a href="http://www.ebi.ac.uk/~mp/ePeek/doc/">documentation</a> and the most important ones will be explained later.
-    A theme object is retrieved on the next line of code. This object can also be configured with its own set of methods.
-    This theme object is itself a <i>closure</i> or code reference, that can be called with two parameters, the first one is the ePeek object and the other one is a DOM element (normally a <i>div</i> element).
-    That's it.
-  </p>
-
-  <h2><a name="epeek" href="#epeek">#</a>The e!Peek object</h2>
-  <p><aside>Check the <a href="http://www.ebi.ac.uk/~mp/ePeek/doc/">API documentation</a></aside></p>
-  <p>The e!Peek object is the core of the plug-in. It includes an API that is normally used by the <a href="#theme">e!Peek theme</a>.
-    This core plug-in only has one exported function called <i>ePeek</i> that returns a Javascript object. Configuration of this object works by calling the supported methods set.
-    The plug-in follows the commonly used (for example by JQuery) <i>method-chaining</i> pattern. This means that all the methods return the object itself:
-    <pre><code class="javascript">
-var genomeBrowser = epeek().species("human")
-                           .gene("BRCA2")
-                           .width(1200)
-                           .height(300)
-                           .background_color("#EDF6F5")
-                           .foreground_color("#006666")
-                           .highlight_color("#03385E");
-    </code></pre>
-    By convention, this object is passed as an argument to the <a href="#theme">e!Peek theme</a> that should know where to place it and how to interact with it.
-  </p>
-
-  <h2><a name="theme" href="#theme">#</a>The theme object</h2>
-  <p><aside>Check the <a href="themes/index.html">pre-defined themes</a></aside></p>
-  <p>The e!Peek theme surrounds and interact with the e!Peek core plug-in. Development of custom themes makes your e!Peek instance to integrate perfectly in your site and provide it with the better look-n-feel for your application. Pre-defined themes may also fit your needs or, at the very least, may serve as examples of how to develop yours.
-  </p>
-  <p><aside>More about <a href="http://www.ebi.ac.uk/~mp/ePeek/">custom themes</a></aside></p>
-  <p>By convention, e!Peek themes should export one function called <i>epeek_theme</i>. The returned object should be a closure (code reference) that accepts two parameters: an instance of the core e!Peek object and a DOM element where the plug-in is inserted. For example, the minimal theme should look something like this:
-    <pre><code class="javascript">
-var epeek_theme = function() {
-    var mytheme = function(gB, div) {
-        gB(div);
-        gB.startOnOrigin();
-    };
-    return mytheme;
-};
-    </code></pre>
-    Because of the self-containment nature of the e!Peek themes, following the above convention makes swapping between themes extremely easy and powerful. For example, suppose that your site is using a theme:
-    <pre><code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/ePeek.min.js" charset="utf-8">&lt;/script></code>
-<code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/themes/myTheme.min.js" charset="utf-8">&lt;/script></code></pre>
-    <pre><code class="javascript">
-var gB = epeek().width(920); // other methods can be included here
-var gBTheme = epeek_theme(); // other methods can be included here
-gBTheme(gB, document.getElementById('DOM_element_id');
-    </code></pre>
-    Simply changing the path/url to a new theme in the theme's &lt;script&gt; tag (second line in the above code) will change the theme. Not any other change in the code would be needed (apart from any other method you may want to call in the theme object).
-  </p>
-
-  <h2><a name="browsers" href="#browsers">#</a>Browser support</h2>
-  <p>e!Peek should work on every HTML5, CSS3 and SVG-compliant browser, which generally means any "modern" browser. e!Peek is tested against Chrome (Chromium), Firefox, Safari (WebKit) and Opera. Some texts (due to lack of disponibility) are also performed in IE9 and IE10. My intention is to guarrantee that e!Peek will not break in currently supported browsers.
-  <p>e!Peek depends on the <a href="http://d3js.org">D3</a> library. Check its <a href="https://github.com/mbostock/d3/wiki#browser-support">browser's compatibility note</a> for more information.
-  </p>
-  <footer>
-    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
-    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
-  </footer>
-</div>
-
-<a href="https://github.com/emepyc/tnt"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
-
-
-<script src="highlight.v0.min.js"></script>
