@@ -1,14 +1,14 @@
-var epeek_theme_tree_ensembl_genetree_annot = function() {
+var tnt_theme_tree_ensembl_genetree_annot = function() {
     "use strict";
 
     var height = 30;
 
-    var tree = epeek.tree();
-    var annot = epeek.track();
+    var tree = tnt.tree();
+    var annot = tnt.track();
 
     var theme = function (ta, div) {
 
-        var label = epeek.tree.label.text()
+        var label = tnt.tree.label.text()
             .text(function (node) {
                 if (node.children) {
                     return "";
@@ -19,7 +19,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
             .fontsize(10)
 	    .height(height);
 
-	var rest = epeek.eRest();
+	var rest = tnt.eRest();
 
 	// var gene_tree_id = "ENSGT00390000003602";
 	// var gene_tree_url = rest.url.gene_tree ({
@@ -28,7 +28,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	// });
 
 
-	d3.json('/themes/ensembl_genetree_annot/ENSGT00390000003602.json',
+	d3.json('/themes/tree_annot/ensembl_genetree_annot/ENSGT00390000003602.json',
 		function (err, resp) {
 		    deploy_vis(resp);
 		});
@@ -43,7 +43,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	var deploy_vis = function (tree_obj) {
 	    tree
 		.data (tree_obj.tree)
-		.layout (epeek.tree.layout.vertical()
+		.layout (tnt.tree.layout.vertical()
 			 .width(430)
 			 .scale(false)
 			)
@@ -84,21 +84,23 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	    // 	return data;
 	    // };
 
-            var reduce = epeek.utils.reduce.block()
-		.smooth(0)
-		.value("start")
-		.value2("end");
+            var reduce = tnt.utils.reduce.line()
+		.smooth(4)
+		.redundant(function (a, b) {
+		    return Math.abs (a-b) < 0.2
+		})
+		.value("val");
 
-	    // var reduce_all = function (rows) {
-	    // 	var obj = {};
-	    // 	for (var id in rows) {
-	    // 	    if (rows.hasOwnProperty (id)) {
-	    // 		// obj[id] = reduce_row(rows[id]);
-	    // 		obj[id] = reduce(rows[id]);
-	    // 	    }
-	    // 	}
-	    // 	return obj;
-	    // };
+	    var reduce_all = function (rows) {
+	    	var obj = {};
+	    	for (var id in rows) {
+	    	    if (rows.hasOwnProperty (id)) {
+	    		// obj[id] = reduce_row(rows[id]);
+	    		obj[id] = reduce(rows[id]);
+	    	    }
+	    	}
+	    	return obj;
+	    };
 
 	    var filter_exon_boundaries = function (data, loc) {
 		var sub_data = [];
@@ -149,34 +151,34 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
             // return sub_data;
             };
 
-	    // var get_conservation = function (seqs) {
-	    // 	var conservation = {};
+	    var get_conservation = function (seqs) {
+	    	var conservation = {};
 
-	    // 	for (var i=0; i<seqs.length; i++) {
-	    // 	    conservation[seqs[i].data()._id] = [];
-	    // 	}
+	    	for (var i=0; i<seqs.length; i++) {
+	    	    conservation[seqs[i].data()._id] = [];
+	    	}
 
-	    // 	for (var i=0; i<seqs[0].data().sequence.mol_seq.seq.length; i++) {
-	    // 	    var cons = {};
-	    // 	    for (var j=0; j<seqs.length; j++) {
-	    // 	    	var p = seqs[j].data();
-	    // 	    	if (cons[p.sequence.mol_seq.seq[i]] === undefined) {
-	    // 	    	    cons[p.sequence.mol_seq.seq[i]] = 0;
-	    // 	    	}
-	    // 	    	cons[p.sequence.mol_seq.seq[i]]++;
-	    // 	    }
+	    	for (var i=0; i<seqs[0].data().sequence.mol_seq.seq.length; i++) {
+	    	    var cons = {};
+	    	    for (var j=0; j<seqs.length; j++) {
+	    	    	var p = seqs[j].data();
+	    	    	if (cons[p.sequence.mol_seq.seq[i]] === undefined) {
+	    	    	    cons[p.sequence.mol_seq.seq[i]] = 0;
+	    	    	}
+	    	    	cons[p.sequence.mol_seq.seq[i]]++;
+	    	    }
 
-	    // 	    for (var j=0; j<seqs.length; j++) {
-	    // 		var val = cons[seqs[j].data().sequence.mol_seq.seq[i]] / seqs.length;
-	    // 		conservation[seqs[j].data()._id].push({
-	    // 		    pos : i,
-	    // 		    val : val
-	    // 		})
-	    // 	    }
-	    // 	}
+	    	    for (var j=0; j<seqs.length; j++) {
+	    		var val = cons[seqs[j].data().sequence.mol_seq.seq[i]] / seqs.length;
+	    		conservation[seqs[j].data()._id].push({
+	    		    pos : i,
+	    		    val : val
+	    		})
+	    	    }
+	    	}
 
-	    // 	return reduce_all (conservation);
-	    // };
+	    	return reduce_all (conservation);
+	    };
 
 	    var get_boundaries = function (nodes) {
 		var boundaries = {};
@@ -235,7 +237,7 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 	    };
 
 	    var leaves = tree.tree().get_all_leaves();
-	    // var conservation = get_conservation(leaves);
+	    var conservation = get_conservation(leaves);
 	    var exon_boundaries = get_boundaries(leaves);
 	    var aln_gaps = get_aln_gaps(leaves);
 	    var seq_info = get_seq_info(leaves);
@@ -246,41 +248,41 @@ var epeek_theme_tree_ensembl_genetree_annot = function() {
 
 	    var track = function (leaf) {
 		var id = leaf._id;
-		return epeek.track.track()
+		return tnt.track.track()
                     .background_color("#EBF5FF")
-                    .data (epeek.track.data()
-			   .update ( epeek.track.retriever.sync()
+                    .data (tnt.track.data()
+			   .update ( tnt.track.retriever.sync()
 				     .retriever (function (loc) {
 					 var seq_range = (loc.to - loc.from) <= 50 ? seq_info[id].slice(loc.from, loc.to) : [];
 					 return {
-					     // 'conservation' : conservation[id] || [],
-					     'gaps'         : reduce_gaps(aln_gaps[id], loc) || [],
-					     'boundaries'   : filter_exon_boundaries(exon_boundaries[id], loc) || [],
+					     'conservation' : function (d) {console.log(JSON.stringify(conservation[id])); return conservation[id] || []}, 
+					     // 'gaps'         : reduce_gaps(aln_gaps[id], loc) || [],
+					     // 'boundaries'   : filter_exon_boundaries(exon_boundaries[id], loc) || [],
 					     'sequence'     : seq_range
 					 }
 				     })
 				   )
 			  )
-		    .display( epeek.track.feature.composite()
-			      // .add ('conservation', epeek.track.feature.area()
-			      // 	    .foreground_color("steelblue")
-			      // 	    .index(function (d) {
-			      // 		return d.pos;
-			      // 	    })
-			      // 	   )
-			      .add ('gaps', epeek.track.feature.ensembl()
-			      	    .foreground_color('green')
+		    .display( tnt.track.feature.composite()
+			      .add ('conservation', tnt.track.feature.area()
+			      	    .foreground_color("steelblue")
 			      	    .index(function (d) {
-			      		return d.start;
+			      		return d.pos;
 			      	    })
 			      	   )
-			      .add ('boundaries', epeek.track.feature.vline()
-				    .foreground_color("red")
-				    .index(function (d) {
-					return d.loc;
-				    })
-				   )
-			      .add ('sequence', epeek.track.feature.sequence()
+			      // .add ('gaps', tnt.track.feature.ensembl()
+			      // 	    .foreground_color('green')
+			      // 	    .index(function (d) {
+			      // 		return d.start;
+			      // 	    })
+			      // 	   )
+			      // .add ('boundaries', tnt.track.feature.vline()
+			      // 	    .foreground_color("red")
+			      // 	    .index(function (d) {
+			      // 		return d.loc;
+			      // 	    })
+			      // 	   )
+			      .add ('sequence', tnt.track.feature.sequence()
 				    .foreground_color("black")
 				    .sequence(function (d) {
 					return d.nt;
