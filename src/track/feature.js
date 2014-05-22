@@ -21,6 +21,7 @@ tnt.track.feature = function () {
     var reset = function () {
     	var track = this;
     	track.g.selectAll(".tnt_elem").remove();
+	track.g.selectAll(".tnt_guider").remove();
     };
 
     var init = function (width) {
@@ -544,6 +545,7 @@ tnt.track.feature.ensembl = function () {
 
 	track.g
 	    .append("line")
+	    .attr("class", "tnt_guider")
 	    .attr("x1", 0)
 	    .attr("x2", width)
 	    .attr("y1", height_offset)
@@ -553,6 +555,7 @@ tnt.track.feature.ensembl = function () {
 
 	track.g
 	    .append("line")
+	    .attr("class", "tnt_guider")
 	    .attr("x1", 0)
 	    .attr("x2", width)
 	    .attr("y1", track.height() - height_offset)

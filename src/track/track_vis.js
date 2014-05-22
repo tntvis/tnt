@@ -141,9 +141,8 @@ tnt.track = function() {
 	for (var i=0; i<tracks.length; i++) {
 	    if (tracks[i].g) {
 		tracks[i].display().reset.call(tracks[i]);
-	    } else {
-		_init_track(tracks[i]);
 	    }
+	    _init_track(tracks[i]);
 	}
 
 	_place_tracks();
