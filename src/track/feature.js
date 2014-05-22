@@ -387,8 +387,8 @@ tnt.track.feature.area = function () {
 	var track = this;
 
 	if (data_points !== undefined) {
-	     return;
-//	    track.g.select("path").remove();
+//	     return;
+	    track.g.select("path").remove();
 	}
 
 	line_create.call(track, points, xScale);
