@@ -135,14 +135,14 @@ var tnt_theme = function () {
 
 	display_select
 	    .append("option")
-	    .attr("value", "blocks")
-	    .text("blocks")
+	    .attr("value", "line")
+	    .text("lines")
 	    .attr("selected", 1);
 
 	display_select
 	    .append("option")
-	    .attr("value", "line")
-	    .text("line");
+	    .attr("value", "blocks")
+	    .text("blocks");
 
 	var track = function (leaf) {
 	    var sp = leaf.name;
@@ -151,14 +151,14 @@ var tnt_theme = function () {
 		.data (tnt.track.data()
 		       .update ( tnt.track.retriever.sync()
 				.retriever (function () {
-				    return data[sp].blocks || [];
+				    return data[sp].line || [];
 				})
 			       )
 		      )
-		.display(tnt.track.feature.ensembl()
+		.display(tnt.track.feature.area()
 			 .foreground_color("steelblue")
 			 .index(function (d) {
-			     return d.start;
+			     return d.pos;
 			 }));
 	};
 
