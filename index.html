@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="lib/tnt.css" type="text/css" />
 
   <script src="lib/tnt.js"></script>
+  <script src="themes/tree_annot/front/front.js"></script>
 
   <header>
     <b><a href="./index.html">Overview</a></b>
@@ -28,42 +29,30 @@
     <a style="margin-left:1em;" href="https://github.com/emepyc/tnt">Source</a>
   </header>
 
-  <h1>e!Peek</h1>
+  <h1>TnT</h1>
 
   <div id="example_tree"></div>
 
   <script>
-  var colors = [
-  {foreground : "#4DA63A", background : "#F0FFED", highlight : "#A63A44"},
-  {foreground : "#006666", background : "#EDF6F5", highlight : "#000000"},
-  {foreground : "#E34A33", background : "#FEE8C8", highlight : "#000000"},
-  {foreground : "#CD9B1D", background : "#E8FFCC", highlight : "#A00000"},
-  ];
 
-  var l = colors.length;
-  var i = Math.floor(Math.random() * l);
-
- (function() {
-        var gB = epeek.track.genome().species("human").gene("brca2").width(950);
-        var gBTheme = epeek_theme_track_compact()
-                       .show_title(false)
-                       .foreground_color(colors[i].foreground)
-                       .background_color(colors[i].background);
-        gBTheme(gB, document.getElementById("example_genome_browser"));
-    })();
+ (function () {
+   var ta = tnt.tree_annot();
+   var theme = tnt_theme()
+   theme(ta, document.getElementById('example_tree'));
+ })();
   
   </script>
 
   <p><aside>Drag your mouse, zoom in/out</aside></p>
 
-  <p><b>e!Peek</b> is a JavaScript plug-in that allows the placement of a simple genome browser in any web page or document where custom Javascript is allowed. It is very easy to embed and configure. You only need to insert a few lines of Javascript in your page and let the plug-in do the rest. Genomic data is provided by <a href="http://www.ensembl.org">Ensembl</a> via <a href="http://beta.rest.ensembl.org">REST calls</a>.</p>
+  <p><b>TnT</b> is a Javascript plug-in for displaying trees and track-based annotations in any web document. It has been designed with a powerful API that allows to create expressive and dynamic tree and annotation views with a few lines of Javascript code. You only need to insert a few lines of Javascript in your page and let the plug-in do the rest.
   <p>See <a href="./themes/index.html">more examples</a></p>
   <p>Check out the <a href="./doc/api/index.html">Documentation</a></p>
   
   <h2><a name="introduction" href="#introduction">#</a>Introduction</h2>
-  <p>The e!Peek plug-in consists of two components. The e!Peek core plug-in and an e!Peek <i>theme</i> that defines how to interact with it. Although this may seem very abstract, it is in fact very simple, and converts e!Peek into a very powerful and customizable plug-in.
-  <p>The easiest way to embed e!Peek in your site is by using one of the distributed <i>themes</i>. The general pattern looks something likes this:</p>
-   
+  <p>The TnT plug-in consists of two components. The TnT core plug-in where the main functionalities of the plug-in are defined and a TnT <i>theme</i> that defines the actual view of your tree and how to interact with it. Although this may seem very abstract, it is in practice very simple, and converts TnT into a very powerful and customizable plug-in.
+  <p>The easiest way to embed TnT in your site is by using one of the distributed <i>themes</i>. The general pattern of a theme looks something likes this:</p>
+
   <pre><code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/ePeek.min.js" charset="utf-8">&lt;/script></code>
 <code class="html">&lt;script src="http://www.ebi.ac.uk/~mp/ePeek/v1/lib/themes/compact.min.js" charset="utf-8">&lt;/script></code></pre>
   <pre><code class="javascript">
@@ -133,7 +122,7 @@ gBTheme(gB, document.getElementById('DOM_element_id');
   </footer>
 </div>
 
-<a href="https://github.com/emepyc"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+<a href="https://github.com/emepyc/tnt"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
 
 
 <script src="highlight.v0.min.js"></script>
