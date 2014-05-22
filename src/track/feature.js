@@ -387,8 +387,8 @@ tnt.track.feature.area = function () {
 	var track = this;
 
 	if (data_points !== undefined) {
-	    // return;
-	    track.g.select("path").remove();
+	     return;
+//	    track.g.select("path").remove();
 	}
 
 	line_create.call(track, points, xScale);
@@ -467,22 +467,6 @@ tnt.track.feature.line = function () {
 	    return tension;
 	}
 	tension = t;
-	return feature;
-    };
-
-    feature.x = function (cbak) {
-	if (!arguments.length) {
-	    return x;
-	}
-	x = cbak;
-	return feature;
-    };
-
-    feature.y = function (cbak) {
-	if (!arguments.length) {
-	    return y;
-	}
-	y = cbak;
 	return feature;
     };
 
