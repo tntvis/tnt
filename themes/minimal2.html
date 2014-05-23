@@ -1,0 +1,76 @@
+---
+layout : theme
+title  : A Minimal Theme (II)
+type   : themes
+theme  : minimal2
+category : t
+---
+
+<h2>Overview</h2>
+<p>This is an extension of the <a href={{ site.basedir }}themes/minimal.html>minimal theme</a> but showing how to create an API for your theme. The source code is almost identical:</p>
+
+{% highlight javascript linenos %}
+var tnt_theme = function () {
+
+    var newick; // The newick tree is now undefined by default
+
+    var theme = function (t, div) {
+        t
+            .data (tnt.tree.parse_newick(newick))
+            .layout (tnt.tree.layout.vertical()
+                     .width(650)
+                    )
+            .label (tnt.tree.label.text()
+                    .height(15)
+                   );
+        t(div);
+    };
+
+    theme.newick = function (new_newick) {
+        newick = new_newick;
+        return theme;
+    };
+
+    return theme;
+};
+{% endhighlight %}
+
+<p>In this case, the newick tree is not defined in the theme, but instead a <i>newick</i> method is exposed as the theme's API (lines 17 to 20). At initialization, the user can use any newick tree as follows:</p>
+
+{% highlight javascript linenos %}
+       var t = tnt.tree();
+       var theme = tnt_theme()
+                       .newick("(((human, chimp), mouse))")
+       theme(t, document.getElementById('example_tree'));
+{% endhighlight %}
+
+<p>Exposing methods in the theme is a good way of making them configurable and adapt to different situations. This is the common pattern for creating methods (getters/setters) in a theme:</p>
+
+{% highlight javascript linenos %}
+var newick; // undef by default, but may be given a default value
+theme.newick = function (new_val) {
+    if (! arguments.length) {
+       return newick;
+    }
+    newick = new_val;
+    return theme;
+};
+{% endhighlight %}
+
+<p>This defines a new method <i>newick</i> on the theme that if called without arguments, return the current value of the variable <i>newick</i>. If a new value is passed to the method, it overwrites the current value of the variable and returns the original theme. So an example of client code could look like this:</p>
+
+{% highlight javascript linenos %}
+var theme = tnt_theme()
+            .newick('((human, chimp), mouse)');
+
+theme.newick(); // returns '((human, chimp), mouse)'
+{% endhighlight %}
+
+<p>The original theme is always returned from the method in setter mode to allow method chaining:</p>
+{% highlight javascript linenos %}
+var theme = tnt_theme()
+    .method1('value1')
+    .method2('value2')
+    .method3('value3');
+
+{% endhighlight %}

@@ -1,0 +1,45 @@
+<div id="example_tree"></div>
+
+{% case page.theme %}
+  {% when 'front' %}
+     <script src={{ site.baseurl }}/lib/front.js></script>
+     <script>
+       (function () {
+       var ta = tnt.tree_annot();
+       var theme = tnt_theme()
+       theme(ta, document.getElementById('example_tree'));
+       })();
+     </script>
+
+  {% when 'minimal' %}
+     <script src={{ site.baseurl }}/lib/minimal.js></script>
+     <script>
+       (function () {
+       var t = tnt.tree();
+       var theme = tnt_theme()
+       theme(t, document.getElementById('example_tree'));
+       })();
+     </script>
+
+  {% when 'minimal2' %}
+     <script src={{ site.baseurl }}/lib/minimal2.js></script>
+     <script>
+       (function () {
+       var t = tnt.tree();
+       var theme = tnt_theme()
+                       .newick("(((human, chimp), mouse))")
+       theme(t, document.getElementById('example_tree'));
+       })();
+     </script>
+
+  {% when 'minimal3' %}
+     <script src={{ site.baseurl }}/lib/minimal3.js></script>
+     <script>
+       (function () {
+       var t = tnt.tree();
+       var theme = tnt_theme();
+       theme(t, document.getElementById('example_tree'));
+       })();
+     </script>
+
+{% endcase %}

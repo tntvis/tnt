@@ -5,15 +5,15 @@
   {% if page.type == 'overview' %}</b>{% endif %}
 
 {% if page.type == 'themes' %}<b>{% endif %}
-  <a style="margin-left:1em;" href="./themes/index.html">Themes</a>
+  <a style="margin-left:1em;" href={{ site.baseurl }}/themes/index.html>Themes</a>
   {% if page.type == 'themes' %}</b>{% endif %}
 
 {% if page.type == 'examples' %}<b>{% endif %}
-  <a style="margin-left:1em;" href="./">Examples</a>
+  <a style="margin-left:1em;" href={{ site.baseurl }}>Examples</a>
   {% if page.type == 'examples' %}</b>{% endif %}
 
 {% if page.type == 'doc' %}<b>{% endif %}
-  <a style="margin-left:1em;" href="doc/api/index.html">Documentation</a>
+  <a style="margin-left:1em;" href={{ site.baseurl }}/doc/api/index.html>Documentation</a>
   {% if page.type == 'doc' %}</b>{% endif %}
 
   <a style="margin-left:1em;" href="https://github.com/emepyc/tnt">Source</a>
