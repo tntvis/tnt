@@ -2,52 +2,28 @@
 <meta charset="utf-8">
 <title>e!Peek Themes</title>
 
-<style>
-  @import url(../../index.css)
-</style>
-
 <div id="body">
 
   <!-- D3.js -->
-  <script src="../../lib/d3.min.js"></script>
+  <script src="../../../lib/d3.min.js"></script>
 
   <!-- ePeek -->
-  <link rel="stylesheet" href="../../src/ePeek.css" type="text/css" />
-  <script src="../../ePeek.js"></script>
+  <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
+  <script src="../../../lib/tnt.js"></script>
 
   <!-- Tree.js -->
   <script src="sort_nodes.js"></script>
-
-  <header>
-    <a style="margin-left:1em;" href="../../index.html">Overview</a>
-    <a style="margin-left:1em;" href="../index.html"><b>Themes</b></a>
-    <a style="margin-left:1em;" href="../../index.html">Examples</a>
-    <a style="margin-left:1em;" href="../../doc/api/index.html">Documentation</a>
-    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
-  </header>
-
 
   <h1>Sorting nodes</h1>
   <div id="speciesTree"></div>
 
   <script>
     (function() {
-    var st = epeek.tree()
-    var theme = epeek_theme_tree_sort_nodes();
+    var st = tnt.tree()
+    var theme = tnt_theme_tree_sort_nodes();
     theme(st, document.getElementById("speciesTree"));
     }());
   </script>
-
-  <h2>Overview</h2>
-  <p>Nodes can be sorted by any criteria</p>
-  <pre><code class="javascript">
-var epeek_theme = function() {
-    var theme = function (sT, div) {
-	sT(div);
-    };
-    return theme;
-};
-  </code></pre>
 
 
   <footer>
@@ -57,6 +33,5 @@ var epeek_theme = function() {
 
 
 </div>
-<script src="../../highlight.v0.min.js"></script>
 
 
