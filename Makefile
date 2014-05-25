@@ -10,16 +10,16 @@ all: $(GENERATED_FILES)
 test:
 	$(NODE_BIN_DIR)/mocha-phantomjs --reporter spec test/test.html
 
-tnt.js: $(shell node_modules/.bin/smash --list src/index.js) package.json
+lib/tnt.js: $(shell node_modules/.bin/smash --list src/index.js) package.json src/scss/tnt.scss
 	@rm -f lib/$@
 	$(NODE_BIN_DIR)/smash src/index.js > lib/$@
 	sass src/scss/tnt.scss:lib/tnt.css	
 	@chmod a-w lib/$@
 
-tnt.min.js: tnt.js
+lib/tnt.min.js: lib/tnt.js
 	@rm -f $@
 	$(NODE_BIN_DIR)/uglifyjs -c -m -o $@ $<
 	chmod a-w $@
 
-clean:
+reset:
 	rm -rf -- $(GENERATED_FILES)
