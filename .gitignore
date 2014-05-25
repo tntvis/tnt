@@ -10,3 +10,4 @@ node_modules/
 npm-debug.log
 build/
 user-images/
+_site/
