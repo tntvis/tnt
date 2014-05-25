@@ -1,0 +1,57 @@
+---
+layout : api
+title : API Reference
+type : documentation
+theme : null
+
+api :
+    - name : tree
+      elements :
+           - name : Trees
+             elements :
+                - name : tnt.tree
+                  desc : creates a new tree visualization
+                - name : tree.data
+                  desc : retrieves the tree object in pure javascript format
+                - name : tree.tree
+                  desc : retrieves the tree object in tnt format
+                - name : tree.duration
+                  desc : specifies duration of the tree transitions
+                - name : tree.node_info
+                  desc : specifies the behaviour on nodes when they are clicked [REVISE]
+                - name : tree.node_dbl_info
+                  desc : specifies the behaviour on nodes when they are double-clicked [REVISE]
+                - name : tree.link_color
+                  desc : specifies the color of branches [REVISE]
+                - name : tree.node_color
+                  desc : specifies the color of nodes [REVISE]
+                - name : tree.node_circle_size
+                  desc : specifies the size of the nodes [REVISE]
+           - name : layouts
+             elements :
+                - name : tree.layout
+                  desc : specifies the layout to be used in the tree visualization
+                - name : layout.vertical
+                  desc : vertical layout
+                - name : layout.radial
+                  desc : radial layout
+           - name : labels
+             elements :
+                - name : tree.label
+                  desc : specify the label type to be used in the tree visualization
+                - name : tree.label.text
+                  desc : text based labels
+                - name : tree.label.img
+                  desc : image based labels
+---
+<ul>
+  {% for toplevel in page.api %}
+  <a href={{ site.baseurl }}/doc/api/{{ toplevel.name }}/index.html><h2>{{ toplevel.name | capitalize }}</h2></a>
+  {% for element in toplevel.elements %}
+  <h3>{{ element.name }}</h3>
+  {% for item in element.elements %}
+<li><a href={{ site.basedir }}/doc/api/{{ toplevel.name }}/index.html#{{ item.name }}>{{ item.name }}</a> : {{ item.desc }}</li>
+  {% endfor %}
+  {% endfor %}
+  {% endfor %}
+</ul>
