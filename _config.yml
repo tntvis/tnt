@@ -3,4 +3,334 @@ port: 4001
 safe: true
 pygments: true
 baseurl : /tnt
+api :
+    - name : tree
+      elements :
+           - name : Tree Visualization
+             preamble : |
+                        Trees can be created using the tnt.tree method. The returned tree is configurable via the methods explained below. An example of use looks like:
+             example : |
+                        var tnt = tnt.tree()
+                                     .data (tnt.tree.parse_newick (newick))
+                                     .layout (tnt.tree.layout.vertical()
+                                              .width (650))
+                                     .label (tnt.tree.label.text()
+                                              .height(15))
+             elements :
+                - name : tree
+                  path : tnt
+                  param : null
+                  desc : creates a new tree visualization
+                  full : Creates a new tree visualization. This tree visualization needs to be configured via its public methods explained below.
+                  example : |
+                         var tnt = tnt.tree()
+                         tnt (document.getElementById ('my_div'));
+                - name : data
+                  path : tree
+                  param : object
+                  desc : sets the tree data (in pure javascript)
+                  full : Sets the data to be used in the tree visualization (the tree). This tree needs to be a tree like structure in JSON format like the one shown below. This JSON object can be obtained with <a href="#parse_newick">tnt.tree.parse_json</a> or <a href="#parse_nhx">tnt.tree.parse_nhx</a>
+                  example : |
+                         var tree_obj = {
+                            name: "F",
+                            children: [
+                               {name: "A", length: 0.1},
+                               {name: "B", length: 0.2},
+                               {
+                                  name: "E",
+                                  length: 0.5,
+                                  children: [
+                                     {name: "C", length: 0.3},
+                                     {name: "D", length: 0.4}
+                                  ]
+                                }
+                            ]
+                         }
+                - name : duration
+                  path : tree
+                  param : number
+                  desc : specifies duration of the tree transitions
+                  full : Specifies the duration of the transitions on trees. If no argument is provided it returns the current duration. By default this value is 500ms
+                  example : |
+                            var tree_vis = tnt.tree()
+                                             .duration(750);
+                            tree_vis.duration(); // returns 750
+                - name : node_info
+                  path : tree
+                  param : callback
+                  desc : specifies the behaviour on nodes when they are clicked [REVISE]
+                  full : Specifies the behaviour of the node when they are clicked. It accepts a callback that is called every time a click event is fired on a node. This callback receives the node as its argument. By default the nodes do not react to mouse clicks.
+                  example : |
+                            var tree_vis = tnt.tree()
 
+                            // collapse node on click
+                            tree_vis.node_info (function (node) {
+                                tree_vis.toggle_node (node)
+                                        .update();
+                            }
+
+                            // show a tooltip on click
+                            tree_vis.node_info (tree_vis.tooltip());
+                - name : node_dbl_info
+                  path : tree
+                  param : callback
+                  desc : specifies the behaviour on nodes when they are double-clicked [REVISE]
+                  full : Specifies the behaviour of nodes when they are double clicked. It accepts a callback that is called every time a double click event is fired on a node. This callback receives the node as its argument. By default the nodes do not react to mouse clicks
+                  example : null
+                - name : link_color
+                  path : tree
+                  param : string | callback
+                  desc : specifies the color of branches [REVISE]
+                  full : Specifies the color of the branches in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like '#00FF00'). To get per branch colors use a callback instead. This callback will be called on each branch with an object containing the source and destination nodes (as "source" and "dest" fields).
+                  example : |
+                            var tree_vis = tnt.tree()
+                                             .link_color (function (link) {
+                                                             var color = 'grey';
+                                                             if (link.source && link.source.type) {
+                                                                 switch (link.source.type) {
+                                                                    case "speciation" :
+                                                                       color = "green";
+                                                                       break;
+                                                                    case "duplication" :
+                                                                       color = "red";
+                                                                       break;
+                                                                 }
+                                                                 return color;
+                                                             }
+                                                          });
+                - name : node_color
+                  path : tree
+                  param : string | callback
+                  desc : specifies the color of nodes [REVISE]
+                  full : Specifies the color of the nodes in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like "#00FF00"). To get per node colors use a callback instead. This callback will be called on each node with the node object.
+                  example : |
+                            var tree_vis = tnt.tree()
+                                             .node_color (function (node) {
+                                                            if (node.type === 'speciation') {
+                                                                return "green";
+                                                             } else {
+                                                               return "red";
+                                                             }
+                                                          });
+                - name : node_circle_size
+                  path : tree
+                  param : integer
+                  desc : specifies the size of the nodes [REVISE]
+                  full : Specifies the size of the node in pixels
+                  example : |
+                            var tree_vis = tnt.tree()
+                                            .node_circle_size(5);
+           - name : Tree Data
+             elements :
+                - name : tree.tree
+                  desc : retrieves the tree object used in the visualization
+                - name : tree.find_node_by_field
+                  desc : retrieves a node based on a field
+                - name : tree.find_node_by_name
+                  desc : retrieves a node based on its name field
+                - name : tree.toggle_node
+                  desc : collapse all nodes under the given node [REVISE]
+                - name : tree.is_collapsed
+                  desc : returns true on collapsed nodes [REVISE -- Only on terminals? Should not be on any node with a collpased node upstream?]
+                - name : tree.lca
+                  desc : returns the lowest common ancestor of a set of leaves
+                - name : tree.get_all_leaves
+                  desc : returns all the leaves of the tree
+                - name : tree.upstream
+                  desc : apply a callback to all the upstream nodes of a given node
+                - name : tree.subtree
+                  desc : returns the minimum subtree given a set of leaves
+                - name : tree.present
+                  desc : tests all the descendants of the given node using a callback
+                - name : tree.sort
+                  desc : orders the descendant nodes based on the given callback
+                - name : tree.apply
+                  desc : applies the given callback to all the descendants
+                - name : tree.property
+                  desc : allows access to properties in the nodes data
+                - name : tree.is_leaf
+                  desc : returns true on leaves
+                - name : tree.node_name
+                  desc : returns the property 'name' of nodes [REVISE]
+                - name : tree.root_dist
+                  desc : returns the distance of the node to the root based on branch lengths
+                - name : tree.children
+                  desc : returns all the children of the node
+                - name : tree.parent
+                  desc : returns the parent of the node
+           - name : Layouts
+             elements :
+                - name : tree.layout
+                  desc : specifies the layout to be used in the tree visualization
+                - name : layout.scale
+                  desc : specifies if the branches should be scaled based on branch lengths
+                - name : layout.width
+                  desc : specifies the width of the tree layout
+                - name : tree.layout.vertical
+                  desc : vertical layout
+                - name : tree.layout.radial
+                  desc : radial layout
+           - name : Labels
+             elements :
+                - name : tree.label
+                  desc : specify the label type to be used in the tree visualization
+                - name : label.height
+                  desc : specifies the height of the label
+                - name : tree.label.text
+                  desc : text based labels
+                - name : text.fontsize
+                  desc : sets the fontsize of the label
+                - name : text.color
+                  desc : sets the color of the text
+                - name : text.text
+                  desc : specifies the field to inspect for names
+                - name : tree.label.img
+                  desc : image based labels
+                - name : img.src
+                  desc : specifies the path where the image labels can be found
+                - name : tree.label.composite
+                  desc : labels made of two or more simple labels
+                - name : composite.add_label
+                  desc : adds a new simple label to the composite label
+                - name : composite.remove
+                  desc : removes the simple labels from the composite
+           - name : Annotation
+             elements :
+                - name : tree
+                  desc : sets the tree part of the annotated tree
+                - name : annotation
+                  desc : sets the annotation part of the annotated tree
+                - name : track
+                  desc : specifies a callback to use to create new tracks based on leaves
+                - name : update
+                  desc : updates both the tree and the annotation
+                - name : ruler
+                  desc : sets the ruler/s to be displayd in the annotation
+                - name : key
+                  desc : specifies the key used to link tree nodes and tracks
+           - name : Input trees
+             elements :
+                - name : tree.parse_newick
+                  desc : parses newick formatted trees
+                - name : tree.parse_nhx
+                  desc : parses nhx formatted trees
+    - name : track
+      elements :
+           - name : Track Visualization
+             elements :
+                - name : tnt.track
+                  desc : defines a new track visualization
+                - name : track.from
+                  desc : defines the current lower coordinate
+                - name : track.to
+                  desc : defines the current upper coordinate
+                - name : track.left
+                  desc : defines the left limit (ie the minimum possible value) of the track
+                - name : track.right
+                  desc : defines the right limit (ie the maximum possible value) of the track
+                - name : track.zoom_out
+                  desc : defines the zoom out limit of the track
+                - name : track.zoom_in
+                  desc : defines the zoom in limit of the track
+                - name : track.start
+                  desc : starts (or re-starts) the visualization
+                - name : track.move_right
+                  desc : moves the track right the specified amount
+                - name : track.move_left
+                  desc : moves the track left the specified amount
+                - name : track.zoom
+                  desc : zooms in/out the track the specified amount
+                - name : track.reorder
+                  desc : reorders the tracks based on the array of tracks given as argument
+                - name : track.add_track
+                  desc : adds a new track to the track visualization
+                - name : track.remove_track
+                  desc : removes the specified track from the visualization
+                - name : track.tracks
+                  desc : returns all the tracks in the visualization
+                - name : track.width
+                  desc : specifies the width of the track visualization
+                - name : track.allow_drag
+                  desc : specifies the draggability of the tracks in the visualization
+           - name : Tracks
+             elements :
+                - name : track.track
+                  desc : defines the track object
+                - name : track.background_color
+                  desc : defines the background color of the track
+                - name : track.height
+                  desc : defines the height of the track
+           - name : Data
+             elements :
+                - name : track.data
+                  desc : base data object
+                - name : data.update
+                  desc : specifies how the data is updated
+                - name : data.retriever.sync
+                  desc : specifies a synchronous data retriever 
+                - name : data.retriever.async
+                  desc : specifies an asynchronous data retriever
+                - name : async.url
+                  desc : specifies a url for the asynchronous call
+                - name : data.retriever.ensembl
+                  desc : specifies a data retriever based on the Ensembl REST server
+                - name : ensembl.endpoint
+                  desc : specifies the Ensembl REST endpoint
+                - name : track.data.gene
+                  desc : updater using the ensembl retriever
+                - name : track.data.empty
+                  desc : updater for data independent tracks
+           - name : Features
+             elements :
+                - name : track.feature
+                  desc : base object for features
+                - name : feature.foreground_color
+                  desc : defines the foreground color of the elements
+                - name : feature.info
+                  desc : defines the info to display when an element is clicked [REVISE]
+                - name : feature.create
+                  desc : sets a new callback to create new elements
+                - name : feature.mover
+                  desc : sets a new callback to move the elements
+                - name : feature.updater
+                  desc : specifies how the current elements should be visualy updated
+                - name : feature.guider
+                  desc : defines the visual aspect not associated with elements
+                - name : track.feature.block
+                  desc : defines block based features
+                - name : track.feature.axis
+                  desc : defines axes based features
+                - name : axis.orientation
+                  desc : specifies the orientation of the axis feature
+                - name : track.feature.location
+                  desc : defines location based features
+                - name : track.feature.ensembl
+                  desc : defines track visualizations similar to the old Ensembl tracks in trees
+                - name : track.feature.vline
+                  desc : defines vertical lines elements
+                - name : track.feature.sequence
+                  desc : defines sequence elements
+                - name : track.feature.gene
+                  desc : defines gene like elements
+                - name : track.feature.area
+                  desc : defines area elements
+                - name : track.feature.line
+                  desc : defines line elements
+                - name : line.tension
+                  desc : defines the tension of the line
+                - name : line.x
+                  desc : defines the field to be used as the 'x' value
+                - name : line.y
+                  desc : defines the field to be used as the 'y' value
+           - name : Layouts
+             elements :
+                - name : track.layout.identity
+                  desc : defines layouts for tracks that doesn't need layouts
+                - name : track.layout.feature
+                  desc : defines a feature layout that avoids overlaps
+                - name : feature.height
+                  desc : sets the total height of the layout
+                - name : feature.elements
+                  desc : gets the elements in the layout
+                - name : feature.scale
+                  desc : specifies the scale to convert data to visualization coordinates
