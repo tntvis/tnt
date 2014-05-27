@@ -111,15 +111,15 @@ tnt.tree.tree = function (data) {
 	return node.find_node_by_field(name, 'name');
     });
 
-    api.method ('toggle_node', function(node) {
-	var node_data = node.data();
-	if (node_data) {
-	    if (node_data.children) {
-		node_data._children = node_data.children;
-		node_data.children = undefined;
+    api.method ('toggle_node', function() {
+	// var node_data = node.data();
+	if (data) {
+	    if (data.children) {
+		data._children = data.children;
+		data.children = undefined;
 	    } else {
-		node_data.children = node_data._children;
-		node_data._children = undefined;
+		data.children = data._children;
+		data._children = undefined;
 	    }
 	}
 		// return node;	

@@ -17,7 +17,7 @@ var tnt_theme_tree_collapse_nodes = function() {
         // var tree = tree_vis.tree();
         tree_vis.on_click (function(node){
             // sT
-                node.toggle_node(node)
+                node.toggle_node()
                 tree_vis.update();
         });
 
