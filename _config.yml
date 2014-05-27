@@ -121,15 +121,70 @@ api :
                             var tree_vis = tnt.tree()
                                             .node_circle_size(5);
            - name : Tree Data
+             preamble : |
+                        TnT provides several methods for tree manipulation, these include nodes searching, mapping callbacks to nodes, etc. Instead of providing these methods to the tree visualization objects, TnT provides an special object for these operations. These objects can be obtained using the method <i>tree</i> on the tree visualization object. Since the tree data object is completely separated from the visualization, it is also possible to use them directly using the <i>tnt.tree.tree</i> method in tnt. For example:
+             example : |
+                       var tree_vis = tnt.tree()
+                                        .data (tnt.tree.parse_newick (newick))
+
+                       // tree data obtained from the visualization
+                       var tree_data = tree_vis.tree();
+
+                       // get the node with name 'human' and 'mouse'
+                       var human_node = tree_data.find_node_by_field ('human', 'name');
+                       var mouse_node = tree_data.find_node_by_field ('mouse', 'name');
+
+                       // get the node that is the lca of human and mouse
+                       var lca = tree_data.lca ([human_node, mouse_node]);
+
+                       // tree data can also be obtained independently of the visualization:
+                       var tree_object = tnt.tree.parse_newick (newick);
+                       var tree_data = tnt.tree.tree(tree_object);
+                       var human_node = tree_data.find_node_by_field ('human', 'name');
              elements :
-                - name : tree.tree
+                - name : tree
+                  path : tree
+                  param : null
                   desc : retrieves the tree object used in the visualization
-                - name : tree.find_node_by_field
+                  full : Retrieves the tree data object. This object is used to manipulate and query the tree in different ways (see below for the supported methods).
+                  example : |
+                            var tree_vis = tnt.tree()
+                                             .data (tnt.tree.parse_newick (newick));
+                            var tree_data = tree_vis.tree();
+                - name : data
+                  path : tree
+                  param : null
+                  desc : retrieves the tree data object
+                  full : Retrieves the tree data object. This is the same JSON object used to set up the tree with all the original fields.
+                  example : |
+                            var tree_data = tnt.tree.tree (tnt.tree.parse_newick (newick));
+                            // javascript object of the tree (JSON)
+                            var tree_object = tree_data.data();
+                - name : find_node_by_field
+                  path : tree
+                  param : value, string | callback
                   desc : retrieves a node based on a field
-                - name : tree.find_node_by_name
+                  full : Retrieves a node based on a given field. This method accepts two parameters, the first one being the searched value (string, numeric, etc...), the second one can be a field name in the tree object or a callback that knows how to reach that value. This callback is called with the node information. For example
+                  example : |
+                            var tree_data = tnt.tree.tree (tnt.tree.parse_newick (newick));
+                            // Using a field name
+                            var node = tree_data.find_node_by_field ('human', 'common_name');
+
+                            // Using a callback (for example, common_name is not a top level field in the tree object)
+                            var node = tree_data.find_node_by_field ('human', function (node) {
+                                                                                   return node.taxonomy.common_name;
+                                                                              });
+                - name : find_node_by_name
+                  path : tree
+                  param : string
                   desc : retrieves a node based on its name field
-                - name : tree.toggle_node
-                  desc : collapse all nodes under the given node [REVISE]
+                  full : Retrieves a node based on its 'name' field. This is a special case of <a href="#find_node_by_field">find_node_by_field</a>
+                  example : null
+                - name : toggle_node
+                  path : tree
+                  param : node object
+                  desc : collapses / uncollapses all nodes under the given node [REVISE]
+                  full : Toggles collapsibility of the current branch at the given node. If the given node is not collapsed, it collapses it, if it is already collapsed, it uncollapses it. The parameter is 
                 - name : tree.is_collapsed
                   desc : returns true on collapsed nodes [REVISE -- Only on terminals? Should not be on any node with a collpased node upstream?]
                 - name : tree.lca
