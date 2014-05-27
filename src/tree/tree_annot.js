@@ -5,7 +5,7 @@ tnt.tree_annot = function () {
     var tree_conf = {
 	tree : undefined,
 	track : function (leaf) {
-	    var t = tnt.track.track()
+	    var t = tnt.track()
 		.background_color("#EBF5FF")
 		.data(tnt.track.data()
 		      .index('start')
@@ -42,7 +42,7 @@ tnt.tree_annot = function () {
 	tree_conf.tree (tree_div.node());
 
 	// tracks
-	var leaves = tree_conf.tree.tree().get_all_leaves();
+	var leaves = tree_conf.tree.root().get_all_leaves();
 	var tracks = [];
 
 	var height = tree_conf.tree.label().height();
@@ -69,7 +69,7 @@ tnt.tree_annot = function () {
 	tnt.track.id = function () {
 	    return "axis-top";
 	};
-	var axis_top = tnt.track.track()
+	var axis_top = tnt.track()
 	    .height(0)
 	    .background_color("white")
 	    .display(tnt.track.feature.axis()
@@ -79,7 +79,7 @@ tnt.tree_annot = function () {
 	tnt.track.id = function () {
 	    return "axis-bottom";
 	};
-	var axis = tnt.track.track()
+	var axis = tnt.track()
             .height(18)
             .background_color("white")
             .display(tnt.track.feature.axis()
@@ -104,7 +104,7 @@ tnt.tree_annot = function () {
 
 	api.method('update', function () {
 	    tree_conf.tree.update();
-	    var leaves = tree_conf.tree.tree().get_all_leaves();
+	    var leaves = tree_conf.tree.root().get_all_leaves();
 	    var new_tracks = [];
 
 	    if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {

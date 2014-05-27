@@ -1,12 +1,12 @@
 var tnt_theme_track_track_minimal = function() {
 
-    var theme = function(gB, div) {
-	gB(div);
+    var theme = function(board, div) {
+	board(div);
 
-	gB.right (1000);
+	board.right (1000);
 
 	// Block Track1
-	var block_track = tnt.track.track()
+	var block_track = tnt.track()
 	    .height(30)
 	    .background_color("#FFCFDD")
 	    .data(tnt.track.data()
@@ -29,7 +29,7 @@ var tnt_theme_track_track_minimal = function() {
 		     }));
 
 	// Axis Track1
-	var axis_track = tnt.track.track()
+	var axis_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
 	    .display(tnt.track.feature.axis()
@@ -37,17 +37,17 @@ var tnt_theme_track_track_minimal = function() {
 		    );
 
 	// Location Track1
-	var loc_track = tnt.track.track()
+	var loc_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
 	    .display(tnt.track.feature.location());
 
-	gB
+	board
 	    .add_track(loc_track)
 	    .add_track(axis_track)
 	    .add_track(block_track);
 
-	gB.start();
+	board.start();
     };
 
     return theme;

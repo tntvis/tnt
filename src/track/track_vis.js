@@ -1,6 +1,6 @@
 "use strict"
 
-tnt.track = function() {
+tnt.board = function() {
 
     //// Private vars
     var svg;

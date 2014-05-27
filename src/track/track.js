@@ -1,8 +1,6 @@
 "use strict";
 
-tnt.track.id = tnt.utils.iterator(1);
-
-tnt.track.track = function () {
+tnt.track = function () {
 
     var read_conf = {
 	// Unique ID for this track
@@ -51,3 +49,4 @@ tnt.track.track = function () {
     return track;
 
 };
+tnt.track.id = tnt.utils.iterator(1);

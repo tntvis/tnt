@@ -5,7 +5,7 @@ var tnt_theme = function () {
 
     // Create tree and annot
     var tree = tnt.tree();
-    var annot = tnt.track();
+    var annot = tnt.board();
 
 
     var theme = function (ta, div) {
@@ -72,10 +72,9 @@ var tnt_theme = function () {
 		    .height(height));
 
 	// collapse nodes on click
-        tree.node_info (function(node){
-            tree
-                .toggle_node(node)
-                .update();
+        tree.on_click (function(node){
+	    node.toggle_node;
+            tree.update();
         });
 
 	// TRACK SIDE
@@ -146,7 +145,7 @@ var tnt_theme = function () {
 
 	var track = function (leaf) {
 	    var sp = leaf.name;
-	    return tnt.track.track()
+	    return tnt.track()
 		.background_color("#EBF5FF")
 		.data (tnt.track.data()
 		       .update ( tnt.track.retriever.sync()
