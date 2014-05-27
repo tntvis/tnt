@@ -170,11 +170,11 @@ tnt.tree = function () {
 	    .attr('stroke-width', '2px');
 
 	new_node.on("click", function (node) {
-	    conf.on_click.call(this, tnt.tree.tree(node));
+	    conf.on_click.call(this, tnt.tree.node(node));
 	});
 
 	new_node.on("dblclick", function (node) {
-	    conf.on_dbl_click.call(this, tnt.tree.tree(node));
+	    conf.on_dbl_click.call(this, tnt.tree.node(node));
 	});
 
 	new_node
@@ -392,19 +392,19 @@ tnt.tree = function () {
 	curr.data = d;
 
 	// Set up a new tree based on the data
-	var newtree = tnt.tree.tree(base.data);
+	var newtree = tnt.tree.node(base.data);
 
 	// The nodes are marked because we want to be able to join data after selecting a subtree
 	// var i = tnt.misc.iteratorInt();
 	// newtree.apply(function(d) {d.property('__tnt_id__', i())});
 	// newtree.apply(function(d) {d.property('__inSubTree__', {prev : true, curr : true})});
 
-	tree.tree(newtree);
+	tree.root(newtree);
 	return tree;
     });
 
     // TODO: Rewrite tree using getset / finalizers & transforms
-    api.method ('tree', function (t) {
+    api.method ('root', function (t) {
     	if (!arguments.length) {
     	    return base.tree;
     	}
@@ -418,7 +418,7 @@ tnt.tree = function () {
 
     api.method ('subtree', function (curr_nodes) {
 	// var curr_nodes = [];
-	// var orig_tree = tree.tree();
+	// var orig_tree = tree.root();
 	// var orig_data = tree.data();
 	// for (var i=0; i<node_names.length; i++) {
 	//     var node = orig_tree.find_node_by_name(node_names[i]);
@@ -431,14 +431,9 @@ tnt.tree = function () {
 	return tree;
     });
 
-    // api.method ('toggle_node', function (node_data) {
-    // 	tree.tree().toggle_node(node_data);
-    // 	return tree;
-    // });
-
     api.method ('focus_node', function (node_data) {
 	// find 
-	var found_node = tree.tree().find_node_by_field(node_data._id, '_id');
+	var found_node = tree.root().find_node_by_field(node_data._id, '_id');
 	tree.subtree(found_node.get_all_leaves());
 
 	return tree;
@@ -454,7 +449,7 @@ tnt.tree = function () {
 // 	    d.property('__inSubTree__').curr = false
 // 	});
 
-// 	var orig_tree = tree.tree();
+// 	var orig_tree = tree.root();
 // 	var orig_data = tree.data();
 
 // 	//  We set up the prev data and tree
@@ -727,17 +722,6 @@ tnt.tree = function () {
 	}
 	return names;
     };
-
-    api.method ('get_tree_nodes_by_names', function (names) {
-	var nodes = [];
-	for (var i = 0; i < names.length; i++) {
-	    var node = tree.tree().find_node_by_name(names[i]);
-	    if (node !== undefined) {
-		nodes.push(node);
-	    }
-	}
-	return nodes;
-    });
 
     return tree;
 };

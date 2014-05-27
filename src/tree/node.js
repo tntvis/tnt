@@ -1,4 +1,4 @@
-tnt.tree.tree = function (data) {
+tnt.tree.node = function (data) {
     "use strict";
 
     var node = function () {
@@ -98,7 +98,7 @@ tnt.tree.tree = function (data) {
 	}
 	if (data.children !== undefined) {
 	    for (var i=0; i<data.children.length; i++) {
-		var n = tnt.tree.tree(data.children[i]);
+		var n = tnt.tree.node(data.children[i]);
 		var found = n.find_node_by_field(value, field);
 		if (found !== undefined) {
 		    return found;
@@ -157,7 +157,7 @@ tnt.tree.tree = function (data) {
 	for (var i = 1; i<nodes.length; i++) {
 	    lca_node = _lca(lca_node, nodes[i]);
 	}
-	return tnt.tree.tree(lca_node);
+	return tnt.tree.node(lca_node);
     });
 
     var _lca = function(node1, node2) {
@@ -187,7 +187,7 @@ tnt.tree.tree = function (data) {
 	if (parent !== undefined) {
 	    parent.upstream(cbak);
 	}
-//	tnt.tree.tree(parent).upstream(cbak);
+//	tnt.tree.node(parent).upstream(cbak);
 // 	node.upstream(node._parent, cbak);
     });
 
@@ -285,7 +285,7 @@ tnt.tree.tree = function (data) {
 	    return false;
 	});
 
-	return tnt.tree.tree(subtree.children[0]);
+	return tnt.tree.node(subtree.children[0]);
     });
 
     // TODO: This method visits all the nodes
@@ -311,7 +311,7 @@ tnt.tree.tree = function (data) {
 
 	var new_children = [];
 	for (var i=0; i<data.children.length; i++) {
-	    new_children.push(tnt.tree.tree(data.children[i]));
+	    new_children.push(tnt.tree.node(data.children[i]));
 	}
 
 	new_children.sort(cbak);
@@ -321,7 +321,7 @@ tnt.tree.tree = function (data) {
 	}
 
 	for (var i=0; i<data.children.length; i++) {
-	    tnt.tree.tree(data.children[i]).sort(cbak);
+	    tnt.tree.node(data.children[i]).sort(cbak);
 	}
     });
 
@@ -329,7 +329,7 @@ tnt.tree.tree = function (data) {
 	cbak(node);
 	if (data.children !== undefined) {
 	    for (var i=0; i<data.children.length; i++) {
-		var n = tnt.tree.tree(data.children[i])
+		var n = tnt.tree.node(data.children[i])
 		n.apply(cbak);
 	    }
 	}
@@ -380,7 +380,7 @@ tnt.tree.tree = function (data) {
 	}
 	var children = [];
 	for (var i=0; i<data.children.length; i++) {
-	    children.push(tnt.tree.tree(data.children[i]));
+	    children.push(tnt.tree.node(data.children[i]));
 	}
 	return children;
     });
@@ -389,7 +389,7 @@ tnt.tree.tree = function (data) {
 	if (data._parent === undefined) {
 	    return undefined;
 	}
-	return tnt.tree.tree(data._parent);
+	return tnt.tree.node(data._parent);
     });
 
     return node;
