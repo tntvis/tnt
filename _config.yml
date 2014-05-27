@@ -182,9 +182,9 @@ api :
                   example : null
                 - name : toggle_node
                   path : tree
-                  param : tnt.tree.tree node
-                  desc : collapses / uncollapses all nodes under the given node [REVISE]
-                  full : Toggles collapsibility of the current branch at the given node. If the given node is not collapsed, it collapses it, if it is already collapsed, it uncollapses it. The parameter is a tree data object (a node)
+                  param : null
+                  desc : collapses / uncollapses the branch at the current node [REVISE]
+                  full : Toggles collapsibility of the current branch at the current node. If the current node is not collapsed, it collapses it, if it is already collapsed, it uncollapses it.
                   example : |
                             var tree_vis = tnt.tree()
                                              .data(...)
