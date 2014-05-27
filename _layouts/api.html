@@ -11,7 +11,7 @@ layout : default
 {{ element.example }}
       {% endhighlight %}
       {% for item in element.elements %}
-         <p><a name={{ item.name | split:"." | last }} href=#{{ item.name | split:"." | last }}>#</a> {{ item.path }}.<b>{{ item.name }}</b> ({% if item.param %}&lt;{{ item.param }}&gt;{% endif %})</p>
+         <p><a name={{ item.name | split:"." | last }} href=#{{ item.name | split:"." | last }}>#</a> {{ item.path }}.<b>{{ item.name }}</b> ({% if item.args %}&lt;{{ item.args }}&gt;{% endif %})</p>
          <p>{{ item.full }}</p>
          {% if item.example %}{% highlight javascript %}
 {{ item.example }}

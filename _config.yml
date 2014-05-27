@@ -19,7 +19,7 @@ api :
              elements :
                 - name : tree
                   path : tnt
-                  param : null
+                  args : null
                   desc : creates a new tree visualization
                   full : Creates a new tree visualization. This tree visualization needs to be configured via its public methods explained below.
                   example : |
@@ -27,7 +27,7 @@ api :
                          tnt (document.getElementById ('my_div'));
                 - name : data
                   path : tree
-                  param : object
+                  args : object
                   desc : sets the tree data (in pure javascript)
                   full : Sets the data to be used in the tree visualization (the tree). This tree needs to be a tree like structure in JSON format like the one shown below. This JSON object can be obtained with <a href="#parse_newick">tnt.tree.parse_json</a> or <a href="#parse_nhx">tnt.tree.parse_nhx</a>
                   example : |
@@ -48,7 +48,7 @@ api :
                          }
                 - name : duration
                   path : tree
-                  param : number
+                  args : number
                   desc : specifies duration of the tree transitions
                   full : Specifies the duration of the transitions on trees. If no argument is provided it returns the current duration. By default this value is 500ms
                   example : |
@@ -57,7 +57,7 @@ api :
                             tree_vis.duration(); // returns 750
                 - name : on_click
                   path : tree
-                  param : callback
+                  args : callback
                   desc : specifies the behaviour on nodes when they are clicked [REVISE]
                   full : Specifies the behaviour of the node when they are clicked. It accepts a callback that is called every time a click event is fired on a node. This callback receives the node as its argument. By default the nodes do not react to mouse clicks.
                   example : |
@@ -73,13 +73,13 @@ api :
                             tree_vis.on_click (tree_vis.tooltip());
                 - name : on_dbl_lick
                   path : tree
-                  param : callback
+                  args : callback
                   desc : specifies the behaviour on nodes when they are double-clicked [REVISE]
                   full : Specifies the behaviour of nodes when they are double clicked. It accepts a callback that is called every time a double click event is fired on a node. This callback receives the node as its argument. By default the nodes do not react to mouse clicks
                   example : null
                 - name : link_color
                   path : tree
-                  param : string | callback
+                  args : string | callback
                   desc : specifies the color of branches [REVISE]
                   full : Specifies the color of the branches in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like '#00FF00'). To get per branch colors use a callback instead. This callback will be called on each branch with an object containing the source and destination nodes (as "source" and "dest" fields).
                   example : |
@@ -100,7 +100,7 @@ api :
                                               });
                 - name : node_color
                   path : tree
-                  param : string | callback
+                  args : string | callback
                   desc : specifies the color of nodes [REVISE]
                   full : Specifies the color of the nodes in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like "#00FF00"). To get per node colors use a callback instead. This callback will be called on each node with the node object.
                   example : |
@@ -114,75 +114,81 @@ api :
                                               });
                 - name : node_circle_size
                   path : tree
-                  param : integer
+                  args : integer
                   desc : specifies the size of the nodes [REVISE]
                   full : Specifies the size of the node in pixels
                   example : |
                             var tree_vis = tnt.tree()
                                             .node_circle_size(5);
-           - name : Tree Data
+           - name : Nodes
              preamble : |
-                        TnT provides several methods for tree manipulation, these include nodes searching, mapping callbacks to nodes, etc. Instead of providing these methods to the tree visualization objects, TnT provides an special object for these operations. These objects can be obtained using the method <i>tree</i> on the tree visualization object. Since the tree data object is completely separated from the visualization, it is also possible to use them directly using the <i>tnt.tree.tree</i> method in tnt. For example:
+                        TnT provides several methods for tree manipulation, these include nodes searching, mapping callbacks to nodes, etc. Instead of providing these methods to the tree visualization objects, TnT provides a special object for these operations. These objects can be obtained using the <a href="#root">root</a> method on the tree visualization object. Since the tree data object is completely separated from the visualization, it is also possible to use them directly using the <i>tnt.tree.node</i> method in tnt. For example
              example : |
                        var tree_vis = tnt.tree()
                                         .data (tnt.tree.parse_newick (newick))
 
                        // tree data obtained from the visualization
-                       var tree_data = tree_vis.tree();
+                       var root = tree_vis.root();
 
                        // get the node with name 'human' and 'mouse'
-                       var human_node = tree_data.find_node_by_field ('human', 'name');
-                       var mouse_node = tree_data.find_node_by_field ('mouse', 'name');
+                       var human_node = root.find_node_by_field ('human', 'name');
+                       var mouse_node = root.find_node_by_field ('mouse', 'name');
 
                        // get the node that is the lca of human and mouse
-                       var lca = tree_data.lca ([human_node, mouse_node]);
+                       var lca = root.lca ([human_node, mouse_node]);
 
-                       // tree data can also be obtained independently of the visualization:
-                       var tree_object = tnt.tree.parse_newick (newick);
-                       var tree_data = tnt.tree.tree(tree_object);
-                       var human_node = tree_data.find_node_by_field ('human', 'name');
+                       // lca is a tnt.tree.node itself
+                       lca.find_node_by_field('human', 'name');
+
+                       // nodes can also be obtained independently of the visualization...
+                       // ... via the parse_newick or parse_nhx methods
+                       var root = tnt.tree.parse_newick (newick);
+
+                       // ... or passing a json object directly to tnt.tree.node()
+                       var root = tnt.tree.node(tree_object);
+                       var human_node = root.find_node_by_field ('human', 'name');
              elements :
                 - name : tree
-                  path : tree
-                  param : null
-                  desc : retrieves the tree object used in the visualization
-                  full : Retrieves the tree data object. This object is used to manipulate and query the tree in different ways (see below for the supported methods).
+                  path : root
+                  args : null
+                  desc : retrieves the root node of the tree used in the visualization
+                  full : Retrieves the root node of the tree used in the visualization. This object is used to manipulate and query the tree in different ways (see below for the supported methods).
                   example : |
                             var tree_vis = tnt.tree()
                                              .data (tnt.tree.parse_newick (newick));
-                            var tree_data = tree_vis.tree();
+                            var root = tree_vis.root();
                 - name : data
-                  path : tree
-                  param : null
-                  desc : retrieves the tree data object
-                  full : Retrieves the tree data object. This is the same JSON object used to set up the tree with all the original fields.
+                  path : node
+                  args : null
+                  desc : retrieves the tree JSON object
+                  full : Retrieves the tree JSON object. This is the same JSON object used to set up the tree with all the original fields.
                   example : |
-                            var tree_data = tnt.tree.tree (tnt.tree.parse_newick (newick));
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
                             // javascript object of the tree (JSON)
                             var tree_object = tree_data.data();
                 - name : find_node_by_field
-                  path : tree
-                  param : value, string | callback
+                  path : node
+                  args : value, string | callback
                   desc : retrieves a node based on a field
-                  full : Retrieves a node based on a given field. This method accepts two parameters, the first one being the searched value (string, numeric, etc...), the second one can be a field name in the tree object or a callback that knows how to reach that value. This callback is called with the node information. The returned node is also a tree data object itself. For example
+                  full : Retrieves a node based on a given field. This method accepts two parameters, the first one being the searched value (string, numeric, etc...), the second one can be a field name in the tree object or a callback that knows how to reach that value. This callback is called with the node information. The returned node is also a node object itself. For example
                   example : |
-                            var tree_data = tnt.tree.tree (tnt.tree.parse_newick (newick));
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
                             // Using a field name
-                            var node = tree_data.find_node_by_field ('human', 'common_name');
+                            var node = root.find_node_by_field ('human', 'common_name');
 
                             // Using a callback (for example, common_name is not a top level field in the tree object)
-                            var node = tree_data.find_node_by_field ('human', function (node) {
-                                                                                   return node.taxonomy.common_name;
+                            var node = root.find_node_by_field ('human', function (node) {
+                               return node.taxonomy.common_name;
                             });
                 - name : find_node_by_name
-                  path : tree
-                  param : string
+                  path : node
+                  args : string
                   desc : retrieves a node based on its name field
                   full : Retrieves a node based on its 'name' field. This is a special case of <a href="#find_node_by_field">find_node_by_field</a>
                   example : null
                 - name : toggle_node
-                  path : tree
-                  param : null
+                  path : node
+                  args : null
                   desc : collapses / uncollapses the branch at the current node [REVISE]
                   full : Toggles collapsibility of the current branch at the current node. If the current node is not collapsed, it collapses it, if it is already collapsed, it uncollapses it.
                   example : |
@@ -193,22 +199,91 @@ api :
                                 node.toggle_node();
                                 tree_vis.update();
                             });
-                - name : tree.is_collapsed
+                - name : is_collapsed
+                  path : data
+                  args : null
                   desc : returns true on collapsed nodes [REVISE -- Only on terminals? Should not be on any node with a collpased node upstream?]
-                - name : tree.lca
+                  full : Returns true if the branch is collapsed at the current node
+                  example : null
+                - name : lca
+                  path : node
+                  args : [node1, node2, ...]
                   desc : returns the lowest common ancestor of a set of leaves
-                - name : tree.get_all_leaves
-                  desc : returns all the leaves of the tree
-                - name : tree.upstream
-                  desc : apply a callback to all the upstream nodes of a given node
-                - name : tree.subtree
-                  desc : returns the minimum subtree given a set of leaves
-                - name : tree.present
-                  desc : tests all the descendants of the given node using a callback
-                - name : tree.sort
+                  full : Returns the lowest common ancestor node of a set of leaves. These leaves have to be downstream the current node
+                  example : |
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            var human_node = root.find_node_by_name('human');
+                            var mouse_node = root.find_node_by_name('mouse');
+                            var lca_node = root.lca(human_node, mouse_node);
+                - name : get_all_leaves
+                  path : node
+                  args : null
+                  desc : returns all the leaves under the node
+                  full : Returns all the leaves under the current node. These leaves are returned as nodes
+                - name : upstream
+                  path : node
+                  args : callback
+                  desc : applies a callback to all the upstream nodes of the current node
+                  full : Applies the passed callback to all the ancestors of the current node. This callback is called passing each node as its argument. The ancestors are passed in order until the root of the tree is reached.
+                  example : |
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            var human_node = root.find_node_by_name ('human');
+                            human_node.upstream (function (node) {
+                               // this callback is called with all the upstream nodes to human_node
+                               // until the root node is reached (included)
+                            });
+                - name : subtree
+                  path : node
+                  args : [node1, node2, ...]
+                  desc : returns a new subtree given a set of leaves
+                  full : Returns the root of a new tree that has been made by calculating the lowest common ancestor of the given leaves, pruning the singleton nodes and copying the resulting tree into a new tree structure. This method is used by the library to create new tree structures based on the initial one. Its argument is an array of leaves. Because the returned subtree has copies of the original nodes, changing the former does not affect the latter.
+                  example : |
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            var leaves = ... // get leaves
+                            var subtree = root.subtree (leaves);
+                - name : present
+                  path : node
+                  args : callback
+                  desc : tests all the descendants of the current node using a callback
+                  full : Tests all the downstream nodes of the current node using the given callback. This callback on every node. The callback should explicitely return 'true' or 'false'
+                  example : |
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            root.present (function (node) {
+                               return (node.property ('my_field') === 1);
+                            });
+                - name : sort
+                  path : node
+                  args : callback
                   desc : orders the descendant nodes based on the given callback
-                - name : tree.apply
-                  desc : applies the given callback to all the descendants
+                  full : Recursively orders the children of each downstream node based on the given callback. This ordering does not affect the tree topology. The given callback is called on each pair of children and both nodes are passed as its arguments. As with a normal javascript sort function, this callback is expected to return -1, 0 or 1 if the first node should go before the second, if there is a tie or if the second should go before the first respectively (see the <a href="http://www.w3schools.com/jsref/jsref_sort.asp">javascript sort function documentation</a> for details)
+                  example : |
+                            // Helper function to get the lowest value in
+                            // the subnode -- this is used in the sort cbak
+                            var get_highest_val = function (node, prop) {
+                               var highest = 0;
+                               node.apply(function (n) {
+                                  if (n.property(prop) === "") {
+                                      return;
+                                  }
+                                  var val = parseFloat(n.property(prop));
+                                  if (val > highest) {
+                                     highest = val;
+                                  }
+                               });
+                              return highest;
+                            };
+
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            root.sort (function (node1, node2) {
+                                var highest1 = get_highest_val (node1, 'length');
+                                var highest2 = get_highest_val (node2, 'length');
+                                return highest1 - highest2;
+                            });
+                - name : apply
+                  path : node
+                  args : callback
+                  desc : applies the given callback to all the descendants of the node
+                  full : Recursively applies the given callback to each children of the current node. The node is passed to the callback as its argument. See <a href="#sort">node.sort</a> for a example
                 - name : tree.property
                   desc : allows access to properties in the nodes data
                 - name : tree.is_leaf
