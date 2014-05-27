@@ -55,7 +55,7 @@ api :
                             var tree_vis = tnt.tree()
                                              .duration(750);
                             tree_vis.duration(); // returns 750
-                - name : node_info
+                - name : on_click
                   path : tree
                   param : callback
                   desc : specifies the behaviour on nodes when they are clicked [REVISE]
@@ -64,14 +64,14 @@ api :
                             var tree_vis = tnt.tree()
 
                             // collapse node on click
-                            tree_vis.node_info (function (node) {
-                                tree_vis.toggle_node (node)
-                                        .update();
-                            }
+                            tree_vis.on_click (function (node) {
+                                node.toggle_node (node)
+                                tree_vis.update();
+                            });
 
                             // show a tooltip on click
-                            tree_vis.node_info (tree_vis.tooltip());
-                - name : node_dbl_info
+                            tree_vis.on_click (tree_vis.tooltip());
+                - name : on_dbl_lick
                   path : tree
                   param : callback
                   desc : specifies the behaviour on nodes when they are double-clicked [REVISE]
@@ -85,19 +85,19 @@ api :
                   example : |
                             var tree_vis = tnt.tree()
                                              .link_color (function (link) {
-                                                             var color = 'grey';
-                                                             if (link.source && link.source.type) {
-                                                                 switch (link.source.type) {
-                                                                    case "speciation" :
-                                                                       color = "green";
-                                                                       break;
-                                                                    case "duplication" :
-                                                                       color = "red";
-                                                                       break;
-                                                                 }
-                                                                 return color;
-                                                             }
-                                                          });
+                                                var color = 'grey';
+                                                if (link.source && link.source.type) {
+                                                   switch (link.source.type) {
+                                                      case "speciation" :
+                                                        color = "green";
+                                                        break;
+                                                      case "duplication" :
+                                                        color = "red";
+                                                        break;
+                                                   }
+                                                }
+                                                return color;
+                                              });
                 - name : node_color
                   path : tree
                   param : string | callback
@@ -106,12 +106,12 @@ api :
                   example : |
                             var tree_vis = tnt.tree()
                                              .node_color (function (node) {
-                                                            if (node.type === 'speciation') {
-                                                                return "green";
-                                                             } else {
-                                                               return "red";
-                                                             }
-                                                          });
+                                                if (node.type === 'speciation') {
+                                                   return "green";
+                                                } else {
+                                                   return "red";
+                                                }
+                                              });
                 - name : node_circle_size
                   path : tree
                   param : integer
@@ -164,7 +164,7 @@ api :
                   path : tree
                   param : value, string | callback
                   desc : retrieves a node based on a field
-                  full : Retrieves a node based on a given field. This method accepts two parameters, the first one being the searched value (string, numeric, etc...), the second one can be a field name in the tree object or a callback that knows how to reach that value. This callback is called with the node information. For example
+                  full : Retrieves a node based on a given field. This method accepts two parameters, the first one being the searched value (string, numeric, etc...), the second one can be a field name in the tree object or a callback that knows how to reach that value. This callback is called with the node information. The returned node is also a tree data object itself. For example
                   example : |
                             var tree_data = tnt.tree.tree (tnt.tree.parse_newick (newick));
                             // Using a field name
@@ -173,7 +173,7 @@ api :
                             // Using a callback (for example, common_name is not a top level field in the tree object)
                             var node = tree_data.find_node_by_field ('human', function (node) {
                                                                                    return node.taxonomy.common_name;
-                                                                              });
+                            });
                 - name : find_node_by_name
                   path : tree
                   param : string
@@ -182,9 +182,17 @@ api :
                   example : null
                 - name : toggle_node
                   path : tree
-                  param : node object
+                  param : tnt.tree.tree node
                   desc : collapses / uncollapses all nodes under the given node [REVISE]
-                  full : Toggles collapsibility of the current branch at the given node. If the given node is not collapsed, it collapses it, if it is already collapsed, it uncollapses it. The parameter is 
+                  full : Toggles collapsibility of the current branch at the given node. If the given node is not collapsed, it collapses it, if it is already collapsed, it uncollapses it. The parameter is a tree data object (a node)
+                  example : |
+                            var tree_vis = tnt.tree()
+                                             .data(...)
+                                             .layout(...);
+                            tree_vis.on_click (function (node) {
+                                node.toggle_node();
+                                tree_vis.update();
+                            });
                 - name : tree.is_collapsed
                   desc : returns true on collapsed nodes [REVISE -- Only on terminals? Should not be on any node with a collpased node upstream?]
                 - name : tree.lca
