@@ -5,8 +5,8 @@ tnt.tree = function () {
 	duration         : 500,      // Duration of the transitions
 	label            : tnt.tree.label.text(),
 	layout           : tnt.tree.layout.vertical(),
-	node_info        : function () {},
-	node_dbl_info    : function () {},
+	on_click         : function () {},
+	on_dbl_click     : function () {},
 	link_color       : 'steelblue',
 	node_color       : 'steelblue',
 	node_circle_size : 4.5,
@@ -169,8 +169,13 @@ tnt.tree = function () {
 	    .attr('stroke', '#369')
 	    .attr('stroke-width', '2px');
 
-	new_node.on("click", conf.node_info);
-	new_node.on("dblclick", conf.node_dbl_info);
+	new_node.on("click", function (node) {
+	    conf.on_click.call(this, tnt.tree.tree(node));
+	});
+
+	new_node.on("dblclick", function (node) {
+	    conf.on_dbl_click.call(this, tnt.tree.tree(node));
+	});
 
 	new_node
 	    .each(conf.label);
@@ -426,10 +431,10 @@ tnt.tree = function () {
 	return tree;
     });
 
-    api.method ('toggle_node', function (node_data) {
-	tree.tree().toggle_node(node_data);
-	return tree;
-    });
+    // api.method ('toggle_node', function (node_data) {
+    // 	tree.tree().toggle_node(node_data);
+    // 	return tree;
+    // });
 
     api.method ('focus_node', function (node_data) {
 	// find 
@@ -558,6 +563,7 @@ tnt.tree = function () {
 	// var tooltip = tnt.tooltip().type("table");
 	var tooltip = tnt.tooltip.table();
 	var tree_tooltip = function (node) {
+	    node = node.data();
 	    var obj = {};
 	    obj.header = {
 		label : "Name",
@@ -580,8 +586,7 @@ tnt.tree = function () {
 		label : "N.Children",
 		value : node.children ? node.children.length : 0
 	    });
-
-	tooltip.call(this, obj);
+	    tooltip.call(this, obj);
 	};
 
 	return tree_tooltip;

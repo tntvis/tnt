@@ -11,10 +11,10 @@ test:
 	$(NODE_BIN_DIR)/mocha-phantomjs --reporter spec test/test.html
 
 lib/tnt.js: $(shell node_modules/.bin/smash --list src/index.js) package.json src/scss/tnt.scss
-	@rm -f lib/$@
-	$(NODE_BIN_DIR)/smash src/index.js > lib/$@
+	@rm -f $@
+	$(NODE_BIN_DIR)/smash src/index.js > $@
 	sass src/scss/tnt.scss:lib/tnt.css	
-	@chmod a-w lib/$@
+	@chmod a-w $@
 
 lib/tnt.min.js: lib/tnt.js
 	@rm -f $@

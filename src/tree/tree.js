@@ -111,7 +111,8 @@ tnt.tree.tree = function (data) {
 	return node.find_node_by_field(name, 'name');
     });
 
-    api.method ('toggle_node', function(node_data) {
+    api.method ('toggle_node', function(node) {
+	var node_data = node.data();
 	if (node_data) {
 	    if (node_data.children) {
 		node_data._children = node_data.children;

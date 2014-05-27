@@ -2,53 +2,28 @@
 <meta charset="utf-8">
 <title>e!Peek Themes</title>
 
-<style>
-  @import url(../../../index.css)
-</style>
-
 <div id="body">
 
   <!-- D3.js -->
   <script src="../../../lib/d3.min.js"></script>
 
   <!-- ePeek -->
-  <link rel="stylesheet" href="../../../src/ePeek.css" type="text/css" />
-  <script src="../../../ePeek.js"></script>
+  <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
+  <script src="../../../lib/tnt.js"></script>
 
   <!-- Tree.js -->
   <script src="tooltip.js"></script>
 
-  <header>
-    <a style="margin-left:1em;" href="../../../index.html">Overview</a>
-    <a style="margin-left:1em;" href="../../index.html"><b>Themes</b></a>
-    <a style="margin-left:1em;" href="../../../index.html">Examples</a>
-    <a style="margin-left:1em;" href="../../../doc/api/index.html">Documentation</a>
-    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
-  </header>
-
-
   <h1>Tree - Tooltips</h1>
-  <div id="speciesTree"></div>
+  <div id="mytree"></div>
 
   <script>
     (function() {
-    var st = epeek.tree()
-    var theme = epeek_theme_tree_tooltip();
-    theme(st, document.getElementById("speciesTree"));
+    var tree_vis = tnt.tree()
+    var theme = tnt_theme_tree_tooltip();
+    theme(tree_vis, document.getElementById("mytree"));
     }());
   </script>
-
-  <h2>Overview</h2>
-  <p>Trees may have tooltips</p>
-  <pre><code class="javascript">
-var epeek_theme = function() {
-    var theme = function (sT, div) {
-	sT(div);
-    };
-    return theme;
-};
-  </code></pre>
-
 
   <footer>
     <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
@@ -57,6 +32,4 @@ var epeek_theme = function() {
 
 
 </div>
-<script src="../../../highlight.v0.min.js"></script>
-
 

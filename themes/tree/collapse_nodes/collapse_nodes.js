@@ -1,26 +1,28 @@
-var epeek_theme_tree_collapse_nodes = function() {
+var tnt_theme_tree_collapse_nodes = function() {
     "use strict";
 
-    var tree_theme = function(sT, div) {
+    var tree_theme = function(tree_vis, div) {
 
         var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;"
 
-        var data = epeek.tree.parse_newick(newick);
+        var data = tnt.tree.parse_newick(newick);
 
-        sT
+        tree_vis
             .data(data)
             .duration(500)
-            .layout(epeek.tree.layout.vertical().width(600).scale(false));
+            .layout(tnt.tree.layout.vertical()
+		    .width(600)
+		    .scale(false));
             
-        var tree = sT.tree();
-        sT.node_info (function(node){
-            sT
-                .toggle_node(node)
-                .update();
+        // var tree = tree_vis.tree();
+        tree_vis.on_click (function(node){
+            // sT
+                node.toggle_node(node)
+                tree_vis.update();
         });
 
         // The visualization is started at this point
-        sT(div);
+        tree_vis(div);
         
 
     };
