@@ -45,7 +45,9 @@ api :
                                   ]
                                 }
                             ]
-                         }
+                         };
+                         var tree_vis = tnt.tree()
+                                           .data(tree_obj);
                 - name : duration
                   path : tree
                   args : number
@@ -287,20 +289,76 @@ api :
                   example : null
                 - name : property
                   path : node
-                  args : string | callback
+                  args : string | callback, value
                   desc : allows access to properties in the nodes data
-                  full : 
-                - name : tree.is_leaf
+                  full : Allows access to data properties in the current node. The first parameter is mandatory and corresponds with the data field to be accessed. If a second parameter is provided, the method sets the field with this value, if it is not provided, it returns the field. If a callback is used as its first parameter, it is treated as a way to access the field (for example if it is a deeper field in the node structure). For example
+                  example : |
+                            var tree_obj = {
+                               name: "F",
+                               deeper : { field : 1 },
+                               children: [
+                                  {name: "A", length: 0.1},
+                                  {name: "B", length: 0.2},
+                                  {
+                                     name: "E",
+                                     length: 0.5,
+                                     children: [
+                                        {name: "C", length: 0.3},
+                                        {name: "D", length: 0.4}
+                                     ]
+                                  }
+                               ]
+                            };
+
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+
+                            // As a getter:
+                            root.property ('name'); // returns "F"
+                            root.property (function (node) {
+                                 return node.deeper.field;
+                            }); // returns 1
+
+                            // As a setter:
+                            root.property ('name', 'A');
+                            root.property (function (node, value) {
+                                 node.deeper.new_field = value;
+                            }, 2);
+                - name : is_leaf
+                  path : node
+                  args : null
                   desc : returns true on leaves
-                - name : tree.node_name
+                  full : Returns true if the current node is a leaf, false otherwise;
+                - name : node_name
+                  path : node
+                  args : null
                   desc : returns the property 'name' of nodes [REVISE]
-                - name : tree.root_dist
+                  full : Returns the property 'name' of the current node. It is an alias of node.<a href="#find_node_by_field">find_node_by_field</a> using 'name' as its value
+                  example : null
+                - name : root_dist
+                  path : node
+                  args : null
                   desc : returns the distance of the node to the root based on branch lengths
-                - name : tree.children
+                  full : Returns the distance of the current node to the root based on the branch lengths of the tree
+                  example : null
+                - name : children
+                  path : node
                   desc : returns all the children of the node
-                - name : tree.parent
+                  full : Returns an array with all the children of the current node
+                  example : null
+                - name : parent
+                  path : node
+                  args : null
                   desc : returns the parent of the node
+                  full : Returns the parent node of the current node
            - name : Layouts
+             preamble : The <a href=#data">data</a> and layouts are two of the most important Currently TnT supports "vertical" and "radial" layouts for trees. Both layouts have a set of methods that control different aspects. For example
+             example : |
+                       var tree_vis = tnt.tree()
+                                         .data (tnt.tree.parse_newick (newick))
+                                         .layout (tnt.tree.layout.vertical()
+                                                     .width (400)
+                                                     .scale (false)
+                                                 );
              elements :
                 - name : tree.layout
                   desc : specifies the layout to be used in the tree visualization
