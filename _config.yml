@@ -284,8 +284,12 @@ api :
                   args : callback
                   desc : applies the given callback to all the descendants of the node
                   full : Recursively applies the given callback to each children of the current node. The node is passed to the callback as its argument. See <a href="#sort">node.sort</a> for a example
-                - name : tree.property
+                  example : null
+                - name : property
+                  path : node
+                  args : string | callback
                   desc : allows access to properties in the nodes data
+                  full : 
                 - name : tree.is_leaf
                   desc : returns true on leaves
                 - name : tree.node_name
