@@ -1,4 +1,4 @@
-var epeek_theme_track_resizable_div = function() {
+var tnt_theme_track_resizable_div = function() {
 
     var theme = function(gB, div) {
 	var div_theme = d3.select(div);
@@ -7,12 +7,12 @@ var epeek_theme_track_resizable_div = function() {
 	    .style("resize", "both")
 	    .style("overflow", "hidden");
 
-	var gene_track = epeek.track.track()
+	var gene_track = tnt.track()
 	    .height(200)
-	    .display(epeek.track.feature.gene()
+	    .display(tnt.track.feature.gene()
 		     .foreground_color('#586471')
 		    )
-	    .data(epeek.track.data.gene());
+	    .data(tnt.track.data.gene());
 
 	div_theme.watch("width", function(oldWidth, newWidth) {
 	    gB.width(parseInt(newWidth)-15);

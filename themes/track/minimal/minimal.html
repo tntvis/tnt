@@ -1,36 +1,24 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>e!Peek Themes</title>
-
-<style>
-  @import url(../../index.css)
-</style>
+<title>TnT Themes</title>
 
 <div id="body">
 
   <!-- D3 -->
-  <script src="../../lib/d3.min.js"></script>
+  <script src="../../../lib/d3.min.js"></script>
 
-  <!-- ePeek -->
-  <link rel="stylesheet" href="../../src/ePeek.css" type="text/css" />
+  <!-- TnT -->
+  <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
 
-  <script src="../../ePeek.js"></script>
+  <script src="../../../lib/tnt.js"></script>
   <script src="minimal.js"></script>
 
-  <header>
-    <a style="margin-left:1em;" href="../../index.html">Overview</a>
-    <a style="margin-left:1em;" href="../index.html"><b>Themes</b></a>
-    <a style="margin-left:1em;" href="../../index.html">Examples</a>
-    <a style="margin-left:1em;" href="../../doc/api/index.html">Documentation</a>
-    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
-  </header>
-
-  <h1>The Minimal Theme</h1>
+  <h1>The Minimal Theme - Genome</h1>
   <div id="genomeBrowser"></div>
   <script>
     (function() {
-        var gB = epeek.track.genome().species("human").gene("brca2").width(950);
-        var gBTheme = epeek_theme_track_minimal();
+        var gB = tnt.board.genome().species("human").gene("brca2").width(950);
+        var gBTheme = tnt_theme_track_minimal();
         gBTheme(gB, document.getElementById("genomeBrowser"));
     })();
  
@@ -93,4 +81,4 @@ gB.start();
   </footer>
 
 </div>
-<script src="../../highlight.v0.min.js"></script>
+

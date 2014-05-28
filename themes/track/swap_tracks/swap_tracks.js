@@ -1,14 +1,14 @@
-var epeek_theme_track_swap_tracks = function() {
+var tnt_theme_track_swap_tracks = function() {
 
-    var theme = function(gB, div) {
+    var theme = function(board, div) {
 
 	// Block Track1
-	var block_track1 = epeek.track.track()
+	var block_track1 = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .data(epeek.track.data()
+	    .data(tnt.track.data()
 		  .update(
-		      epeek.track.retriever.sync()
+		      tnt.track.retriever.sync()
 			  .retriever (function () {
 			      return [
 				  {
@@ -19,19 +19,19 @@ var epeek_theme_track_swap_tracks = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.block()
+	    .display(tnt.track.feature.block()
 		     .foreground_color("blue")
 		     .index(function (d) {
 			 return d.start;
 		     }));
 
 	// Block Track1
-	var block_track2 = epeek.track.track()
+	var block_track2 = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .data(epeek.track.data()
+	    .data(tnt.track.data()
 		  .update(
-		      epeek.track.retriever.sync()
+		      tnt.track.retriever.sync()
 			  .retriever (function () {
 			      return [
 				  {
@@ -42,27 +42,27 @@ var epeek_theme_track_swap_tracks = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.block()
+	    .display(tnt.track.feature.block()
 		     .foreground_color("red")
 		     .index(function (d) {
 			 return d.start;
 		     }));
 
 	// Axis Track1
-	var axis_track = epeek.track.track()
+	var axis_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .display(epeek.track.feature.axis()
+	    .display(tnt.track.feature.axis()
 		     .orientation("top")
 		    );
 
 	// Location Track1
-	var loc_track = epeek.track.track()
+	var loc_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .display(epeek.track.feature.location());
+	    .display(tnt.track.feature.location());
 
-	gB
+	board
 	    .right(1000)
 	    .add_track(loc_track)
 	    .add_track(axis_track)
@@ -80,7 +80,7 @@ var epeek_theme_track_swap_tracks = function() {
 	// var order = [[4,3,2,1],[4,3,1,2]];
 	var i = 2;
 	var swap_tracks = function () {
-	    gB.reorder(order[i++%2]);
+	    board.reorder(order[i++%2]);
 	};
 
 	d3.select(div).append("button")
@@ -88,8 +88,8 @@ var epeek_theme_track_swap_tracks = function() {
 	    .text("Swap tracks");
 
 
-	gB(div);
-	gB.start();
+	board (div);
+	board.start();
     };
 
     return theme;

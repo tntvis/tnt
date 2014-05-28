@@ -1,6 +1,6 @@
 "use strict"
 
-tnt.track.genome = function() {
+tnt.board.genome = function() {
 
     // Private vars
     var ens_re = /^ENS\w+\d+$/;
@@ -22,17 +22,17 @@ tnt.track.genome = function() {
     };
 
 
-    // We "inherit" from track
-    var genome_browser = tnt.track();
+    // We "inherit" from board
+    var genome_browser = tnt.board();
 
     // The location and axis track
-    var location_track = tnt.track.track()
+    var location_track = tnt.track()
 	.height(20)
 	.background_color("white")
 	.data(tnt.track.data.empty())
 	.display(tnt.track.feature.location());
 
-    var axis_track = tnt.track.track()
+    var axis_track = tnt.track()
 	.height(20)
 	.background_color("white")
 	.data(tnt.track.data.empty())
@@ -43,10 +43,11 @@ tnt.track.genome = function() {
 	.add_track(axis_track);
 
     // Default location:
-    genome_browser.species("human");
-    genome_browser.chr(7);
-    genome_browser.from(139424940);
-    genome_browser.to(141784100);
+    genome_browser
+	.species("human")
+	.chr(7)
+	.from(139424940)
+	.to(141784100);
 
     // We save the start method of the 'parent' object
     genome_browser._start = genome_browser.start;
@@ -196,4 +197,3 @@ tnt.track.genome = function() {
 
     return genome_browser;
 };
-

@@ -1,6 +1,6 @@
-var epeek_theme_track_resize = function() {
+var tnt_theme_track_resize = function() {
 
-    var pathToScript = epeek.utils.script_path("resize.js");
+    var pathToScript = tnt.utils.script_path("resize.js");
 
     var theme = function(gB, div) {
 	var div_theme = d3.select(div);
@@ -9,12 +9,12 @@ var epeek_theme_track_resize = function() {
 	div_theme
 	    .style("border", "1px solid gray");
 
-	var gene_track = epeek.track.track()
+	var gene_track = tnt.track()
 	    .height(200)
-	    .display(epeek.track.feature.gene()
+	    .display(tnt.track.feature.gene()
 		     .foreground_color("#586471")
 		    )
-	    .data(epeek.track.data.gene());
+	    .data(tnt.track.data.gene());
 
 	var table = div_theme
 	    .append("table")
@@ -33,7 +33,7 @@ var epeek_theme_track_resize = function() {
 	table_row1
 	    .append("td")
 	    .append("img")
-	    .attr("src", pathToScript + "../pics/chevron_active_right.png")
+	    .attr("src", pathToScript + "../../pics/chevron_active_right.png")
 	    .on("click", function() {
 		gB.width(900);
 	    });
@@ -44,7 +44,7 @@ var epeek_theme_track_resize = function() {
 	    .append("td")
 	    .style("text-align", "center")
 	    .append("img")
-	    .attr("src", pathToScript + "../pics/chevron_active_right.png")
+	    .attr("src", pathToScript + "../../pics/chevron_active_right.png")
 	    .on("click", function() {
 		gene_track.height(300);
 	    });

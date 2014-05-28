@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>e!Peek Themes</title>
-
-<style>
-  @import url(../../index.css)
-</style>
+<title>TnT Themes</title>
 
 <div id="body">
 
   <!-- D3 -->
-  <script src="../../lib/d3.min.js"></script>
+  <script src="../../../lib/d3.min.js"></script>
 
-  <!-- ePeek -->
-  <link rel="stylesheet" href="../../src/ePeek.css" type="text/css" />
+  <!-- TnT -->
+  <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
 
-  <script src="../../ePeek.js"></script>
+  <script src="../../../lib/tnt.js"></script>
   <script src="tooltips.js"></script>
 
   <header>
@@ -29,8 +25,8 @@
   <div id="genomeBrowser"></div>
   <script>
     (function() {
-        var gB = epeek.track.genome().species("human").gene("brca2").width(950);
-        var gBTheme = epeek_theme_track_tooltips();
+        var gB = tnt.board.genome().species("human").gene("brca2").width(950);
+        var gBTheme = tnt_theme_track_tooltips();
         gBTheme(gB, document.getElementById("genomeBrowser"));
     })();
  
@@ -65,4 +61,3 @@ var epeek_theme = function() {
   </footer>
 
 </div>
-<script src="../../highlight.v0.min.js"></script>

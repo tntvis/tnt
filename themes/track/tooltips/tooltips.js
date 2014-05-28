@@ -1,13 +1,13 @@
-var epeek_theme_track_tooltips = function() {
+var tnt_theme_track_tooltips = function() {
     "use strict";
 
     var theme = function(gB, div) {
 
-	var gene_track = epeek.track.track()
+	var gene_track = tnt.track()
 	    .background_color('#EEEEEE')
 	    .height(200)
-	    .data(epeek.track.data.gene())
-	    .display(epeek.track.feature.gene()
+	    .data(tnt.track.data.gene())
+	    .display(tnt.track.feature.gene()
 		     .foreground_color('green')
 		    );
 

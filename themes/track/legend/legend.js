@@ -1,4 +1,4 @@
-var epeek_theme_track_legend = function() {
+var tnt_theme_track_legend = function() {
 
     var colors = {
 	"protein coding"       : d3.rgb('#A00000'),
@@ -26,22 +26,22 @@ var epeek_theme_track_legend = function() {
 	
 	gB(div);
 
-	var gene_track = epeek.track.track()
+	var gene_track = tnt.track()
 	    .height(200)
 	    .background_color("#FFFFFF")
-	    .display(epeek.track.feature.gene())
-	    .data(epeek.track.data.gene());
+	    .display(tnt.track.feature.gene())
+	    .data(tnt.track.data.gene());
 	gB.add_track(gene_track);
 
 	var legend_div = d3.select(div)
 	    .append("div")
-	    .attr("class", "ePeek_legend_div");
+	    .attr("class", "tnt_legend_div");
 
 	legend_div
 	    .append("text")
 	    .text("Gene legend:");
 
-	d3.selectAll("ePeek_biotype")
+	d3.selectAll("tnt_biotype")
 	    .data(gene_track.display().layout().elements());
 
 	gene_track.data().update().success (function (genes) {
@@ -59,13 +59,13 @@ var epeek_theme_track_legend = function() {
 		    biotypes.push(p);
 		}
 	    }
-	    var biotype_legend = legend_div.selectAll(".ePeek_biotype_legend")
+	    var biotype_legend = legend_div.selectAll(".tnt_biotype_legend")
 		.data(biotypes, function(d){return d});
 
 	    var new_legend = biotype_legend
 		.enter()
 		.append("div")
-		.attr("class", "ePeek_biotype_legend")
+		.attr("class", "tnt_biotype_legend")
 		.style("display", "inline");
 
 	    new_legend
