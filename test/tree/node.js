@@ -121,6 +121,55 @@ describe('tnt Tree', function () {
 
 	describe('API', function () {
 
+	    describe('property', function () {
+	    	var tree_obj = {
+	    	    name: "F",
+	    	    deeper : { field : 1 },
+	    	    children: [
+	    		{name: "A", length: 0.1},
+	    		{name: "B", length: 0.2},
+	    		{
+	    		    name: "E",
+	    		    length: 0.5,
+	    		    branchset: [
+	    		        {name: "C", length: 0.3},
+	    			{name: "D", length: 0.4}
+	    		    ]
+	    		}
+	    	    ]
+	    	};
+
+	    	var root = tnt.tree.node(tree_obj);
+
+	    	it ('Accesses data properties', function () {
+	    	    var prop1 = root.property('name');
+	    	    assert.strictEqual (prop1, 'F');
+	    	});
+
+		it ('Sets data properties', function () {
+		    root.property('new_prop', 'aa');
+		    assert.strictEqual (root.property('new_prop'), 'aa');
+		});
+
+		it ('Accepts a callback for accessing properties', function () {
+		    var deep_prop = root.property(function (node) {
+			return node.deeper.field
+		    })
+		    assert.strictEqual (deep_prop, 1);
+		});
+
+		it ('Accepts a callback for setting properties', function () {
+		    root.property(function (node, val) {
+			node.deeper.new_deep = val
+		    }, 'bb');
+		    assert.strictEqual (root.property (function (node) {
+			console.log(node.deeper);
+			return node.deeper.new_deep;
+		    }), 'bb');
+		});
+
+	    });
+
 	    describe('find_node_by_field', function () {
 		var tree_from_newick = tnt.tree.node(tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2"));
 		var tree_from_json   = tnt.tree.node(_t.tree);

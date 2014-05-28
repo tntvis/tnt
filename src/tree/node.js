@@ -335,9 +335,19 @@ tnt.tree.node = function (data) {
 	}
     });
 
+    // TODO: Not sure if it makes sense to set via a callback:
+    // root.property (function (node, val) {
+    //    node.deeper.field = val
+    // }, 'new_value')
     api.method ('property', function(prop, value) {
 	if (arguments.length === 1) {
+	    if ((typeof prop) === 'function') {
+		return prop(data)	
+	    }
 	    return data[prop]
+	}
+	if ((typeof prop) === 'function') {
+	    prop(data, value);   
 	}
 	data[prop] = value;
 	return node;
