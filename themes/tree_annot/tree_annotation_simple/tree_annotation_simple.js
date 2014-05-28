@@ -1,11 +1,11 @@
-var epeek_theme_tree_tree_annotation_simple = function () {
+var tnt_theme_tree_tree_annotation_simple = function () {
 
     // The height of tree labels and tracks
     var height = 20;
 
     // Create tree and annot
-    var tree = epeek.tree();
-    var annot = epeek.track();
+    var tree = tnt.tree();
+    var annot = tnt.board();
 
 
     var theme = function (ta, div) {
@@ -45,7 +45,7 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 		    }
 		}
 
-		tree.tree().sort (cond);
+		tree.root().sort (cond);
 		ta.update();
 	    });
 
@@ -63,18 +63,17 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;";
 
 	tree
-	    .data (epeek.tree.parse_newick (newick))
-	    .layout (epeek.tree.layout.vertical()
+	    .data (tnt.tree.parse_newick (newick))
+	    .layout (tnt.tree.layout.vertical()
 		     .width(430)
 		     .scale(false))
-	    .label (epeek.tree.label.text()
+	    .label (tnt.tree.label.text()
 		    .height(height));
 
 	// collapse nodes on click
-        tree.node_info (function(node){
-            tree
-                .toggle_node(node)
-                .update();
+        tree.on_click (function(node){
+            node.toggle_node(node)
+            ta.update();
         });
 
 	// TRACK SIDE
@@ -86,16 +85,16 @@ var epeek_theme_tree_tree_annotation_simple = function () {
 
 	var track = function (leaf) {
 	    var sp = leaf.name;
-	    return epeek.track.track()
+	    return tnt.track()
 		.background_color("#EBF5FF")
-		.data (epeek.track.data()
-		       .update (epeek.track.retriever.sync()
+		.data (tnt.track.data()
+		       .update (tnt.track.retriever.sync()
 				.retriever (function () {
 				    return data[sp] || [];
 				})
 			       )
 		      )
-		.display(epeek.track.feature.ensembl()
+		.display(tnt.track.feature.ensembl()
 			 .foreground_color("steelblue")
 			 .index(function (d) {
 			     return d.start;

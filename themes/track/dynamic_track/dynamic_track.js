@@ -1,13 +1,13 @@
-var epeek_theme_track_dynamic_track = function() {
+var tnt_theme_track_dynamic_track = function() {
 
-    var theme = function(gB, div) {
-	gB(div);
+    var theme = function(board, div) {
+	board(div);
 
-	var block_reduce = epeek.utils.reduce.block()
+	var block_reduce = tnt.utils.reduce.block()
 	    .smooth(0)
 	    .value("start");
 
-	var line_reduce = epeek.utils.reduce.line()
+	var line_reduce = tnt.utils.reduce.line()
 	    .value("val");
 
 	    // .redundant(function (a, b) {
@@ -94,56 +94,56 @@ var epeek_theme_track_dynamic_track = function() {
 	};
 
 	// Line Track1
-	var line_track = epeek.track.track()
+	var line_track = tnt.track()
 	    .height(30)
 	    .background_color("lightgrey")
-	    .data(epeek.track.data()
+	    .data(tnt.track.data()
 		  .update(
-		      epeek.track.retriever.sync()
+		      tnt.track.retriever.sync()
 			  .retriever (function (loc) {
 			      return filter_line(data_line, loc);
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.area()
+	    .display(tnt.track.feature.area()
 		     .foreground_color("#440044")
 		     .index(function (d) {
 			 return d.pos;
 		     }));
 
 	// Block Track1
-	var block_track = epeek.track.track()
+	var block_track = tnt.track()
 	    .height(30)
 	    .background_color("lightgrey")
-	    .data(epeek.track.data()
+	    .data(tnt.track.data()
 		  .update(
-		      epeek.track.retriever.sync()
+		      tnt.track.retriever.sync()
 			  .retriever (function (loc) {
 			      return filter_blocks (data_block, loc);
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.block()
+	    .display(tnt.track.feature.block()
 		     .foreground_color("blue")
 		     .index(function (d) {
 			 return d.start;
 		     }));
 
 	// Axis Track1
-	var axis_track = epeek.track.track()
+	var axis_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .display(epeek.track.feature.axis()
+	    .display(tnt.track.feature.axis()
 		     .orientation("top")
 		    );
 
 	// Location Track1
-	var loc_track = epeek.track.track()
+	var loc_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .display(epeek.track.feature.location());
+	    .display(tnt.track.feature.location());
 
-	gB
+	board
 	    .right(1000)
 	    .from(0)
 	    .to(1000)
@@ -153,7 +153,7 @@ var epeek_theme_track_dynamic_track = function() {
 	    .add_track(block_track)
 	    .add_track(line_track);
 
-	gB.start();
+	board.start();
     };
 
     return theme;

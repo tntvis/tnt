@@ -1,17 +1,17 @@
-var epeek_theme_track_switch_track = function() {
+var tnt_theme_track_switch_track = function() {
 
-    var theme = function(gB, div) {
-	gB(div);
+    var theme = function(board, div) {
+	board(div);
 
-	gB.right (1000);
+	board.right (220);
 
 	// Switchable track
-	var track = epeek.track.track()
+	var track = tnt.track()
 	    .height(30)
 	    .background_color("#FFCFDD")
-	    .data(epeek.track.data()
+	    .data(tnt.track.data()
 		  .update(
-		      epeek.track.retriever.sync()
+		      tnt.track.retriever.sync()
 			  .retriever (function () {
 			      return [
 				  {
@@ -22,7 +22,7 @@ var epeek_theme_track_switch_track = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.block()
+	    .display(tnt.track.feature.block()
 		     .foreground_color("blue")
 		     .index(function (d) {
 			 return d.start;
@@ -35,9 +35,9 @@ var epeek_theme_track_switch_track = function() {
 		switch (this.value) {
 		case 'blocks' :
 		    track
-			.data(epeek.track.data()
+			.data(tnt.track.data()
 			      .update(
-				  epeek.track.retriever.sync()
+				  tnt.track.retriever.sync()
 				      .retriever (function () {
 					  return [
 					      {
@@ -48,7 +48,7 @@ var epeek_theme_track_switch_track = function() {
 				      })
 			      )
 			     )
-			.display(epeek.track.feature.block()
+			.display(tnt.track.feature.block()
 				 .foreground_color("blue")
 				 .index(function (d) {
 				     return d.start;
@@ -57,22 +57,22 @@ var epeek_theme_track_switch_track = function() {
 
 		case 'line' :
 		    track
-			.data(epeek.track.data()
+			.data(tnt.track.data()
 			      .update(
-				  epeek.track.retriever.sync()
+				  tnt.track.retriever.sync()
 				      .retriever (function () {
 					  return data_line
 				      })
 			      )
 			     )
-			.display(epeek.track.feature.area()
+			.display(tnt.track.feature.area()
 				 .foreground_color("steelblue")
 				 .index(function (d) {
 				     return d.pos
 				 }));
 		    break;
 		}
-		gB.start();
+		board.start();
 	    });
 
 	select
@@ -87,25 +87,25 @@ var epeek_theme_track_switch_track = function() {
 
 
 	// Axis Track1
-	var axis_track = epeek.track.track()
+	var axis_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .display(epeek.track.feature.axis()
+	    .display(tnt.track.feature.axis()
 		     .orientation("top")
 		    );
 
 	// Location Track1
-	var loc_track = epeek.track.track()
+	var loc_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .display(epeek.track.feature.location());
+	    .display(tnt.track.feature.location());
 
-	gB
+	board
 	    .add_track(loc_track)
 	    .add_track(axis_track)
 	    .add_track(track);
 
-	gB.start();
+	board.start();
     };
 
     return theme;

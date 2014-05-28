@@ -1,7 +1,7 @@
 var tnt_theme_tree_sort_nodes = function() {
     "use strict";
 
-    var tree_theme = function (sT, div) {
+    var tree_theme = function (tree_vis, div) {
 	// Selection of sorting criteria
 	var menu_pane1 = d3.select(div)
 	    .append("div")
@@ -12,12 +12,12 @@ var tnt_theme_tree_sort_nodes = function() {
 	    .append("select")
 	    .on("change", function (d) {
 		var prop = this.value;
-		sT.tree().sort(function(node1, node2) {
+		tree_vis.root().sort(function(node1, node2) {
 		    var highest1 = get_highest_val(node1, prop);
 		    var highest2 = get_highest_val(node2, prop);
 		    return get_highest_val(node1, prop) - get_highest_val(node2, prop);
 		});
-		sT.update();
+		tree_vis.update();
 	    });
 
 	sel1
@@ -59,13 +59,13 @@ var tnt_theme_tree_sort_nodes = function() {
 		    .domain(extent)
 		    .range(["steelblue", "red"]);
 
-		sT.node_color(function (node) {
+		tree_vis.node_color(function (node) {
 		    if (node.children === undefined) {
 			return scale(node[prop]);
 		    }
 		    return "steelblue";
 		});
-		sT.update();
+		tree_vis.update();
 	    });
 
 	sel2
@@ -104,7 +104,7 @@ var tnt_theme_tree_sort_nodes = function() {
 	    .domain(extent)
 	    .range(["steelblue", "red"]);
 	
-	sT
+	tree_vis
 	    .data(tree_data)
 	    .duration(2000)
 	    .layout(tnt.tree.layout.vertical().width(600).scale(false))
@@ -114,22 +114,22 @@ var tnt_theme_tree_sort_nodes = function() {
 		}
 		return "steelblue";
 	    })
-	    .node_info (sT.tooltip(tnt.tooltip.table()));
+	    .on_click (tree_vis.tooltip(tnt.tooltip.table()));
 
-	sT
+	tree_vis
 	    .label()
 	    .height(function(){return 20});
 
-	var tree = sT.tree();
-	transfer_properties(tree, species_data);
-	tree.sort (function (node1, node2) {
+	var root = tree_vis.root();
+	transfer_properties(root, species_data);
+	root.sort (function (node1, node2) {
 	    var highest1 = get_highest_val(node1, 'Chromosome pairs');
 	    var highest2 = get_highest_val(node2, 'Chromosome pairs');
 	    return highest1 - highest2;
 	});
 
 	// The visualization is started at this point
-	sT(div);
+	tree_vis(div);
     };
 
     // Helper function to get the lowest value in                                                   
@@ -148,8 +148,8 @@ var tnt_theme_tree_sort_nodes = function() {
         return highest;
     };
 
-    var transfer_properties = function (tree, nodes_data) {
-	var leaves = tree.get_all_leaves();
+    var transfer_properties = function (root, nodes_data) {
+	var leaves = root.get_all_leaves();
 	for (var i=0; i<leaves.length; i++) {
 	    var sp_data = nodes_data[leaves[i].node_name()]
 	    for (var prop in sp_data) {

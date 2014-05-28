@@ -1,17 +1,17 @@
-var epeek_theme_track_2_data_and_features = function() {
+var tnt_theme_track_2_data_and_features = function() {
 
-    var theme = function(gB, div) {
-	gB(div);
+    var theme = function(board, div) {
+	board(div);
 
-	gB.right (1000);
+	board.right (1000);
 
 	// Block Track1
-	var block_track = epeek.track.track()
+	var block_track = tnt.track()
 	    .height(30)
 	    .background_color("#FFCFDD")
-	    .data(epeek.track.data()
+	    .data(tnt.track.data()
 		  .update(
-		      epeek.track.retriever.sync()
+		      tnt.track.retriever.sync()
 			  .retriever (function () {
 			      return {
 				  'blocks' : [
@@ -32,13 +32,13 @@ var epeek_theme_track_2_data_and_features = function() {
 			  })
 		  )
 		 )
-	    .display(epeek.track.feature.composite()
-		     .add ("blocks", epeek.track.feature.block()
+	    .display(tnt.track.feature.composite()
+		     .add ("blocks", tnt.track.feature.block()
 			   .foreground_color("blue")
 			   .index(function (d) {
 			       return d.start;
 			   }))
-		     .add ("lines", epeek.track.feature.vline()
+		     .add ("lines", tnt.track.feature.vline()
 			   .foreground_color("red")
 		     	   .index(function (d) {
 		     	       return d.pos;
@@ -46,24 +46,24 @@ var epeek_theme_track_2_data_and_features = function() {
 		    );
 
 	// Axis Track1
-	var axis_track = epeek.track.track()
+	var axis_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .display(epeek.track.feature.axis()
+	    .display(tnt.track.feature.axis()
 		     .orientation("top"));
 
 	// Location Track1
-	var loc_track = epeek.track.track()
+	var loc_track = tnt.track()
 	    .height(30)
 	    .background_color("white")
-	    .display(epeek.track.feature.location());
+	    .display(tnt.track.feature.location());
 
-	gB
+	board
 	    .add_track(loc_track)
 	    .add_track(axis_track)
 	    .add_track(block_track);
 
-	gB.start();
+	board.start();
     };
 
     return theme;

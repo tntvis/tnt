@@ -1,9 +1,9 @@
-var epeek_theme_tree_ensembl_gene_tree = function() {
+var tnt_theme_tree_ensembl_gene_tree = function() {
     "use strict";
 
-    var tree_theme = function (sT, div) {
+    var tree_theme = function (tree_vis, div) {
 
-	var label = epeek.tree.label.text()
+	var label = tnt.tree.label.text()
 	    .text(function (node) {
 		if (node.children) {
 		    return "";
@@ -13,11 +13,11 @@ var epeek_theme_tree_ensembl_gene_tree = function() {
 	    })
 	    .fontsize(10);
 
-	sT
-	    .layout(epeek.tree.layout.vertical().width(600).scale(false))
+	tree_vis
+	    .layout(tnt.tree.layout.vertical().width(600).scale(false))
 	    .label(label);
 
-	var rest = epeek.eRest();
+	var rest = tnt.eRest();
 
 	var gene_tree_id = "ENSGT00390000003602";
 	var gene_tree_url = rest.url.gene_tree({
@@ -25,8 +25,8 @@ var epeek_theme_tree_ensembl_gene_tree = function() {
 	});
 	rest.call ({url : gene_tree_url,
 		    success : function (tree) {
-			sT.data(tree.tree);
-			sT(div);
+			tree_vis.data(tree.tree);
+			tree_vis(div);
 		    }
 		   });
     };

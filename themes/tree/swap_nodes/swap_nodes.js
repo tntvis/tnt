@@ -1,7 +1,7 @@
-var epeek_theme_tree_swap_nodes = function() {
+var tnt_theme_tree_swap_nodes = function() {
     "use strict";
 
-    var tree_theme = function (sT, div) {
+    var tree_theme = function (tree_vis, div) {
 
 // 	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;"
 
@@ -9,17 +9,17 @@ var epeek_theme_tree_swap_nodes = function() {
 
 	var newick = "(((2,4),(5,1)),3)";
 
-	var data = epeek.tree.parse_newick(newick);
+	var data = tnt.tree.parse_newick(newick);
 
-	sT
+	tree_vis
 	    .data(data)
 	    .duration(2000)
-	    .layout(epeek.tree.layout.vertical().width(600).scale(false));
+	    .layout(tnt.tree.layout.vertical().width(600).scale(false));
 
-	var tree = sT.tree();
+	var root = tree_vis.root();
 
 	// The visualization is started at this point
-	sT(div);
+	tree_vis(div);
 
 	setTimeout(function() {
 
@@ -39,7 +39,7 @@ var epeek_theme_tree_swap_nodes = function() {
                 return lowest;
             };
 
-            tree.sort(function (node1, node2) {
+            root.sort(function (node1, node2) {
                 var lowest1 = get_lowest_val(node1);
                 var lowest2 = get_lowest_val(node2);
                 if (lowest1 < lowest2) return -1;
@@ -47,7 +47,7 @@ var epeek_theme_tree_swap_nodes = function() {
                 return 0;
             });
 
-	    sT.update();
+	    tree_vis.update();
 	}, 2000);
 
     };

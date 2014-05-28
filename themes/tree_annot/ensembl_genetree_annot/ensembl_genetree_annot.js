@@ -4,7 +4,7 @@ var tnt_theme_tree_ensembl_genetree_annot = function() {
     var height = 30;
 
     var tree = tnt.tree();
-    var annot = tnt.track();
+    var annot = tnt.board();
 
     var theme = function (ta, div) {
 
@@ -236,7 +236,7 @@ var tnt_theme_tree_ensembl_genetree_annot = function() {
 		return seq_info;
 	    };
 
-	    var leaves = tree.tree().get_all_leaves();
+	    var leaves = tree.root().get_all_leaves();
 	    var conservation = get_conservation(leaves);
 	    var exon_boundaries = get_boundaries(leaves);
 	    var aln_gaps = get_aln_gaps(leaves);
@@ -248,14 +248,14 @@ var tnt_theme_tree_ensembl_genetree_annot = function() {
 
 	    var track = function (leaf) {
 		var id = leaf._id;
-		return tnt.track.track()
+		return tnt.track()
                     .background_color("#EBF5FF")
                     .data (tnt.track.data()
 			   .update ( tnt.track.retriever.sync()
 				     .retriever (function (loc) {
 					 var seq_range = (loc.to - loc.from) <= 50 ? seq_info[id].slice(loc.from, loc.to) : [];
 					 return {
-					     'conservation' : function (d) {console.log(JSON.stringify(conservation[id])); return conservation[id] || []}, 
+					     'conservation' : function (d) {return conservation[id] || []}, 
 					     // 'gaps'         : reduce_gaps(aln_gaps[id], loc) || [],
 					     // 'boundaries'   : filter_exon_boundaries(exon_boundaries[id], loc) || [],
 					     'sequence'     : seq_range

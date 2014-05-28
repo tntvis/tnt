@@ -1,9 +1,9 @@
-var epeek_theme_track_comparative = function() {
+var tnt_theme_track_comparative = function() {
     "use strict";
 
     var genomeBrowsers;
 
-    var pathToScript = epeek.utils.script_path('comparative.js');
+    var pathToScript = tnt.utils.script_path('comparative.js');
 
     var species_to_icon_filename = {
 	'human' : "Homo_sapiens.png",
@@ -99,7 +99,7 @@ var epeek_theme_track_comparative = function() {
 //	var control_pane = d3.select(div)
 	var control_pane = control_td
 	    .append("div")
-	    .attr("class", "ePeek_control_pane")
+	    .attr("class", "tnt_control_pane")
 	    .style("margin-left", "auto")
 	    .style("margin-right", "auto")
 	    .style("width", "30%");
@@ -112,7 +112,7 @@ var epeek_theme_track_comparative = function() {
 		}});
 	left_button
 	    .append("img")
-	    .attr("src", pathToScript + "../../themes/pics/glyphicons_216_circle_arrow_left.png");
+	    .attr("src", pathToScript + "../../pics/glyphicons_216_circle_arrow_left.png");
 
 	var zoomin_button = control_pane
 	    .append("button")
@@ -123,7 +123,7 @@ var epeek_theme_track_comparative = function() {
 	    });
 	zoomin_button
 	    .append("img")
-	    .attr("src", pathToScript + "../../themes/pics/glyphicons_190_circle_plus.png");
+	    .attr("src", pathToScript + "../../pics/glyphicons_190_circle_plus.png");
 
 	var zoomout_button = control_pane
 	    .append("button")
@@ -134,7 +134,7 @@ var epeek_theme_track_comparative = function() {
 	    });
 	zoomout_button
 	    .append("img")
-	    .attr("src", pathToScript + "../../themes/pics/glyphicons_191_circle_minus.png");
+	    .attr("src", pathToScript + "../../pics/glyphicons_191_circle_minus.png");
 
 	var right_button = control_pane
 	    .append("button")
@@ -145,7 +145,7 @@ var epeek_theme_track_comparative = function() {
 	    });
 	right_button
 	    .append("img")
-	    .attr("src", pathToScript + "../../themes/pics/glyphicons_217_circle_arrow_right.png");
+	    .attr("src", pathToScript + "../../pics/glyphicons_217_circle_arrow_right.png");
 
 	var origin_button = control_pane
 	    .append("button")
@@ -156,7 +156,7 @@ var epeek_theme_track_comparative = function() {
 	    });
 	origin_button
 	    .append("img")
-	    .attr("src", pathToScript + "../../themes/pics/glyphicons_242_google_maps.png");
+	    .attr("src", pathToScript + "../../pics/glyphicons_242_google_maps.png");
 
 	var setupDiv = function (i) {
 	    setTimeout( function() {
@@ -171,55 +171,55 @@ var epeek_theme_track_comparative = function() {
 		table_row
 		    .append("td")
 		    .append("img")
-		    .attr("id", "ePeek_species_icon_" + i)
-		    .attr("src", pathToScript + "../../themes/pics/" + species_to_icon_filename[gB.species()]);
+		    .attr("id", "tnt_species_icon_" + i)
+		    .attr("src", pathToScript + "../../pics/" + species_to_icon_filename[gB.species()]);
 
 		table_row
 		    .append("td")
 		    .append("div")
-		    .attr("id", "ePeek_comparative" + i)
+		    .attr("id", "tnt_comparative" + i)
 
-		var track = epeek.track.track()
+		var track = tnt.track()
 		    .background_color(bgColor)
 		    .height(height)
-		    .data(epeek.track.data.gene())
-		    .display(epeek.track.feature.gene()
+		    .data(tnt.track.data.gene())
+		    .display(tnt.track.feature.gene()
 			     .foreground_color(fgColor)
 			    );
 
 		gB.add_track(track);
-		gB(document.getElementById("ePeek_comparative" + i));
+		gB(document.getElementById("tnt_comparative" + i));
 
 		// TODO: Should we have a getter in genome.js to retrieve this groupDiv?
-		var gDiv = d3.select("#ePeek_comparative" + i + " .ePeek_groupDiv");
+		var gDiv = d3.select("#tnt_comparative" + i + " .tnt_groupDiv");
 
 		// left chevron
 		gDiv
 		    .insert("img", ":first-child")
-		    .attr("src", pathToScript + "../pics/chevron_inactive_left.png")
+		    .attr("src", pathToScript + "../../pics/chevron_inactive_left.png")
 		    .attr("height", 150)
 		    .attr("width", 25)
 		    .on("click", function(){gB.move_left(1.2)})
 		    .on("mouseover", function(){
-			d3.select(this).attr("src", pathToScript + "../pics/chevron_active_left.png")
+			d3.select(this).attr("src", pathToScript + "../../pics/chevron_active_left.png")
 		    })
 		    .on("mouseout", function(){
-			d3.select(this).attr("src", pathToScript + "../pics/chevron_inactive_left.png")
+			d3.select(this).attr("src", pathToScript + "../../pics/chevron_inactive_left.png")
 		    });
 
 
 		// right chevron
 		gDiv
 		    .append("img")
-		    .attr("src", pathToScript + "../pics/chevron_inactive_right.png")
+		    .attr("src", pathToScript + "../../pics/chevron_inactive_right.png")
 		    .attr("height", 150)
 		    .attr("width", 25)
 		    .on("click", function(){gB.move_right(1.2)})
 		    .on("mouseover", function(){
-			d3.select(this).attr("src", pathToScript + "../pics/chevron_active_right.png")
+			d3.select(this).attr("src", pathToScript + "../../pics/chevron_active_right.png")
 		    })
 		    .on("mouseout", function(){
-			d3.select(this).attr("src", pathToScript + "../pics/chevron_inactive_right.png")
+			d3.select(this).attr("src", pathToScript + "../../pics/chevron_inactive_right.png")
 		    });
 
 
@@ -238,8 +238,8 @@ var epeek_theme_track_comparative = function() {
 	var index = pos-1;
 	genomeBrowsers[index].species(new_species);
 	genomeBrowsers[index].start();
-	d3.select("#ePeek_species_icon_" + index)
-	    .attr("src", pathToScript + "../../themes/pics/" + species_to_icon_filename[new_species]);
+	d3.select("#tnt_species_icon_" + index)
+	    .attr("src", pathToScript + "../../pics/" + species_to_icon_filename[new_species]);
     };
 
     var gene = function() {

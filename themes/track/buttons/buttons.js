@@ -1,16 +1,16 @@
-var epeek_theme_track_buttons = function() {
+var tnt_theme_track_buttons = function() {
 
     var factor = 0.2;
     var gBrowser;
 
-    var path = epeek.utils.script_path("buttons.js");
+    var path = tnt.utils.script_path("buttons.js");
 
     var theme = function(gB, div) {
 	gBrowser = gB;
 
 	var control_panel = d3.select(div)
 	    .append("div")
-	    .attr("id", "ePeek_buttons_controlPanel")
+	    .attr("id", "tnt_buttons_controlPanel")
 	    .style("margin-left",  "auto")
 	    .style("margin-right", "auto")
 	    .style("width",        "70%");
@@ -21,7 +21,7 @@ var epeek_theme_track_buttons = function() {
 	    .on("click", theme.left);
 	left_button
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/glyphicons_216_circle_arrow_left.png");
+	    .attr("src", path + "../../pics/glyphicons_216_circle_arrow_left.png");
 
 	var zoomIn_button = control_panel
 	    .append("button")
@@ -29,7 +29,7 @@ var epeek_theme_track_buttons = function() {
 	    .on("click", theme.zoomIn)
 	zoomIn_button
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/glyphicons_191_circle_minus.png");
+	    .attr("src", path + "../../pics/glyphicons_191_circle_minus.png");
 
 	var zoomOut_button = control_panel
 	    .append("button")
@@ -37,7 +37,7 @@ var epeek_theme_track_buttons = function() {
 	    .on("click", theme.zoomOut);
 	zoomOut_button
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/glyphicons_190_circle_plus.png");
+	    .attr("src", path + "../../pics/glyphicons_190_circle_plus.png");
 
 	var right_button = control_panel
 	    .append("button")
@@ -45,7 +45,7 @@ var epeek_theme_track_buttons = function() {
 	    .on("click", theme.right);
 	right_button
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/glyphicons_217_circle_arrow_right.png");
+	    .attr("src", path + "../../pics/glyphicons_217_circle_arrow_right.png");
 
 	var draggability_button = control_panel
 	    .append("button")
@@ -53,8 +53,8 @@ var epeek_theme_track_buttons = function() {
 	    .on("click",theme.toggle_draggability);
 	draggability_button
 	    .append("img")
-	    .attr("id", "ePeek_buttons_draggability") // WARNING: This doesn't support independent multiple instances of the control panel
-	    .attr("src", path + "../../themes/pics/noHand-cursor-icon.png")
+	    .attr("id", "tnt_buttons_draggability") // WARNING: This doesn't support independent multiple instances of the control panel
+	    .attr("src", path + "../../pics/noHand-cursor-icon.png")
 	    .attr("width", "20px")
 	    .attr("height", "20px");
 
@@ -74,12 +74,12 @@ var epeek_theme_track_buttons = function() {
 	    .append("text")
 	    .text("1");
 
-	var gene_track = epeek.track.track()
+	var gene_track = tnt.track()
 	    .height(200)
-	    .display(epeek.track.feature.gene()
+	    .display(tnt.track.feature.gene()
 		     .foreground_color("#586471")
 		    )
-	    .data(epeek.track.data.gene());
+	    .data(tnt.track.data.gene());
 
 	gB(div);
 
@@ -93,15 +93,15 @@ var epeek_theme_track_buttons = function() {
     };
 
     theme.toggle_draggability = function() {
-	var div_id = "ePeek_buttons_draggability";
+	var div_id = "tnt_buttons_draggability";
 	if (gBrowser.allow_drag()) {
             d3.select("#" + div_id)
-		.attr("src", path + "../../themes/pics/noHand-cursor-icon.png")
+		.attr("src", path + "../../pics/noHand-cursor-icon.png")
 		.attr("title", "Enable dragging");
             gBrowser.allow_drag(false);
 	} else {
             d3.select("#" + div_id)
-		.attr("src", path + "../../themes/pics/Hand-cursor-icon.png")
+		.attr("src", path + "../../pics/Hand-cursor-icon.png")
 		.attr("title", "Disable dragging");
             gBrowser.allow_drag(true);
 	}

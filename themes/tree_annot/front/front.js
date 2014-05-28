@@ -45,7 +45,7 @@ var tnt_theme = function () {
 		    }
 		}
 
-		tree.tree().sort (cond);
+		tree.root().sort (cond);
 		ta.update();
 	    });
 
@@ -73,8 +73,8 @@ var tnt_theme = function () {
 
 	// collapse nodes on click
         tree.on_click (function(node){
-	    node.toggle_node;
-            tree.update();
+	    node.toggle_node();
+            ta.update();
         });
 
 	// TRACK SIDE
@@ -119,7 +119,7 @@ var tnt_theme = function () {
 		    break;
 		}
 
-		var leaves = tree.tree().get_all_leaves();
+		var leaves = tree.root().get_all_leaves();
 		for (var i=0; i<leaves.length; i++) {
 		    var track = ta.annotation().find_track_by_id(leaves[i].id());
 		    track
@@ -150,7 +150,7 @@ var tnt_theme = function () {
 		.data (tnt.track.data()
 		       .update ( tnt.track.retriever.sync()
 				.retriever (function () {
-				    return data[sp].line || [];
+				    return data[sp] ? data[sp].line : [];
 				})
 			       )
 		      )

@@ -4,13 +4,13 @@ tnt.track.feature = function () {
 
     ////// Vars exposed in the API
     var exports = {
-	create  : function () {throw "create_elem is not defined in the base feature object"},
-	mover   : function () {throw "move_elem is not defined in the base feature object"},
-	updater : function () {},
-	info    : function () {},
-	guider  : function () {},
-	index   : undefined,
-	layout  : tnt.track.layout.identity(),
+	create   : function () {throw "create_elem is not defined in the base feature object"},
+	mover    : function () {throw "move_elem is not defined in the base feature object"},
+	updater  : function () {},
+	on_click : function () {},
+	guider   : function () {},
+	index    : undefined,
+	layout   : tnt.track.layout.identity(),
 	foreground_color : '#000'
     };
 
@@ -30,7 +30,7 @@ tnt.track.feature = function () {
     };
 
     var plot = function (new_elems, track, xScale) {
-	new_elems.on("click", exports.info);
+	new_elems.on("click", exports.on_click);
 	// new_elem is a g element where the feature is inserted
 	exports.create.call(track, new_elems, xScale);
     };

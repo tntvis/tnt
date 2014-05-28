@@ -1,4 +1,4 @@
-var epeek_theme_track_compact = function() {
+var tnt_theme_track_compact = function() {
     "use strict";
 
     // Regular expressions for user input
@@ -12,9 +12,9 @@ var epeek_theme_track_compact = function() {
     var show_links   = true;
     var title   = "e!Peek";
 
-    var path = epeek.utils.script_path("compact.js");
+    var path = tnt.utils.script_path("compact.js");
 
-    var qr_tooltip = epeek.tooltip.plain();
+    var qr_tooltip = tnt.tooltip.plain();
 
     // div_ids to display different elements
     // They have to be set dynamically because the IDs contain the div_id of the main element containing the plug-in
@@ -31,17 +31,6 @@ var epeek_theme_track_compact = function() {
 
     var gBrowser;
 
-    /** The closure returned by the theme
-	@alias ePeekTheme
-	@namespace
-	@param {Callback} ePeek The ePeek plug-in that has to be included in the theme.
-	@param {DOMElement} div The DOM element where the plug-in is going to be inserted.
-	@example
-	// Typically, it is used as follows:
-	var gB = epeek().width(920); // other methods can be included here
-	var gBTheme = epeek_theme(); // other methods can be included here
-	gBTheme(gB, document.getElementById('DOM_element_id');
-    */
     var gBrowserTheme = function(gB, div) {
 	// Set the different #ids for the html elements (needs to be lively because they depend on the div_id)
 	set_div_id(div);
@@ -58,7 +47,7 @@ var epeek_theme_track_compact = function() {
 	// The Options pane
 	var opts_pane = d3.select(div)
 	    .append("div")
-	    .attr("class", "ePeek_options_pane")
+	    .attr("class", "tnt_options_pane")
 	    .style("display", function() {
 		if (show_options) {
 		    return "block"
@@ -73,17 +62,17 @@ var epeek_theme_track_compact = function() {
 
 	var ensGeneLabel = opts_pane
 	    .append("span")
-	    .attr("class", "ePeek_option_label")
+	    .attr("class", "tnt_option_label")
 	    .html("Ensembl Genes[<span id='" + n_ensGenes_div_id + "'></span>]")
-	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ensGene_option"))});
+	    .on("click", function(){toggle(d3.select("#tnt_" + div_id + "_ensGene_option"))});
 
 	var orthologuesLabel = opts_pane
 	    .append("span")
-	    .attr("class", "ePeek_option_label")
-	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_ortho_option"))});
+	    .attr("class", "tnt_option_label")
+	    .on("click", function(){toggle(d3.select("#tnt_" + div_id + "_ortho_option"))});
 	orthologuesLabel
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/orthologues.png")
+	    .attr("src", path + "../../pics/orthologues.png")
 	    .attr("title", "Orthologues")
 	    .attr("width", "55px")
 	orthologuesLabel
@@ -98,11 +87,11 @@ var epeek_theme_track_compact = function() {
 
 	var paraloguesLabel = opts_pane
 	    .append("span")
-	    .attr("class", "ePeek_option_label")
-	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_para_option"))});
+	    .attr("class", "tnt_option_label")
+	    .on("click", function(){toggle(d3.select("#tnt_" + div_id + "_para_option"))});
 	paraloguesLabel
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/paralogues.png")
+	    .attr("src", path + "../../pics/paralogues.png")
 	    .attr("title", "Paralogues")
 	    .attr("width", "55px")
 	paraloguesLabel
@@ -117,60 +106,60 @@ var epeek_theme_track_compact = function() {
 
 	var searchLabel = opts_pane
 	    .append("span")
-	    .attr("class", "ePeek_option_label")
-	    .on("click", function(){toggle(d3.select("#ePeek_" + div_id + "_search_option"))});
+	    .attr("class", "tnt_option_label")
+	    .on("click", function(){toggle(d3.select("#tnt_" + div_id + "_search_option"))});
 	searchLabel
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/lookup.png")
+	    .attr("src", path + "../../pics/lookup.png")
 	    .attr("title", "Lookup gene")
 	    .attr("width", "30px");
 
 	var origLabel = opts_pane
 	    .append("span")
-	    .attr("class", "ePeek_option_label")
+	    .attr("class", "tnt_option_label")
 	    .on("click", function(){ gBrowser.start(orig) });
 	origLabel
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/orig.png")
+	    .attr("src", path + "../../pics/orig.png")
 	    .attr("title", "Return to origin")
 	    .attr("width", "25px");
 
 	var ensGeneBox = opts_pane
 	    .append("div")
-	    .attr("class", "ePeek_TabBlock")
-	    .attr("id", "ePeek_" + div_id + "_ensGene_option")
+	    .attr("class", "tnt_TabBlock")
+	    .attr("id", "tnt_" + div_id + "_ensGene_option")
 	    .style("width", gBrowser.width() + "px")
 	    .style("background-color", gBrowserTheme.background_color());
 
 	var orthoBox = opts_pane
 	    .append("div")
-	    .attr("class", "ePeek_TabBlock")
-	    .attr("id", "ePeek_" + div_id + "_ortho_option")
+	    .attr("class", "tnt_TabBlock")
+	    .attr("id", "tnt_" + div_id + "_ortho_option")
 	    .style("width", gBrowser.width() + "px")
 	    .style("background-color", gBrowserTheme.background_color());
 
 	var ParaBox = opts_pane
 	    .append("div")
-	    .attr("class", "ePeek_TabBlock")
-	    .attr("id", "ePeek_" + div_id + "_para_option")
+	    .attr("class", "tnt_TabBlock")
+	    .attr("id", "tnt_" + div_id + "_para_option")
 	    .style("width", gBrowser.width() + "px")
 	    .style("background-color", gBrowserTheme.background_color());
 
 	var searchBox = opts_pane
 	    .append("div")
-	    .attr("class", "ePeek_TabBlock")
-	    .attr("id", "ePeek_" + div_id + "_search_option")
+	    .attr("class", "tnt_TabBlock")
+	    .attr("id", "tnt_" + div_id + "_search_option")
 	    .style("width", gBrowser.width() + "px")
 	    .style("background-color", gBrowserTheme.background_color());
 
 	// The SearchBox
 	var p = searchBox
 	    .append("p")
-	    .attr("class", "ePeek_top_option")
+	    .attr("class", "tnt_top_option")
 	    .text("Gene name or location")
 	p
 	    .append("input")
-	    .attr("id", "ePeek_" + div_id + "_gene_name_input")
+	    .attr("id", "tnt_" + div_id + "_gene_name_input")
 	    .attr("type", "text")
 	    .attr("name", "gene");
 	p
@@ -214,70 +203,70 @@ var epeek_theme_track_compact = function() {
 	    }
 	}
 
-	var gene_track = epeek.track.track()
+	var gene_track = tnt.track()
 	    .height(200)
 	    .background_color(gBrowserTheme.background_color())
-	    .display(epeek.track.feature.gene()
+	    .display(tnt.track.feature.gene()
 		     .foreground_color(gBrowserTheme.foreground_color())
 		    )
-	    .data(epeek.track.data.gene());
+	    .data(tnt.track.data.gene());
 
 	gene_track
 	    .display()
-	    .info(gene_track.display().tooltip());
+	    .on_click(gene_track.display().tooltip());
 
 	gBrowser(div);
 	gBrowser.add_track(gene_track);
 
 	// The GeneInfo Panel
-	d3.select(div).select(".ePeek_groupDiv")
+	d3.select(div).select(".tnt_groupDiv")
 	    .append("div")
 	    .attr("class", "ePeek_gene_info")
-	    .attr("id", "ePeek_" + div_id + "_gene_info") // Both needed?
+	    .attr("id", "tnt_" + div_id + "_gene_info") // Both needed?
 	    .style("width", gBrowser.width() + "px");
 
 	// Links div
 	var links_pane = d3.select(div)
 	    .append("div")
-	    .attr("class", "ePeek_links_pane")
+	    .attr("class", "tnt_links_pane")
 	    .style("display", function() {if (show_links) {return "block"} else {return "none"}});
 
 	links_pane = links_pane
 	    .append("span")
 	    .text("Links: ");
 
-	// ePeek-web
-	var epeekweb = links_pane
+	// tnt-web
+	var tntweb = links_pane
 	    .append("span")
-	    .attr("class", "ePeek_link_label")
+	    .attr("class", "tnt_link_label")
 	    .attr("title", "Open in a new window")
 	.on("click", function() {console.log("here"); var link = buildLink("desktop"); window.open(link, "_blank")});
-	epeekweb
+	tntweb
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/open_in_new_window.png")
+	    .attr("src", path + "../../pics/open_in_new_window.png")
 	    .attr("width", "40px");
 
 	// ensembl
 	var ensemblLoc = links_pane
 	    .append("span")
-	    .attr("class", "ePeek_link_label")
+	    .attr("class", "tnt_link_label")
 	    .attr("title", "Open region in Ensembl")
 	    .on("click", function() {var link = buildEnsemblLink(); window.open(link, "_blank")});
 	ensemblLoc
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/e_open_in_new_window.png")
+	    .attr("src", path + "../../pics/e_open_in_new_window.png")
 	    .attr("width", "40px");
 
 	// QRtag label
 	var qrtagLabel = links_pane
 	    .append("span")
-	    .attr("class", "ePeek_qrtag_label") // both needed?
-	    .attr("id", "ePeek_" + div_id + "_qrtag_label")
+	    .attr("class", "tnt_qrtag_label") // both needed?
+	    .attr("id", "tnt_" + div_id + "_qrtag_label")
 	    .on("click", create_QRtag);
 
 	qrtagLabel
 	    .append("img")
-	    .attr("src", path + "../../themes/pics/qr.png")
+	    .attr("src", path + "../../pics/qr.png")
 	    .attr("title", "QR code")
 	    .attr("width", "30px");
 
@@ -292,9 +281,9 @@ var epeek_theme_track_compact = function() {
 
     var create_QRtag = function() {
 	// We remove previously created QRtag
-	// d3.select("#ePeek_" + div_id + "_QRcode").remove();
+	// d3.select("#tnt_" + div_id + "_QRcode").remove();
 
-	var tooltip_obj = '<div id="ePeek_' + div_id + '_qrtag_div"></id>';
+	var tooltip_obj = '<div id="tnt_' + div_id + '_qrtag_div"></id>';
 	qr_tooltip.call(this, tooltip_obj);
 
 	var qrtag = new QRtag();
@@ -303,31 +292,31 @@ var epeek_theme_track_compact = function() {
 	qrtag.size(180);
 	qrtag.color("FFF"); // gBrowser.foreground_color().toString());
 	qrtag.bgcolor("000"); // gBrowser.background_color().toString());
-	qrtag.target("ePeek_" + div_id + "_qrtag_div");
-	qrtag.id("ePeek_" + div_id + "_QRcode");
+	qrtag.target("tnt_" + div_id + "_qrtag_div");
+	qrtag.id("tnt_" + div_id + "_QRcode");
 	qrtag.image();
 
 	return;
     };
 
     var toggle = function(sel) {
-	var curr_on_display = sel.classed("ePeek_TabBlock_active");
+	var curr_on_display = sel.classed("tnt_TabBlock_active");
 
 	// We hide all elements
-	d3.selectAll(".ePeek_TabBlock")
-	    .classed("ePeek_TabBlock_active", false);
+	d3.selectAll(".tnt_TabBlock")
+	    .classed("tnt_TabBlock_active", false);
 
 	if (!curr_on_display) {
-	    sel.classed("ePeek_TabBlock_active", true);
+	    sel.classed("tnt_TabBlock_active", true);
 	} 
 
 	return;
     };
 
     var goSearch = function() {
-	d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
-	d3.select("#ePeek_" + div_id + "_orth_select").remove();
-	var search_term = document.getElementById("ePeek_" + div_id + "_gene_name_input").value;
+	d3.select("#tnt_" + div_id + "_ensGene_select").remove();
+	d3.select("#tnt_" + div_id + "_orth_select").remove();
+	var search_term = document.getElementById("tnt_" + div_id + "_gene_name_input").value;
 	if (isLocation(search_term)) {
 	    var loc = parseLocation(search_term);
 	    gBrowser.start(loc);
@@ -341,14 +330,14 @@ var epeek_theme_track_compact = function() {
 	var ensGenes_div = d3.select("#" + ensGenes_div_id);
 	var ensGene_sel = ensGenes_div
 	    .append("select")
-	    .attr("class", "ePeek_top_option")
-	    .attr("id", "ePeek_" + div_id + "_ensGene_select");
+	    .attr("class", "tnt_top_option")
+	    .attr("id", "tnt_" + div_id + "_ensGene_select");
 	
 	ensGene_sel.selectAll("option")
 	    .data(gene_array)
 	    .enter()
 	    .append("option")
-	    .attr("class", "ePeek_gene_option")
+	    .attr("class", "tnt_gene_option")
 	    .attr("value", function(d) {return d.id})
 	    .text(function(d) {return d.id});
 
@@ -363,19 +352,19 @@ var epeek_theme_track_compact = function() {
 	var div = d3.select("#" + orth_div_id);
 	var orth_select = div
 	    .append("select")
-	    .attr("class", "ePeek_top_option")
-	    .attr("id", "ePeek_" + div_id + "_orth_select");
+	    .attr("class", "tnt_top_option")
+	    .attr("id", "tnt_" + div_id + "_orth_select");
 
 	orth_select
 	    .append("option")
-	    .attr("class", "ePeek_orth_option")
+	    .attr("class", "tnt_orth_option")
 	    .text("-- Go to ortholog --");
 
 	orth_select.selectAll("option2")
 	    .data(orthologues, function(d){return d.id})
 	    .enter()
 	    .append("option")
-	    .attr("class", "ePeek_orth_option")
+	    .attr("class", "tnt_orth_option")
 	    .attr("value", function(d) {return d.id})
 	    .text(function(d) {return d.id + " (" + d.species + " - " + d.type + ")"});
 	
@@ -390,19 +379,19 @@ var epeek_theme_track_compact = function() {
 	var div = d3.select("#" + para_div_id);
 	var para_select = div
 	    .append("select")
-	    .attr("class", "ePeek_top_option")
-	    .attr("id", "ePeek_" + div_id + "_para_select");
+	    .attr("class", "tnt_top_option")
+	    .attr("id", "tnt_" + div_id + "_para_select");
 
 	para_select
 	    .append("option")
-	    .attr("class", "ePeek_para_option")
+	    .attr("class", "tnt_para_option")
 	    .text("-- Go to paralog --");
 
 	para_select.selectAll("option2")
 	    .data(paralogues, function(d){return d.id})
 	    .enter()
 	    .append("option")
-	    .attr("class", "ePeek_para_option")
+	    .attr("class", "tnt_para_option")
 	    .attr("value", function(d) {return d.id})
 	    .text(function(d) {return d.id + " (" + d.species + " - " + d.type + ")"});
 
@@ -414,12 +403,12 @@ var epeek_theme_track_compact = function() {
 
     // callbacks plugged to the gBrowser object
     var gene_info_cbak = function (gene) {
-	var sel = d3.select("#ePeek_" + div_id + "_gene_info");
+	var sel = d3.select("#tnt_" + div_id + "_gene_info");
 
 	sel
-	    .classed("ePeek_gene_info_active", true)
+	    .classed("tnt_gene_info_active", true)
 	    .append("p")
-	    .attr("class", "ePeek_gene_info_paragraph")
+	    .attr("class", "tnt_gene_info_paragraph")
 	    // .style("color", gBrowserTheme.foreground_color().darker())
 	    // .style("background-color", gBrowserTheme.background_color().brighter())
 	    // .style("height", gBrowser.height() + "px")
@@ -431,16 +420,16 @@ var epeek_theme_track_compact = function() {
 		    "loc: <i>" + gene.seq_region_name + ":" + gene.start + "-" + gene.end + " (Strand: " + gene.strand + ")</i><br />";});
 
 	sel.append("span")
-	    .attr("class", "ePeek_text_rotated")
+	    .attr("class", "tnt_text_rotated")
 	    .style("top", ~~gBrowser.height()/2 + "px")
 	    .style("background-color", gBrowserTheme.foreground_color())
 	    .append("text")
-	    .attr("class", "ePeek_link")
+	    .attr("class", "tnt_link")
 	    .style("color", gBrowserTheme.background_color())
 	    .text("[Close]")
-	    .on("click", function() {d3.select("#ePeek_" + div_id + "_gene_info" + " p").remove();
-				     d3.select("#ePeek_" + div_id + "_gene_info" + " span").remove();
-				     sel.classed("ePeek_gene_info_active", false)});
+	    .on("click", function() {d3.select("#tnt_" + div_id + "_gene_info" + " p").remove();
+				     d3.select("#tnt_" + div_id + "_gene_info" + " span").remove();
+				     sel.classed("tnt_gene_info_active", false)});
 
     };
 
@@ -452,8 +441,8 @@ var epeek_theme_track_compact = function() {
 	// The orthologues select + number of orthologues
 	var orthologues_sel = orthologues_select(homologues.orthologues);
 	orthologues_sel.on("change", function() {
-	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
-	    d3.select("#ePeek_" + div_id + "_orth_select").remove();
+	    d3.select("#tnt_" + div_id + "_ensGene_select").remove();
+	    d3.select("#tnt_" + div_id + "_orth_select").remove();
 	    gBrowser.start({
 		gene : this.value
 	    });
@@ -461,8 +450,8 @@ var epeek_theme_track_compact = function() {
 
 	var paralogues_sel  = paralogues_select(homologues.paralogues);
 	paralogues_sel.on("change", function() {
-	    d3.select("#ePeek_" + div_id + "_ensGene_select").remove();
-	    d3.select("#ePeek_" + div_id + "_para_select").remove();
+	    d3.select("#tnt_" + div_id + "_ensGene_select").remove();
+	    d3.select("#tnt_" + div_id + "_para_select").remove();
 	    gBrowser.start({
 		gene : this.value
 	    });
@@ -487,11 +476,6 @@ var epeek_theme_track_compact = function() {
     // TODO: What happens on error? i.e. if the string is not a valid location
     // TODO: We can make it smarter? allowing for examples species:gene?
 
-    /** <strong>parseLocation</strong> takes a string as input and guesses a location
-	setting <a href="../../ePeek.html#species">ePeek.species</a>, <a href="../../ePeek.html#chr">ePeek.chr</a>. <a href="../../ePeek.html#from">ePeek.from</a> and <a href="../../ePeek.html#to">ePeek.to</a>.
-	@param {String} location A string of the form species:chr:from-to
-	@returns {ePeekTheme} The original object allowing method chaining.
-    */
     var parseLocation = function(loc) {
 	var loc_arr = loc_re.exec(loc);
 	var loc = {};
@@ -503,42 +487,21 @@ var epeek_theme_track_compact = function() {
 	return loc;
     };
 
-    /** <strong>show_options</strong> sets the visibility of the options pane
-	Its argument is evaluated to 'true' or 'false'.
-	@param {Boolean} boolean
-	@returns {ePeekTheme} The original object allowing method chaining.
-    */
     gBrowserTheme.show_options = function(b) {
 	show_options = b;
 	return gBrowserTheme;
     };
 
-    /** <strong>show_title</strong> sets the visibility of the title.
-	This title is set by {@link ePeekTheme.title}.
-	Its argument is evaluated to 'true' or 'false'.
-	@param {Boolean} boolean
-	@returns {ePeekTheme} The original object allowing method chaining
-    */
     gBrowserTheme.show_title = function(b) {
 	show_title = b;
 	return gBrowserTheme;
     };
 
-    /** <strong>show_links</strong> sets the visibility of the links pane.
-	Its argument is evaluated to 'true' or 'false'.
-	@param {Boolean} boolean
-	@returns {ePeekTheme} The original object allowing method chaining
-    */
     gBrowserTheme.show_links = function(b) {
 	show_links = b;
 	return gBrowserTheme;
     };
 
-    /** <strong>title</strong> gets/sets the title of the widget.
-	If no argument is provided, returns the default title for the widget ("e!Peek").
-	@param {String} [title] The new title for the plug-in
-	@returns {ePeekTheme} The original object allowing method chaining
-     */
     gBrowserTheme.title = function (s) {
 	if (!arguments.length) {
 	    return title;
@@ -565,12 +528,12 @@ var epeek_theme_track_compact = function() {
 
     var set_div_id = function(div) {
 	div_id = d3.select(div).attr("id");
-	ensGenes_div_id = "ePeek_" + div_id + "_ensGene_option";
-	n_ensGenes_div_id = "ePeek_" + div_id + "_n_ensGenes";
-	orth_div_id = "ePeek_" + div_id + "_ortho_option";
-	n_orth_div_id = "ePeek_" + div_id + "_n_orthologues";
-	para_div_id = "ePeek_" + div_id + "_para_option";
-	n_para_div_id = "ePeek_" + div_id + "_n_paralogues";
+	ensGenes_div_id = "tnt_" + div_id + "_ensGene_option";
+	n_ensGenes_div_id = "tnt_" + div_id + "_n_ensGenes";
+	orth_div_id = "tnt_" + div_id + "_ortho_option";
+	n_orth_div_id = "tnt_" + div_id + "_n_orthologues";
+	para_div_id = "tnt_" + div_id + "_para_option";
+	n_para_div_id = "tnt_" + div_id + "_n_paralogues";
     };
 
 

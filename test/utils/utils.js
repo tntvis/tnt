@@ -1,59 +1,59 @@
-describe ("epeek.utils", function () {
+describe ("tnt.utils", function () {
     it ("Exists", function () {
-	assert.isDefined(epeek.utils);
-	assert.isObject(epeek.utils);
+	assert.isDefined(tnt.utils);
+	assert.isObject(tnt.utils);
     });
 
-    describe ("epeek.utils.reduce", function () {
+    describe ("tnt.utils.reduce", function () {
 	it ("Exists and is a method", function () {
-	    assert.isDefined(epeek.utils.reduce);
-	    assert.isFunction(epeek.utils.reduce);
+	    assert.isDefined(tnt.utils.reduce);
+	    assert.isFunction(tnt.utils.reduce);
 	});
 
 	it ("Returns a callback", function () {
-	    assert.isDefined(epeek.utils.reduce());
-	    assert.isFunction(epeek.utils.reduce());
+	    assert.isDefined(tnt.utils.reduce());
+	    assert.isFunction(tnt.utils.reduce());
 	});
 
 	it ("Has a 'reducer' method", function () {
-	    var reduce = epeek.utils.reduce();
+	    var reduce = tnt.utils.reduce();
 	    assert.isDefined(reduce.reducer);
 	    assert.isFunction(reduce.reducer);
 	});
 
 	it ("Has a 'redundant' method", function () {
-	    var reduce = epeek.utils.reduce();
+	    var reduce = tnt.utils.reduce();
 	    assert.isDefined(reduce.redundant);
 	    assert.isFunction(reduce.redundant);
 	});
 
 	it ("Has a 'value' method", function () {
-	    var reduce = epeek.utils.reduce();
+	    var reduce = tnt.utils.reduce();
 	    assert.isDefined(reduce.value);
 	    assert.isFunction(reduce.value);
 	});
 
 	it ("Has a 'smooth' method", function () {
-	    var reduce = epeek.utils.reduce();
+	    var reduce = tnt.utils.reduce();
 	    assert.isDefined(reduce.smooth);
 	    assert.isFunction(reduce.smooth);
 	});
 
     });
 
-    describe ("epeek.utils.reduce.line", function () {
+    describe ("tnt.utils.reduce.line", function () {
 	it ("Exists and is a method", function () {
-	    assert.isDefined(epeek.utils.reduce.line);
-	    assert.isFunction(epeek.utils.reduce.line);
+	    assert.isDefined(tnt.utils.reduce.line);
+	    assert.isFunction(tnt.utils.reduce.line);
 	});
 
 	it ("Returns a callback", function () {
-	    assert.isDefined(epeek.utils.reduce.line());
-	    assert.isDefined(epeek.utils.reduce.line());
+	    assert.isDefined(tnt.utils.reduce.line());
+	    assert.isDefined(tnt.utils.reduce.line());
 	});
 
 	it ("Has utils.reduce methods", function () {
-	    var reduce = epeek.utils.reduce.line();
+	    var reduce = tnt.utils.reduce.line();
 	    assert.isDefined(reduce.redundant);
 	    assert.isFunction(reduce.redundant);
 
@@ -76,7 +76,7 @@ describe ("epeek.utils", function () {
 			}
 		       ];
 
-	    var r = epeek.utils.reduce.line()
+	    var r = tnt.utils.reduce.line()
 		.smooth(0)
 		.redundant (function () {
 		    return false
@@ -104,7 +104,7 @@ describe ("epeek.utils", function () {
 			}
 		       ];
 
-	    var r = epeek.utils.reduce.line()
+	    var r = tnt.utils.reduce.line()
 		.smooth(1);
 
 	    var reduced = r(data);
@@ -137,7 +137,7 @@ describe ("epeek.utils", function () {
 			   val : 1
 			 }
 		       ];
-	    var r = epeek.utils.reduce.line()
+	    var r = tnt.utils.reduce.line()
 		.smooth (3)
 		.redundant (function () {return false});
 
@@ -154,7 +154,7 @@ describe ("epeek.utils", function () {
 
 	});
 
-	var red = epeek.utils.reduce.line();
+	var red = tnt.utils.reduce.line();
 	describe ("API", function () {
 
 	    describe ('smooth', function () {
@@ -233,18 +233,18 @@ describe ("epeek.utils", function () {
 
     });
 
-    describe ("epeek.utils.iterator", function () {
+    describe ("tnt.utils.iterator", function () {
 	it ("Exists and is a method", function () {
-	    assert.isDefined(epeek.utils.iterator);
-	    assert.isFunction(epeek.utils.iterator);
+	    assert.isDefined(tnt.utils.iterator);
+	    assert.isFunction(tnt.utils.iterator);
 	});
 
 	it ("Returns a callback", function () {
-	    assert.isDefined(epeek.utils.iterator());
-	    assert.isFunction(epeek.utils.iterator());
+	    assert.isDefined(tnt.utils.iterator());
+	    assert.isFunction(tnt.utils.iterator());
 	});
 
-	var i = epeek.utils.iterator();
+	var i = tnt.utils.iterator();
 	it ("Starts with 0 by default", function () {
 	    assert.strictEqual(i(), 0);
 	});
@@ -254,33 +254,33 @@ describe ("epeek.utils", function () {
 	});
 
 	it ("Can start from custom values", function () {
-	    var j = epeek.utils.iterator(100);
+	    var j = tnt.utils.iterator(100);
 	    assert.strictEqual(j(), 100);
 	});
     });
 
-    describe ("epeek.utils.script_path", function () {
+    describe ("tnt.utils.script_path", function () {
 	it ("Exists and is a method", function () {
-	    assert.isDefined(epeek.utils.script_path);
-	    assert.isFunction(epeek.utils.script_path);
+	    assert.isDefined(tnt.utils.script_path);
+	    assert.isFunction(tnt.utils.script_path);
 	});
 
 	it ("Finds the absolute path to a script", function () {
-	    var path = epeek.utils.script_path("ePeek.js");
+	    var path = tnt.utils.script_path("tnt.js");
 	    assert.isDefined(path);
 	    assert.notEqual(path, "");
 	});
     });
 
-    describe ("epeek.utils.api", function () {
+    describe ("tnt.utils.api", function () {
 	it ("Exists and is a method", function () {
-	    assert.isDefined(epeek.utils.api);
-	    assert.isFunction(epeek.utils.api);
+	    assert.isDefined(tnt.utils.api);
+	    assert.isFunction(tnt.utils.api);
 	});
 
 	// Namespace to attach getters/setters
 	var namespace = {};
-	var api = epeek.utils.api(namespace);
+	var api = tnt.utils.api(namespace);
 
 	describe ("Getter/Setter", function () {
 	    var props = {

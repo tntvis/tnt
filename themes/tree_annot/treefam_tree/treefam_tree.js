@@ -1,4 +1,4 @@
-var epeek_theme_tree_treefam_tree = function() {
+var tnt_theme_tree_treefam_tree = function() {
 	"use strict";
 
 	var tree_theme = function(sT, div) {

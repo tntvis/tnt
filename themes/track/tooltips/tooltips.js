@@ -11,7 +11,7 @@ var tnt_theme_track_tooltips = function() {
 		     .foreground_color('green')
 		    );
 
-	gene_track.display().info(gene_track.display().tooltip());
+	gene_track.display().on_click(gene_track.display().tooltip());
 
 	gB(div);
 	gB.add_track(gene_track);

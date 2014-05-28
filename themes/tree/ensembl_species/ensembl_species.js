@@ -1,7 +1,19 @@
-var epeek_theme_tree_ensembl_species = function() {
+var tnt_theme_tree_ensembl_species = function() {
     "use strict";
 
-    var tree_theme = function (sT, div) {
+    var tnt_theme = function (tree_vis, div) {
+
+        var get_tree_nodes_by_names = function (tree, names) {
+	    var nodes = []
+	    for (var i=0; i<names.length; i++) {
+		var node = tree.find_node_by_name(names[i]);
+		if (node !== undefined) {
+		    nodes.push(node);
+		}
+	    }
+	    return nodes;
+	};
+
 	var menu_pane = d3.select(div)
 	    .append("div")
 	    .append("span")
@@ -10,8 +22,9 @@ var epeek_theme_tree_ensembl_species = function() {
 	var sel = menu_pane
 	    .append("select")
 	    .on("change", function(d) {
-		 sT.subtree(sT.get_tree_nodes_by_names(ensembl_species[this.value]));
-		 sT.update();
+		 // tree_vis.subtree(tree_vis.get_tree_nodes_by_names(ensembl_species[this.value]));
+		tree_vis.subtree (get_tree_nodes_by_names (tree_vis.root(), ensembl_species[this.value]));
+		 tree_vis.update();
 	    });
 
 	for (var i in ensembl_species) {
@@ -24,14 +37,14 @@ var epeek_theme_tree_ensembl_species = function() {
 	d3.select("option[value='75']")
 	    .attr("selected", 1);
 
-	sT
-	    .data(epeek.tree.parse_newick(newick))
-	    .layout(epeek.tree.layout.radial().width(650).scale(false));
+	tree_vis
+	    .data(tnt.tree.parse_newick(newick))
+	    .layout(tnt.tree.layout.radial().width(650).scale(false));
 
-	sT(div);
+	tree_vis(div);
     };
 
-    return tree_theme;
+    return tnt_theme;
 };
 
 // newick tree

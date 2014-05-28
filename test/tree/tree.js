@@ -1,18 +1,18 @@
 var _t = {"tree":{"events":{"type":"speciation"},"branch_length":0,"children":[{"events":{"type":"speciation"},"branch_length":0.290309,"children":[{"events":{"type":"duplication"},"branch_length":0.553716,"children":[{"sequence":{"location":"groupV:2282380-2283414","id":[{"source":"EnsEMBL","accession":"ENSGACP00000004057"}]},"branch_length":0.009886,"id":{"source":"EnsEMBL","accession":"ENSGACG00000003104"},"taxonomy":{"scientific_name":"Gasterosteus aculeatus","id":69293}},{"sequence":{"location":"groupIV:26610147-26611181","id":[{"source":"EnsEMBL","accession":"ENSGACP00000025919"}]},"branch_length":0.010517,"id":{"source":"EnsEMBL","accession":"ENSGACG00000019610"},"taxonomy":{"scientific_name":"Gasterosteus aculeatus","id":69293}}],"confidence":{"value":100,"type":"boostrap"},"taxonomy":{"scientific_name":"Gasterosteus aculeatus","id":69293}},{"sequence":{"location":"3:10019898-10027054","id":[{"source":"EnsEMBL","accession":"ENSORLP00000002154"}]},"branch_length":0.799164,"id":{"source":"EnsEMBL","accession":"ENSORLG00000001736"},"taxonomy":{"scientific_name":"Oryzias latipes","id":8090}}],"confidence":{"value":100,"type":"boostrap"},"taxonomy":{"scientific_name":"Smegmamorpha","id":129949}},{"events":{"type":"duplication"},"branch_length":0.967267,"children":[{"events":{"type":"duplication"},"branch_length":0.044409,"children":[{"sequence":{"location":"LG11:12303551-12304465","id":[{"source":"EnsEMBL","accession":"ENSLOCP00000005677"}]},"branch_length":0.053459,"id":{"source":"EnsEMBL","accession":"ENSLOCG00000004738"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}},{"sequence":{"location":"LG4:788515-789902","id":[{"source":"EnsEMBL","accession":"ENSLOCP00000001145"}]},"branch_length":0.077798,"id":{"source":"EnsEMBL","accession":"ENSLOCG00000001021"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}}],"confidence":{"value":63,"type":"boostrap"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}},{"sequence":{"location":"LG7:27649875-27652376","id":[{"source":"EnsEMBL","accession":"ENSLOCP00000017148"}]},"branch_length":0.008044,"id":{"source":"EnsEMBL","accession":"ENSLOCG00000013911"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}}],"confidence":{"value":63,"type":"boostrap"},"taxonomy":{"scientific_name":"Lepisosteus oculatus","id":7918}}],"taxonomy":{"scientific_name":"Neopterygii","id":41665}},"rooted":1,"id":"ENSGT00540000072363","type":"gene tree"};
 
 
-describe('ePeek Tree', function () {
+describe('tnt Tree', function () {
     it("Exists and is called tree", function () {
-        assert.isDefined(epeek.tree);
+        assert.isDefined(tnt.tree);
     })
 
     var newick = "((human, chimp), mouse)";
-    var tree = epeek.tree.parse_newick(newick);
+    var tree = tnt.tree.parse_newick(newick);
 
     // Newick
     describe ('Newick reader', function () {
 	it ("Exists and is called tree.parse_newick", function () {
-	    assert.isDefined(epeek.tree.parse_newick);
+	    assert.isDefined(tnt.tree.parse_newick);
 	});
 
 	it ("Can read a simple tree", function () {
@@ -29,28 +29,28 @@ describe('ePeek Tree', function () {
 
 	it ("Reads the branch lenghts", function () {
 	    var newick = "((human:0.2,chimp:0.3),mouse:0.5)";
-	    var tree = epeek.tree.parse_newick(newick);
+	    var tree = tnt.tree.parse_newick(newick);
 	    assert.closeTo(tree.children[1].length, 0.5, 0.05);
 	    assert.closeTo(tree.children[0].children[0].length, 0.2, 0.05);
 	    assert.closeTo(tree.children[0].children[1].length, 0.3, 0.05);
 	});
     });
 
-    describe ('ePeek.tree.tree', function () {
-	var mytree = epeek.tree.tree(tree);
+    describe ('tnt.tree.node', function () {
+	var mytree = tnt.tree.node(tree);
 	it ("Can create trees", function () {
 	    assert.isDefined(mytree);
 	})
 
 	it ("Can create trees from JSON objects", function () {
-	    var this_tree = epeek.tree.tree(_t.tree);
+	    var this_tree = tnt.tree.node(_t.tree);
 	    assert.isDefined(this_tree);
 	    assert.isDefined(this_tree.children);
 	});
 
 	it ("Can return the original data", function () {
-	    var mytree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
-	    var mynewtree = epeek.tree.tree(mytree);
+	    var mytree = tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
+	    var mynewtree = tnt.tree.node(mytree);
 	    assert.property(mytree, "name");
 	    var orig_data = mynewtree.data();
 	    assert.deepEqual(mytree, orig_data);
@@ -105,8 +105,8 @@ describe('ePeek Tree', function () {
 
 	it('Inserts correct distances to root', function () {
 	    var newick = "((human:0.2,chimp:0.3):0.2,mouse:0.5)";
-	    var data = epeek.tree.parse_newick(newick);
-	    var tree = epeek.tree.tree(data);
+	    var data = tnt.tree.parse_newick(newick);
+	    var tree = tnt.tree.node(data);
 	    assert.isDefined(tree.root_dist);
 	    assert.isFunction(tree.root_dist);
 	    var root_dists = [];
@@ -122,8 +122,8 @@ describe('ePeek Tree', function () {
 	describe('API', function () {
 
 	    describe('find_node_by_field', function () {
-		var tree_from_newick = epeek.tree.tree(epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2"));
-		var tree_from_json   = epeek.tree.tree(_t.tree);
+		var tree_from_newick = tnt.tree.node(tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2"));
+		var tree_from_json   = tnt.tree.node(_t.tree);
 
 		it ("Finds a node by name", function () {
 		    assert.isDefined (tree_from_newick);
@@ -160,8 +160,8 @@ describe('ePeek Tree', function () {
 	    });
 
 	    describe('find_node_by_name', function () {
-		var newtree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
-		var mynewtree = epeek.tree.tree(newtree);
+		var newtree = tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
+		var mynewtree = tnt.tree.node(newtree);
 
 		it("Returns the correct node", function () {
 		    assert.isDefined(newtree);
@@ -178,7 +178,7 @@ describe('ePeek Tree', function () {
 		    assert.isDefined(root);
 		    assert.strictEqual(root.data().name, "anc2");
 		})
-		it("Returns nodes that are epeek.tree.tree's", function () {
+		it("Returns nodes that are tnt.tree.node's", function () {
 		    var node = mynewtree.find_node_by_name('anc1');
 		    assert.property(node, 'find_node_by_name');
 		})
@@ -201,8 +201,8 @@ describe('ePeek Tree', function () {
 	    });
 
 	    describe('lca', function () {
-		var newtree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
-		var mynewtree = epeek.tree.tree(newtree);
+		var newtree = tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
+		var mynewtree = tnt.tree.node(newtree);
 
 		it("Finds the correct lca node", function () {
 		    var nodes = [];
@@ -215,8 +215,8 @@ describe('ePeek Tree', function () {
 	    });
 
 	    describe('is_leaf', function () {
-		var newtree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
-		var mynewtree = epeek.tree.tree(newtree);
+		var newtree = tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
+		var mynewtree = tnt.tree.node(newtree);
 		it("Returns the correct number of leaves", function () {
 		    var leaves = 0;
 		    mynewtree.apply(function(node) {
@@ -238,8 +238,8 @@ describe('ePeek Tree', function () {
 	    });
 
 	    describe('parent', function () {
-		var newtree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
-		var mynewtree = epeek.tree.tree(newtree);
+		var newtree = tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
+		var mynewtree = tnt.tree.node(newtree);
 		var node = mynewtree.find_node_by_name("anc1");
 		var parent = node.parent();
 		it("Can take parents from nodes", function () {
@@ -248,7 +248,7 @@ describe('ePeek Tree', function () {
 		it("Returns the right node", function () {
 		    assert.strictEqual(parent.data().name, "anc2");
 		});
-		it("Returns an epeek.tree.tree object", function () {
+		it("Returns an tnt.tree.node object", function () {
 		    assert.property(parent, "is_leaf");
 		});
 		it("Returns undefined parent on root", function () {
@@ -258,8 +258,8 @@ describe('ePeek Tree', function () {
 	    });
 
 	    describe('children', function () {
-		var newtree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
-		var mynewtree = epeek.tree.tree(newtree);
+		var newtree = tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
+		var mynewtree = tnt.tree.node(newtree);
 		var node = mynewtree.find_node_by_name("anc1");
 		var children = node.children();
 		it("Can take children from nodes", function () {
@@ -268,7 +268,7 @@ describe('ePeek Tree', function () {
 		it("Returns a list of children", function () {
 		    assert.isArray(children);
 		});
-		it("Returns a list of epeek.tree.tree's", function () {
+		it("Returns a list of tnt.tree.node's", function () {
 		    _.each(children, function (el) {
 			assert.property(el, "is_leaf");
 		    });
@@ -281,8 +281,8 @@ describe('ePeek Tree', function () {
 	    });
 
 	    describe('upstream', function() {
-		var mytree = epeek.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
-		var mynewtree = epeek.tree.tree(mytree);
+		var mytree = tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2");
+		var mynewtree = tnt.tree.node(mytree);
 		var node = mynewtree.find_node_by_name('human');
 		it("Visits the correct number of antecesors", function () {
 		    var visited_parents = [];
@@ -425,8 +425,8 @@ describe('ePeek Tree', function () {
 
 		it("Sorts based on a numerical value", function () {
 		    var newick = "(((4,2),(5,1)),3)";
-		    var data = epeek.tree.parse_newick(newick);
-		    var tree = epeek.tree.tree(data);
+		    var data = tnt.tree.parse_newick(newick);
+		    var tree = tnt.tree.node(data);
 		    var ids = [];
 		    tree.apply(function (node) {
 			ids.push(node.id());

@@ -1,10 +1,10 @@
-describe('ePeek REST', function () {
+describe('TnT REST', function () {
     this.timeout(5000);
 
     it("Exists and is called eRest", function () {
-	assert.isDefined(epeek.eRest);
+	assert.isDefined(tnt.eRest);
     })
-    var rest = epeek.eRest();
+    var rest = tnt.eRest();
     it("Has a region limit", function () {
 	assert.isDefined(rest.limits);
 	assert.isDefined(rest.limits.region);

@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>e!Peek Themes</title>
+<title>TnT Themes</title>
 
 <div id="body">
 
-  <!-- D3.js -->
+  <!-- D3 -->
   <script src="../../../lib/d3.min.js"></script>
 
   <!-- TnT -->
   <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
+
   <script src="../../../lib/tnt.js"></script>
+  <script src="line_track.js"></script>
 
-  <!-- Tree.js -->
-  <script src="cafe_trees.js"></script>
-
-
-  <h1>Ensembl CAFE Tree</h1>
-  <div id="gene_tree"></div>
-
+  <h1>Line Tracks</h1>
+  <div id="vis"></div>
   <script>
+
     (function() {
-    var tree_vis = tnt.tree()
-    var theme = tnt_theme_tree_cafe_tree();
-    theme(tree_vis, document.getElementById("gene_tree"));
-    }());
+	var board = tnt.board().from(20).to(500);
+        var theme = tnt_theme_track_line_track();
+        theme(board, document.getElementById("vis"));
+    })();
+ 
   </script>
 
   <footer>
@@ -31,7 +30,4 @@
     Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
   </footer>
 
-
 </div>
-
-

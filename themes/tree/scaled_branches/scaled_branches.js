@@ -1,7 +1,7 @@
-var epeek_theme_tree_scaled_branches = function() {
+var tnt_theme_tree_scaled_branches = function() {
     "use strict";
 
-    var tree_theme = function (sT, div) {
+    var tree_theme = function (tree_vis, div) {
 	// In the div, we set up a "select" to transition between a radial and a vertical tree
 	var menu_pane = d3.select(div)
 	    .append("div")
@@ -13,13 +13,13 @@ var epeek_theme_tree_scaled_branches = function() {
 	    .on("change", function(d) {
 		switch (this.value) {
 		case "unscaled" :
-		    sT.layout().scale(false);
+		    tree_vis.layout().scale(false);
 		    break;
 		case "scaled" :
-		    sT.layout().scale(true);
+		    tree_vis.layout().scale(true);
 		    break;
 		};
-		sT.update();
+		tree_vis.update();
 	    });
 
 	sel
@@ -35,16 +35,16 @@ var epeek_theme_tree_scaled_branches = function() {
 
 	var newick = "(((Crotalus_oreganus_oreganus_cytochrome_b:0.00800,Crotalus_horridus_cytochrome_b:0.05866):0.04732,(Thamnophis_elegans_terrestris_cytochrome_b:0.00366,Thamnophis_atratus_cytochrome_b:0.00172):0.06255):0.00555,(Pituophis_catenifer_vertebralis_cytochrome_b:0.00552,Lampropeltis_getula_cytochrome_b:0.02035):0.05762,((Diadophis_punctatus_cytochrome_b:0.06486,Contia_tenuis_cytochrome_b:0.05342):0.01037,Hypsiglena_torquata_cytochrome_b:0.05346):0.00779);";
 
-	sT
-	    .data(epeek.tree.parse_newick(newick))
+	tree_vis
+	    .data(tnt.tree.parse_newick(newick))
 	    .duration(2000)
-	    .layout(epeek.tree.layout.vertical().width(600).scale(false));
+	    .layout(tnt.tree.layout.vertical().width(600).scale(false));
 
-	sT
+	tree_vis
 	    .label().height(function(){return 50});
 
 	// The visualization is started at this point
-	sT(div);
+	tree_vis(div);
     };
 
     return tree_theme;

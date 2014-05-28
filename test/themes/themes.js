@@ -1,4 +1,3 @@
-
 describe ("Themes", function () {
     describe ("Track", function () {
 
@@ -7,9 +6,9 @@ describe ("Themes", function () {
 	describe ("Minimal", function () {
 
 	    it ("Loads", function (done) {
-		var st = epeek.track.genome().gene("BRCA2");
-		var theme = epeek_theme_track_minimal();
-		theme(st, document.getElementById("minimal"));
+		var board = tnt.board.genome().gene("BRCA2");
+		var theme = tnt_theme_track_minimal();
+		theme(board, document.getElementById("minimal"));
 		setTimeout(done, delay);
 	    });
 
@@ -18,31 +17,20 @@ describe ("Themes", function () {
 	describe ("Legend", function () {
 
 	    it ("Loads", function (done) {
-		var st = epeek.track.genome();
-		var theme = epeek_theme_track_legend();
-		theme (st, document.getElementById("legend"));
+		var board = tnt.board.genome();
+		var theme = tnt_theme_track_legend();
+		theme (board, document.getElementById("legend"));
 		setTimeout (done, delay);
 	    });
 
-	});
-
-	describe ("Pins", function (done) {
-
-	    it ("Loads", function () {
-		var st = epeek.track.genome().gene("BRCA2");
-
-		var theme = epeek_theme_track_pins();
-		theme (st, document.getElementById ("pins"));
-		setTimeout (done, delay);
-	    });
 	});
 
 	describe("Tooltips", function () {
 
 	    it("Loads", function (done) {
-		var st = epeek.track.genome().gene("BRCA2");
-		var theme = epeek_theme_track_tooltips();
-		theme (st, document.getElementById("tooltips"));
+		var board = tnt.board.genome().gene("BRCA2");
+		var theme = tnt_theme_track_tooltips();
+		theme (board, document.getElementById("tooltips"));
 		setTimeout (done, delay);
 	    });
 
@@ -50,16 +38,16 @@ describe ("Themes", function () {
 
 	    // 	var e = document.createEvent('UIEvents');
 	    // 	e.initUIEvent('click', true, true);
-	    // 	var elems = d3.select("#tooltips").selectAll(".ePeek_elem").node().dispatchEvent(e);
+	    // 	var elems = d3.select("#tooltips").selectAll(".tnt_elem").node().dispatchEvent(e);
 	    // });
 	});
 
 	describe ("Resizable Div", function () {
 
 	    it ("Loads", function (done) {
-		var st = epeek.track.genome().gene("BRCA2");
-		var theme = epeek_theme_track_resizable_div();
-		theme (st, document.getElementById ("resizable-div"));
+		var board = tnt.board.genome().gene("BRCA2");
+		var theme = tnt_theme_track_resizable_div();
+		theme (board, document.getElementById ("resizable-div"));
 		setTimeout (done, delay);
 	    });
 
@@ -68,9 +56,9 @@ describe ("Themes", function () {
 	describe ("Resize", function () {
 
 	    it ("Loads", function (done) {
-		var st = epeek.track.genome().gene("BRCA2");
-		var theme = epeek_theme_track_resize();
-		theme (st, document.getElementById ("resize"));
+		var board = tnt.board.genome().gene("BRCA2");
+		var theme = tnt_theme_track_resize();
+		theme (board, document.getElementById ("resize"));
 		setTimeout (done, delay);
 	    });
 	});
@@ -78,12 +66,12 @@ describe ("Themes", function () {
 	describe ("Compact", function () {
 
 	    it ("Loads", function (done) {
-		var st = epeek.track.genome().gene("BRCA2").width(950);
-		var theme = epeek_theme_track_compact()
+		var board = tnt.board.genome().gene("BRCA2").width(950);
+		var theme = tnt_theme_track_compact()
 		    .show_title(false)
 		    .foreground_color("#586471")
 		    .background_color("#DDDDDD");
-		theme (st, document.getElementById ("compact"));
+		theme (board, document.getElementById ("compact"));
 		setTimeout (done, delay);
 	    });
 
@@ -92,9 +80,9 @@ describe ("Themes", function () {
 	describe ("Buttons", function () {
 
 	    it("Loads", function (done) {
-		var st = epeek.track.genome().gene("BRCA2");
-		var theme = epeek_theme_track_buttons();
-		theme (st, document.getElementById("buttons"));
+		var board = tnt.board.genome().gene("BRCA2");
+		var theme = tnt_theme_track_buttons();
+		theme (board, document.getElementById("buttons"));
 		setTimeout (done, delay);
 	    });
 
@@ -103,32 +91,12 @@ describe ("Themes", function () {
 
 	// describe ("Mobile", function () {
 	//     it ("Loads", function (done) {
-	// 	var st = epeek.track.genome();
-	// 	var theme = epeek_theme_track_mobile();
+	// 	var st = tnt.track.genome();
+	// 	var theme = tnt_theme_track_mobile();
 	// 	theme (st, document.getElementById("mobile"));
 	// 	setTimeout (done, delay);
 	//     });
 	// });
-
-	describe ("Genome-less Minimal", function () {
-
-	    it ("Loads", function () {
-		var st = epeek.track().from(0).to(500);
-		var theme = epeek_theme_track_track_minimal();
-		theme (st, document.getElementById ("track_minimal"));
-	    });
-
-	});
-
-	describe ("Swap tracks", function () {
-
-	    it ("Loads", function () {
-		var st = epeek.track().from(0).to(500);
-		var theme = epeek_theme_track_swap_tracks();
-		theme (st, document.getElementById("swap_tracks"));
-	    });
-
-	});
 
 	describe ("Comparative", function () {
 
@@ -138,9 +106,9 @@ describe ("Themes", function () {
 		var bgColor = "#DCE6E6";
 		var fgColor = "#0099CC";
 
-		var gBs = [ epeek.track.genome().species("human").width(width).gene(gene).allow_drag(false),
-			    epeek.track.genome().species("mouse").width(width).gene(gene).allow_drag(false)];
-		var theme = epeek_theme_track_comparative();
+		var gBs = [ tnt.board.genome().species("human").width(width).gene(gene).allow_drag(false),
+			    tnt.board.genome().species("mouse").width(width).gene(gene).allow_drag(false)];
+		var theme = tnt_theme_track_comparative();
 		theme (gBs, document.getElementById("comparative"));
 		setTimeout (done, delay);
 	    });
@@ -149,20 +117,89 @@ describe ("Themes", function () {
 
 	// describe("Orthologues Tree", function () {
 	//     it("Loads", function () {
-	// 	var st = epeek.track.genome();
-	// 	var theme = epeek_theme_track_orthologues_tree();
+	// 	var st = tnt.track.genome();
+	// 	var theme = tnt_theme_track_orthologues_tree();
 	// 	theme(st, document.getElementById("TestID"));
 	//     });
 	// });
 
+
+	describe ("Minimal Track", function () {
+
+	    it ("Loads", function () {
+		var board = tnt.board().from(0).to(500);
+		var theme = tnt_theme_track_track_minimal();
+		theme (board, document.getElementById ("track_minimal"));
+	    });
+
+	});
+
+	describe ("Sequence Track", function () {
+
+	    it ("Loads", function () {
+		var board = tnt.board().from(0).to(500);
+		var theme = tnt_theme_track_sequence_track();
+		theme (board, document.getElementById("sequence_track"));
+	    });
+
+	});
+
+	describe ("Line Track", function () {
+
+	    it ("Loads", function () {
+		var board = tnt.board().from(0).to(220);
+		var theme = tnt_theme_track_line_track();
+		theme (board, document.getElementById("line_track"));
+	    });
+
+	});
+
+	describe ("Swap Tracks", function () {
+
+	    it ("Loads", function () {
+		var board = tnt.board().from(0).to(500);
+		var theme = tnt_theme_track_swap_tracks();
+		theme (board, document.getElementById("swap_tracks"));
+	    });
+
+	});
+
+	describe ("Switch Tracks", function () {
+
+	    it ("Loads", function () {
+		var board = tnt.board().from(0).to(220);
+		var theme = tnt_theme_track_switch_track();
+		theme (board, document.getElementById("switch_tracks"));
+	    });
+
+	});
+
+	describe ("Dynamic Track", function () {
+
+	    it ("Loads", function () {
+		var board = tnt.board().from(0).to(500);
+		var theme = tnt_theme_track_dynamic_track();
+		theme (board, document.getElementById("dynamic_track"));
+	    });
+
+	});
+
+	describe ("2 Data and Features", function () {
+
+	    it ("Loads", function () {
+		var board = tnt.board().from(0).to(1000);
+		var theme = tnt_theme_track_2_data_and_features();
+		theme (board, document.getElementById("2_data_and_features"));
+	    });
+	});
 
     });
 
     describe("Trees", function () {
 
 	describe("Ensembl Species", function () {
-	    var st = epeek.tree();
-	    var theme = epeek_theme_tree_ensembl_species();
+	    var st = tnt.tree();
+	    var theme = tnt_theme_tree_ensembl_species();
 
 	    it ("Loads", function () {
 		theme (st, document.getElementById("ensembl_species"));
@@ -179,8 +216,8 @@ describe ("Themes", function () {
 	});
 
 	describe ("Sort Nodes", function () {
-	    var st = epeek.tree();
-	    var theme = epeek_theme_tree_sort_nodes();
+	    var st = tnt.tree();
+	    var theme = tnt_theme_tree_sort_nodes();
 
 	    it ("Loads", function () {
 		theme (st, document.getElementById("sort_nodes"));
@@ -202,34 +239,25 @@ describe ("Themes", function () {
 	    });
 	});
 
-	// describe("Species Tree", function () {
-	//     it("Loads", function () {
-	// 	var st = epeek.tree();
-	// 	var theme = epeek_theme_tree_species_tree();
-	// 	theme (st, document.getElementById("species_tree"));
-	//     });
-	// });
-
-
 	describe ("Swap Nodes", function () {
 	    it ("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_swap_nodes();
+		var st = tnt.tree();
+		var theme = tnt_theme_tree_swap_nodes();
 		theme (st, document.getElementById("swap_nodes"));
 	    });
 	});
 
 	describe ("Tooltips", function () {
 	    it ("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_tooltip();
+		var st = tnt.tree();
+		var theme = tnt_theme_tree_tooltip();
 		theme (st, document.getElementById("tree_tooltips"));
 	    });
 	});
 
 	describe ("Ensembl Gene Tree", function () {
-	    var st = epeek.tree();
-	    var theme = epeek_theme_tree_ensembl_gene_tree();
+	    var st = tnt.tree();
+	    var theme = tnt_theme_tree_ensembl_gene_tree();
 	    it ("Loads", function () {
 		theme(st, document.getElementById("ensembl_gene_tree"));
 	    });
@@ -237,56 +265,56 @@ describe ("Themes", function () {
 
 	describe ("Scaled Branches", function () {
 	    it ("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_scaled_branches();
+		var st = tnt.tree();
+		var theme = tnt_theme_tree_scaled_branches();
 		theme(st, document.getElementById("scaled_branches"));
 	    });
 	});
 
 	describe ("Labels", function () {
 	    it ("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_labels();
+		var st = tnt.tree();
+		var theme = tnt_theme_tree_labels();
 		theme(st, document.getElementById("labels"));
 	    });
 	});
 
 	describe ("Colors", function () {
 	    it("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_colors();
+		var st = tnt.tree();
+		var theme = tnt_theme_tree_colors();
 		theme(st, document.getElementById("colors"));
 	    });
 	});
 
 	describe ("Treefam", function () {
 	    it ("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_treefam_tree();
+		var st = tnt.tree();
+		var theme = tnt_theme_tree_treefam_tree();
 		theme(st, document.getElementById("treefam_tree"));
 	    });	    
 	});
 
 	describe ("Collapse Nodes", function () {
 	    it ("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_collapse_nodes();
+		var st = tnt.tree();
+		var theme = tnt_theme_tree_collapse_nodes();
 		theme(st, document.getElementById("collapse_nodes"));
 	    });
 	});
 
 	describe ("Layout Transition", function () {
 	    it ("Loads", function () {
-		var st = epeek.tree();
-		var theme = epeek_theme_tree_layout_transition();
+		var st = tnt.tree();
+		var theme = tnt_theme_tree_layout_transition();
 		theme(st, document.getElementById("layout_transition"));
 	    });
 	});
 
 	describe ("Simple Annotation", function () {
 	    it ("Loads", function () {
-		var st = epeek.tree_annot();
-		var theme = epeek_theme_tree_tree_annotation_simple();
+		var st = tnt.tree_annot();
+		var theme = tnt_theme_tree_tree_annotation_simple();
 		theme (st, document.getElementById("simple_annotation"));
 	    });
 	});

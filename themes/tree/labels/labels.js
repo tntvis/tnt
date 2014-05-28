@@ -1,11 +1,11 @@
-var epeek_theme_tree_labels = function() {
+var tnt_theme_tree_labels = function() {
     "use strict";
 
-    var tree_theme = function (sT, div) {
+    var tree_theme = function (tree_vis, div) {
 
 	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;"
 
-	var path = epeek.utils.script_path("labels.js");
+	var path = tnt.utils.script_path("labels.js");
 	var pics_path = path + "/pics/";
 
 	var scientific_to_common = {
@@ -29,33 +29,33 @@ var epeek_theme_tree_labels = function() {
 	// Different labels
 
 	// The empty label shows no label
-	var empty_label = epeek.tree.label.text()
+	var empty_label = tnt.tree.label.text()
 	    .text(function (d) {
 		return "";
 	    })
 
 	// The original label shows the name of the node (default)
-	var original_label = epeek.tree.label.text(); // Default options (ie. unchanged names)
+	var original_label = tnt.tree.label.text(); // Default options (ie. unchanged names)
 
 	// The clean label shows the names substituting underscores with spaces
-	var clean_label = epeek.tree.label.text() // Same as default but without underscores
+	var clean_label = tnt.tree.label.text() // Same as default but without underscores
 	    .text(function (d) {
 		return d.name.replace(/_/g, ' ');
 	    });
 
 	// The prefix label shows the first 7 characters of the labels appending '...' at the end
-	var prefix_label = epeek.tree.label.text() // Showing only 7 characters
+	var prefix_label = tnt.tree.label.text() // Showing only 7 characters
 	    .text(function (d) {
 		return d.name.substr(0,6) + "...";
 	    });
 
 	// The common label shows the common name of the species
-	var common_label = epeek.tree.label.text()
+	var common_label = tnt.tree.label.text()
 	    .text(function (d) {
 		return scientific_to_common[d.name]
 	    })
 
-	var separated_label = epeek.tree.label.text()
+	var separated_label = tnt.tree.label.text()
 	    .text(function (d) {
 		return scientific_to_common[d.name]
 	    })
@@ -64,7 +64,7 @@ var epeek_theme_tree_labels = function() {
 	    });
 
 	// The image label shows a picture of the species
-	var image_label = epeek.tree.label.img()
+	var image_label = tnt.tree.label.img()
 	    .src(function (d) {
 		return names_to_pics[d.name];
 	    })
@@ -85,7 +85,7 @@ var epeek_theme_tree_labels = function() {
 	// }
 	// mixed_label.remove = image_label.remove;
 
-	// var internal_label = epeek.tree.label.text()
+	// var internal_label = tnt.tree.label.text()
 	//     .text(function (node) {
 	// 	if (node.is_leaf()) {
 	// 	    return ""
@@ -100,17 +100,17 @@ var epeek_theme_tree_labels = function() {
 	// 	}
 	// 	return node.name.length * this.fontsize();
 	//     });
-	// var mixed_label = epeek.tree.label.composite()
+	// var mixed_label = tnt.tree.label.composite()
 	//     .add_label(original_label)
 	//     .add_label(image_label);
 
 	// The joined label shows a picture + the common name
-	var joined_label = epeek.tree.label.composite()
+	var joined_label = tnt.tree.label.composite()
 	    .add_label(image_label)
 	// This is the same 'common label' as the one above
 	// but we are not reusing that one because add_label
 	// adjusts automatically the transform of the labels
-	    .add_label(epeek.tree.label.text()
+	    .add_label(tnt.tree.label.text()
 		       .text(function (d) {
 			   return scientific_to_common[d.name]
 		       }));
@@ -126,35 +126,35 @@ var epeek_theme_tree_labels = function() {
 	    .on("change", function (d) {
 		switch (this.value) {
 		case "empty" :
-		    sT.label(empty_label);
+		    tree_vis.label(empty_label);
 		    break;
 		case "original" :
-		    sT.label(original_label);
+		    tree_vis.label(original_label);
 		    break;
 		case "clean" :
-		    sT.label(clean_label);
+		    tree_vis.label(clean_label);
 		    break;
 		case "prefix" :
-		    sT.label(prefix_label);
+		    tree_vis.label(prefix_label);
 		    break;
 		case "common" :
-		    sT.label(common_label);
+		    tree_vis.label(common_label);
 		    break;
 		case "separated" :
-		    sT.label(separated_label);
+		    tree_vis.label(separated_label);
 		    break;
 		case "image" :
-		    sT.label(image_label);
+		    tree_vis.label(image_label);
 		    break;
 		// case "mixed" :
 		//     sT.label(mixed_label);
 		//     break;
 		case "joined" :
-		    sT.label(joined_label);
+		    tree_vis.label(joined_label);
 		    break;
 		}
 
-		sT.update();
+		tree_vis.update();
 	    });
 
 	label_type_menu
@@ -203,14 +203,14 @@ var epeek_theme_tree_labels = function() {
 	    .attr("value", "joined")
 	    .text("joined img + text");
 
-	sT
-	    .data(epeek.tree.parse_newick(newick))
+	tree_vis
+	    .data(tnt.tree.parse_newick(newick))
 	    .duration(2000)
-	    .layout(epeek.tree.layout.vertical().width(600).scale(false))
+	    .layout(tnt.tree.layout.vertical().width(600).scale(false))
 	    .label(original_label);
 
 	// The visualization is started at this point
-	sT(div);
+	tree_vis(div);
     };
 
     return tree_theme;

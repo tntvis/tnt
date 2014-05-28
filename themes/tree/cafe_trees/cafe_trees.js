@@ -1,9 +1,9 @@
-var epeek_theme_tree_cafe_tree = function() {
+var tnt_theme_tree_cafe_tree = function() {
     "use strict";
 
-    var theme = function (tree, div) {
+    var theme = function (tree_vis, div) {
 
-        var label = epeek.tree.label.text()
+        var label = tnt.tree.label.text()
 	    .color(function (d) {
 		if (d.n_members === 0) {
 		    return 'lightgrey'
@@ -20,53 +20,54 @@ var epeek_theme_tree_cafe_tree = function() {
             .fontsize(10)
 	    .height(15);
 
-	var tooltip = epeek.tooltip.table()
+	var tooltip = tnt.tooltip.table()
 	    .allow_drag(false);
 	var cafe_tooltip = function (node) {
+	    var node_data = node.data();
 	    var obj = {};
 	    obj.header = {
 		label : "Taxon",
-		value : node.tax.alias_name +
-		    (node.tax.timetree_mya ? (" ~" + node.tax.timetree_mya +
+		value : node_data.tax.alias_name +
+		    (node_data.tax.timetree_mya ? (" ~" + node_data.tax.timetree_mya +
 						     " MYA" ) : '') +
 		    " (" +
-		    node.tax.scientific_name +
+		    node_data.tax.scientific_name +
 		    ")"
 
 	    };
 	    obj.rows = [
 		{ label : "Node ID",
-		  value : node.id
+		  value : node_data.id
 		},
 		{ label : "Members",
-		  value : node.n_members
+		  value : node_data.n_members
 		},
 		{ label : "p-value",
-		  value : node.pvalue
+		  value : node_data.pvalue
 		},
 		{ label : "Lambda",
-		  value : node.lambda
+		  value : node_data.lambda
 		},
 		{ label : "Taxon ID:",
-		  value : node.tax.id
+		  value : node_data.tax.id
 		},
 		{ label : "Scientific Name:",
-		  value : node.tax.scientific_name
+		  value : node_data.tax.scientific_name
 		}
 	    ];
 	    tooltip.call(this, obj);
 	};
 
-	d3.json('/themes/cafe_trees/ENSGT00550000074414.json',
+	d3.json('/themes/tree/cafe_trees/ENSGT00550000074414.json',
 		function (err, resp) {
 		    deploy_vis(resp);
 		});
 
 	// TREE SIDE
 	var deploy_vis = function (tree_obj) {
-	    tree
+	    tree_vis
 		.data (tree_obj.tree)
-		.layout (epeek.tree.layout.vertical()
+		.layout (tnt.tree.layout.vertical()
 			 .width(630)
 			 .scale(false)
 			)
@@ -91,10 +92,10 @@ var epeek_theme_tree_cafe_tree = function() {
 		    }
 		    return 'steelblue';
 		})
-		.node_info (cafe_tooltip);
+		.on_click (cafe_tooltip);
 
 
-	    tree(div);
+	    tree_vis(div);
 	}
     }
 

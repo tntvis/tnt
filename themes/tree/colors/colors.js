@@ -1,13 +1,13 @@
-var epeek_theme_tree_colors = function() {
+var tnt_theme_tree_colors = function() {
     "use strict";
 
-    var tree_theme = function (sT, div) {
+    var tree_theme = function (tree_vis, div) {
 	// In the div, we set up a "select" to transition between a radial and a vertical tree
 
-	sT
+	tree_vis
 	    .data(tree_data.tree)
 	    .duration(2000)
-	    .layout(epeek.tree.layout.vertical().width(500).scale(false))
+	    .layout(tnt.tree.layout.vertical().width(500).scale(false))
 	    .link_color(function (link) {
 		var col = "steelblue";
 		if (link.source && link.source.events) {
@@ -32,7 +32,7 @@ var epeek_theme_tree_colors = function() {
 		}
 	    });
 
-	sT
+	tree_vis
 	    .label()
 	    .height(function(){return 20})
 	    .text(function (node) {
@@ -43,7 +43,7 @@ var epeek_theme_tree_colors = function() {
 	    });
 
 	// The visualization is started at this point
-	sT(div);
+	tree_vis(div);
     };
 
     return tree_theme;

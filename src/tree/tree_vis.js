@@ -333,8 +333,12 @@ tnt.tree = function () {
 		.duration(conf.duration)
 		.attr("r", conf.node_circle_size);
 
-	    new_node.on("click", conf.node_info);
-	    new_node.on("dblclick", conf.node_dbl_info);
+	    new_node.on("click", function (node) {
+		conf.on_click.call(this, tnt.tree.node(node));
+	    });
+	    new_node.on("dblclick", function (node) {
+		conf.on_dbl_click.call(this, tnt.tree.node(node));
+	    });
 
 	    node.each(conf.label.remove);
 	    node.each(conf.label);

@@ -1,4 +1,4 @@
-var epeek_theme_tree_tree_annotation = function () {
+var tnt_theme_tree_tree_annotation = function () {
 
     var theme = function (div) {
 
@@ -6,8 +6,8 @@ var epeek_theme_tree_tree_annotation = function () {
 	var height = 20;
 
 	// Create tree and annot
-	var tree = epeek.tree();
-	var annot = epeek.track();
+	var tree = tnt.tree();
+	var annot = tnt.board();
 
 	// Create sub-divs for tree and annot
 	var tree_div = d3.select(div)
@@ -22,30 +22,28 @@ var epeek_theme_tree_tree_annotation = function () {
 	// Configure the tree
 	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:\95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;";
 	tree
-	    .data (epeek.tree.parse_newick (newick))
-	    .layout (epeek.tree.layout.vertical()
+	    .data (tnt.tree.parse_newick (newick))
+	    .layout (tnt.tree.layout.vertical()
 		     .width(430)
 		     .scale(false))
-	    .label (epeek.tree.label.text()
+	    .label (tnt.tree.label.text()
 		    .height(height));
 
 	// Plot the tree
 	tree(tree_div.node());
 
 	// TRACK SIDE
-	var leaves = tree.tree().get_all_leaves();
+	var leaves = tree.root().get_all_leaves();
 
 	var tracks = [];
 	for (var i=0; i<leaves.length; i++) {
             // Block Track1
-	    var block_track = epeek.track.track()
+	    var block_track = tnt.track()
 		.height(height)
-		.foreground_color("steelblue")
 		.background_color("#EBF5FF")
-		.data(epeek.track.data()
-		      .index("start")
+		.data(tnt.track.data()
 		      .update(
-			  epeek.track.retriever.sync()
+			  tnt.track.retriever.sync()
 			      .retriever (function () {
 				  return [
 				      {
@@ -60,26 +58,22 @@ var epeek_theme_tree_tree_annotation = function () {
 			      })
 		      )
 		     )
-		.display(epeek.track.feature.block());
+		.display(tnt.track.feature.block()
+			 .foreground_color("steelblue")
+			 .index (function (d) {
+			     return d.start;
+			 }));
 
 	    tracks.push (block_track);
 	}
 
-	// We set up the limits for the annotation part
-        // annot.limits (function (done) {
-        //     var lims = {
-        //         right : 1000
-        //     }
-        //     done(lims);
-        // });
 	annot.right (1000);
 
 	// An axis track
-	var axis = epeek.track.track()
+	var axis = tnt.track()
             .height(20)
-            .foreground_color("black")
             .background_color("white")
-            .display(epeek.track.feature.axis()
+            .display(tnt.track.feature.axis()
                      .orientation("bottom")
                     );
 
