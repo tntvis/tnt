@@ -277,7 +277,7 @@ describe('tnt Tree', function () {
 		});
 	    });
 
-	    describe('toggle_node', function () {
+	    describe('toggle', function () {
 		it ("hides nodes");
 		it ("un-hides nodes");
 	    });
