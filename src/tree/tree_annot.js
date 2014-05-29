@@ -8,7 +8,6 @@ tnt.tree_annot = function () {
 	    var t = tnt.track()
 		.background_color("#EBF5FF")
 		.data(tnt.track.data()
-		      .index('start')
 		      .update(tnt.track.retriever.sync()
 			      .retriever (function () {
 				  return  []
@@ -16,6 +15,9 @@ tnt.tree_annot = function () {
 			     ))
 		.display(tnt.track.feature.block()
 			 .foreground_color("steelblue")
+			 .index(function (d) {
+			     return d.start;
+			 })
 			);
 
 	    return t;
