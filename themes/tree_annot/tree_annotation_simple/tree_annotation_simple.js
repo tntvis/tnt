@@ -72,7 +72,7 @@ var tnt_theme_tree_tree_annotation_simple = function () {
 
 	// collapse nodes on click
         tree.on_click (function(node){
-            node.toggle_node(node)
+            node.toggle()
             ta.update();
         });
 

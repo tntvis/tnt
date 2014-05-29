@@ -73,7 +73,7 @@ var tnt_theme = function () {
 
 	// collapse nodes on click
         tree.on_click (function(node){
-	    node.toggle_node();
+	    node.toggle();
             ta.update();
         });
 
