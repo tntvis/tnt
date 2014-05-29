@@ -67,7 +67,7 @@ api :
 
                             // collapse node on click
                             tree_vis.on_click (function (node) {
-                                node.toggle_node (node)
+                                node.toggle (node)
                                 tree_vis.update();
                             });
 
@@ -188,7 +188,7 @@ api :
                   desc : retrieves a node based on its name field
                   full : Retrieves a node based on its 'name' field. This is a special case of <a href="#find_node_by_field">find_node_by_field</a>
                   example : null
-                - name : toggle_node
+                - name : toggle
                   path : node
                   args : null
                   desc : collapses / uncollapses the branch at the current node [REVISE]
@@ -198,7 +198,7 @@ api :
                                              .data(...)
                                              .layout(...);
                             tree_vis.on_click (function (node) {
-                                node.toggle_node();
+                                node.toggle();
                                 tree_vis.update();
                             });
                 - name : is_collapsed
