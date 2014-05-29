@@ -90,6 +90,10 @@ div .tnt_gene_info {
   font-size: 12px; }
   div .tnt_gene_info h1 {
     font-size: 30px; }
+  div .tnt_gene_info .link {
+    color: blue; }
+    div .tnt_gene_info .link:hover {
+      cursor: pointer; }
 div .tnt_gene_info_active {
   opacity: 1;
   z-index: 1001; }

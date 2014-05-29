@@ -77,6 +77,14 @@ div {
 	    font-size : 30px;
 	}
 
+	.link {
+	    color : blue;
+
+	    &:hover {
+		     cursor : pointer;
+		   }
+	}
+
     }
     .tnt_gene_info_active {
 	opacity : 1;
