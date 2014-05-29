@@ -74,7 +74,7 @@ tnt.tree = function () {
 	    var max = 0;
 	    var leaves = tree.get_all_leaves();
 	    for (var i=0; i<leaves.length; i++) {
-		var label_width = conf.label.width()(leaves[i].data());
+		var label_width = conf.label.width()(leaves[i]);
 		if (label_width > max) {
 		    max = label_width;
 		}
@@ -178,7 +178,10 @@ tnt.tree = function () {
 	});
 
 	new_node
-	    .each(conf.label);
+	    // .each(conf.label);
+	    .each (function (d) {
+	    	conf.label.call(this, tnt.tree.node(d));
+	    });
 
 	// Node labels only on leaves
 	// But only if skip_labels is false
@@ -341,7 +344,10 @@ tnt.tree = function () {
 	    });
 
 	    node.each(conf.label.remove);
-	    node.each(conf.label);
+	    // node.each(conf.label);
+	    node.each (function (d) {
+		conf.label.call(this, tnt.tree.node(d));
+	    });
 
 	    // node color is a dynamic property
 	    node.select("circle").attr('fill', conf.node_color);

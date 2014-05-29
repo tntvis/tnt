@@ -41,8 +41,8 @@ tnt.tree.label.text = function () {
     label.display (function (node) {
 	var l = d3.select(this)
 	    .append("text")
-	    .text(function(d){
-		return label.text()(d)
+	    .text(function(){
+		return label.text()(node)
 	    })
 	    .style('font-size', label.fontsize() + "px")
 	    .style('fill', d3.functor(label.color()));
