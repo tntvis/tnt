@@ -57,7 +57,7 @@ tnt.tooltip = function() {
 // 	    .attr("src", path + "lib/close.png")
 	    .attr("width", "20px")
 	    .attr("height", "20px")
-	    .on("click", function() {d3.select(this).node().parentNode.parentNode.remove();});
+	    .on("click", function () {tooltip.close.call(this)});
 
 	fill.call(tooltip_div, data);
 
@@ -66,6 +66,10 @@ tnt.tooltip = function() {
 	// Is it correct / needed to return self here?
 	return tooltip;
 
+    };
+
+    tooltip.close = function () {
+	d3.select(this).selectAncestor('div').remove();
     };
 
     tooltip.filler = function (cbak) {
@@ -152,9 +156,18 @@ tnt.tooltip.table = function () {
 	
 	table_rows
 	    .append("td")
-	    .html(function(d,i) {return obj.rows[i].value});
-
-
+	    .html(function(d,i) {return obj.rows[i].value})
+	    .each(function (d) {
+		if (d.link === undefined) {
+		    return
+		}
+		d3.select(this)
+		    .classed("link", 1)
+		    .on('click', function (d) {
+			d.link(d.obj);
+			tooltip.close.call(this);
+		    });
+	    });
     });
 
     return tooltip;
