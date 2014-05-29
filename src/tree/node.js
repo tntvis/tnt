@@ -111,18 +111,23 @@ tnt.tree.node = function (data) {
 	return node.find_node_by_field(name, 'name');
     });
 
-    api.method ('toggle_node', function() {
-	// var node_data = node.data();
+    api.method ('toggle', function() {
 	if (data) {
-	    if (data.children) {
+	    if (data.children) { // Uncollapsed -> collapse
+		var hidden = 0;
+		node.apply (function (n) {
+		    var hidden_here = n.n_hidden() || 0;
+		    hidden += (n.n_hidden() || 0) + 1;
+		});
+		node.n_hidden (hidden-1);
 		data._children = data.children;
 		data.children = undefined;
-	    } else {
+	    } else {             // Collapsed -> uncollapse
+		node.n_hidden(0);
 		data.children = data._children;
 		data._children = undefined;
 	    }
 	}
-		// return node;	
     });
 
     api.method ('is_collapsed', function () {
@@ -170,6 +175,13 @@ tnt.tree.node = function (data) {
 	return _lca(node1, node2._parent);
     };
 
+    api.method('n_hidden', function (val) {
+	if (!arguments.length) {
+	    return node.property('_hidden');
+	}
+	node.property('_hidden', val);
+	return node
+    });
 
     api.method ('get_all_leaves', function () {
 	var leaves = [];
