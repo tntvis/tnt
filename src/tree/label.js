@@ -39,7 +39,7 @@ tnt.tree.label.text = function () {
 	.getset ('fontsize', 10)
 	.getset ('color', "#000")
 	.getset ('text', function (d) {
-	    return d.name;
+	    return d.data().name;
 	})
 
     label.display (function (node) {
