@@ -128,15 +128,17 @@ tnt.tree = function () {
 	var link = vis.selectAll("path.tnt_tree_link")
 	    .data(curr.links, function(d){return d.target._id});
 	link
-	    	.enter()
-		.append("path")
-	    	.attr("class", "tnt_tree_link")
-	    	.attr("id", function(d) {
-	    	    return "tnt_tree_link_" + div_id + "_" + d.target._id;
-	    	})
-	    	.attr("fill", "none")
-	    	.style("stroke", conf.link_color)
-		.attr("d", diagonal);	    
+	    .enter()
+	    .append("path")
+	    .attr("class", "tnt_tree_link")
+	    .attr("id", function(d) {
+	    	return "tnt_tree_link_" + div_id + "_" + d.target._id;
+	    })
+	    .attr("fill", "none")
+	    .style("stroke", function (d) {
+		return d3.functor(conf.link_color)(tnt.tree.node(d));
+	    })
+	    .attr("d", diagonal);	    
 
 	// NODES
 	var node = vis.selectAll("g.tnt_tree_node")
@@ -164,9 +166,15 @@ tnt.tree = function () {
 
 	new_node
 	    .append('circle')
-	    .attr("r", conf.node_circle_size)
-	    .attr('fill', conf.node_color)
-	    .attr('stroke', '#369')
+	    .attr("r", function (d) {
+		return d3.functor(conf.node_circle_size)(tnt.tree.node(d));
+	    })	 
+	    .attr('fill', function (d) {
+		return d3.functor(conf.node_color)(tnt.tree.node(d));
+	    })
+	    .attr('stroke', function (d) {
+		return d3.functor(conf.node_color)(tnt.tree.node(d));
+	    })
 	    .attr('stroke-width', '2px');
 
 	new_node.on("click", function (node) {
@@ -178,7 +186,7 @@ tnt.tree = function () {
 	});
 
 	new_node
-	    // .each(conf.label);
+	    // .eachconf.label);
 	    .each (function (d) {
 	    	conf.label.call(this, tnt.tree.node(d));
 	    });
@@ -286,8 +294,10 @@ tnt.tree = function () {
 		.attr("id", function (d) {
 		    return "tnt_tree_link_" + div_id + "_" + d.target._id;
 		})
-		.attr("fill", "none")
-		.attr("stroke", conf.link_color)
+		// .attr("fill", "none")
+		.attr("stroke", function (d) {
+		    return d3.functor(conf.link_color)(tnt.tree.node(d));
+		})
 		.attr("d", diagonal);
 
 	    // Move the links to their final position, but keeping the integrity of the tree
@@ -330,11 +340,15 @@ tnt.tree = function () {
 	    new_node
 		.append('circle')
 		.attr("r", 1e-6)
-		.attr('stroke', '#369')
+		.attr('stroke', function (d) {
+		    return d3.functor(conf.node_color)(tnt.tree.node(d));
+		})
 		.attr('stroke-width', '2px')
 		.transition()
 		.duration(conf.duration)
-		.attr("r", conf.node_circle_size);
+		.attr("r", function (d) {
+		    return d3.functor(conf.node_circle_size)(tnt.tree.node(d));
+		});
 
 	    new_node.on("click", function (node) {
 		conf.on_click.call(this, tnt.tree.node(node));
@@ -343,14 +357,23 @@ tnt.tree = function () {
 		conf.on_dbl_click.call(this, tnt.tree.node(node));
 	    });
 
-	    node.each(conf.label.remove);
-	    // node.each(conf.label);
-	    node.each (function (d) {
-		conf.label.call(this, tnt.tree.node(d));
-	    });
 
-	    // node color is a dynamic property
-	    node.select("circle").attr('fill', conf.node_color);
+	    // node color, size and labels are dynamic properties
+	    node
+		.select("circle")
+		.attr('fill', function (d) {
+		    return d3.functor(conf.node_color)(tnt.tree.node(d));
+		})
+		.attr('r', function (d) {
+		    return d3.functor(conf.node_circle_size)(tnt.tree.node(d));
+		});
+
+	    // TODO: Shouldn't this be done only on new nodes? Old nodes should already have the labels
+	    node
+		.each (conf.label.remove)
+		    .each (function (d) {
+			conf.label.call(this, tnt.tree.node(d));
+		    });
 	    
 	    // Node labels only on leaves
 	    // But only if skip_labels is false
