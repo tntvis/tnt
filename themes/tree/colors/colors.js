@@ -8,10 +8,12 @@ var tnt_theme_tree_colors = function() {
 	    .data(tree_data.tree)
 	    .duration(2000)
 	    .layout(tnt.tree.layout.vertical().width(500).scale(false))
-	    .link_color(function (link) {
+	    .link_color(function (source, target) {
 		var col = "steelblue";
-		if (link.source && link.source.events) {
-		    switch (link.source.events.type) {
+		var source_data = source.data();
+		var target_data = target.data();
+		if (source_data.events) {
+		    switch (source_data.events.type) {
 		    case "speciation" : 
 			col = "darkgreen";
 			break
@@ -23,9 +25,10 @@ var tnt_theme_tree_colors = function() {
 		}
 	    })
 	    .node_color(function (node) {
-		if (node.events && node.events.type && node.events.type === 'speciation') {
+		var d = node.data();
+		if (d.events && d.events.type && d.events.type === 'speciation') {
 		    return 'green';
-		} else if (node.events && node.events.type && node.events.type === 'duplication') {
+		} else if (d.events && d.events.type && d.events.type === 'duplication') {
 		    return 'red';
 		} else {
 		    return 'orange';
@@ -36,8 +39,9 @@ var tnt_theme_tree_colors = function() {
 	    .label()
 	    .height(function(){return 20})
 	    .text(function (node) {
-		if (node.children === undefined) {
-		    return node.id.accession;
+		var d = node.data();
+		if (d.children === undefined) {
+		    return d.id.accession;
 		}
 		return "";
 	    });

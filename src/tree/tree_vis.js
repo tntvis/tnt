@@ -134,9 +134,9 @@ tnt.tree = function () {
 	    .attr("id", function(d) {
 	    	return "tnt_tree_link_" + div_id + "_" + d.target._id;
 	    })
-	    .attr("fill", "none")
+	    // .attr("fill", "none")
 	    .style("stroke", function (d) {
-		return d3.functor(conf.link_color)(tnt.tree.node(d));
+		return d3.functor(conf.link_color)(tnt.tree.node(d.source), tnt.tree.node(d.target));
 	    })
 	    .attr("d", diagonal);	    
 
@@ -296,7 +296,7 @@ tnt.tree = function () {
 		})
 		// .attr("fill", "none")
 		.attr("stroke", function (d) {
-		    return d3.functor(conf.link_color)(tnt.tree.node(d));
+		    return d3.functor(conf.link_color)(tnt.tree.node(d.source), tnt.tree.node(d.target));
 		})
 		.attr("d", diagonal);
 
