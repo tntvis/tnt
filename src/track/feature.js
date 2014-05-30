@@ -49,17 +49,23 @@ tnt.track.feature = function () {
 	var data_elems = layout.elements();
 
 	var vis_elems;
+	// .data(data_elems, exports.index);
 	if (field !== undefined) {
 	    vis_elems = svg_g.selectAll(".tnt_elem_" + field)
 		.data(data_elems, exports.index);
 	} else {
-	    vis_elems = svg_g.selectAll(".tnt_elem")
-		.data(data_elems, function (d) {
-		    if (d !== undefined) {
-			return exports.index(d);
-		    }
-		})
-		// .data(data_elems, exports.index);
+	    if (exports.index) { // Indexing by field
+		vis_elems = svg_g.selectAll(".tnt_elem")
+		    .data(data_elems, function (d) {
+			if (d !== undefined) {
+			    return exports.index(d);
+			}
+		    })
+	    } else { // Indexing by position in array
+		vis_elems = svg_g.selectAll(".tnt_elem")
+		    .data(data_elems)
+	    }
+
 	}
 
 	exports.updater.call(track, vis_elems, xScale);
@@ -655,18 +661,25 @@ tnt.track.feature.block = function () {
     // 'Inherit' from tnt.track.feature
     var feature = tnt.track.feature();
 
-    feature.create(function (new_elems, xScale) {
+    tnt.utils.api(feature)
+	.getset('from', function (d) {
+	    return d.start;
+	})
+	.getset('to', function (d) {
+	    return d.end;
+	});
 
+    feature.create(function (new_elems, xScale) {
 	var track = this;
 	new_elems
 	    .append("rect")
-	    .attr("x", function (d) {
+	    .attr("x", function (d, i) {
 		// TODO: start, end should be adjustable via the tracks API
-		return xScale(d.start);
+		return xScale(feature.from()(d, i));
 	    })
 	    .attr("y", 0)
-	    .attr("width", function (d) {
-		return (xScale(d.end) - xScale(d.start));
+	    .attr("width", function (d, i) {
+		return (xScale(feature.to()(d, i)) - xScale(feature.from()(d, i)));
 	    })
 	    .attr("height", track.height())
 	    .attr("fill", track.background_color())
@@ -704,66 +717,6 @@ tnt.track.feature.block = function () {
 
 };
 
-// tnt.track.feature.pin = function () {
-//     // The path to the current tnt.js script. Needed to reach the pngs
-//     var path = tnt.utils.script_path("tnt.js");
-//     var pin_color = "red";
-// //    var pin_url = path + "lib/pins/pin_red.png";
-//     var pins_icons = [path + "lib/pins/pin_red.png",
-//                       path + "lib/pins/pin_blue.png",
-//                       path + "lib/pins/pin_green.png",
-//                       path + "lib/pins/pin_yellow.png",
-//                       path + "lib/pins/pin_magenta.png",
-//                       path + "lib/pins/pin_gray.png"];
-
-
-//     // 'Inherit' from tnt.track.feature
-//     var feature = tnt.track.feature();
-
-//     feature.pin_color = function(c) {
-//         if (!arguments.length) {
-//             return pin_color;
-//         }
-//         pin_color = c;
-//         if (c === "red") {
-//             feature.pin_url (pins_icons[0]);
-//         }
-//         if (c === "blue") {
-//             feature.pin_url (pins_icons[1]);
-//         }
-//         if (c === "green") {
-//             feature.pin_url (pins_icons[2]);
-//         }
-//         return feature;
-//     };
-
-
-//     feature.create(function (new_elems, xScale) {
-// 	var track = this;
-// 	new_elems
-// 	    .append("image")
-// 	    .attr("xlink:href", feature.pin_url())
-// 	    .attr("x", function (d) {
-// 		return xScale(d.pos)
-// 	    })
-// 	    .attr("y", track.height() - 25)
-// 	    .attr("width", "20px")
-// 	    .attr("height", "20px");
-//     });
-
-//     feature.mover(function (pins, xScale) {
-// 	pins
-// 	    .select("image")
-// 	    .attr("x", function (d) {
-// 		return xScale(d.pos);
-// 	    });
-//     });
-
-//     tnt.utils.api (feature)
-// 	.getset ('pin_url', path + "lib/pins/pin_red.png");
-
-//     return feature;
-// };
 
 tnt.track.feature.axis = function () {
     var xAxis;
