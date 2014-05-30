@@ -42,4 +42,15 @@
        })();
      </script>
 
+  {% when 'hog' %}
+     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+     <script src={{ site.baseurl }}/lib/hog.js></script>
+     <script>
+       (function () {
+       var t = tnt.tree_annot();
+       var theme = tnt_theme_tree_hog();
+       theme(t, document.getElementById('example_tree'));
+       })()
+     </script>
+
 {% endcase %}
