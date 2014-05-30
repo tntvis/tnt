@@ -1,6 +1,8 @@
 tnt.tree_annot = function () {
 "use strict";
 
+    var no_track = true;
+
     // Defaults
     var tree_conf = {
 	tree : undefined,
@@ -143,6 +145,49 @@ tnt.tree_annot = function () {
 
     var api = tnt.utils.api (tree_annot)
 	.getset (tree_conf);
+
+    // TODO: Rewrite with the api interface
+    tree_annot.track = function (new_track) {
+	if (!arguments.length) {
+	    return tree_conf.track;
+	}
+	// First time it is set
+	if (no_track) {
+	    tree_conf.track = new_track;
+	    no_track = false;
+	    return tree_annot;
+	}
+
+	// If it is reset -- apply the changes
+	var tracks = tree_conf.annotation.tracks();
+	var start_index = (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') ? 1 : 0;
+	var end_index = (tree_conf.ruler === 'both' || tree_conf.ruler === 'bottom') ? 1 : 0;
+
+	for (var i=start_index; i<(tracks.length - end_index); i++) {
+	    var t = tracks[i];
+	    var leaf;
+	    tree_conf.tree.root().apply (function (node) {
+		if (node.id() === t.id()) {
+		    leaf = node;
+		}
+	    })
+
+	    var n_track;
+	    (function (leaf) {
+		tnt.track.id = function () {
+		    if (tree_conf.key === undefined) {
+			return leaf.id();
+		    }
+		    return leaf.property(tree_conf.key);
+		};
+		n_track = new_track(leaf.data())
+		    .height(tree_conf.tree.label().height());
+	    })(leaf);
+
+	    tracks[i] = n_track;
+	}
+	tree_conf.annotation.start();
+    };
     
     return tree_annot;
 };
