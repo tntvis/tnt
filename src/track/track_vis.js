@@ -6,7 +6,7 @@ tnt.board = function() {
     var svg;
     var div_id;
     var tracks = [];
-    var min_width = 500;
+    var min_width = 50;
     var height    = 0;    // This is the global height including all the tracks
     var width     = 920;
     var height_offset = 20;
