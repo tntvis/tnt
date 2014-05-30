@@ -68,6 +68,9 @@ var tnt_theme = function () {
 		     .width(430)
 		     .scale(false))
 	    .label (tnt.tree.label.text()
+		    .text(function (node) {
+			return node.data().name;
+		    })
 		    .fontsize(12)
 		    .height(height));
 
@@ -85,51 +88,19 @@ var tnt_theme = function () {
 	    .zoom_out(4000)
 	    .right(4000);
 
-	var set_retriever = function (leaf, value) {
-	    return function () {
-		return data[leaf.property('name')][value];
-	    }
-	};
-
 	var display_select = d3.select(div)
 	    .append("select")
 	    .on("change", function () {
-		var tracks = ta.annotation().tracks();
 		switch (this.value) {
 		case 'blocks' : 
-		    for (var i=1; i<tracks.length-1; i++) {
-			tracks[i]
-		    	    .display( tnt.track.feature.ensembl()
-				      .foreground_color ('steelblue')
-				      .index (function (d) {
-					  return d.start;
-				      }));
-		    }
+		    ta.track(track_blocks);
 		    break;
 
 		case 'line' :
-		    for (var i=1; i<tracks.length-1; i++) {
-			tracks[i]
-		    	    .display( tnt.track.feature.area()
-				      .foreground_color ('steelblue')
-				      .index (function (d) {
-					  return d.pos;
-				      }));
-		    }
+		    ta.track(track_lines);
 		    break;
 		}
 
-		var leaves = tree.root().get_all_leaves();
-		for (var i=0; i<leaves.length; i++) {
-		    var track = ta.annotation().find_track_by_id(leaves[i].id());
-		    track
-			.data()
-			.update()
-			.retriever (set_retriever (leaves[i], this.value))
-		}
-
-		ta.annotation().start();
-		ta.update();
 	    });
 
 	display_select
@@ -143,7 +114,8 @@ var tnt_theme = function () {
 	    .attr("value", "blocks")
 	    .text("blocks");
 
-	var track = function (leaf) {
+
+	var track_lines = function (leaf) {
 	    var sp = leaf.name;
 	    return tnt.track()
 		.background_color("#EBF5FF")
@@ -161,10 +133,28 @@ var tnt_theme = function () {
 			 }));
 	};
 
+	var track_blocks = function (leaf) {
+	    var sp = leaf.name;
+	    return tnt.track()
+		.background_color("#EBF5FF")
+		.data (tnt.track.data()
+		       .update (tnt.track.retriever.sync()
+				.retriever (function () {
+				    return data[sp] ? data[sp].blocks : [];
+				})
+			       )
+		      )
+		.display (tnt.track.feature.ensembl()
+			  .foreground_color ('steelblue')
+			  .index (function (d) {
+			      return d.start;
+			  }));
+	};
+
 	ta.tree(tree);
 	ta.annotation(annot);
 	ta.ruler("both");
-	ta.track(track);
+	ta.track(track_lines);
 
 	ta(div);
     };
