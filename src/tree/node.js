@@ -193,6 +193,16 @@ tnt.tree.node = function (data) {
 	return leaves;
     });
 
+    api.method ('get_all_descendents', function () {
+	var leaves = [];
+	node.apply(function (n) {
+	    // if (n.is_leaf()) {
+		leaves.push(n);
+	    // }
+	});
+	return leaves;
+    });
+
     api.method ('upstream', function(cbak) {
 	cbak(node);
 	var parent = node.parent();
