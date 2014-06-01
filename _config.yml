@@ -83,45 +83,49 @@ api :
                   path : tree
                   args : string | callback
                   desc : specifies the color of branches [REVISE]
-                  full : Specifies the color of the branches in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like '#00FF00'). To get per branch colors use a callback instead. This callback will be called on each branch with an object containing the source and destination nodes (as "source" and "dest" fields).
+                  full : Specifies the color of the branches in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like '#00FF00'). To get per branch colors use a callback instead. This callback will be called on each branch with the source and destination nodes (ie. tnt.tree.node objects).
                   example : |
                             var tree_vis = tnt.tree()
-                                             .link_color (function (link) {
+                                             .link_color (function (source, target) {
                                                 var color = 'grey';
-                                                if (link.source && link.source.type) {
-                                                   switch (link.source.type) {
-                                                      case "speciation" :
-                                                        color = "green";
-                                                        break;
-                                                      case "duplication" :
-                                                        color = "red";
-                                                        break;
-                                                   }
+                                                var source_data = source.data();
+                                                var target_data = target.data();
+                                                switch (source_data.type) {
+                                                    case "speciation" :
+                                                      color = "green";
+                                                      break;
+                                                    case "duplication" :
+                                                      color = "red";
+                                                      break;
                                                 }
                                                 return color;
-                                              });
+                                             });
                 - name : node_color
                   path : tree
                   args : string | callback
                   desc : specifies the color of nodes [REVISE]
-                  full : Specifies the color of the nodes in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like "#00FF00"). To get per node colors use a callback instead. This callback will be called on each node with the node object.
+                  full : Specifies the color of the nodes in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like "#00FF00"). To get per node colors use a callback instead. This callback will be called on each node with the node object (ie. a tnt.tree.node object).
                   example : |
                             var tree_vis = tnt.tree()
                                              .node_color (function (node) {
-                                                if (node.type === 'speciation') {
-                                                   return "green";
-                                                } else {
-                                                   return "red";
+                                                if (node.is_leaf()) {
+                                                   return 'black';
                                                 }
-                                              });
+                                                return 'none';
+                                             });
                 - name : node_circle_size
                   path : tree
-                  args : integer
+                  args : integer | callback
                   desc : specifies the size of the nodes [REVISE]
-                  full : Specifies the size of the node in pixels
+                  full : Specifies the size of the node in pixels. To get per node sizes use a cllback instead. This callback will be called on each node with the node object (ie. a tnt.tree.node object).
                   example : |
                             var tree_vis = tnt.tree()
-                                            .node_circle_size(5);
+                                            .node_circle_size (function (node)) {
+                                                if (node.is_leaf()) {
+                                                  return 4;
+                                                }
+                                                return 0;
+                                            });
            - name : Nodes
              preamble : |
                         TnT provides several methods for tree manipulation, these include nodes searching, mapping callbacks to nodes, etc. Instead of providing these methods to the tree visualization objects, TnT provides a special object for these operations. These objects can be obtained using the <a href="#root">root</a> method on the tree visualization object. Since the tree data object is completely separated from the visualization, it is also possible to use them directly using the <i>tnt.tree.node</i> method in tnt. For example
@@ -351,35 +355,93 @@ api :
                   desc : returns the parent of the node
                   full : Returns the parent node of the current node
            - name : Layouts
-             preamble : The <a href=#data">data</a> and layouts are two of the most important Currently TnT supports "vertical" and "radial" layouts for trees. Both layouts have a set of methods that control different aspects. For example
+             preamble : The layout specifies the shape of the tree. Currently TnT supports two types of trees, "vertical" and "radial". Both layouts have a set of methods that control different aspects. For example
              example : |
                        var tree_vis = tnt.tree()
                                          .data (tnt.tree.parse_newick (newick))
                                          .layout (tnt.tree.layout.vertical()
                                                      .width (400)
                                                      .scale (false)
-                                                 );
+                                         );
              elements :
-                - name : tree.layout
+                - name : layout
+                  path : tree
+                  args : tnt.tree.layout
                   desc : specifies the layout to be used in the tree visualization
-                - name : layout.scale
+                  full : Specifies the layout to be used in the tree visualization. Accepts an optional argument of type tnt.tree.layout. If called without arguments, returns the current layout object
+                  example : |
+                            var tree_vis = tnt.tree()
+                                             .layout (tnt.tree.layout.vertical());
+                - name : scale
+                  path : tree.layout
+                  args : boolean
                   desc : specifies if the branches should be scaled based on branch lengths
-                - name : layout.width
+                  full : Specifies if the branches should be scaled based on branch lengths or not by passing <i>true</i> or <i>false</i> false to the method.
+                  example : |
+                            var layout = tnt.tree.layout.radial()
+                                            .scale(true);
+                - name : width
+                  path : tree.layout
+                  args : integer | string
                   desc : specifies the width of the tree layout
-                - name : tree.layout.vertical
+                  full : Specifies the width of the tree layout
+                  example : |
+                            var layout = tnt.tree.layout.vertical()
+                                            .width(300)
+                - name : vertical
+                  path : tree.layout
+                  args : null
                   desc : vertical layout
-                - name : tree.layout.radial
+                  full : Returns a vertical layout. This layout is a tnt.tree.layout, so it has all the methods explained above for tnt.tree.layout objects
+                  example : |
+                            var layout = tnt.tree.layout.vertical();
+                - name : radial
+                  path : tree.layout
+                  args : null
                   desc : radial layout
+                  full : Returns a radial layout. This layout is a tnt.tree.layout, so it has all the methods explained above for tnt.tree.layout objects
+                  example : |
+                            var layout = tnt.tree.layout.radial();
            - name : Labels
+             preamble : TnT labels specify the information that appears beside the nodes. By default a <a href="#text">tnt.tree.label.text</a> is used and the 'name' field of the node data is used. See below for different examples of labels
+             example : |
+                       var tree_vis = tnt.tree()
+                                        .data(...)
+                                        .display(...)
+                                        label (tnt.tree.label.text()
+                                                 .height (20)
+                                                 text (function (node) {
+                                                    return node.data().scientific_name;
+                                                 });
              elements :
-                - name : tree.label
-                  desc : specify the label type to be used in the tree visualization
-                - name : label.height
+                - name : label
+                  path : tree
+                  args : tnt.tree.label
+                  desc : specifies the label type to be used in the tree visualization
+                  full : Specifies the label to be used in the tree visualization. Accepts an optional argument of type tnt.tree.label. If called without parameters, returns the current label object
+                  example : |
+                            var tree_vis = tnt.tree()
+                                            .label (tnt.tree.label());
+                - name : height
+                  path : tree.label
+                  args : integer | string
                   desc : specifies the height of the label
-                - name : tree.label.text
+                  full : Specifies the height of the label. If called without arguments returns the current height for the label
+                  example : |
+                            var label = tnt.tree.label()
+                                          .height (30);
+                - name : text
+                  path : tree.label
+                  args : null
                   desc : text based labels
-                - name : text.fontsize
+                  full : Returns a label of type <i>text</i>
+                  example : |
+                            var label = tnt.tree.label.text()
+                - name : fontsize
+                  path : tree.label.text
+                  args : integer
                   desc : sets the fontsize of the label
+                  full : Sets the fontsize of the text label.
                 - name : text.color
                   desc : sets the color of the text
                 - name : text.text
