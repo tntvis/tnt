@@ -70,12 +70,6 @@ tnt.tree.diagonal = function () {
     return d;
 };
 
-
-// vertical diagonal for bezier links
-// var vertical_diagonal = d3.svg.diagonal()
-// 	  .projection(function (d) {
-// 	      return [d.y, d.x]});
-
 // vertical diagonal for rect branches
 tnt.tree.diagonal.vertical = function () {
     var projection = function(d) { 
@@ -114,10 +108,7 @@ tnt.tree.diagonal.radial = function () {
 	var largeArc = obj.largeArc;
 	var sweep = obj.sweep;
 
-      	return 'M' + src + ' ' +
-      	    "A" + [radius,radius] + ' ' + rotation + ' ' + largeArc+','+sweep + ' ' + mid +
-      	    'L' + dst +
-	    'L' + dst;
+      	return 'M' + src + ' ' + "A" + [radius,radius] + ' ' + rotation + ' ' + largeArc+','+sweep + ' ' + mid + 'L' + dst + 'L' + dst;
     };
 
     var projection = function(d) {
