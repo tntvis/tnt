@@ -92,12 +92,6 @@ tnt.tree.diagonal.vertical = function () {
       	.projection(projection);
 };
 
-// radial diagonal for bezier links
-// var radial_diagonal = d3.svg.diagonal.radial()
-// 	      .projection(function(d) {
-// 	  	  return [d.y, d.x / 180 * Math.PI];
-// 	      });
-
 tnt.tree.diagonal.radial = function () {
     var path = function(pathData, obj) {
       	var src = pathData[0];
