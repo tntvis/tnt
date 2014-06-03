@@ -26,7 +26,7 @@ var tnt_theme_tree_tree_annotation_simple = function () {
 	};
 	
 	// Swap tracks
-	var sel = d3.select(div)
+	var swap_sel = d3.select(div)
 	    .append("select")
 	    .on("change", function () {
 		var cond;
@@ -49,15 +49,45 @@ var tnt_theme_tree_tree_annotation_simple = function () {
 		ta.update();
 	    });
 
-	sel
+	swap_sel
 	    .append("option")
 	    .attr("selected", 1)
 	    .text("Forward");
-	sel
+
+	swap_sel
 	    .append("option")
 	    .text("Reverse");
 
+	var subtree_sel = d3.select (div)
+	    .append("select")
+	    .on("change", function () {
+		switch (this.value) {
+		case 'more' :
+		    var sel_tree = tree.subtree(all_nodes);
+		    ta.tree(sel_tree);
+		    break;
+		case 'few' :
+		    var sel_tree = tree.subtree(selected_nodes);
+		    ta.tree(sel_tree);
+		    break;
+		}
+		ta.update();
+	    });
 
+
+	subtree_sel
+	    .append("option")
+	    .attr("selected", 1)
+	    .attr("value", "more")
+	    .text("All Species");
+
+	subtree_sel
+	    .append("option")
+	    .attr("value", "few")
+	    .text("Selected Species");
+
+
+	
 	// TREE SIDE
 	// Configure the tree
 	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;";
@@ -69,6 +99,18 @@ var tnt_theme_tree_tree_annotation_simple = function () {
 		     .scale(false))
 	    .label (tnt.tree.label.text()
 		    .height(height));
+
+
+	// Subtree
+	var selected_leaves = ["homo_sapiens", "pan_troglodytes", "mus_musculus", "danio_rerio"];
+	var all_nodes = tree.root().get_all_leaves();
+	var selected_nodes = [];
+	for (var i=0; i<selected_leaves.length; i++) {
+	    var leaf = tree.root().find_node_by_name(selected_leaves[i]);
+	    if (leaf !== undefined) {
+		selected_nodes.push(leaf);
+	    }
+	}
 
 	// collapse nodes on click
         tree.on_click (function(node){
