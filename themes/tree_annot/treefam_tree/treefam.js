@@ -1,7 +1,7 @@
 var treefam_theme = function() {
 
 	// The height of tree labels and tracks
-	var height = 15;
+	var height = 12;
 	var pics_path = "http://www.treefam.org/static/images/species_pictures/species_files/";
 	// Create tree and annot
 	var tree = tnt.tree();
@@ -72,33 +72,37 @@ var treefam_theme = function() {
 		// LABELS
 		var label = tnt.tree.label.text()
 			.text(function(node) {
-				if (node.children) {
+				if (node.data().children) {
 					return "";
 				} else {
-					if (node.taxonomy) {
-						return node.taxonomy.scientific_name;
+					if (node.data().taxonomy) {
+						if (node.data().taxonomy.common_name) {
+							return node.data().taxonomy.common_name;
+						} else {
+							return node.data().taxonomy.scientific_name;
+						}
 					}
 
 				}
 			})
 			.fontsize(10)
-			.color(function(node) {
-				if (node.score) {
-					// console.log(node.score+" > "+proposed_TC_bitscore_threshold);
-					// if (parseFloat(node.score) >= parseFloat(proposed_TC_bitscore_threshold)) {
-					return "green";
-					// } else {
-					// 	return "red";
-					// }
-				} else {
-					return "black";
-				}
-			})
-			// .height(function() {
-			// 	return 10;
-			// });
 			.height(height);
 
+		var uniprot_label = tnt.tree.label.text()
+			.text(function(node) {
+				if (node.data().children) {
+					return "";
+				} else {
+					if (node.data().id.uniprot) {
+						return node.data().id.uniprot;
+					} else {
+						return "N/A";
+					}
+
+				}
+			})
+			.fontsize(10)
+			.height(height);
 		var image_label = tnt.tree.label.img()
 			.src(function(d) {
 				if (!d.children && !d._children && d.taxonomy && d.taxonomy.scientific_name) {
@@ -113,14 +117,45 @@ var treefam_theme = function() {
 			})
 			.height(function() {
 				return 10;
-			})
-			;
+			});
 		var joined_label = tnt.tree.label.composite()
 			.add_label(label)
 			.add_label(image_label);
 
+
+		// The menu to change the labels dynamically
+		var menu_pane = d3.select(div)
+			.append("div")
+			.append("span")
+			.text("Label display:   ");
+
+
+		var label_type_menu = menu_pane
+			.append("select")
+			.on("change", function(d) {
+				switch (this.value) {
+					case "common_name":
+						ta.tree().label(label);
+						break;
+					case "uniprot":
+						ta.tree().label(uniprot_label);
+						break;
+				}
+				ta.update();
+			});
+		label_type_menu
+			.append("option")
+			.attr("value", "common_name")
+			.text("common name");
+
+		label_type_menu
+			.append("option")
+			.attr("value", "uniprot")
+			.attr("selected", 1)
+			.text("uniprot");
+
 		var species_info = {};
-		d3.json('/themes/tree_annot/thresholding_theme/all_trees/23526498.tree.json',
+		d3.json('/themes/tree_annot/treefam_tree/tree.json',
 			function(err, resp) {
 				console.log("have read tree, will deploy it");
 				d3.json('/themes/tree_annot/treefam_tree/e75.json',
@@ -161,7 +196,8 @@ var treefam_theme = function() {
 				.layout(tnt.tree.layout.vertical()
 					.width(430)
 					.scale(false))
-				.label(label
+				.label(uniprot_label
+
 					// joined_label  // labels with pictures
 					// tnt.tree.label.text()
 					// .fontsize(12)
@@ -170,10 +206,12 @@ var treefam_theme = function() {
 
 			.node_circle_size(3)
 				.node_color(function(node) {
-					if (node.events && node.events.type) {
-						if (node.events.type === 'speciation') {
+					// console.log(node.data());
+					// console.log(node.data().events.type);
+					if (node.data().events && node.data().events.type) {
+						if (node.data().events.type === 'speciation') {
 							return 'green';
-						} else if (node.events.type === 'duplication') {
+						} else if (node.data().events.type === 'duplication') {
 							return 'red';
 						} else {
 							return 'brown';
@@ -183,10 +221,10 @@ var treefam_theme = function() {
 					}
 				});
 			// collapse nodes on click
-			tree.on_click(function(node) {
-				node.toggle_node();
-				ta.update();
-			});
+			// tree.on_click(function(node) {
+			// 	node.toggle_node();
+			// 	ta.update();
+			// });
 
 			// TRACK SIDE
 			// annot
@@ -213,7 +251,7 @@ var treefam_theme = function() {
 					return data[leaf.property('name')][value];
 				}
 			};
-
+			var leaves = tree.root().get_all_leaves();
 			var display_select = d3.select(div)
 				.append("select")
 				.on("change", function() {
@@ -242,7 +280,7 @@ var treefam_theme = function() {
 							break;
 					}
 
-					var leaves = tree.root().get_all_leaves();
+					// var leaves = tree.root().get_all_leaves();
 					for (var i = 0; i < leaves.length; i++) {
 						var track = ta.annotation().find_track_by_id(leaves[i].id());
 						track
@@ -267,8 +305,8 @@ var treefam_theme = function() {
 				.text("blocks");
 
 
-			var leaves = tree.root().get_all_leaves();
-			var conservation; // = get_conservation(leaves);
+			
+			var conservation = get_conservation(leaves);
 			var hmm_match_boundaries; // = get_hmm_match_boundaries(leaves);
 			var pfam_match_boundaries = get_pfam_match_boundaries(leaves);
 			// var exon_boundaries = get_boundaries(leaves);
@@ -285,7 +323,7 @@ var treefam_theme = function() {
 								// var seq_range = (loc.to - loc.from) <= 50 ? seq_info[id].slice(loc.from, loc.to) : [];
 								return {
 									// 'conservation': conservation[id] || [],
-									'gaps': reduce_gaps(aln_gaps[id], loc) || [],
+									 'gaps': reduce_gaps(aln_gaps[id], loc) || [],
 									'pfam_match': filter_pfam_matches(pfam_match_boundaries[id], loc) || [],
 									// 'boundaries': filter_exon_boundaries(exon_boundaries[id], loc) || [],
 									// 'sequence': seq_range
@@ -300,12 +338,18 @@ var treefam_theme = function() {
 						// 		return d.pos;
 						// 	})
 						// )
-						.add('gaps', tnt.track.feature.ensembl()
-							.foreground_color('green')
-							.index(function(d) {
-								return d.start;
-							})
-						)
+						.add ('gaps', tnt.track.feature.ensembl()
+			      	    .foreground_color('green')
+			      	    .index(function (d) {
+			      			return d.start;
+			      	    })
+			      	   	)
+						// .add('gaps', tnt.track.feature.ensembl()
+						// 	.foreground_color('green')
+						// 	.index(function(d) {
+						// 		return d.start;
+						// 	})
+						// )
 						.add('pfam_match', tnt.track.feature.ensembl()
 							.foreground_color('blue')
 							.index(function(d) {
@@ -438,10 +482,11 @@ var treefam_theme = function() {
 
 			ta.ruler("both");
 			ta.track(track);
+			// ta.on_click(ta.tooltip());
 			ta(div);
 
 
-			//  color_tree(tree.root().get_all_descendents());
+			// color_tree(ta.tree().root().get_all_descendents());
 
 		}
 	};
@@ -456,6 +501,10 @@ color_tree = function(all_descendents) {
 	var nodes2color = {
 		"Sauria": 1,
 		"Glires": 1,
+		"Mammalia":1,
+		"Arthropoda":1,
+		"Metazoa":1,
+		"Euarchontoglires":1,
 		// "Tracheophyta": 1
 	};
 
@@ -907,7 +956,7 @@ var get_aln_gaps = function(nodes) {
 			console.log("missing sequence info for " + leaf.name + " number " + i);
 		} else {
 			for (var j = 0; j < g.length; j++) {
-				if (g[j] !== '-') {
+				if (g[j] === '-') {
 					if (this_no_gap_start === undefined) {
 						this_no_gap_start = j;
 					}
@@ -925,6 +974,45 @@ var get_aln_gaps = function(nodes) {
 		gaps_info[leaf.id()] = this_no_gaps;
 	}
 	return gaps_info;
+};
+
+var get_conservation = function(seqs) {
+	var conservation = {};
+
+	for (var i = 0; i < seqs.length; i++) {
+		conservation[seqs[i].data()._id] = [];
+	}
+
+	for (var i = 0; i < seqs[0].data().sequence.mol_seq.seq.length; i++) {
+		var cons = {};
+		for (var j = 0; j < seqs.length; j++) {
+			var p = seqs[j].data();
+			if (cons[p.sequence.mol_seq.seq[i]] === undefined) {
+				cons[p.sequence.mol_seq.seq[i]] = 0;
+			}
+			cons[p.sequence.mol_seq.seq[i]]++;
+		}
+
+		for (var j = 0; j < seqs.length; j++) {
+			var val = cons[seqs[j].data().sequence.mol_seq.seq[i]] / seqs.length;
+			conservation[seqs[j].data()._id].push({
+				pos: i,
+				val: val
+			})
+		}
+	}
+
+	return reduce_all(conservation);
+};
+var reduce_all = function(rows) {
+	var obj = {};
+	for (var id in rows) {
+		if (rows.hasOwnProperty(id)) {
+			// obj[id] = reduce_row(rows[id]);
+			obj[id] = reduce(rows[id]);
+		}
+	}
+	return obj;
 };
 
 var get_pfam_match_boundaries = function(nodes) {
@@ -970,7 +1058,7 @@ var get_tree_nodes_by_names = function(tree, names) {
 	for (var i = 0; i < names.length; i++) {
 		console.log("looking for name " + names[i]);
 		var node = tree.find_node_by_field(names[i], (function(node) {
-			if(node.taxonomy && node.taxonomy.scientific_name){
+			if (node.taxonomy && node.taxonomy.scientific_name) {
 				return node.taxonomy.scientific_name;
 			}
 		}));
@@ -994,11 +1082,13 @@ var add_tree_type_drop_down = function(args) {
 		.on("change", function(d) {
 			switch (this.value) {
 				case "all":
-					ta.tree().data(ta.tree().data()).update();
+					ta.tree().data(ta.tree().data());
+					// .update();
 					// color_tree(sT);
 					break;
 				case "restore":
-					ta.tree().data(ta.tree().data()).update();
+					ta.tree().data(ta.tree().data());
+					// .update();
 					// color_tree(sT);
 					break;
 				case "model":
@@ -1006,7 +1096,8 @@ var add_tree_type_drop_down = function(args) {
 					// tree_vis.update();
 					var nodes = get_tree_nodes_by_names(ta.tree().root(), ["Mus musculus", "Rattus norvegicus", "Homo sapiens", "Gallus gallus", "Drosophila melanogaster", "Dictyostelium discoideum", "Escherichia coli", "Arabidopsis thaliana", "Caenorhabditis elegans", "Schizosaccharomyces pombe", "Saccharomyces cerevisiae"]);
 					var test;
-					ta.tree().subtree(nodes);
+					var new_tree = ta.tree().subtree(nodes);
+					ta.tree(new_tree);
 					console.log("found " + nodes.length + " model orga");
 					break;
 			};
@@ -1059,7 +1150,18 @@ function add_scale_drop_down(args) {
 		.text("Scaled");
 }
 
-var reduce = tnt.utils.reduce.block()
-	.smooth(0)
-	.value("start")
-	.value2("end");
+// var reduce = tnt.utils.reduce.block()
+// 	.smooth(0)
+// 	.value("start")
+// 	.value2("end");
+
+
+var reduce = tnt.utils.reduce.line()
+		.smooth(4)
+		.redundant(function (a, b) {
+		    return Math.abs (a-b) < 0.2
+		})
+		.value("val");
+
+
+
