@@ -290,7 +290,11 @@ api :
                   args : callback
                   desc : applies the given callback to all the descendants of the node
                   full : Recursively applies the given callback to each children of the current node. The node is passed to the callback as its argument. See <a href="#sort">node.sort</a> for a example
-                  example : null
+                  example : |
+                            var root = tnt.tree.root (tnt.tree.parse_newick (newick));
+                            root.apply (function (node) {
+                              // Process the node
+                            });
                 - name : property
                   path : node
                   args : string | callback, value
@@ -332,23 +336,40 @@ api :
                   args : null
                   desc : returns true on leaves
                   full : Returns true if the current node is a leaf, false otherwise;
+                  example : |
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            root.apply (function (node) {
+                                if (node.is_leaf()) {
+                                   console.log (node.node_name() + " is a leaf node");
+                                } else {
+                                   console.log (node.node_name() + " is an internal node");
+                                }
+                            });
                 - name : node_name
                   path : node
                   args : null
                   desc : returns the property 'name' of nodes [REVISE]
                   full : Returns the property 'name' of the current node. It is an alias of node.<a href="#find_node_by_field">find_node_by_field</a> using 'name' as its value
-                  example : null
+                  example : |
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            var name = root.node_name();
                 - name : root_dist
                   path : node
                   args : null
                   desc : returns the distance of the node to the root based on branch lengths
                   full : Returns the distance of the current node to the root based on the branch lengths of the tree
-                  example : null
+                  example : |
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            root.apply (function (node) {
+                               console.log ("Distance to root: " + node.root_dis());
+                            });
                 - name : children
                   path : node
                   desc : returns all the children of the node
                   full : Returns an array with all the children of the current node
-                  example : null
+                  example : |
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            console.log (root.node_name + " has " + root.children().length + " children";
                 - name : parent
                   path : node
                   args : null
@@ -436,22 +457,62 @@ api :
                   desc : text based labels
                   full : Returns a label of type <i>text</i>
                   example : |
-                            var label = tnt.tree.label.text()
+                            var label = tnt.tree.label.text();
                 - name : fontsize
                   path : tree.label.text
                   args : integer
                   desc : sets the fontsize of the label
                   full : Sets the fontsize of the text label.
-                - name : text.color
+                  example : |
+                            var text_label = tnt.tree.label.text()
+                                .fontsize (9);
+                - name : color
+                  path : tree.label.text
+                  args : string | callback
                   desc : sets the color of the text
-                - name : text.text
+                  full : Specifies the color of the text label. This color can be given as a string specifying the name of the color (like "black") or its hexadecimal code (like '#000000'). To get per label colors use a callback instead. This callback will be called on each node passing the tnt.tree.node object as its argument.
+                  example : |
+                            var text_label = tnt.tree.label.text()
+                                .color (function (node) {
+                                   if (node.is_leaf()) {
+                                      return 'black';
+                                   }
+                                   return 'blue';
+                                });
+                - name : text
+                  path : tree.label.text
+                  args : string | callback
                   desc : specifies the field to inspect for names
-                - name : tree.label.img
+                  full : Specifies the text to be displayed in the text label. The argument can be a literal string or a callback. If the latter, the callback is called with the node object (ie the tnt.tree.node) as its argument
+                  example : |
+                            var label = tnt.tree.label.text()
+                                .text (function (node) {
+                                  return node.data().scientific_name; 
+                                });
+                - name : img
+                  path : tree.label
+                  args : null
                   desc : image based labels
-                - name : img.src
+                  full : Returns a label of type <i>image</i>
+                  example : |
+                            var img_label = tnt.tree.label.img();
+                - name : src
+                  path : tree.label.img
+                  args : callback
                   desc : specifies the path where the image labels can be found
-                - name : tree.label.composite
+                  full : Specifies the path where the image labels are to be found. The argument is a callback that is called on each node with the node object (ie the tnt.tree.node) as its argument
+                  example : |
+                            var img_label = tnt.tree.label.img()
+                               .src (function (node) {
+                                 return "path_to_img/" + node.property('scientific_name');
+                               });
+                - name : composite
+                  path : tree.label
+                  args : null
                   desc : labels made of two or more simple labels
+                  full : Returns a label made of two or more simple labels
+                  example : |
+                            var 
                 - name : composite.add_label
                   desc : adds a new simple label to the composite label
                 - name : composite.remove
