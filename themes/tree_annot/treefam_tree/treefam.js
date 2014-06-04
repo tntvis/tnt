@@ -74,7 +74,7 @@ var treefam_theme = function() {
 			.text(function(node) {
 
 				if (node.is_collapsed()) {
-			    	return "[" + node.n_hidden() + ' hidden taxa]';
+					return "[" + node.n_hidden() + ' hidden taxa]';
 				}
 				if (node.data().children) {
 					return "";
@@ -84,11 +84,11 @@ var treefam_theme = function() {
 							return node.data().taxonomy.common_name;
 						} else {
 							return node.data().taxonomy.scientific_name;
-								for(var i = 0, len = node.data().id.length; i<len;i++) {
-  										if(node.data().id[i].source === 'EnsEMBL'){
-  											return node.data().id[i].accession
-  										}
+							for (var i = 0, len = node.data().id.length; i < len; i++) {
+								if (node.data().id[i].source === 'EnsEMBL') {
+									return node.data().id[i].accession
 								}
+							}
 						}
 					}
 
@@ -111,7 +111,7 @@ var treefam_theme = function() {
 				}
 			})
 			.fontsize(10)
-			.height(height);	
+			.height(height);
 
 		var uniprot_label = tnt.tree.label.text()
 			.text(function(node) {
@@ -222,21 +222,15 @@ var treefam_theme = function() {
 					.width(430)
 					.scale(false))
 				.label(ensembl_label
-
-					// joined_label  // labels with pictures
-					// tnt.tree.label.text()
-					// .fontsize(12)
-					// .height(height)
-			)
-
-			.node_circle_size(3)
-			.on_click (node_tooltip)
+				)
+				.node_circle_size(3)
+				.on_click(node_tooltip)
 				.node_color(function(node) {
 					// console.log(node.data());
 					// console.log(node.data().events.type);
 					if (node.is_collapsed()) {
-		    	 	   return 'grey';
-		    		}
+						return 'grey';
+					}
 					if (node.data().events && node.data().events.type) {
 						if (node.data().events.type === 'speciation') {
 							return 'green';
@@ -272,8 +266,8 @@ var treefam_theme = function() {
 			// 	.zoom_in(30);
 			annot
 				.from(0)
-				.width(300);
-
+				.width(300)
+				.allow_drag(false);
 
 			var set_retriever = function(leaf, value) {
 				return function() {
@@ -334,12 +328,73 @@ var treefam_theme = function() {
 				.text("blocks");
 
 
-			
+
 			var conservation = get_conservation(leaves);
 			var hmm_match_boundaries; // = get_hmm_match_boundaries(leaves);
 			var pfam_match_boundaries = get_pfam_match_boundaries(leaves);
 			// var exon_boundaries = get_boundaries(leaves);
 			var aln_gaps = get_aln_gaps(leaves);
+
+
+
+			function rightRoundedRect(args) {
+				var x = args.x, y = args.y, width = args.width, height = args.height, match_start = args.match_start, match_end = args.match_end;
+				var string = "M" + x + "," + y
+					       + "h" + width
+					       + "a" + 5 + "," + 5 + " 0 0 "+ match_end+" " + 0 + "," + height
+					       + "h" + -width
+					       + "v" + -height
+					       + "z";
+					  return "M" + x + "," + y
+					       + "h" + width
+					       + "a" + 5 + "," + 5 + " 0 0 "+match_end+" " + 0 + "," + height
+					       + "h" + -width
+					       + "a" + 5 + "," + 5 + " 0 0 "+match_start+" " + 0 + "," + -height
+					       + "z";
+			}
+			// ok we add a new feature
+			// TnT doesn't have a square feature, so we are creating one
+			// in the theme using the tnt.track.featur interface
+			var domain_features = tnt.track.feature()
+				.create(function(new_elems, x_scale) {
+					var track = this;
+					 var padding = ~~ (track.height() - (track.height() * 0.6)) / 2;
+					 // new_elems.append("path").attr("d", rightRoundedRect(x_scale(d.start), padding, x_scale(d.end - d.start), track.height() - ~~(padding * 2)))
+					 // .attr("fill", "grey");
+
+					 new_elems.append("path")
+    						.attr("d", function(d){
+    							var match_start = (d.hmm_start > 10)? 0:1;
+    							var match_end = (d.hmm_start > 10)? 0:1;
+    							console.log("have "+match_start+" ("+d.hmm_start+") and "+match_end)+" ("+d.hmm_end+")";
+    							return rightRoundedRect({x:x_scale(d.start), y:padding, width:x_scale(d.end - d.start), height:track.height() - ~~(padding * 2), 
+    							match_start : match_start, match_end : match_end })
+    							})
+    						.attr("fill", "grey");
+
+
+
+					// new_elems
+					// 	.append("rect")
+					// 	.attr("x", function(d) {
+					// 		return x_scale(d.start);
+					// 	})
+					// 	.attr("y", padding)
+					// 	.attr("rx", function(d){
+					// 		if(d.hmm_start <5){
+					// 			return 0;
+					// 		}
+					// 		return 3;
+
+					// 	})
+					// 	.attr("width", function(d){
+					// 		return x_scale(d.end - d.start);
+					// 	})
+					// 	.attr("height", track.height() - ~~(padding * 2))
+					// 	.attr("fill", "grey")
+				})
+				// .on_click(hog_tooltip);
+
 
 
 			track = function(leaf) {
@@ -352,8 +407,9 @@ var treefam_theme = function() {
 								// var seq_range = (loc.to - loc.from) <= 50 ? seq_info[id].slice(loc.from, loc.to) : [];
 								return {
 									// 'conservation': conservation[id] || [],
-									 'gaps': reduce_gaps(aln_gaps[id], loc) || [],
-									'pfam_match': filter_pfam_matches(pfam_match_boundaries[id], loc) || [],
+									// 'gaps': reduce_gaps(aln_gaps[id], loc) || [],
+									// 'pfam_match': filter_pfam_matches(pfam_match_boundaries[id], loc) || [],
+									 'domains': filter_pfam_matches(pfam_match_boundaries[id], loc) || [],
 									// 'boundaries': filter_exon_boundaries(exon_boundaries[id], loc) || [],
 									// 'sequence': seq_range
 								}
@@ -367,24 +423,29 @@ var treefam_theme = function() {
 						// 		return d.pos;
 						// 	})
 						// )
-						.add ('gaps', tnt.track.feature.ensembl()
-			      	    .foreground_color('green')
-			      	    .index(function (d) {
-			      			return d.start;
-			      	    })
-			      	   	)
+
+						 .add('domains', domain_features
+						 	.index(function(d) {
+								return d.start;
+							}))
 						// .add('gaps', tnt.track.feature.ensembl()
 						// 	.foreground_color('green')
 						// 	.index(function(d) {
 						// 		return d.start;
 						// 	})
 						// )
-						.add('pfam_match', tnt.track.feature.ensembl()
-							.foreground_color('blue')
-							.index(function(d) {
-								return d.start;
-							})
-						)
+						// .add('gaps', tnt.track.feature.ensembl()
+						// 	.foreground_color('green')
+						// 	.index(function(d) {
+						// 		return d.start;
+						// 	})
+						// )
+						// .add('pfam_match', tnt.track.feature.ensembl()
+						// 	.foreground_color('blue')
+						// 	.index(function(d) {
+						// 		return d.start;
+						// 	})
+						// )
 						// .add('boundaries', tnt.track.feature.vline()
 						// 	.foreground_color("red")
 						// 	.index(function(d) {
@@ -520,71 +581,71 @@ var treefam_theme = function() {
 		}
 
 
-// Tooltips
-	var node_tooltip = function (node) {
-	    var obj = {};
-	    obj.header = {
-		label : "Name",
-		value : node.node_name()
-	    };
-	    obj.rows = [];
-	    obj.rows.push ({
-		label : 'Distance to root',
-		value : node.root_dist()
-	    });
-
-	    if (node.is_collapsed()) {
-		obj.rows.push ({
-		    label : 'Action',
-		    link : function (node) {
-			node.toggle();
-			ta.update();
-		    },
-		    obj : node,
-		    value : "Uncollapse subtree"
-		});
-	    }
-
-	    if (!node.is_leaf()) {
-		obj.rows.push ({
-		    label : 'Action',
-		    link : function (node) {
-			node.toggle();
-			ta.update();
-		    },
-		    obj : node,
-		    value : "Collapse subtree"
-		});
-		obj.rows.push ({
-		    label : 'Action',
-		    link : function (node) {
-			var leaves = node.get_all_leaves();
-			selected_leaves = _.map(leaves, function (leaf) {
-			    return leaf.node_name();
-			});
-			tree.node_circle_size (function (n) {
-			    if (node.id() === n.id()) {
-				return 6
-			    }
-			    return node_size(n);
-			});
-			tree.node_color (function (n) {
-			    if (node.id() === n.id()) {
-				return "brown";
-			    }
-			    return node_color(n);
+		// Tooltips
+		var node_tooltip = function(node) {
+			var obj = {};
+			obj.header = {
+				label: "Name",
+				value: node.node_name()
+			};
+			obj.rows = [];
+			obj.rows.push({
+				label: 'Distance to root',
+				value: node.root_dist()
 			});
 
-			ta.update();
-			ta.track(track);
-		    },
-		    obj : node,
-		    value : 'Show Annotation'
-		});
-	    }
+			if (node.is_collapsed()) {
+				obj.rows.push({
+					label: 'Action',
+					link: function(node) {
+						node.toggle();
+						ta.update();
+					},
+					obj: node,
+					value: "Uncollapse subtree"
+				});
+			}
 
-	    tnt.tooltip.table().call (this, obj);
-	};
+			if (!node.is_leaf()) {
+				obj.rows.push({
+					label: 'Action',
+					link: function(node) {
+						node.toggle();
+						ta.update();
+					},
+					obj: node,
+					value: "Collapse subtree"
+				});
+				obj.rows.push({
+					label: 'Action',
+					link: function(node) {
+						var leaves = node.get_all_leaves();
+						selected_leaves = _.map(leaves, function(leaf) {
+							return leaf.node_name();
+						});
+						tree.node_circle_size(function(n) {
+							if (node.id() === n.id()) {
+								return 6
+							}
+							return node_size(n);
+						});
+						tree.node_color(function(n) {
+							if (node.id() === n.id()) {
+								return "brown";
+							}
+							return node_color(n);
+						});
+
+						ta.update();
+						ta.track(track);
+					},
+					obj: node,
+					value: 'Show Annotation'
+				});
+			}
+
+			tnt.tooltip.table().call(this, obj);
+		};
 	};
 
 	return theme;
@@ -597,10 +658,10 @@ color_tree = function(all_descendents) {
 	var nodes2color = {
 		"Sauria": 1,
 		"Glires": 1,
-		"Mammalia":1,
-		"Arthropoda":1,
-		"Metazoa":1,
-		"Euarchontoglires":1,
+		"Mammalia": 1,
+		"Arthropoda": 1,
+		"Metazoa": 1,
+		"Euarchontoglires": 1,
 		// "Tracheophyta": 1
 	};
 
@@ -1120,9 +1181,10 @@ var get_pfam_match_boundaries = function(nodes) {
 		if (bs) {
 			for (var j = 0; j < bs.length; j++) {
 				this_boundaries.push({
-
-					start: bs[j].from,
-					end: bs[j].to
+					start: bs[j].ali_from,
+					end: bs[j].ali_to,
+					hmm_start: bs[j].hmm_from,
+					hmm_end: bs[j].hmm_to,
 				});
 			}
 		} else {
@@ -1140,13 +1202,13 @@ var filter_pfam_matches = function(data, loc) {
 	var sub_data = [];
 	var from = loc.from;
 	var to = loc.to;
-	if(data){
-	for (var i = 0; i < data.length; i++) {
-		var item = data[i];
-		// if (item.loc >= loc.hmmfrom && item.loc <= loc.hmmto) {
-		sub_data.push(item);
-		// }
-	}
+	if (data) {
+		for (var i = 0; i < data.length; i++) {
+			var item = data[i];
+			// if (item.loc >= loc.hmmfrom && item.loc <= loc.hmmto) {
+			sub_data.push(item);
+			// }
+		}
 	}
 	return sub_data;
 };
@@ -1218,7 +1280,6 @@ var add_tree_type_drop_down = function(args) {
 
 
 
-
 function add_scale_drop_down(args) {
 	var div = args.div;
 	var ta = args.ta;
@@ -1257,11 +1318,8 @@ function add_scale_drop_down(args) {
 
 
 var reduce = tnt.utils.reduce.line()
-		.smooth(4)
-		.redundant(function (a, b) {
-		    return Math.abs (a-b) < 0.2
-		})
-		.value("val");
-
-
-
+	.smooth(4)
+	.redundant(function(a, b) {
+		return Math.abs(a - b) < 0.2
+	})
+	.value("val");
