@@ -221,6 +221,14 @@ api :
                             var human_node = root.find_node_by_name('human');
                             var mouse_node = root.find_node_by_name('mouse');
                             var lca_node = root.lca(human_node, mouse_node);
+                - name : get_all_nodes
+                  path : node
+                  args : null
+                  desc : returns a list with all the nodes in the tree
+                  full : Returns a list containing all the nodes present in the tree. These nodes are tnt.tree.node objects
+                  example : |
+                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            var nodes = root.get_all_nodes();
                 - name : get_all_leaves
                   path : node
                   args : null
@@ -495,7 +503,16 @@ api :
                   desc : image based labels
                   full : Returns a label of type <i>image</i>
                   example : |
-                            var img_label = tnt.tree.label.img();
+                            var img_label = tnt.tree.label.img()
+                               .src (function (node) {
+                                  return names[node.node_name()]
+                               })
+                               .width (function () {
+                                  return 50;
+                               })
+                               .height (function () {
+                                  return 50;
+                               });
                 - name : src
                   path : tree.label.img
                   args : callback
@@ -512,11 +529,44 @@ api :
                   desc : labels made of two or more simple labels
                   full : Returns a label made of two or more simple labels
                   example : |
-                            var 
+                            var img_label = tnt.tree.label.img()
+                               .src (function (node) {
+                                  return names[node.node_name()]
+                               })
+                               .width (function () {
+                                  return 50;
+                               })
+                               .height (function () {
+                                  return 50;
+                               });
+
+                            var text_label = tnt.tree.label.text()
+                               text (function (node) {
+                                 return node.node_name();
+                               });
+                            var comp_label = tnt.tree.label.composite()
+                               .add_label (img_label)
+                               .add_label (text_label);
                 - name : composite.add_label
+                  path : tree.label.composite
+                  args : tnttree.label
                   desc : adds a new simple label to the composite label
-                - name : composite.remove
+                  full : Addes a new simple label to the composite label. The order of the added labels is important because the new labels are moved right to accommodate previous ones
+                  example : |
+                         var composite_label = tnt.tree.label.composite()
+                            .add_label(tnt.tree.label.img()
+                              .src (...)
+                              .width (...)
+                              .height (...)
+                            .add_label(tnt.tree.label.text()
+                              .text (...)
+                            );
+                - name : remove
+                  path : tree.label.composite
+                  args : null
                   desc : removes the simple labels from the composite
+                  full : Removes the simple labels from the composite
+                  example : null
            - name : Annotation
              elements :
                 - name : tree

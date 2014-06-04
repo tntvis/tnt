@@ -15,7 +15,7 @@ theme : front
 <p>Check out the <a href={{ site.baseurl }}/doc/api/index.html>Documentation</a></p>
 
 <h2><a name="introduction" href="#introduction">#</a>Introduction</h2>
-<p>TnT is a pure javascript library built on top of <a href="d3js.org">D3.js</a>. It allows to build complex visualizations of trees and associated annotations. Typically, the TnT library is used by specific <i>themes</i> that builds final plug-ins ready to use in your web application. These themes are built to maximize reusability and many examples are provided in the <a href={{ page.baseurl }}/themes/index.html>themes page</a>. The core + theme strategy converts TnT into very powerful and customizable plug-ins easy to use and re-use</p>
+<p>TnT is a pure javascript library built on top of <a href="d3js.org">D3.js</a>. It allows to build complex visualizations of trees and associated annotations. Typically, the TnT library is used by specific <i>themes</i> that builds final plug-ins ready to use in web applications. These themes are built to maximize reusability and many examples are provided in the <a href={{ page.baseurl }}/themes/index.html>themes page</a>. The core + theme strategy converts TnT into very powerful and customizable plug-ins easy to use and re-use</p>
 <p>Once you have built your own theme (or if you are re-using any of the themes provided by TnT), your web page should include something like this:</p>
 
 {% highlight html linenos %}
@@ -50,7 +50,7 @@ var tree = tnt.tree()
 <p>The TnT library has methods to manipulate and visualize trees, trees + annotations or even track-based annotations without trees. Examples on how to use each component are given in the <a href={{ site.baseurl }}/themes/index.hml>themes page</a></p>
 
 <h2><a name="theme" href="#theme">#</a>The theme object</h2>
-<p>The TnT themes create final visualizations of the trees and annotations. It describes how to interact with the trees, how to retrieve the data, etc. They are not mandatory, you can use the TnT library directly in your web page, but encapsulating the visualizations on themes allow them to be easily reused, so we encourage to use the TnT library through theme objects following the pattern explained in the <a href={{ page.baseurl }}/themes/index.html>themes page</a>.</p>
+<p><i>Themes</i> are reusable examples of tree visualizations made with TnT. They are not mandatory, you can use the TnT library directly in your web page, but encapsulating the visualizations on themes allow them to be easily reused, so we encourage to use the TnT library through theme objects following the pattern explained in the <a href={{ page.baseurl }}/themes/index.html>themes page</a>.</p>
 <p>For example, one theme may create a tree visualization that adds tooltips to the nodes on mouse clicks, adds some options to sort the leaves based on different criteria and adds a button to export the visualization to png. All these functionalities are defined in the TnT library, but the theme only uses a set of them to create a particular plug-in</p>
 <p>By convention, TnT themes should export one function that accepts two parameters: a TnT object and a DOM element (usually a <i>div</i> element where the tree visualization will be inserted. A minimal theme (just displaying the tree object) looks like:</p>
 
