@@ -72,6 +72,10 @@ var treefam_theme = function() {
 		// LABELS
 		var label = tnt.tree.label.text()
 			.text(function(node) {
+
+				if (node.is_collapsed()) {
+			    	return "[" + node.n_hidden() + ' hidden taxa]';
+				}
 				if (node.data().children) {
 					return "";
 				} else {
@@ -80,6 +84,11 @@ var treefam_theme = function() {
 							return node.data().taxonomy.common_name;
 						} else {
 							return node.data().taxonomy.scientific_name;
+								for(var i = 0, len = node.data().id.length; i<len;i++) {
+  										if(node.data().id[i].source === 'EnsEMBL'){
+  											return node.data().id[i].accession
+  										}
+								}
 						}
 					}
 
@@ -88,12 +97,28 @@ var treefam_theme = function() {
 			.fontsize(10)
 			.height(height);
 
+		var ensembl_label = tnt.tree.label.text()
+			.text(function(node) {
+				if (node.data().children) {
+					return "";
+				} else {
+					if (node.data().id && node.data().id) {
+						return node.data().id.accession
+					} else {
+						return "N/A";
+					}
+
+				}
+			})
+			.fontsize(10)
+			.height(height);	
+
 		var uniprot_label = tnt.tree.label.text()
 			.text(function(node) {
 				if (node.data().children) {
 					return "";
 				} else {
-					if (node.data().id.uniprot) {
+					if (node.data().id && node.data().id.uniprot) {
 						return node.data().id.uniprot;
 					} else {
 						return "N/A";
@@ -196,7 +221,7 @@ var treefam_theme = function() {
 				.layout(tnt.tree.layout.vertical()
 					.width(430)
 					.scale(false))
-				.label(uniprot_label
+				.label(ensembl_label
 
 					// joined_label  // labels with pictures
 					// tnt.tree.label.text()
@@ -205,9 +230,13 @@ var treefam_theme = function() {
 			)
 
 			.node_circle_size(3)
+			.on_click (node_tooltip)
 				.node_color(function(node) {
 					// console.log(node.data());
 					// console.log(node.data().events.type);
+					if (node.is_collapsed()) {
+		    	 	   return 'grey';
+		    		}
 					if (node.data().events && node.data().events.type) {
 						if (node.data().events.type === 'speciation') {
 							return 'green';
@@ -489,6 +518,73 @@ var treefam_theme = function() {
 			// color_tree(ta.tree().root().get_all_descendents());
 
 		}
+
+
+// Tooltips
+	var node_tooltip = function (node) {
+	    var obj = {};
+	    obj.header = {
+		label : "Name",
+		value : node.node_name()
+	    };
+	    obj.rows = [];
+	    obj.rows.push ({
+		label : 'Distance to root',
+		value : node.root_dist()
+	    });
+
+	    if (node.is_collapsed()) {
+		obj.rows.push ({
+		    label : 'Action',
+		    link : function (node) {
+			node.toggle();
+			ta.update();
+		    },
+		    obj : node,
+		    value : "Uncollapse subtree"
+		});
+	    }
+
+	    if (!node.is_leaf()) {
+		obj.rows.push ({
+		    label : 'Action',
+		    link : function (node) {
+			node.toggle();
+			ta.update();
+		    },
+		    obj : node,
+		    value : "Collapse subtree"
+		});
+		obj.rows.push ({
+		    label : 'Action',
+		    link : function (node) {
+			var leaves = node.get_all_leaves();
+			selected_leaves = _.map(leaves, function (leaf) {
+			    return leaf.node_name();
+			});
+			tree.node_circle_size (function (n) {
+			    if (node.id() === n.id()) {
+				return 6
+			    }
+			    return node_size(n);
+			});
+			tree.node_color (function (n) {
+			    if (node.id() === n.id()) {
+				return "brown";
+			    }
+			    return node_color(n);
+			});
+
+			ta.update();
+			ta.track(track);
+		    },
+		    obj : node,
+		    value : 'Show Annotation'
+		});
+	    }
+
+	    tnt.tooltip.table().call (this, obj);
+	};
 	};
 
 	return theme;
@@ -1044,11 +1140,13 @@ var filter_pfam_matches = function(data, loc) {
 	var sub_data = [];
 	var from = loc.from;
 	var to = loc.to;
+	if(data){
 	for (var i = 0; i < data.length; i++) {
 		var item = data[i];
 		// if (item.loc >= loc.hmmfrom && item.loc <= loc.hmmto) {
 		sub_data.push(item);
 		// }
+	}
 	}
 	return sub_data;
 };
@@ -1117,6 +1215,8 @@ var add_tree_type_drop_down = function(args) {
 		.attr("value", "restore")
 		.text("restore_tree");
 };
+
+
 
 
 function add_scale_drop_down(args) {

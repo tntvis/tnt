@@ -22,6 +22,9 @@
 	font-size: 11px;
 }
 
+.tnt_elem_pfam_match{
+	opacity: 0.4;
+}
 
 /*
 	Variable Grid System (Fluid Version).
