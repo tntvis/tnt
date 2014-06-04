@@ -135,6 +135,9 @@ tnt.tree.node = function (data) {
     });
 
     var has_ancestor = function(n, ancestor) {
+	// It is better to work at the data level
+	n = n.data();
+	ancestor = ancestor.data();
 	if (n._parent === undefined) {
 	    return false
 	}
@@ -162,17 +165,18 @@ tnt.tree.node = function (data) {
 	for (var i = 1; i<nodes.length; i++) {
 	    lca_node = _lca(lca_node, nodes[i]);
 	}
-	return tnt.tree.node(lca_node);
+	return lca_node;
+	// return tnt.tree.node(lca_node);
     });
 
     var _lca = function(node1, node2) {
-	if (node1 === node2) {
+	if (node1.data() === node2.data()) {
 	    return node1;
 	}
 	if (has_ancestor(node1, node2)) {
 	    return node2;
 	}
-	return _lca(node1, node2._parent);
+	return _lca(node1, node2.parent());
     };
 
     api.method('n_hidden', function (val) {
