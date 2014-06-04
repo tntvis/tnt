@@ -30,7 +30,7 @@ var tnt_theme_tree_labels = function() {
 
 	// The empty label shows no label
 	var empty_label = tnt.tree.label.text()
-	    .text(function (d) {
+	    .text(function () {
 		return "";
 	    })
 
@@ -39,34 +39,34 @@ var tnt_theme_tree_labels = function() {
 
 	// The clean label shows the names substituting underscores with spaces
 	var clean_label = tnt.tree.label.text() // Same as default but without underscores
-	    .text(function (d) {
-		return d.name.replace(/_/g, ' ');
+	    .text(function (node) {
+		return node.data().name.replace(/_/g, ' ');
 	    });
 
 	// The prefix label shows the first 7 characters of the labels appending '...' at the end
 	var prefix_label = tnt.tree.label.text() // Showing only 7 characters
-	    .text(function (d) {
-		return d.name.substr(0,6) + "...";
+	    .text(function (node) {
+		return node.data().name.substr(0,6) + "...";
 	    });
 
 	// The common label shows the common name of the species
 	var common_label = tnt.tree.label.text()
-	    .text(function (d) {
-		return scientific_to_common[d.name]
+	    .text(function (node) {
+		return scientific_to_common[node.data().name]
 	    })
 
 	var separated_label = tnt.tree.label.text()
-	    .text(function (d) {
-		return scientific_to_common[d.name]
+	    .text(function (node) {
+		return scientific_to_common[node.data().name]
 	    })
-	    .height(function (d) {
+	    .height(function () {
 		return 50;
 	    });
 
 	// The image label shows a picture of the species
 	var image_label = tnt.tree.label.img()
-	    .src(function (d) {
-		return names_to_pics[d.name];
+	    .src(function (node) {
+		return names_to_pics[node.data().name];
 	    })
 	    .width(function () {
 		return 50;
@@ -111,8 +111,8 @@ var tnt_theme_tree_labels = function() {
 	// but we are not reusing that one because add_label
 	// adjusts automatically the transform of the labels
 	    .add_label(tnt.tree.label.text()
-		       .text(function (d) {
-			   return scientific_to_common[d.name]
+		       .text(function (node) {
+			   return scientific_to_common[node.data().name]
 		       }));
 
 	// The menu to change the labels dynamically
@@ -123,7 +123,7 @@ var tnt_theme_tree_labels = function() {
 
 	var label_type_menu = menu_pane
 	    .append("select")
-	    .on("change", function (d) {
+	    .on("change", function () {
 		switch (this.value) {
 		case "empty" :
 		    tree_vis.label(empty_label);
