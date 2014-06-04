@@ -187,6 +187,14 @@ tnt.tree.node = function (data) {
 	return node
     });
 
+    api.method ('get_all_nodes', function () {
+	var nodes = [];
+	node.apply(function (n) {
+	    nodes.push(n);
+	});
+	return nodes;
+    });
+
     api.method ('get_all_leaves', function () {
 	var leaves = [];
 	node.apply(function (n) {

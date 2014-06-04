@@ -255,8 +255,8 @@ describe('tnt Tree', function () {
 
 		it("Finds the correct lca node", function () {
 		    var nodes = [];
-		    nodes.push(mynewtree.find_node_by_name('human').data());
-		    nodes.push(mynewtree.find_node_by_name('chimp').data());
+		    nodes.push(mynewtree.find_node_by_name('human'));
+		    nodes.push(mynewtree.find_node_by_name('chimp'));
 		    var lca = mynewtree.lca(nodes);
 		    assert.isDefined(lca);
 		    assert.property(lca, "find_node_by_name");
@@ -357,6 +357,14 @@ describe('tnt Tree', function () {
 		    assert.isTrue(_.contains(visited_nodes, "human"));
 		    assert.isTrue(_.contains(visited_nodes, "anc2"));
 		    assert.isTrue(_.contains(visited_nodes, "anc1"));
+		});
+	    });
+
+	    describe("get_all_nodes", function () {
+		it("Returns all the nodes", function () {
+		    var nodes = mytree.get_all_nodes();
+		    assert.isArray(nodes);
+		    assert.lengthOf(nodes, 5);
 		});
 	    });
 
