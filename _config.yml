@@ -586,7 +586,7 @@ api :
                           .width (400)
                           .right (1000);
 
-                      // Create a function that knows how to do a track given a leaf
+                       // Create a function that knows hot to do a track given a leaf
                        var track = function (leaf) {
                           var sp = leaf.node_name();
                           return tnt.track()
