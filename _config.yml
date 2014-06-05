@@ -568,6 +568,50 @@ api :
                   full : Removes the simple labels from the composite
                   example : null
            - name : Annotation
+             preamble : If you want to add track based information to your tree, a higher level object is needed to align and synchronize tree leaves and tracks. This higher level object is <i>tnt.tree_annot</i>, which accepts a tree, a board and a function that knows how to create tracks given a leaf and creates a combined visualization with both entities
+             example : |
+                       // Create a tree
+                       var tree = tnt.tree()
+                          .data (tnt.tree.parse_newick (newick))
+                          .layout (tnt.tree.layout.vertical()
+                             .width (500)
+                             .scale (false))
+                          .label (tnt.tree.label.text()
+                             .height (20);
+
+                       // Create a board
+                       var annot = tnt.board()
+                          .from (0)
+                          .to (1000)
+                          .width (400)
+                          .right (1000);
+
+                      // Create a function that knows how to do a track given a leaf
+                       var track = function (leaf) {
+                          var sp = leaf.node_name();
+                          return tnt.track()
+                            .background_color ("#EBF5FF")
+                            .data (tnt.track.data()
+                               .update (tnt.track.retriever.sync()
+                                   .retriever (function () {
+                                      return data[sp] || [];
+                                   })
+                               )
+                            .display (tnt.track.feature.ensembl()
+                               .foreground_color ("steelblue")
+                               .index (function (d) {
+                                   return d.start;
+                               })
+                            );
+                       };
+
+                       var tree_annot = tnt.tree_annot()
+                         .tree (tree)
+                         .annotation (board)
+                         .ruler ("both")
+                         .track (track):
+
+                       tree_annot(div);
              elements :
                 - name : tree
                   desc : sets the tree part of the annotated tree
