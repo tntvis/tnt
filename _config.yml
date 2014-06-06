@@ -613,16 +613,94 @@ api :
 
                        tree_annot(div);
              elements :
+                - name : tree_annot
+                  path : tnt
+                  args : null
+                  desc : creates a new annotated tree object
+                  full : Creates a new annotated tree object. This object supports several methods to assign the tree and annotated parts (a tnt.tree and a tnt.board respectively)
+                  example : |
+                            var tree_annot = tnt.tree_annot();
                 - name : tree
+                  path : tree_annot
+                  args : tnt.tree
                   desc : sets the tree part of the annotated tree
+                  full : Sets the tree object (ie the tnt.tree) of the annotated tree. If called without arguments, retrieves the previously set tree
+                  example : |
+                            var tree = tnt.tree()
+                               .data (tnt.tree.parse_newick (newick))
+                               .layout (...);
+
+                            var tree_annot = tnt.tree_annot()
+                               .tree (tree);
                 - name : annotation
+                  path : tree_annot
+                  args : tnt.board
                   desc : sets the annotation part of the annotated tree
+                  full : Sets the annotateion object (ie the tnt.board) of the annotated tree. If called without arguments, retrieves the previously set board
+                  example : |
+                            var board = tnt.board()
+                               .from (0)
+                               .to (1000)
+                               .width (400)
+                               .right (1000);
+
+                            var tree_annot = tnt.tree_annot()
+                               .annotation (board);
                 - name : track
+                  path : tree_annot
+                  args : callback
                   desc : specifies a callback to use to create new tracks based on leaves
+                  full : Specifies a callback to use to create new tracks. The callback receives a tnt.tree.node object and returns a tnt.track. This callback is used by the tree_annot object to create the tracks in the board. One track is created by leaf in the tree. Re-setting the <i>track</i> callback re-creates the already existing tracks. See the example below for details
+                  example : |
+                            var track = function (leaf) {
+                               var sp = leaf.name;
+                               return tnt.track()
+                                  .background_color ('#E8E8E8')
+                                  .data (tnt.track.data()
+                                     .update (tnt.track.retriever.sync()
+                                         .retriever (function () {
+                                            return data[source][sp] || [];
+                                         })
+                                     )
+                                  )
+                                  .display (...);
+                            };
+
+                            var tree_annot = tnt.tree_annot()
+                               .tree (...)
+                               .annotation (...)
+                               .track (track);
+
+                            tree_annot (div);
+
+                            // If track is redefined, the tracks are recreated:
+                            tree_annot
+                               .track (track
+                                  .data(...));
                 - name : update
+                  path : tree_annot
+                  args : null
                   desc : updates both the tree and the annotation
+                  full : Updates the tree and the annotation parts of the visualization. If the leaves are re-ordered, collapsed, etc, their associated tracks are updated accordingly
+                  example : |
+                            var tree_annot = tnt.tree_annot()
+                               .tree (tree)
+                               .annotation (board)
+                               .track (track);
+
+                            tree_annot (div);
+
+                            // Toggle one node and update the visualization
+                            tree.root().find_node_by_name ('Mammals').toggle();
+                            tree_annot.update();
                 - name : ruler
-                  desc : sets the ruler/s to be displayd in the annotation
+                  path : tree_annot
+                  args : string
+                  desc : sets the ruler/s to be displayed in the annotation
+                  full : Sets the ruler/s to be displayed in the annotation. Possible values are "top", "bottom", "both" and "none".
+                  example : |
+                            var tree_annot = tnt.tree_annot()
+                               .ruler("both");
                 - name : key
                   desc : specifies the key used to link tree nodes and tracks
            - name : Input trees
