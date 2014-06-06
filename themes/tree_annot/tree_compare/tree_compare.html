@@ -1,37 +1,24 @@
-
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>e!Peek Themes</title>
-
-<style>
-  @import url(../../index.css)
-</style>
+<title>TnT Themes</title>
 
 <div id="body">
 
   <!-- D3 -->
-  <script src="../../lib/d3.min.js"></script>
+  <script src="../../../lib/d3.min.js"></script>
 
-  <!-- ePeek -->
-  <link rel="stylesheet" href="../../src/ePeek.css" type="text/css" />
+  <!-- TnT -->
+  <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
 
-  <script src="../../ePeek.js"></script>
+  <script src="../../../lib/tnt.js"></script>
   <script src="tree_compare.js"></script>
-
-  <header>
-    <a style="margin-left:1em;" href="../../index.html">Overview</a>
-    <a style="margin-left:1em;" href="../index.html"><b>Themes</b></a>
-    <a style="margin-left:1em;" href="../../index.html">Examples</a>
-    <a style="margin-left:1em;" href="../../doc/api/index.html">Documentation</a>
-    <a style="margin-left:1em;" href="https://github.com/emepyc">Source</a>
-  </header>
 
   <h1>Tree Compare</h1>
   <div id="annot_tree"></div>
   <script>
     (function() {
-        var ta = epeek.tree_annot();
-        var taTheme = epeek_theme_tree_compare();
+        var ta = tnt.tree_annot();
+        var taTheme = tnt_theme_tree_compare();
         taTheme (ta, document.getElementById("annot_tree"));
     })();
  
@@ -44,4 +31,3 @@
   </footer>
 
 </div>
-<script src="../../highlight.v0.min.js"></script>
