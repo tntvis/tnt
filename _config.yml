@@ -547,7 +547,7 @@ api :
                             var comp_label = tnt.tree.label.composite()
                                .add_label (img_label)
                                .add_label (text_label);
-                - name : composite.add_label
+                - name : add_label
                   path : tree.label.composite
                   args : tnttree.label
                   desc : adds a new simple label to the composite label
@@ -702,12 +702,39 @@ api :
                             var tree_annot = tnt.tree_annot()
                                .ruler("both");
                 - name : key
+                  path : tree_annot
+                  args : string | callback
                   desc : specifies the key used to link tree nodes and tracks
+                  full : Specifies the key to be used when linking tree nodes and tracks. By default, the nodes and the tracks are linked by internal IDs transparent to the user. If some kind of object constancy (node constancy) is required, it is possible to define how a different way to link leaves and tracks. This new link (o key) can be defined either using a name field in the data (ie a string) or a callback that would be called on each leaf when creating or updating tracks. This callback is called with the leaf node (ie the tnt.tree.node) as its argument. See an example below
+                  example : |
+                            var newick1 = '((human, chimp), (mouse, rat));';
+                            var newick2 = '(((human, chimp), mouse), zebrafish)';
+                            var tree1 = tnt.tree.parse_newick (newick1);
+                            var tree2 = tnt.tree.parse_newick (newick2);
+                            var tree_annot = tnt.tree.annot()
+                               .tree (tree1);
+                               .key ('name'); // or .key (function (node) { return node.node_name() });
+
+                            // at some later point...
+                            tree_annot
+                               .tree (tree2);
+                            tree_annot.update();
+                            // Above, a new tree is set in the tree annot. Because this is a different tree, if no key is defined for the tree annotation, no track constancy or node constancy would not be performed, but because we are using the 'name' field of the node to link leaves and tracks, when using the second tree, the common leaves (ie 'human, 'chimp' and 'mouse') and their associated annotation would be maintained
            - name : Input trees
+             preamble : |
+                        TnT has several methods to convert string based trees to tnt.tree.node's. See below for a descrition of the supported methods
+             example : |
+                       var tree = tnt.tree.parse_newick (newick);
+                       var tree2 = tnt.tree.parse_nhx (nhx);
              elements :
-                - name : tree.parse_newick
+                - name : parse_newick
+                  path : tree
+                  args : string
                   desc : parses newick formatted trees
-                - name : tree.parse_nhx
+                  full : Parses a newick formatted tree returning a tnt.tree.node object. This method 
+                - name : parse_nhx
+                  path : tree
+                  args : string
                   desc : parses nhx formatted trees
     - name : track
       elements :
