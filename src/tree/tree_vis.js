@@ -127,6 +127,7 @@ tnt.tree = function () {
 	// LINKS
 	var link = vis.selectAll("path.tnt_tree_link")
 	    .data(curr.links, function(d){return d.target._id});
+	
 	link
 	    .enter()
 	    .append("path")
@@ -273,18 +274,18 @@ tnt.tree = function () {
 	    // phylo(curr.nodes[0], 0);
 	    curr.links = cluster.links(curr.nodes);
 
-            // NODES
+        // NODES
 	    var node = vis.selectAll("g.tnt_tree_node")
 		.data(curr.nodes, function(d) {return d._id});
 
 	    // LINKS
 	    var link = vis.selectAll("path.tnt_tree_link")
 		.data(curr.links, function(d){return d.target._id});
-	    
+
 	    var exit_link = link
 		.exit()
 		.remove();
-	    
+
 
 	    // New links are inserted in the prev positions
 	    link
@@ -314,6 +315,7 @@ tnt.tree = function () {
 //	    	.delay((max_depth_exit_node + entering_links) * conf.duration) // TODO: I changed this (from 1). Not sure it is correct
 //		.delay(get_new_link_delay)
 	    	.attr("d", diagonal);
+
 
 
 	    // New nodes are created without radius
@@ -366,6 +368,10 @@ tnt.tree = function () {
 		})
 		.attr('r', function (d) {
 		    return d3.functor(conf.node_circle_size)(tnt.tree.node(d));
+		})
+		// node strokes are dynamic properties
+		.attr('stroke', function (d) {
+		    return d3.functor(conf.node_color)(tnt.tree.node(d));
 		});
 
 	    // TODO: Shouldn't this be done only on new nodes? Old nodes should already have the labels
