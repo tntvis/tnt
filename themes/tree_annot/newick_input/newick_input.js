@@ -2,6 +2,7 @@ var tnt_theme = function () {
 
 	var height = 45;
 	var color = "steelblue";
+	var threshold;
 
 	//Create tree and annot
 	var tree = tnt.tree();
@@ -44,6 +45,7 @@ var tnt_theme = function () {
 								button_unscale.attr("hidden",null)
 
 								tree.layout (tnt.tree.layout.vertical()
+									.width(430)
 									.scale(true)
 								);
 								ta.update();
@@ -59,6 +61,7 @@ var tnt_theme = function () {
 
 
 								tree.layout (tnt.tree.layout.vertical()
+										.width(430)
 										.scale(false)
 									);
 									ta.update();
@@ -319,7 +322,9 @@ var tnt_theme = function () {
 				return x_scale (d.start);
 	    		})
 		    	.attr("y", padding)
-		    	.attr("width", track.height() - ~~(padding * 2))
+		    	.attr("width", function (d) {
+				return (x_scale(d.end) - x_scale(d.start));
+	    		})
 		    	.attr("height", track.height() - ~~(padding * 2))
 		    	.attr("fill", function (d) {
 		    		switch(d.type) {
@@ -393,6 +398,106 @@ var tnt_theme = function () {
 		sel_color.append("option")
 			.text("indigo")
 
+		//START
+		//Smart scaling 
+		var button_smartscale = d3.select(div)
+								.append("button")
+								.text("Smartscale")
+								.on("click", function() {
+									smartscale();
+								});
+
+		var smartscale = function () {
+			var root_dists = _.map (tree.root().get_all_nodes(), function (node) {
+	    			return node.root_dist();
+			});
+			
+			//Calculating threshold using interquantil distance (see Box Diagramm)
+    		var quantile = root_dists.sort(d3.ascending);
+
+    		console.log(quantile);
+
+    		//Calculating interquantil distance
+    		var interq_dist = d3.quantile(quantile,0.75) - d3.quantile(quantile,0.25);
+ 
+    		var threshold = d3.quantile(quantile,0.75) + 1.5 * interq_dist;
+
+    		console.log(threshold);
+
+    		// Cut off all values over threshold
+    		quantile = quantile.slice(0,d3.bisectLeft(quantile, threshold));
+
+    		console.log(quantile);
+
+    		//New layout for long branches
+    		var smartlayout = function () {
+    			var layout = tnt.tree.layout.vertical();
+
+    			var api = tnt.utils.api (layout);
+
+    			//New scale method
+    			api.method('scale_branch_lengths', function (curr) {
+					if (layout.scale() === false) {
+	    				return
+					}
+
+				var nodes = curr.nodes;
+				var tree = curr.tree;
+
+				var root_dists = nodes.map (function (d) {
+	    			return d._root_dist;
+				});
+
+    			var yscale = layout.yscale(quantile);
+
+				tree.apply (function (node) {
+					if (node.root_dist() < threshold ) {
+					node.property("y", yscale(node.root_dist()));	
+					} else {
+						node.property("y", yscale(d3.max(quantile)));
+						}
+	        		
+	   				});
+    			});
+
+    			return layout
+    		}
+
+    		console.log(smartlayout());
+    		tree.layout(smartlayout().width(400).scale(true));
+
+    		tree.node_color(function (node) {
+				if (node.is_collapsed()) {
+					return "turquoise"
+				} else {
+					if (node.root_dist() > threshold) {
+						return "black"
+					} else {
+						return color
+					}
+				}
+
+			});
+
+			tree.node_circle_size(function (node) {
+				if (node.is_leaf()) {
+					if (node.root_dist() > threshold) {
+						return 2.0
+					} else {
+						return 6.0
+					}
+				} else {
+					return 3.0
+				}
+			})
+
+
+    		ta.update();
+
+
+
+		}//END
+
 		//Set tree to our configured tree
 		ta.tree(tree); 
 
@@ -400,7 +505,7 @@ var tnt_theme = function () {
 		ta.annotation(annot);
 
 		//Set ruler for the board
-		ta.ruler("top");
+		ta.ruler("bottom");
 
 		//Set track lines as first track
 		ta.track(track_lines);
