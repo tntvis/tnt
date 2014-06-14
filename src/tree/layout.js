@@ -20,7 +20,6 @@ tnt.tree.layout = function () {
 	.method('width', function () {throw "width is not defined in the base object"})
 	.method('height', function () {throw "height is not defined in the base object"});
 
-    // Scaling method
     api.method('scale_branch_lengths', function (curr) {
 	if (l.scale() === false) {
 	    return
@@ -33,16 +32,14 @@ tnt.tree.layout = function () {
 	    return d._root_dist;
 	});
 
-    var yscale = l.yscale(root_dists);
-
+	var yscale = l.yscale(root_dists);
 	tree.apply (function (node) {
-	        node.property("y", yscale(node.root_dist()));
-	   });
+	    node.property("y", yscale(node.root_dist()));
+	});
     });
 
     return l;
 };
-
 
 tnt.tree.layout.vertical = function () {
     var layout = tnt.tree.layout();
