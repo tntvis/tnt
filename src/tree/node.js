@@ -64,8 +64,8 @@ tnt.tree.node = function (data) {
 		d._root_dist = 0;
 	    } else {
 		var l = 0;
-		if (d.length) {
-		    l = d.length
+		if (d.branch_length) {
+		    l = d.branch_length
 		}
 		d._root_dist = l + d._parent._root_dist;
 	    }

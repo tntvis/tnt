@@ -30,9 +30,9 @@ describe('tnt Tree', function () {
 	it ("Reads the branch lenghts", function () {
 	    var newick = "((human:0.2,chimp:0.3),mouse:0.5)";
 	    var tree = tnt.tree.parse_newick(newick);
-	    assert.closeTo(tree.children[1].length, 0.5, 0.05);
-	    assert.closeTo(tree.children[0].children[0].length, 0.2, 0.05);
-	    assert.closeTo(tree.children[0].children[1].length, 0.3, 0.05);
+	    assert.closeTo(tree.children[1].branch_length, 0.5, 0.05);
+	    assert.closeTo(tree.children[0].children[0].branch_length, 0.2, 0.05);
+	    assert.closeTo(tree.children[0].children[1].branch_length, 0.3, 0.05);
 	});
     });
 

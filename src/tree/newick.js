@@ -35,14 +35,14 @@
  * {
  *   name: "F",
  *   children: [
- *     {name: "A", length: 0.1},
- *     {name: "B", length: 0.2},
+ *     {name: "A", branch_length: 0.1},
+ *     {name: "B", branch_length: 0.2},
  *     {
  *       name: "E",
  *       length: 0.5,
  *       children: [
- *         {name: "C", length: 0.3},
- *         {name: "D", length: 0.4}
+ *         {name: "C", branch_length: 0.3},
+ *         {name: "D", branch_length: 0.4}
  *       ]
  *     }
  *   ]
@@ -86,7 +86,7 @@ tnt.tree.parse_newick = function (s) {
 	    if (x == ')' || x == '(' || x == ',') {
 		tree.name = token;
 	    } else if (x == ':') {
-		tree.length = parseFloat(token);
+		tree.branch_length = parseFloat(token);
 	    }	
 	}
     }
