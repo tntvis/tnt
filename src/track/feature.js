@@ -190,17 +190,16 @@ tnt.track.feature.sequence = function () {
     // 'Inherit' from tnt.track.feature
     var feature = tnt.track.feature();
 
-    var seq = function (d) {
-	return d.sequence;
+    var config = {
+	fontsize : 10,
+	sequence : function (d) {
+	    return d.sequence
+	}
     };
 
-    feature.sequence = function (cbak) {
-	if (!arguments.length) {
-	    return seq;
-	}
-	seq = cbak;
-	return feature;
-    };
+    var api = tnt.utils.api (feature)
+	.getset (config);
+
 
     feature.create (function (new_nts, xScale) {
 	var track = this;
@@ -208,14 +207,14 @@ tnt.track.feature.sequence = function () {
 	new_nts
 	    .append("text")
 	    .attr("fill", track.background_color())
-	    .attr('fontsize', 10)
+	    .attr('fontsize', config.fontsize)
 	    .attr("x", function (d) {
 		return xScale (d.pos);
 	    })
 	    .attr("y", function (d) {
 		return ~~(track.height() / 2) + 5; 
 	    })
-	    .text(feature.sequence())
+	    .text(config.sequence())
 	    .transition()
 	    .duration(500)
 	    .attr('fill', feature.foreground_color());
