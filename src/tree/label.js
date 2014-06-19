@@ -62,6 +62,7 @@ tnt.tree.label.text = function () {
 
 	var text = svg
 	    .append("text")
+	    .style('font-size', label.fontsize() + "px")
 	    .text(label.text()(node));
 
 	var width = text.node().getBBox().width;
