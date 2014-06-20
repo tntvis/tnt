@@ -60,8 +60,8 @@ var tnt_theme_tree_sort_nodes = function() {
 		    .range(["steelblue", "red"]);
 
 		tree_vis.node_color(function (node) {
-		    if (node.children === undefined) {
-			return scale(node[prop]);
+		    if (node.is_leaf()) {
+			return scale(node.data()[prop]);
 		    }
 		    return "steelblue";
 		});
@@ -109,8 +109,8 @@ var tnt_theme_tree_sort_nodes = function() {
 	    .duration(2000)
 	    .layout(tnt.tree.layout.vertical().width(600).scale(false))
 	    .node_color(function (node) {
-		if (node.children === undefined) {
-		    return scale(node[prop]);
+		if (node.is_leaf()) {
+		    return scale(node.data()[prop]);
 		}
 		return "steelblue";
 	    })
