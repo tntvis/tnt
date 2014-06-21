@@ -3,6 +3,8 @@ var tnt_theme_tree_ensembl_species = function() {
 
     var tnt_theme = function (tree_vis, div) {
 
+	var base_root;
+
         var get_tree_nodes_by_names = function (tree, names) {
 	    var nodes = []
 	    for (var i=0; i<names.length; i++) {
@@ -23,8 +25,8 @@ var tnt_theme_tree_ensembl_species = function() {
 	    .append("select")
 	    .on("change", function(d) {
 		 // tree_vis.subtree(tree_vis.get_tree_nodes_by_names(ensembl_species[this.value]));
-		tree_vis.subtree (get_tree_nodes_by_names (tree_vis.root(), ensembl_species[this.value]));
-		 tree_vis.update();
+		tree_vis.subtree (get_tree_nodes_by_names (base_root, ensembl_species[this.value]));
+		tree_vis.update();
 	    });
 
 	for (var i in ensembl_species) {
@@ -42,6 +44,7 @@ var tnt_theme_tree_ensembl_species = function() {
 	    .layout(tnt.tree.layout.radial().width(650).scale(false));
 
 	tree_vis(div);
+	base_root = tree_vis.root();
     };
 
     return tnt_theme;
