@@ -414,6 +414,10 @@ tnt.tree.node = function (data) {
 	return node.property('name');
     });
 
+    api.method ('branch_length', function () {
+	return node.property('branch_length');
+    });
+
     api.method ('root_dist', function () {
 	return node.property('_root_dist');
     });
