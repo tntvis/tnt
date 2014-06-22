@@ -735,6 +735,9 @@ tnt.track.feature.axis = function () {
     var feature = {};
     feature.reset = function () {
 	xAxis = undefined;
+	var track = this;
+	track.g.selectAll("rect").remove();
+	track.g.selectAll(".tick").remove();
     };
     feature.plot = function () {};
     feature.move = function () {
