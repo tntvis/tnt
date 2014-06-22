@@ -2,6 +2,7 @@ tnt.tree_annot = function () {
 "use strict";
 
     var no_track = true;
+    var div_id;
 
     // Defaults
     var tree_conf = {
@@ -30,6 +31,8 @@ tnt.tree_annot = function () {
     };
 
     var tree_annot = function (div) {
+	div_id = d3.select(div)
+	    .attr("id");
 
 	var group_div = d3.select(div)
 	    .append("div")
@@ -37,10 +40,12 @@ tnt.tree_annot = function () {
 
 	var tree_div = group_div
 	    .append("div")
+	    .attr("id", "tnt_tree_container_" + div_id)
 	    .attr("class", "tnt_tree_container");
 
 	var annot_div = group_div
 	    .append("div")
+	    .attr("id", "tnt_annot_container_" + div_id)
 	    .attr("class", "tnt_annot_container");
 
 	tree_conf.tree (tree_div.node());
@@ -180,6 +185,7 @@ tnt.tree_annot = function () {
 
 	for (var i=start_index; i<(tracks.length - end_index); i++) {
 	    var t = tracks[i];
+	    t.display().reset.call(t);
 	    var leaf;
 	    tree_conf.tree.root().apply (function (node) {
 		if (node.id() === t.id()) {
