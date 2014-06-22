@@ -147,8 +147,6 @@ tnt.tree_annot = function () {
 			    }
 			    return leaf.property(tree_conf.key);
 			};
-			console.log("TRACK HERE IS:");
-			console.log(tree_conf.track);
 			curr_track = tree_conf.track(leaves[i].data())
 			    .height(height);
 		    })(leaves[i]);
