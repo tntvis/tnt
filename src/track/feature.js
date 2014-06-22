@@ -544,6 +544,8 @@ tnt.track.feature.ensembl = function () {
     // 'Inherit' from tnt.track.feature
     var feature = tnt.track.feature();
 
+    var foreground_color2 = "#7FFF00";
+
     feature.guider (function (width) {
 	var track = this;
 	var height_offset = ~~(track.height() - (track.height()  * .8)) / 2;
@@ -594,7 +596,7 @@ tnt.track.feature.ensembl = function () {
 		if (d.type === 'high') {
 		    return feature.foreground_color();
 		}
-		return d3.rgb(feature.foreground_color()).brighter(); //.brighter();
+		return d3.rgb(feature.foreground_color2())
 	    });
     });
 
@@ -616,6 +618,14 @@ tnt.track.feature.ensembl = function () {
 		return (xScale(d.end) - xScale(d.start));
 	    });
     });
+
+    feature.foreground_color2 = function (col) {
+	if (!arguments.length) {
+	    return foreground_color2;
+	}
+	foreground_color2 = col;
+	return feature;
+    };
 
     return feature;
 };
