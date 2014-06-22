@@ -147,6 +147,8 @@ tnt.tree_annot = function () {
 			    }
 			    return leaf.property(tree_conf.key);
 			};
+			console.log("TRACK HERE IS:");
+			console.log(tree_conf.track);
 			curr_track = tree_conf.track(leaves[i].data())
 			    .height(height);
 		    })(leaves[i]);
@@ -171,6 +173,7 @@ tnt.tree_annot = function () {
 	if (!arguments.length) {
 	    return tree_conf.track;
 	}
+
 	// First time it is set
 	if (no_track) {
 	    tree_conf.track = new_track;
@@ -233,6 +236,8 @@ tnt.tree_annot = function () {
 
 	    tracks[i] = n_track;
 	}
+
+	tree_conf.track = new_track;
 	tree_conf.annotation.start();
     };
     
