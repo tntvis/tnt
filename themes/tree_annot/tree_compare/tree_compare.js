@@ -125,7 +125,8 @@ var tnt_theme_tree_compare = function () {
 	    .width(300)
 	    .right(1000);
 
-	var track = function (leaf) {
+	var track = function (leaf_node) {
+	    var leaf = leaf_node.data();
 	    var sp = leaf.name;
 	    return tnt.track()
 		.background_color("#EBF5FF")

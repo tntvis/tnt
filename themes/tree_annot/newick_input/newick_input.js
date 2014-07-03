@@ -227,7 +227,8 @@ var tnt_theme = function () {
 			.text("Protein Domain");
 
 		//Generate first track - lines
-		var track_lines = function (leaf) {
+		var track_lines = function (leaf_node) {
+ 		        var leaf = leaf_node.data();
 			var sp = leaf.name;
 			return tnt.track()
 						//We edit basic background color of track and its data
@@ -251,7 +252,8 @@ var tnt_theme = function () {
 		};
 
 		//Generate second track - blocks
-		var track_blocks = function (leaf) {
+		var track_blocks = function (leaf_node) {
+   		        var leaf = leaf_node.data();
 			var sp = leaf.name;
 			return tnt.track()
 						//We edit basic background color of track and its data
@@ -276,7 +278,8 @@ var tnt_theme = function () {
 		//TRACK SIDE
 		//END
 
-		var track_protein = function (leaf) {
+		var track_protein = function (leaf_node) {
+		        var leaf = leaf_node.data();
 			var sp = leaf.name;
 			//We edit basic background color of track and its data
 			return tnt.track()

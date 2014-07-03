@@ -246,7 +246,8 @@ var tnt_theme_tree_ensembl_genetree_annot = function() {
 		.from(0)
 		.width(300);
 
-	    var track = function (leaf) {
+	    var track = function (leaf_node) {
+		var leaf = leaf_node.data();
 		var id = leaf._id;
 		return tnt.track()
                     .background_color("#EBF5FF")

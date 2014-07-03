@@ -7,7 +7,7 @@ tnt.tree_annot = function () {
     // Defaults
     var tree_conf = {
 	tree : undefined,
-	track : function (leaf) {
+	track : function () {
 	    var t = tnt.track()
 		.background_color("#EBF5FF")
 		.data(tnt.track.data()
@@ -68,7 +68,7 @@ tnt.tree_annot = function () {
 		    }
 		    return leaf.property(tree_conf.key);
 		};
-		var track = tree_conf.track(leaves[i].data())
+		var track = tree_conf.track(leaves[i])
 		    .height(height);
 
 		tracks.push (track);
@@ -147,7 +147,7 @@ tnt.tree_annot = function () {
 			    }
 			    return leaf.property(tree_conf.key);
 			};
-			curr_track = tree_conf.track(leaves[i].data())
+			curr_track = tree_conf.track(leaves[i])
 			    .height(height);
 		    })(leaves[i]);
 		}
@@ -207,7 +207,7 @@ tnt.tree_annot = function () {
 	    tracks[n].display().reset.call(tracks[n]);
 	}
 
-	for (var i=start_index; i<=(tracks.length - n_index); i++) {
+	for (var i=start_index; i<(tracks.length - n_index); i++) {
 	    var t = tracks[i];
 	    t.display().reset.call(t);
 	    var leaf;
