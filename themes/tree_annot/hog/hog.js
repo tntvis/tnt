@@ -91,6 +91,51 @@ var tnt_theme_tree_hog = function () {
 	    return 2;
 	}
 
+	var mouse_over_node = function (node) {
+	    d3.selectAll(".hog_gene")
+		.classed ("brown", false)
+		.classed ("green", false)
+		.classed ("grey", true);
+
+	    var ns = node.get_all_nodes();
+	    for (var i=0; i<ns.length; i++) {
+		var genes = [];
+		var n = ns[i];
+		var name = n.node_name();
+		if (n.is_leaf()) {
+		    d3.selectAll ("." + name)
+			.classed ("grey", false)
+			.classed ("green", true);
+		} else {
+		    d3.selectAll ("." + name)
+			.classed ("grey", false)
+			.classed ("brown", true);
+		}
+		// if (data["oma"][name] !== undefined) {
+		// 	for (var j=0; j<data["oma"][name].length; j++) {
+		// 	    d3.selectAll("." + data["oma"][name][j].name)
+		// 		.classed ("grey", false)
+		// 		.classed ("brown", true);
+		// 	}
+		// }
+	    }
+
+	    tree.node_circle_size (function (n) {
+		if (node.id() === n.id()) {
+		    return 6
+		}
+		return node_size(n);
+	    });
+	    tree.node_color (function (n) {
+		if (node.id() === n.id()) {
+		    return "brown";
+		}
+		return node_color(n);
+	    });
+	    ta.update();
+
+	}
+
 	// Define the tree part
 	var tree = tnt.tree()
 	    .data (tnt.tree.parse_newick (newick))
@@ -121,49 +166,7 @@ var tnt_theme_tree_hog = function () {
 	    .link_color("black")
 	    .node_circle_size (node_size)
 	    .on_click (node_tooltip)
-	    .on_mouseover (function (node) {
-		d3.selectAll(".hog_gene")
-		    .classed ("brown", false)
-		    .classed ("green", false)
-		    .classed ("grey", true);
-
-		var ns = node.get_all_nodes();
-		for (var i=0; i<ns.length; i++) {
-		    var genes = [];
-		    var n = ns[i];
-		    var name = n.node_name();
-		    if (n.is_leaf()) {
-			d3.selectAll ("." + name)
-			    .classed ("grey", false)
-			    .classed ("green", true);
-		    } else {
-			d3.selectAll ("." + name)
-			    .classed ("grey", false)
-			    .classed ("brown", true);
-		    }
-		    // if (data["oma"][name] !== undefined) {
-		    // 	for (var j=0; j<data["oma"][name].length; j++) {
-		    // 	    d3.selectAll("." + data["oma"][name][j].name)
-		    // 		.classed ("grey", false)
-		    // 		.classed ("brown", true);
-		    // 	}
-		    // }
-		}
-
-		tree.node_circle_size (function (n) {
-		    if (node.id() === n.id()) {
-			return 6
-		    }
-		    return node_size(n);
-		});
-		tree.node_color (function (n) {
-		    if (node.id() === n.id()) {
-			return "brown";
-		    }
-		    return node_color(n);
-		});
-		ta.update();
-	    });
+	    .on_mouseover (mouse_over_node);
 
 	// var selected_leaves = _.map (tree.root().get_all_leaves(), function (leaf) {
 	//     return leaf.node_name();
@@ -224,6 +227,14 @@ var tnt_theme_tree_hog = function () {
 	    tnt.tooltip.table().call (this, obj);
 	};
 
+	var get_node_from_name = function (tree, name) {
+	    var nodes = tree.root().get_all_nodes();
+	    for (var i=0; i<nodes.length; i++) {
+		if (nodes[i].node_name() === name) {
+		    return nodes[i];
+		}
+	    }
+	};
 
 	// TnT doesn't have a square feature, so we are creating one
 	// in the theme using the tnt.track.featur interface
@@ -244,7 +255,11 @@ var tnt_theme_tree_hog = function () {
 		    .attr("height", track.height() - ~~(padding * 2))
 		    .attr("fill", "grey")
 	    })
-	    .on_click (hog_tooltip);
+	    .on_click (hog_tooltip)
+	    .on_mouseover (function (d) {
+		var node = get_node_from_name (tree, d.born);
+		mouse_over_node(node);
+	    });
 
 	var annot = tnt.board()
 	    .from(0)
