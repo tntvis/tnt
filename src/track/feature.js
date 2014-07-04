@@ -8,6 +8,7 @@ tnt.track.feature = function () {
 	mover    : function () {throw "move_elem is not defined in the base feature object"},
 	updater  : function () {},
 	on_click : function () {},
+	on_mouseover : function () {},
 	guider   : function () {},
 	index    : undefined,
 	layout   : tnt.track.layout.identity(),
@@ -31,6 +32,7 @@ tnt.track.feature = function () {
 
     var plot = function (new_elems, track, xScale) {
 	new_elems.on("click", exports.on_click);
+	new_elems.on("mouseover", exports.on_mouseover);
 	// new_elem is a g element where the feature is inserted
 	exports.create.call(track, new_elems, xScale);
     };
