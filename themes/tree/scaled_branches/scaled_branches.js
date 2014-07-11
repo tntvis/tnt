@@ -2,7 +2,7 @@ var tnt_theme_tree_scaled_branches = function() {
     "use strict";
 
     var tree_theme = function (tree_vis, div) {
-	// In the div, we set up a "select" to transition between a radial and a vertical tree
+	// In the div, we set up a "select" to transition between scaled and non-scaled branches
 	var menu_pane = d3.select(div)
 	    .append("div")
 	    .append("span")
