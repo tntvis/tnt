@@ -96,9 +96,6 @@ tnt.tree = function () {
 	    label_padding : 15
 	};
 
-// 	cluster.size([n_leaves * conf.label.height()(),
-// 		      (conf.layout.width() - conf.layout.max_leaf_label_width() - conf.layout.translate_vis[0]) - 15]);
-
 	conf.layout.adjust_cluster_size(cluster_size_params);
 
 	var diagonal = conf.layout.diagonal();
@@ -136,7 +133,6 @@ tnt.tree = function () {
 	    .attr("id", function(d) {
 	    	return "tnt_tree_link_" + div_id + "_" + d.target._id;
 	    })
-	    // .attr("fill", "none")
 	    .style("stroke", function (d) {
 		return d3.functor(conf.link_color)(tnt.tree.node(d.source), tnt.tree.node(d.target));
 	    })
@@ -164,8 +160,6 @@ tnt.tree = function () {
 	    })
 	    .attr("transform", transform);
 
-	// new_node.on("click", tree.node_info_callback);
-
 	new_node
 	    .append('circle')
 	    .attr("r", function (d) {
@@ -192,49 +186,15 @@ tnt.tree = function () {
 	});
 
 	new_node
-	    // .eachconf.label);
 	    .each (function (d) {
 	    	conf.label.call(this, tnt.tree.node(d));
 	    });
-
-	// Node labels only on leaves
-	// But only if skip_labels is false
-// 	if (!skip_labels) {
-// 	    // LABELS
-// 	    new_node
-// 		.append("text")
-// 		.attr("class", "tnt_tree_label")
-// 		.style("fill", function(d) {return d.children === undefined ? fgColor : bgColor})
-// 	    // .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-// 	    // .attr("transform", function(d) {return "translate(10 5)" + layout === "vertical" ? "" : ("rotate(" + (d.x < 180 ? 0 : 180) + ")")})
-// 		.attr("transform", function(d) { return "translate(10 5)" })
-// 		.text(function(d) {var label = d.name.replace(/_/g, ' ');
-// 				   var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
-// 				   label = label + ((sp_counts[species_name] !== undefined)  ?
-// 						    " [" + (sp_counts[species_name].length) + "]" :
-// 						    "");
-// 				   return label;})
-	    
-// 	}
 
 	// Update plots an updated tree
 	api.method ('update', function() {
 	    var cluster = conf.layout.cluster;
 	    var diagonal = conf.layout.diagonal();
 	    var transform = conf.layout.transform_node;
-
-	    // var max_leaf_label_length = function (tree) {
-	    // 	var max = 0;
-	    // 	var leaves = tree.get_all_leaves();
-	    // 	for (var i=0; i<leaves.length; i++) {
-	    // 	    var label_width = conf.label.width()(leaves[i].data());
-	    // 	    if (label_width > max) {
-	    // 		max = label_width;
-	    // 	    }
-	    // 	}
-	    // 	return max;
-	    // };
-
 
 	    var max_label_length = max_leaf_label_length(curr.tree);
 	    conf.layout.max_leaf_label_width(max_label_length);
@@ -249,15 +209,12 @@ tnt.tree = function () {
 		label_padding : 15
 	    };
 	    conf.layout.adjust_cluster_size(cluster_size_params);
-// 	    cluster.size([n_leaves * conf.label.height()(),
-// 			  (layout.width() - layout.max_leaf_label_width() - layout.translate_vis[0]) - 15]);
 
 	    svg
 		.transition()
 		.duration(conf.duration)
 		.ease(ease)
 		.attr("height", conf.layout.height(cluster_size_params) + 30); // height is in the layout
-//		.attr("height", (n_leaves * label.height()()) + 20);
 
 	    vis
 		.transition()
@@ -269,14 +226,8 @@ tnt.tree = function () {
 		      conf.layout.translate_vis()[1] +
 		      ")");
 	    
-	    // Set up the current tree
-	    // var nodes = curr.tree.cluster(cluster).nodes();
-	    // var links = cluster.links(nodes);
-	    // curr.nodes = curr.tree.cluster(cluster).nodes();
 	    curr.nodes = cluster.nodes(curr.data);
 	    conf.layout.scale_branch_lengths(curr);
-	    // scale_branch_lengths();
-	    // phylo(curr.nodes[0], 0);
 	    curr.links = cluster.links(curr.nodes);
 
         // NODES
@@ -306,19 +257,12 @@ tnt.tree = function () {
 		})
 		.attr("d", diagonal);
 
-	    // Move the links to their final position, but keeping the integrity of the tree
-// 	    link
-// 	    	.filter(select_links_to_be_pushed)
-// 	    	.each(function(d) {pull_parent.call(this, d, 0)});
-
 	    link
 	    //  TODO: Here we will be moving links that have been already moved in the previous filter
 	    //  if transitions are slow, this is a good place to optimize
 	    	.transition()
 		.ease(ease)
 	    	.duration(conf.duration)
-//	    	.delay((max_depth_exit_node + entering_links) * conf.duration) // TODO: I changed this (from 1). Not sure it is correct
-//		.delay(get_new_link_delay)
 	    	.attr("d", diagonal);
 
 
@@ -392,28 +336,6 @@ tnt.tree = function () {
 			conf.label.call(this, tnt.tree.node(d));
 		    });
 	    
-	    // Node labels only on leaves
-	    // But only if skip_labels is false
-// 	    if (!skip_labels) {
-// 		new_node
-// 		    .append("text")
-// 		    .attr("class", "tnt_tree_label")
-// 		    .style("fill", function(d) {return d.children === undefined ? fgColor : bgColor})
-// 		// .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-// 		// .attr("transform", function(d) {return "translate(10 5)" + layout === "vertical" ? "" : ("rotate(" + (d.x < 180 ? 0 : 180) + ")")})
-// 		    .attr("transform", function(d) { return "translate(10 5)" })
-// 		    .text("")
-// 		    .transition()
-// 		    .duration(conf.duration)
-// //		    .delay((max_depth_exit_node + entering_links + 1) * conf.duration)
-// 		    .text(function(d) {var label = d.name.replace(/_/g, ' ');
-// 				       var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
-// 				       label = label + ((sp_counts[species_name] !== undefined)  ?
-// 							" [" + (sp_counts[species_name].length) + "]" :
-// 							"");
-// 				       return label;})
-// 	    }
-
 	    node
 		.transition()
 		.ease(ease)
@@ -444,11 +366,6 @@ tnt.tree = function () {
 	// Set up a new tree based on the data
 	var newtree = tnt.tree.node(base.data);
 
-	// The nodes are marked because we want to be able to join data after selecting a subtree
-	// var i = tnt.misc.iteratorInt();
-	// newtree.apply(function(d) {d.property('__tnt_id__', i())});
-	// newtree.apply(function(d) {d.property('__inSubTree__', {prev : true, curr : true})});
-
 	tree.root(newtree);
 	return tree;
     });
@@ -467,13 +384,6 @@ tnt.tree = function () {
     });
 
     api.method ('subtree', function (curr_nodes) {
-	// var curr_nodes = [];
-	// var orig_tree = tree.root();
-	// var orig_data = tree.data();
-	// for (var i=0; i<node_names.length; i++) {
-	//     var node = orig_tree.find_node_by_name(node_names[i]);
-	//     curr_nodes.push(orig_tree.find_node_by_name(node_names[i]));
-	// }
 	var subtree = base.tree.subtree(curr_nodes);
 	curr.data = subtree.data();
 	curr.tree = subtree;
@@ -489,120 +399,6 @@ tnt.tree = function () {
 	return tree;
     });
 
-//     tree.subtree = function (node_names) {
-// 	// We have to first clean the previous subtree (if any)
-// 	// This means un-marking the nodes in the subtree:
-// 	base.tree.apply(function(d){
-// 	    d.property('__inSubTree__').prev = d.property('__inSubTree__').curr
-// 	})
-// 	base.tree.apply(function(d){
-// 	    d.property('__inSubTree__').curr = false
-// 	});
-
-// 	var orig_tree = tree.root();
-// 	var orig_data = tree.data();
-
-// 	//  We set up the prev data and tree
-// // 	var prev_data = copy_node(curr.data);
-// // 	for (var i=0; i<curr.data.children.length; i++) {
-// // 	    copy_data (curr.data.children[i], prev_data, function(d) {return true});
-// // 	}
-// // 	prev.data = prev_data;
-// // 	prev.tree = tnt.tree(prev.data);
-
-// 	//  We set up the curr data and tree
-// 	var curr_nodes = [];
-// 	for (var i=0; i<node_names.length; i++) {
-// 	    curr_nodes.push(orig_tree.find_node_by_name(orig_data,node_names[i]));
-// 	}
-
-// 	for (var i=0; i<curr_nodes.length; i++) {
-// 	    orig_tree.upstream(curr_nodes[i], function(d) {
-// 		d.property('__inSubTree__').curr = true
-// 	    });
-// 	}
-	
-// 	var curr_data = copy_node(orig_data);
-// 	for (var i=0; i<orig_data.children.length; i++) {
-//             copy_data (orig_data.children[i], curr_data, function(d) {
-// 		return ((d.__inSubTree__.curr) && (!is_singleton(d)));
-// 	    });
-// 	}
-
-// 	curr.data = curr_data;
-// 	curr.tree = tnt.tree.tree(curr.data);
-
-// 	return tree;
-//     };
-
-
-    // TODO: copy_data is not a good name for this
-//     var copy_data = function (orig_data, sub_data, condition) {
-// 	if (orig_data === undefined) {
-// 	    return;
-// 	}
-
-// 	if (condition(orig_data)) {
-// 	    var copy = copy_node(orig_data);
-
-// 	    if (sub_data.children === undefined) {
-// 		sub_data.children = [];
-// 	    }
-// 	    sub_data.children.push(copy);
-// 	    if (orig_data.children === undefined) {
-// 		return;
-// 	    }
-// 	    for (var i = 0; i < orig_data.children.length; i++) {
-// 		copy_data (orig_data.children[i], copy, condition);
-// 	    }
-// 	} else {
-// 	    if (orig_data.children === undefined) {
-// 		return;
-// 	    }
-// 	    for (var i = 0; i < orig_data.children.length; i++) {
-// 		copy_data(orig_data.children[i], sub_data, condition);
-// 	    }
-// 	}
-//     };
-
-//     var is_singleton = function (node) {
-// 	var n_children = 0;
-// 	if (node.children === undefined) {
-// 	    return false;
-// 	}
-
-// 	for (var i = 0; i < node.children.length; i++) {
-// 	    if (node.children[i].property('__inSubTree__').curr) {
-// 		n_children++;
-// 	    }
-// 	}
-
-// 	if (n_children === 1) {
-// 	    node.property('__inSubTree__').curr = false;
-// 	}
-
-// 	return n_children === 1;
-//     };
-
-//     var copy_node = function (node) {
-// 	var copy = {};
-// 	for (var param in node) {
-// 	    if ((param === "children") || (param === "children") || (param === "parent")) {
-// 		continue;
-// 	    }
-// 	    if (node.hasOwnProperty(param)) {
-// 		copy[param] = node[param];
-// 	    }
-// 	}
-// 	return copy;
-//     };
-
-    var swap_nodes = function (src, dst) {
-	var copy = copy_node (dst);
-	dst = src;
-	src = copy;
-	return;
-    };
 
     api.method ('tooltip', function () {
 	// var tooltip = tnt.tooltip().type("table");
@@ -637,141 +433,6 @@ tnt.tree = function () {
 	return tree_tooltip;
     });
 
-    // tree.update = function() {
-
-    // 	var t = function(sp_counts) {
-    // 	    reset_tree(species_tree);
-    // 	    var sp_names = get_names_of_present_species(sp_counts);
-    // 	    var present_nodes  = get_tree_nodes_by_names(species_tree, sp_names);
-    // 	    var lca_node = tnt_tree.lca(present_nodes)
-
-    // 	    decorate_tree(lca_node);
-    // 	    nodes_present(species_tree, present_nodes);
-
-    // 	    vis.selectAll("path.link")
-    // 		.data(cluster.links(tnt_tree))
-    // 		.transition()
-    // 		.style("stroke", function(d){
-    // 	    	    if (d.source.real_present === 1) {
-    // 	    		return fgColor;
-    // 	    	    }
-    // 	    	    if (d.source.present_node === 1) {
-    // 	    		return bgColor;
-    // 	    	    }
-    // 	    	    return "fff";
-    // 		});
-
-    // 	    vis.selectAll("circle")
-    // 		.data(tnt_tree.filter(function(n) { return n.x !== undefined; }))
-    // 		.attr("class", function(d) {
-    // 		    if (d.real_present) {
-    // 			return "present";
-    // 		    }
-    // 		    if (d.present_node) {
-    // 			return "dubious";
-    // 		    }
-    // 		    return "absent";
-    // 		})
-
-    // 	    var labels = vis.selectAll("text")
-    // 		.data(tnt_tree.filter(function(d) { return d.x !== undefined && !d.children; }))
-    // 		.transition()
-    // 		.style("fill", function (d) {
-    // 		    if (d.name === tree.species()) {
-    // 			return "red";
-    // 		    }
-    // 		    if (d.real_present === 1) {
-    // 			return fgColor;
-    // 		    }
-    // 		    return bgColor;
-    // 		    // return d.name === tree.species() ? "red" : "black"
-    // 		})
-    // 		.text(function(d) { var label = d.name.replace(/_/g, ' ');
-    // 				    var species_name = d.name.charAt(0).toLowerCase() + d.name.slice(1);
-    // 				    label = label + " [" + (sp_counts[species_name] === undefined ? 0 : sp_counts[species_name].length) + "]";
-    // 				    return label;
-    // 				  });
-    // 	    };
-
-    // 	return t;
-    // };
-
-
-    // var decorate_tree = function (node) {
-    // 	if (node !== undefined) {
-    // 	    tnt_tree.apply(node, function(n) {n.present_node = 1});
-    // 	}
-    // };
-
-    // var reset_tree = function (node) {
-    // 	if (node !== undefined) {
-    // 	    tnt_tree.apply(node, function(n) {n.present_node = 0; n.real_present = 0;});
-    // 	}
-    // }
-
-
-    // var nodes_present = function (tree, nodes) {
-    // 	for (var i = 0; i < nodes.length; i++) {
-    // 	    var tree_node = tnt_tree.find_node_by_name(tree, nodes[i].name);
-    // 	    if (tree_node === undefined) {
-    // 		console.log("NO NODE FOUND WITH NAME " + nodes[i]);
-    // 	    } else {
-    // 		tree_node.real_present = 1;
-    // 	    }
-    // 	}
-
-    // 	// TODO: Highly inefficient algorithm ahead
-    // 	var max_depth = max_tree_depth(tree);
-    // 	for (var i = 0; i < max_depth; i++) {
-    // 	    var children_present = function(node) {
-    // 		if (node.children !== undefined) {
-    // 		    if (check_children_present(node)) {
-    // 			node.real_present = 1;
-    // 		    }
-    // 		    for (var i = 0; i < node.children.length; i++) {
-    // 			children_present(node.children[i]);
-    // 		    }
-    // 		}
-    // 	    };
-    // 	    children_present(tree);
-    // 	}
-    // };
-
-    // var check_children_present = function(node) {
-    // 	var n_present = 0;
-    // 	for (var i = 0; i < node.children.length; i++) {
-    // 	    if (node.children[i].real_present === 1) {
-    // 		n_present++;
-    // 	    }
-    // 	}
-    // 	if (node.children.length === n_present) {
-    // 	    return true;
-    // 	}
-    // 	return false;
-    // }
-
-    // var max_tree_depth = function (tree, max) {
-    // 	if (max === undefined) {
-    // 	    max = 0
-    // 	}
-    // 	var this_depth = tree.depth;
-    // 	if (tree.children !== undefined) {
-    // 	    for (var i = 0; i < tree.children.length; i++) {
-    // 		return max_tree_depth(tree.children[i], this_depth > max ? this_depth : max)
-    // 	    }
-    // 	}
-    // 	return max;
-    // };
-
-    // var get_names_of_present_species = function (sp_nodes) {
-    // 	var names = [];
-    // 	for (var i in sp_nodes) {
-    // 	    if (sp_nodes.hasOwnProperty(i)) {
-    // 		names.push(i.charAt(0).toUpperCase() + i.slice(1));
-    // 	    }
-    // 	}
-    // 	return names;
-    // };
 
     return tree;
 };
