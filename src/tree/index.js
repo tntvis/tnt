@@ -1,4 +1,4 @@
-import "tree_vis.js";
+import "tree.js";
 import "label.js";
 import "diagonal.js";
 import "layout.js";

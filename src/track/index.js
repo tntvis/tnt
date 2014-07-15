@@ -1,4 +1,4 @@
-import "track_vis.js";
+import "board.js";
 import "track.js";
 import "data.js";
 import "layout.js";
