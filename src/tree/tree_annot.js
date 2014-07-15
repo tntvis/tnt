@@ -98,66 +98,71 @@ tnt.tree_annot = function () {
                      .orientation("bottom")
 		    );
 
-	if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
+	if (tree_conf.annotation) {
+	    if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
+		tree_conf.annotation
+		    .add_track(axis_top);
+	    }
+
 	    tree_conf.annotation
-		.add_track(axis_top);
+		.add_track(tracks);
+
+	    if (tree_conf.ruler === 'both' || tree_conf.ruler === "bottom") {
+		tree_conf.annotation
+		    .add_track(axis);
+	    }
+
+	    tree_conf.annotation(annot_div.node());
+	    tree_conf.annotation.start();
 	}
-
-	tree_conf.annotation
-	    .add_track(tracks);
-
-	if (tree_conf.ruler === 'both' || tree_conf.ruler === "bottom") {
-	    tree_conf.annotation
-		.add_track(axis);
-	}
-
-	tree_conf.annotation(annot_div.node());
-	tree_conf.annotation.start();
 
 	api.method('update', function () {
 	    tree_conf.tree.update();
-	    var leaves = tree_conf.tree.root().get_all_leaves();
-	    var new_tracks = [];
 
-	    if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
-		new_tracks.push(axis_top);
-	    }
+	    if (tree_conf.annotation) {
+		var leaves = tree_conf.tree.root().get_all_leaves();
+		var new_tracks = [];
 
-	    for (var i=0; i<leaves.length; i++) {
-		// We first see if we have a track for the leaf:
-		var id;
-		if (tree_conf.key === undefined) {
-		    id = leaves[i].id();
-		} else if (typeof (tree_conf.key) === 'function') {
-		    id = tree_conf.key (leaves[i]);
-		} else {
-		    id = leaves[i].property(tree_conf.key);
+		if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
+		    new_tracks.push(axis_top);
 		}
-		var curr_track = tree_conf.annotation.find_track_by_id(id);
-//		var curr_track = tree_conf.annotation.find_track_by_id(tree_conf.key===undefined ? leaves[i].id() : d3.functor(tree_conf.key) (leaves[i]))//leaves[i].property(tree_conf.key));
-		if (curr_track === undefined) {
-		    // New leaf -- no track for it
-		    (function (leaf) {
-			tnt.track.id = function () {
-			    if (tree_conf.key === undefined) {
-				return leaf.id();
-			    }
-			    if (typeof (tree_conf.key) === 'function') {
-				return tree_conf.key (leaf);
-			    }
-			    return leaf.property(tree_conf.key);
-			};
-			curr_track = tree_conf.track(leaves[i])
-			    .height(height);
-		    })(leaves[i]);
-		}
-		new_tracks.push(curr_track);
-	    }
-	    if (tree_conf.ruler === 'both' || tree_conf.ruler === 'bottom') {
-		new_tracks.push(axis);
-	    }
 
-	    tree_conf.annotation.reorder(new_tracks);
+		for (var i=0; i<leaves.length; i++) {
+		    // We first see if we have a track for the leaf:
+		    var id;
+		    if (tree_conf.key === undefined) {
+			id = leaves[i].id();
+		    } else if (typeof (tree_conf.key) === 'function') {
+			id = tree_conf.key (leaves[i]);
+		    } else {
+			id = leaves[i].property(tree_conf.key);
+		    }
+		    var curr_track = tree_conf.annotation.find_track_by_id(id);
+		    //		var curr_track = tree_conf.annotation.find_track_by_id(tree_conf.key===undefined ? leaves[i].id() : d3.functor(tree_conf.key) (leaves[i]))//leaves[i].property(tree_conf.key));
+		    if (curr_track === undefined) {
+			// New leaf -- no track for it
+			(function (leaf) {
+			    tnt.track.id = function () {
+				if (tree_conf.key === undefined) {
+				    return leaf.id();
+				}
+				if (typeof (tree_conf.key) === 'function') {
+				    return tree_conf.key (leaf);
+				}
+				return leaf.property(tree_conf.key);
+			    };
+			    curr_track = tree_conf.track(leaves[i])
+				.height(height);
+			})(leaves[i]);
+		    }
+		    new_tracks.push(curr_track);
+		}
+		if (tree_conf.ruler === 'both' || tree_conf.ruler === 'bottom') {
+		    new_tracks.push(axis);
+		}
+
+		tree_conf.annotation.reorder(new_tracks);
+	    }
 	});
 
 	return tree_annot;
@@ -207,7 +212,7 @@ tnt.tree_annot = function () {
 	    tracks[n].display().reset.call(tracks[n]);
 	}
 
-	for (var i=start_index; i<(tracks.length - n_index); i++) {
+	for (var i=start_index; i<=(tracks.length - n_index); i++) {
 	    var t = tracks[i];
 	    t.display().reset.call(t);
 	    var leaf;
@@ -228,7 +233,7 @@ tnt.tree_annot = function () {
 		    }
 		    return leaf.property(tree_conf.key);
 		};
-		n_track = new_track(leaf.data())
+		n_track = new_track(leaf)
 		    .height(tree_conf.tree.label().height());
 	    })(leaf);
 
