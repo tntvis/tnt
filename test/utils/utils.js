@@ -4,6 +4,41 @@ describe ("tnt.utils", function () {
 	assert.isObject(tnt.utils);
     });
 
+    describe ("tnt.utils.connect", function () {
+	it ("Exists and is a method", function () {
+	    assert.isDefined (tnt.utils.connect);
+	    assert.isFunction (tnt.utils.connect);
+	});
+	it ("Can connect two functions", function () {
+	    var my_class = function () {
+		var o = {};
+		o.run = function (n) {
+		    return n*2;
+		};
+		return o;
+	    };
+	    var obj1 = my_class();
+	    var obj2 = my_class();
+	    obj1.run = tnt.utils.connect (obj1.run, obj2.run);
+	    assert.strictEqual (obj1.run(5), 20);
+	});
+	it ("Can connect more than 2 functions", function () {
+	    var my_class = function () {
+		var o = {};
+		o.run = function (n) {
+		    return n*2;
+		};
+		return o;
+	    };
+	    var obj1 = my_class();
+	    var obj2 = my_class();
+	    var obj3 = my_class();
+	    obj1.run = tnt.utils.connect (obj1.run, obj2.run);
+	    obj1.run = tnt.utils.connect (obj1.run, obj3.run);
+	    assert.strictEqual (obj1.run(5), 40);
+	});
+    });
+
     describe ("tnt.utils.reduce", function () {
 	it ("Exists and is a method", function () {
 	    assert.isDefined(tnt.utils.reduce);
