@@ -21,6 +21,7 @@ tnt.board = function() {
     // It looks like it is used in the too-wide pane etc, but it may not be needed anymore
     var bgColor   = d3.rgb('#F8FBEF'); //#F8FBEF
     var pane; // Draggable pane
+    var svg_g;
     var xScale;
     var zoomEventHandler = d3.behavior.zoom();
     var limits = {
@@ -70,9 +71,10 @@ tnt.board = function() {
 	    .append("svg")
 	    .attr("class", "tnt_svg")
 	    .attr("width", width)
-	    .attr("height", height);
+	    .attr("height", height)
+	    .attr("pointer-events", "all");
 
-	var svg_g = svg
+	svg_g = svg
 	    .append("g")
             .attr("transform", "translate(0,20)")
             .append("g")
@@ -106,19 +108,19 @@ tnt.board = function() {
 	    .style("fill", bgColor);
 
 	// ** TODO: Wouldn't be better to have these messages by track?
-	var tooWide_text = svg_g
-	    .append("text")
-	    .attr("class", "tnt_wideOK_text")
-	    .attr("id", "tnt_" + div_id + "_tooWide")
-	    .attr("fill", bgColor)
-	    .text("Region too wide");
+	// var tooWide_text = svg_g
+	//     .append("text")
+	//     .attr("class", "tnt_wideOK_text")
+	//     .attr("id", "tnt_" + div_id + "_tooWide")
+	//     .attr("fill", bgColor)
+	//     .text("Region too wide");
 
 	// TODO: I don't know if this is the best way (and portable) way
 	// of centering the text in the text area
-	var bb = tooWide_text[0][0].getBBox();
-	tooWide_text
-	    .attr("x", ~~(width/2 - bb.width/2))
-	    .attr("y", ~~(height/2 - bb.height/2));
+	// var bb = tooWide_text[0][0].getBBox();
+	// tooWide_text
+	//     .attr("x", ~~(width/2 - bb.width/2))
+	//     .attr("y", ~~(height/2 - bb.height/2));
     };
 
     // API
@@ -196,7 +198,7 @@ tnt.board = function() {
 	    .range([0, width]);
 
 	if (drag_allowed) {
-	    pane.call( zoomEventHandler
+	    svg_g.call( zoomEventHandler
 		       .x(xScale)
 		       .scaleExtent([(loc.to-loc.from)/(limits.zoom_out-1), (loc.to-loc.from)/limits.zoom_in])
 		       .on("zoom", _move)
@@ -324,7 +326,7 @@ tnt.board = function() {
 	if (drag_allowed) {
 	    // When this method is called on the object before starting the simulation, we don't have defined xScale
 	    if (xScale !== undefined) {
-		pane.call( zoomEventHandler.x(xScale)
+		svg_g.call( zoomEventHandler.x(xScale)
 			   .xExtent([0, limits.right])
 			   .scaleExtent([(loc.to-loc.from)/(limits.zoom_out-1), (loc.to-loc.from)/limits.zoom_in])
 			   .on("zoom", _move) );
@@ -374,10 +376,10 @@ tnt.board = function() {
 	    .attr("height", h + height_offset);
 
 	// tooWide_text. TODO: Is this still needed?
-	var tooWide_text = d3.select("#tnt_" + div_id + "_tooWide");
-	var bb = tooWide_text[0][0].getBBox();
-	tooWide_text
-	    .attr("y", ~~(h/2) - bb.height/2);
+	// var tooWide_text = d3.select("#tnt_" + div_id + "_tooWide");
+	// var bb = tooWide_text[0][0].getBBox();
+	// tooWide_text
+	//     .attr("y", ~~(h/2) - bb.height/2);
 
 	return track_vis;
     }
