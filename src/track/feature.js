@@ -596,7 +596,7 @@ tnt.track.feature.ensembl = function () {
 	    .duration(500)
 	    .attr("fill", function (d) { 
 		if (d.type === 'high') {
-		    return feature.foreground_color();
+		    return d3.rgb(feature.foreground_color());
 		}
 		return d3.rgb(feature.foreground_color2())
 	    });
