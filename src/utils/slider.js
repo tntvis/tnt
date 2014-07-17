@@ -55,7 +55,7 @@ tnt.utils.slider = function () {
 	    if (x < 0) {
 		opts.pos1 = 0;
 	    } else if (x > x_scale(opts.pos2)) {
-		x = x_scale(opts.pos2);
+		opts.pos1 = opts.pos2;
 	    } else {
 		opts.pos1 = x;
 	    }
@@ -68,7 +68,7 @@ tnt.utils.slider = function () {
 	    if (x > opts.width) {
 		opts.pos2 = opts.width;
 	    } else if (x < x_scale(opts.pos1)) {
-		x = x_scale(opts.pos1);
+		opts.pos2 = opts.pos1;
 	    } else {
 		opts.pos2 = x;
 	    }
