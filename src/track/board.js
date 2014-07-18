@@ -182,13 +182,15 @@ tnt.board = function() {
     });
 
     var _update_track = function (track, where) {
-	var data_updater = track.data().update();
-	data_updater({
-	    'loc' : where,
-	    'on_success' : function () {
-		track.display().update.call(track, xScale);
-	    }
-	});
+	if (track.data()) {
+	    var data_updater = track.data().update();
+	    data_updater({
+		'loc' : where,
+		'on_success' : function () {
+		    track.display().update.call(track, xScale);
+		}
+	    });
+	}
     };
 
     var plot = function() {
@@ -400,7 +402,9 @@ tnt.board = function() {
 	    .style("fill", track.background_color())
 	    .style("pointer-events", "none");
 
-	track.display().init.call(track, width);
+	if (track.display()) {
+	    track.display().init.call(track, width);
+	}
 	
 	return track_vis;
     };
