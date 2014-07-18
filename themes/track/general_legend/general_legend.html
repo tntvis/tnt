@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>TnT Themes</title>
+
+<div id="body">
+
+  <!-- D3 -->
+  <script src="../../../lib/d3.min.js"></script>
+
+  <!-- TnT -->
+  <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
+
+  <script src="../../../lib/tnt.js"></script>
+  <script src="general_legend.js"></script>
+
+  <h1>An example of a legend</h1>
+  <div id="legend_div"></div>
+
+  <script>
+
+    (function() {
+        var legend = tnt_legend(document.getElementById("legend_div"))
+             .row_height(12)
+             .header_fontsize(19)
+             .fontsize(14);
+        var col1 = legend.add_column(140); // width of the column is passed
+        col1.add_row (legend.header ("Hello world"));
+        col1.add_row (legend.line ("red", "Red line"));
+        col1.add_row (legend.line ("blue", "Blue line"));
+
+        var col2 = legend.add_column(140);
+        col2.add_row (legend.header ("Second column"));
+        col2.add_row (legend.line ("green", "Green line"));
+        col2.add_row (legend.empty());
+        legend.show();
+    })();
+
+  </script>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
+</div>
