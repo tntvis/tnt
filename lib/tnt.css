@@ -127,3 +127,9 @@ div .tnt_gene_info_active {
 
 .tnt_name {
   font-size: 14px; }
+
+.tnt_framed {
+  border: 2px solid;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px; }
