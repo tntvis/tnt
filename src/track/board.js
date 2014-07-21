@@ -40,6 +40,7 @@ tnt.board = function() {
 	    left : 0,
 	    right : 0
 	},
+	show_frame : true
 	// limits        : function () {throw "The limits method should be defined"}	
     };
 
@@ -56,10 +57,7 @@ tnt.board = function() {
 	    .append("div")
 	    .attr("id", "tnt_" + div_id)
 	    .style("position", "relative")
-	    .style("border", "2px solid")
-	    .style("border-radius", "20px")
-	    .style("-webkit-border-radius", "20px")
-	    .style("-moz-border-radius", "20px")
+	    .classed("tnt_framed", exports.show_frame ? true : false)
 	    .style("width", (width + cap_width*2 + exports.extend_canvas.right + exports.extend_canvas.left) + "px")
 
 	var groupDiv = browserDiv

@@ -1,5 +1,8 @@
 tnt.utils.legend = function (div) {
 
+    d3.select(div)
+	.attr("class", "tnt_framed");
+
     var opts = {
 	row_height : 20,
 	width      : 140,
@@ -29,6 +32,7 @@ tnt.utils.legend = function (div) {
 	    .from (1)
 	    .to (2)
 	    .allow_drag (false)
+	    .show_frame (false)
 	    .width (opts.width);
 
 	new_board.add_row = new_board.add_track;
@@ -175,7 +179,7 @@ tnt.utils.legend = function (div) {
 	    var scale = d3.scale.linear()
 		.domain([track.from(), track.to()])
 		.range([0,grad_width]);
-	    var axis = d3.svg.axis().scale(scale).tickSize(0).ticks(2);
+	    var axis = d3.svg.axis().scale(scale).tickSize(0).ticks(3);
 	    var grad_g = g
 		.append("g")
 		.attr("transform", "translate(5,0)");
@@ -269,13 +273,29 @@ tnt.utils.legend = function (div) {
 		.attr("fill", "black");
 
 	    brushg.selectAll ("rect")
+		.classed("tnt_legend_range", true)
 		.attr("height", track.height()/2 - 2)
 		.attr("fill", "url(#" + d3.select(div).attr("id") + "_range)");
+
+	    brushg
+		.append("rect")
+		.attr("class", "tnt_legend_range_pre")
+		.attr("x", 0)
+		.attr("y", 0)
+		.attr("height", track.height()/2 - 2)
+		.attr("fill", track.color1());
+
+	    brushg
+		.append("rect")
+		.attr("class", "tnt_legend_range_post")
+		.attr("y", 0)
+		.attr("height", track.height()/2 - 2)
+		.attr("fill", track.color2());
 
 	    brushstart();
 	    brushmove();
 
-	    var axis = d3.svg.axis().scale(scale).tickSize(0).ticks(2);
+	    var axis = d3.svg.axis().scale(scale).tickSize(0).ticks(3);
 	    var axis_g = g
 		.append("g")
 		.attr("transform", "translate(5," + (track.height()-10) + ")")
@@ -292,14 +312,19 @@ tnt.utils.legend = function (div) {
 	    function brushstart () {
 	    }
 	    function brushmove () {
-		brushg.selectAll ("rect")
+		console.log(brush.extent());
+		brushg.selectAll (".tnt_legend_rect")
 		    .attr("fill", "url(#" + d3.select(div).attr("id") + "_range)");
+		brushg.selectAll (".tnt_legend_range_pre")
+		    .attr("width", scale(brush.extent()[0])-1)
+		brushg.selectAll (".tnt_legend_range_post")
+		    .attr("x", scale(brush.extent()[1])+1)
+		    .attr("width",  grad_width - scale(brush.extent()[1]));
+		track.on_change().call(brush);
 	    }
 	    function brushend () {
 		console.log(brush.extent());
 	    }
-
-	    
 
 	});
 
@@ -311,7 +336,8 @@ tnt.utils.legend = function (div) {
 	    .getset ("color1", "yellow")
 	    .getset ("color2", "red")
 	    .getset ("from", 0)
-	    .getset ("to", 100);
+	    .getset ("to", 100)
+	    .getset ("on_change", function (){});
 
 	return track;
     });

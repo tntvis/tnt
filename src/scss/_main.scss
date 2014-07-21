@@ -39,7 +39,8 @@ $normal-font : 14px;
 }
 
 @mixin round-borders ($amount) {
-        border-radius: $amount;
+        border-radius : $amount;
 	-webkit-border-radius: $amount;
 	-moz-border-radius: $amount;  
 }
+

@@ -133,3 +133,8 @@ div {
 .tnt_name {
     @include normal-font;
 }
+
+.tnt_framed {
+    border : 2px solid;
+    @include round-borders (20px);
+}
