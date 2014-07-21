@@ -45,7 +45,7 @@
         col5.add_row (legend.header().fontsize(19).text("Fifth column").height(30))
             .add_row (legend.range().from(20).to(80).color1("yellow").color2("red").text("A range gradient").height(24).on_change(function () {var extent = this.extent(); d3.select("#range_vals").text(~~extent[0] + " - " + ~~extent[1]);}));
 
-        legend.show();
+        legend();
     })();
 
   </script>

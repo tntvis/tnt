@@ -12,7 +12,13 @@ tnt.utils.legend = function (div) {
     var id = tnt.utils.iterator(1);
     var legend_cols = [];
 
-    var legend = function () {};
+    var legend = function () {
+	for (var i=0; i<legend_cols.length; i++) {
+	    var col = legend_cols[i];
+	    col.board(col.div);
+	    col.board.start();
+	}
+    };
 
     var api = tnt.utils.api (legend)
 	.getset(opts);
@@ -354,11 +360,6 @@ tnt.utils.legend = function (div) {
     });
 
     api.method ('show', function () {
-	for (var i=0; i<legend_cols.length; i++) {
-	    var col = legend_cols[i];
-	    col.board(col.div);
-	    col.board.start();
-	}
     });
 
     var legend_track = function () {
