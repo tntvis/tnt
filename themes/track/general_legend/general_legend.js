@@ -182,7 +182,7 @@ var tnt_legend = function (div) {
 
 	    var axis_g = g
 		.append("g")
-		.attr("transform", "translate(5," + (track.height()-15) + ")")
+		.attr("transform", "translate(5," + (track.height()-10) + ")")
 		.call(axis);
 
 	    grad_g
@@ -190,7 +190,7 @@ var tnt_legend = function (div) {
 		.attr("x", 0)
 		.attr("y", 0)
 		.attr("width", grad_width)
-		.attr("height", ~~(track.height()-15))
+		.attr("height", ~~(track.height()-10))
 		.attr("fill", "url(#" + d3.select(div).attr("id") + "_gradient)");
 
 	    grad_g
@@ -198,7 +198,7 @@ var tnt_legend = function (div) {
 		.attr("fill", "black")
 		.attr("font-size", track.fontsize())
 		.attr("x", 110)
-		.attr("y", ~~(track.height()/2 - 3))
+		.attr("y", ~~(track.height()/2))
 		.text(track.text());
 	});
 
@@ -246,27 +246,30 @@ var tnt_legend = function (div) {
 
 	    var brush = d3.svg.brush()
 		.x(scale)
-		.extent(0, 1)
+		.extent([track.from(), track.to()])
 		.on("brushstart", brushstart)
 		.on("brush", brushmove)
 		.on("brushend", brushend);
 
-	    var arc = d3.svg.arc()
-		.outerRadius (track.height()/1.5)
-		.startAngle (0)
-		.endAngle (function (d, i) { return i ? -Math.PI : Math.PI });
-
 	    var brushg = g
 		.append("g")
-		.attr("transform", "translate(5,0)")
+		.attr("transform", "translate(5,5)")
 		.call (brush);
 
-// 	    brushg.selectAll (".resize").append("path")
-// 		.attr("transform", "translate(0," + track.height() / 3.5 + ")")
-// 		.attr("fill", "gray")
-// 		.attr("d", arc);
+	    brushg.selectAll(".resize").append("line")
+		.attr("x1", 0)
+		.attr("y1", 0)
+		.attr("x2", 0)
+		.attr("y2", (track.height()/2 - 2))
+		.style("stroke", "black")
+		.style("stroke-width", 2);
+
+	    brushg.selectAll(".resize").append("path")
+		.attr("d", "M0,0L-3,-4L3,-4L0,0")
+		.attr("fill", "black");
+
 	    brushg.selectAll ("rect")
-		.attr("height", track.height()/2)
+		.attr("height", track.height()/2 - 2)
 		.attr("fill", "url(#" + d3.select(div).attr("id") + "_range)");
 
 	    brushstart();
@@ -275,8 +278,16 @@ var tnt_legend = function (div) {
 	    var axis = d3.svg.axis().scale(scale).tickSize(0).ticks(2);
 	    var axis_g = g
 		.append("g")
-		.attr("transform", "translate(5," + (track.height()-15) + ")")
+		.attr("transform", "translate(5," + (track.height()-10) + ")")
 		.call(axis);
+
+	    g
+		.append("text")
+		.attr("fill", "black")
+		.attr("font-size", track.fontsize())
+		.attr("x", 115)
+		.attr("y", ~~(track.height()/2 + 3))
+		.text(track.text());
 
 	    function brushstart () {
 	    }
@@ -285,9 +296,11 @@ var tnt_legend = function (div) {
 		    .attr("fill", "url(#" + d3.select(div).attr("id") + "_range)");
 	    }
 	    function brushend () {
-		console.log("END!");
 		console.log(brush.extent());
 	    }
+
+	    
+
 	});
 
 	var track = legend_track()
