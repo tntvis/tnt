@@ -1,4 +1,4 @@
-var tnt_legend = function (div) {
+tnt.utils.legend = function (div) {
 
     var opts = {
 	row_height : 20,

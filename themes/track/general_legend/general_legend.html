@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
 
   <script src="../../../lib/tnt.js"></script>
-  <script src="general_legend.js"></script>
 
   <h1>An example of a legend</h1>
   <div id="legend_div"></div>
@@ -19,7 +18,7 @@
   <script>
 
     (function() {
-        var legend = tnt_legend(document.getElementById("legend_div"))
+        var legend = tnt.utils.legend(document.getElementById("legend_div"))
              .row_height(12)
              .fontsize(14);
         var col1 = legend.add_column().width(180); // width of the column is passed
