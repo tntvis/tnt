@@ -72,6 +72,35 @@ tnt.utils.legend = function (div) {
 	return track;
     });
 
+    api.method ('text', function () {
+	var feature = tnt.track.feature();
+	feature.create (function (g, xScale) {
+	    var track = this;
+	    g
+		.append("text")
+		.attr("x", 5)
+		.attr("y", ~~(track.height() / 2) + 4)
+		.attr("fill", track.color())
+		.attr("font-size", track.fontsize())
+		.text(track.feature_text());
+
+	    g
+		.append("text")
+		.attr("x", 40)
+		.attr("y", ~~(track.height()/2) + 4)
+		.attr("fill", "black")
+		.attr("font-size", track.fontsize())
+		.text(track.text());
+	});
+
+	var track = legend_track()
+	    .display (feature);
+	tnt.utils.api (track)
+	    .getset ('feature_text', '');
+
+	return track;
+    });
+
     api.method ('line', function () {
 	var feature = tnt.track.feature();
 
@@ -363,18 +392,18 @@ tnt.utils.legend = function (div) {
     });
 
     var legend_track = function () {
-	var feature = tnt.track.feature();
-	feature.create (function (g, xScale) {
-	    var track = this;
-	    var feature_g = g
-		.append("g");
+	// var feature = tnt.track.feature();
+	// feature.create (function (g, xScale) {
+	//     var track = this;
+	//     var feature_g = g
+	// 	.append("g");
 
-	    var label_g = g
-		.append("g")
-		.attr("transform", "translate(110, 0)");
+	//     var label_g = g
+	// 	.append("g")
+	// 	.attr("transform", "translate(110, 0)");
 
 	    
-	});
+	// });
 
 	var track = tnt.track();
 
