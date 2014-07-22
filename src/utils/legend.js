@@ -101,7 +101,7 @@ tnt.utils.legend = function (div) {
 	return track;
     });
 
-    api.method ('line', function () {
+    api.method ('hline', function () {
 	var feature = tnt.track.feature();
 
 	feature.create (function (g, xScale) {
@@ -113,9 +113,7 @@ tnt.utils.legend = function (div) {
 		.attr("x1", 5)
 		.attr("x2", 35)
 		.attr("y1", ~~(track.height()/2))
-		.attr("y2", ~~(track.height()/2))
-		.attr("transform", "rotate(" + track.rotate() + " 20 " + ~~(track.height()/2) + ")");
-
+		.attr("y2", ~~(track.height()/2));
 	    g
 		.append("text")
 		.attr("fill", "black")
@@ -128,11 +126,36 @@ tnt.utils.legend = function (div) {
 	var track = legend_track()
 	    .display (feature);
 
-	tnt.utils.api(track)
-	    .getset("rotate", 0);
-
 	return track;
 
+    });
+
+    api.method ('vline', function () {
+	var feature = tnt.track.feature();
+	feature.create (function (g, xScale) {
+	    var track = this;
+	    g
+		.append("line")
+		.attr("stroke", track.color())
+		.attr("stroke-width", 2)
+		.attr("x1", 5)
+		.attr("x2", 5)
+		.attr("y1", 0)
+		.attr("y2", track.height());
+
+	    g
+		.append("text")
+		.attr("fill", "black")
+		.attr("font-size", track.fontsize())
+		.attr("x", 40)
+		.attr("y", ~~(track.height()/2 + 4))
+		.text(track.text());
+	});
+
+	var track = legend_track()
+	    .display(feature);
+
+	return track;
     });
 
     api.method ('square', function () {
@@ -173,7 +196,7 @@ tnt.utils.legend = function (div) {
 		.append("circle")
 		.attr("cx", rad)
 		.attr("cy", ~~(rad/2))
-		.attr("r", rad)
+		.attr("r", rad-2)
 		.attr("fill", track.color());
 	    g
 		.append("text")
