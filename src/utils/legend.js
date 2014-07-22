@@ -363,6 +363,19 @@ tnt.utils.legend = function (div) {
     });
 
     var legend_track = function () {
+	var feature = tnt.track.feature();
+	feature.create (function (g, xScale) {
+	    var track = this;
+	    var feature_g = g
+		.append("g");
+
+	    var label_g = g
+		.append("g")
+		.attr("transform", "translate(110, 0)");
+
+	    
+	});
+
 	var track = tnt.track();
 
 	var api = tnt.utils.api (track)
