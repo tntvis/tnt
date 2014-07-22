@@ -30,12 +30,12 @@ $normal-font : 14px;
     transition: $target $duration ease;
 }
 
-@mixin rotate {
-    -webkit-transform: rotate(-90deg); 
-    -moz-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    transform: rotate(-90deg);
+@mixin rotate ($amount) {
+    -webkit-transform: rotate($amount); 
+    -moz-transform: rotate($amount);
+    -o-transform: rotate($amount);
+    -ms-transform: rotate($amount);
+    transform: rotate($amount);
 }
 
 @mixin round-borders ($amount) {
