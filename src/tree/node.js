@@ -96,6 +96,16 @@ tnt.tree.node = function (data) {
 		return node;
 	    }
 	}
+	if (data._children !== undefined) {
+	    for (var j=0; j<data._children.length; j++) {
+		var c = tnt.tree.node(data._children[i]);
+		var f = c.find_node_by_field(value, field);
+		if (f !== undefined) {
+		    return f;
+		}
+	    }
+	}
+
 	if (data.children !== undefined) {
 	    for (var i=0; i<data.children.length; i++) {
 		var n = tnt.tree.node(data.children[i]);

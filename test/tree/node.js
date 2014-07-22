@@ -206,6 +206,8 @@ describe('tnt Tree', function () {
 		    assert.strictEqual (node.data().id.accession, 'ENSGACG00000003104');
 		});
 
+		it ("Can find nodes under collapsed nodes");
+
 	    });
 
 	    describe('find_node_by_name', function () {
