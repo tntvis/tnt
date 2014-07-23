@@ -35,7 +35,8 @@ var tnt_theme_tree_labels = function() {
 	    })
 
 	// The original label shows the name of the node (default)
-	var original_label = tnt.tree.label.text(); // Default options (ie. unchanged names)
+	var original_label = tnt.tree.label.text()
+	    .on_click(function (node) {console.log(node)}); // Default options (ie. unchanged names)
 
 	// The clean label shows the names substituting underscores with spaces
 	var clean_label = tnt.tree.label.text() // Same as default but without underscores

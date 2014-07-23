@@ -13,6 +13,8 @@ var tnt_theme_tree_tooltip = function() {
 		    .scale(false))
 	    .on_click(tree_vis.tooltip());
 
+	// tree_vis.label().on_click(function (node) {console.log(node.id())});
+
 	// The visualization is started at this point
 	tree_vis(div);
     };

@@ -72,7 +72,26 @@ tnt.utils.legend = function (div) {
 	return track;
     });
 
-    api.method ('line', function () {
+    api.method ('text', function () {
+	var track = legend_track()
+	    .deploy (function () {
+		var g = this;
+		d3.select(g)
+		    .append("text")
+		    .attr("x", 0)
+		    .attr("y", ~~(track.height() / 2) + 4)
+		    .attr("fill", track.color())
+		    .attr("font-size", track.fontsize())
+		    .text(track.feature_text());
+	    });
+
+	tnt.utils.api (track)
+	    .getset ('feature_text', '');
+	
+	return track;
+    });
+
+    api.method ('hline', function () {
 	var track = legend_track()
 	    .deploy (function () {
 		var g = this;
@@ -88,6 +107,23 @@ tnt.utils.legend = function (div) {
 
 	return track;
 
+    });
+
+    api.method ('vline', function () {
+	var track = legend_track()
+	    .deploy (function () {
+		var g = this;
+		d3.select(g)
+		    .append("line")
+		    .attr("stroke", track.color())
+		    .attr("stroke-width", 2)
+		    .attr("x1", 5)
+		    .attr("x2", 5)
+		    .attr("y1", 0)
+		    .attr("y2", track.height());
+	    });
+
+	return track;
     });
 
     api.method ('square', function () {
@@ -116,7 +152,7 @@ tnt.utils.legend = function (div) {
 		.append("circle")
 		.attr("cx", rad)
 		.attr("cy", ~~(rad/2))
-		.attr("r", rad)
+		.attr("r", rad-2)
 		.attr("fill", track.color());
 	    g
 		.append("text")
