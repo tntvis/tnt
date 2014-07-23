@@ -13,7 +13,17 @@ var tnt_theme_tree_tooltip = function() {
 		    .scale(false))
 	    .on_click(tree_vis.tooltip());
 
-	// tree_vis.label().on_click(function (node) {console.log(node.id())});
+	var t = tnt.tooltip.table();
+	var tree_tooltip = function (node) {
+	    var obj = {};
+	    obj.header = {
+		label : "LABEL",
+		value : "VALUE"
+	    };
+	    t.call (this, obj);
+	};
+
+	tree_vis.label().on_click(tree_tooltip);
 
 	// The visualization is started at this point
 	tree_vis(div);
