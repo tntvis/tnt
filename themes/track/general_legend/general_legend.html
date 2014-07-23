@@ -24,8 +24,8 @@
              .fontsize(14);
         var col1 = legend.add_column().width(180); // width of the column is passed
         col1.add_row (legend.header().fontsize(19).text("Hello world").height(30))
-            .add_row (legend.line().color("red").text("Red line"))
-            .add_row (legend.line().color("blue").text("Blue line"));
+            .add_row (legend.line().color("red").text("Red line").feature_width(40))
+            .add_row (legend.line().color("blue").text("Blue line").feature_width(40));
 
         var col2 = legend.add_column().width(180);
         col2.add_row (legend.header().fontsize(19).text("Second column").height(30))
