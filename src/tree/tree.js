@@ -13,6 +13,10 @@ tnt.tree = function () {
 	node_circle_size : 4.5,
     };
 
+    // Keep track of the focused node
+    // TODO: Would it be better to have multiple focused nodes? (ie use an array)
+    var focused_node;
+
     // Extra delay in the transitions (TODO: Needed?)
     var delay = 0;
 
@@ -394,8 +398,19 @@ tnt.tree = function () {
     api.method ('focus_node', function (node) {
 	// find 
 	var found_node = tree.root().find_node_by_field(node.id(), '_id');
+	focused_node = found_node
 	tree.subtree(found_node.get_all_leaves());
 
+	return tree;
+    });
+
+    api.method ('has_focus', function (node) {
+	return ((focused_node !== undefined) && (focused_node.id() === node.id()));
+    });
+
+    api.method ('release_focus', function () {
+	tree.data (base.data);
+	focused_node = undefined;
 	return tree;
     });
 
