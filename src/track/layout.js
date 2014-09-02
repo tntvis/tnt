@@ -118,7 +118,7 @@ tnt.track.layout.feature = function() {
 	}
 	for (var j = 0; j < genes_in_this_slot.length; j++) {
             var subj_gene = genes_in_this_slot[j];
-	    if (query_gene.ID === subj_gene.ID) {
+	    if (query_gene.id === subj_gene.id) {
 		continue;
 	    }
             var y_label_end = subj_gene.display_label.length * 8 + conf.scale(subj_gene.start); // TODO: It may be better to have a fixed font size (instead of the hardcoded 16)?
@@ -139,8 +139,8 @@ tnt.track.layout.feature = function() {
 	var prev_genes_slots = genes2slots(prev_genes);
 
 	for (var i = 0; i < genes.length; i++) {
-            if (prev_genes_slots[genes[i].ID] !== undefined) {
-		genes[i].slot = prev_genes_slots[genes[i].ID];
+            if (prev_genes_slots[genes[i].id] !== undefined) {
+		genes[i].slot = prev_genes_slots[genes[i].id];
             }
 	}
     };
@@ -149,7 +149,7 @@ tnt.track.layout.feature = function() {
 	var hash = {};
 	for (var i = 0; i < genes_array.length; i++) {
             var gene = genes_array[i];
-            hash[gene.ID] = gene.slot;
+            hash[gene.id] = gene.slot;
 	}
 	return hash;
     }

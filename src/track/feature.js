@@ -238,7 +238,7 @@ tnt.track.feature.gene = function () {
     var feature = tnt.track.feature()
 	.layout(tnt.track.layout.feature())
 	.index(function (d) {
-	    return d.ID;
+	    return d.id;
 	});
 
     var tooltip = function () {
