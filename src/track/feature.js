@@ -547,6 +547,7 @@ tnt.track.feature.ensembl = function () {
     var feature = tnt.track.feature();
 
     var foreground_color2 = "#7FFF00";
+    var foreground_color3 = "#00BB00";
 
     feature.guider (function (width) {
 	var track = this;
@@ -598,7 +599,10 @@ tnt.track.feature.ensembl = function () {
 		if (d.type === 'high') {
 		    return d3.rgb(feature.foreground_color());
 		}
-		return d3.rgb(feature.foreground_color2())
+		if (d.type === 'low') {
+		    return d3.rgb(feature.foreground_color2());
+		}
+		return d3.rgb(feature.foreground_color3());
 	    });
     });
 
@@ -626,6 +630,14 @@ tnt.track.feature.ensembl = function () {
 	    return foreground_color2;
 	}
 	foreground_color2 = col;
+	return feature;
+    };
+
+    feature.foreground_color3 = function (col) {
+	if (!arguments.length) {
+	    return foreground_color3;
+	}
+	foreground_color3 = col;
 	return feature;
     };
 
