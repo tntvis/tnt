@@ -151,7 +151,7 @@ tnt.board = function() {
 	var cont = function (resp) {
 	    limits.right = resp;
 
-	    zoomEventHandler.xExtent([limits.left, limits.right]);
+	    // zoomEventHandler.xExtent([limits.left, limits.right]);
 	    if ((loc.to - loc.from) < limits.zoom_in) {
 		if ((loc.from + limits.zoom_in) > limits.zoom_in) {
 		    loc.to = limits.right;
@@ -327,7 +327,7 @@ tnt.board = function() {
 	    // When this method is called on the object before starting the simulation, we don't have defined xScale
 	    if (xScale !== undefined) {
 		svg_g.call( zoomEventHandler.x(xScale)
-			   .xExtent([0, limits.right])
+			   // .xExtent([0, limits.right])
 			   .scaleExtent([(loc.to-loc.from)/(limits.zoom_out-1), (loc.to-loc.from)/limits.zoom_in])
 			   .on("zoom", _move) );
 	    }
@@ -475,7 +475,7 @@ tnt.board = function() {
 	    zoomEventHandler.x(new_xScale);
 	}
 
-	// Check if we are in the edges
+	// Show the red bars at the limits
 	var domain = xScale.domain();
 	if (domain[0] <= 5) {
 	    d3.select("#tnt_" + div_id + "_5pcap")
@@ -491,6 +491,14 @@ tnt.board = function() {
 		.transition()
 		.duration(200)
 		.attr("width", 0);
+	}
+
+
+	// Avoid moving past the limits
+	if (domain[0] < limits.left) {
+	    zoomEventHandler.translate([zoomEventHandler.translate()[0] - xScale(limits.left) + xScale.range()[0], zoomEventHandler.translate()[1]]);
+	} else if (domain[1] > limits.right) {
+	    zoomEventHandler.translate([zoomEventHandler.translate()[0] - xScale(limits.right) + xScale.range()[1], zoomEventHandler.translate()[1]]);
 	}
 
 	_deferred();
