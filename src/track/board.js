@@ -179,6 +179,13 @@ tnt.board = function() {
 
     });
 
+    api.method ('update', function () {
+	for (var i=0; i<tracks.length; i++) {
+	    _update_track (tracks[i]);
+	}
+
+    });
+
     var _update_track = function (track, where) {
 	if (track.data()) {
 	    var data_updater = track.data().update();
