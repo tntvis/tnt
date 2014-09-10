@@ -43,6 +43,7 @@ tnt.track.feature = function () {
 	var layout = exports.layout;
 
 	var elements = track.data().elements();
+
 	if (field !== undefined) {
 	    elements = elements[field];
 	}
@@ -50,24 +51,24 @@ tnt.track.feature = function () {
 	layout(elements, xScale);
 	var data_elems = layout.elements();
 
+	var vis_sel;
 	var vis_elems;
-	// .data(data_elems, exports.index);
 	if (field !== undefined) {
-	    vis_elems = svg_g.selectAll(".tnt_elem_" + field)
-		.data(data_elems, exports.index);
+	    vis_sel = svg_g.selectAll(".tnt_elem_" + field);
 	} else {
-	    if (exports.index) { // Indexing by field
-		vis_elems = svg_g.selectAll(".tnt_elem")
-		    .data(data_elems, function (d) {
-			if (d !== undefined) {
-			    return exports.index(d);
-			}
-		    })
-	    } else { // Indexing by position in array
-		vis_elems = svg_g.selectAll(".tnt_elem")
-		    .data(data_elems)
-	    }
+	    vis_sel = svg_g.selectAll(".tnt_elem");
+	}
 
+	if (exports.index) { // Indexing by field
+	    vis_elems = vis_sel
+		.data(data_elems, function (d) {
+		    if (d !== undefined) {
+			return exports.index(d);
+		    }
+		})
+	} else { // Indexing by position in array
+	    vis_elems = vis_sel
+		.data(data_elems)
 	}
 
 	exports.updater.call(track, vis_elems, xScale);
