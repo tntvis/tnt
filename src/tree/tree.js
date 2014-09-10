@@ -309,8 +309,8 @@ tnt.tree = function () {
 		conf.on_click.call(this, tnt.tree.node(node));
 	    });
 
-	    new_node.on("mouse_over", function (node) {
-		conf.on_mouse_over(this, tnt.tree.node(node));
+	    new_node.on("mouseover", function (node) {
+		conf.on_mouseover.call(this, tnt.tree.node(node));
 	    });
 
 	    new_node.on("dblclick", function (node) {
