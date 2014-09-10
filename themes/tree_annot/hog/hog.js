@@ -344,481 +344,809 @@ var tnt_theme_tree_hog = function () {
 };
 
 var data = {
-    'oma' : {
-	// 'anc1' : [],
-	// 'anc5' : [],
-	// 'anc2' : [],
-	// 'anc4' : [],
-	// 'anc6' : [
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC61',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC62',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC63',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC64',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC65',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     }
-	// ],
-	// 'anc7' : [
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC71',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     }	    
-	// ],
-	// 'anc8' : [
-	// ],
-	// 'anc9' : [
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC91',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC92',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },	    
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC93',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC94',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },	    
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC95',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC96',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     }
-	// ],
-	// 'anc10' : [
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC101',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC102',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     },	    	    
-	// ],
-	// 'anc11' : [
-	//     {
-	// 	name : 'NU4LM_ARCPU-ANC111',
-	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	//     }
-	// ],
-	'Otaria_byronia' : [
-	    {
-		name : 'NU4LM_ARCPU-OB1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Otaria_byronia'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OB2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Otaria_byronia'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OB3',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Otaria_byronia'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OB4-ANC1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc1'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OB5-ANC5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc5'
-	    }
-	],
-	'Arctocephalus_pusillus' : [
-	    {
-		name : 'NU4LM_ARCPU-AP1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Arctocephalus_pusillus'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-AP2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Arctocephalus_pusillus'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-AP3',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Arctocephalus_pusillus'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-AP4-ANC1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc1'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-AP5-ANC5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc5'
-	    }
-	],
-	'Neophoca_cinerea' : [
-	    {
-		name : 'NU4LM_ARCPU-NC1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Neophoca_cinerea'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Neophoca_cinerea'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC3-ANC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc2'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC4-ANC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc2'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC5-ANC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc2'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC6-ANC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc2'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC7-ANC4',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc4'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC8-ANC5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc5'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC8-ANC5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc5'
-	    }
-	],
-	'Phocarctos_hookeri' : [
-	    {
-		name : 'NU4LM_ARCPU-PH1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Phocarctos_hookeri'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-PH2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Phocarctos_hookeri'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-PH3-ANC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc2'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-PH4-ANC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc2'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-PH5-ANC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc2'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-PH6-ANC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc2'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-PH7-ANC4',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc4'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-PH8-ANC5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc5'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-PH9-ANC5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc5'
-	    }
-	],
-	'extra_taxon1' : [
-	    {
-		name : 'NU4LM_ARCPU-ET11',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'extra_taxon1'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-ET12-ANC4',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc4'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-ET13-ANC5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc5'
-	    }
-	],
-	'extra_taxon2' : [
-	    {
-		name : 'NU4LM_ARCPU-ET21',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'extra_taxon2'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-ET22-ANC4',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc4'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-ET23-ANC5-1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'anc5'
-	    }
-	],
-	'Eumetopias_jubatus' : [
-	    {
-		name : 'NU4LM_ARCPU-EJ1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Eumetopias_jubatus'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-EJ2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Eumetopias_jubatus'
-	    }
-	],
-	'Zalophus_californianus' : [
-	    {
-		name : 'NU4LM_ARCPU-ZF1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Zalophus_californianus'
-	    }
-	],
-	'Callorhinus_ursinus' : [
-	    {
-		name : 'NU4LM_ARCPU-CU1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Callorhinus_ursinus'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-CU2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Callorhinus_ursinus'
-	    }
-	],
-	'Odobenus_rosmarus' : [
-	    {
-		name : 'NU4LM_ARCPU-OR1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Odobenus_rosmarus'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OR2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'Odobenus_rosmarus'
-	    }	
-	],
-	'extra_taxon3' : [
-	    {
-		name : 'NU4LM_ARCPU-ET3',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'extra_taxon3'
-	    }
-	],
-	'extra_taxon4' : [
-	    {
-		name : 'NU4LM_ARCPU-ET4',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'extra_taxon4'
-	    }
-	],
-	'extra_taxon5' : [
-	    {
-		name : 'NU4LM_ARCPU-ET5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'extra_taxon5'
-	    }
-	],
-	'extra_taxon6' : [
-	    {
-		name : 'NU4LM_ARCPU-ET6',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
-		born : 'extra_taxon6'
-	    }
-	]
-    },
-    'ensembl' : {
-	'Otaria_byronia' : [
-	    {
-		name : 'NU4LM_ARCPU-OB1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OB2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OB3',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OB4',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OB5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'Arctocephalus_pusillus' : [
-	    {
-		name : 'NU4LM_ARCPU-AP1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-AP2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-AP3',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-AP4',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-AP5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'Neophoca_cinerea' : [
-	    {
-		name : 'NU4LM_ARCPU-NC1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC3',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-NC4',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'Phocarctos_hookeri' : [
-	    {
-		name : 'NU4LM_ARCPU-PH1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-PH1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'extra_taxon1' : [
-	    {
-		name : 'NU4LM_ARCPU-ET1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'extra_taxon2' : [
-	    {
-		name : 'NU4LM_ARCPU-ET2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'Eumetopias_jubatus' : [
-	    {
-		name : 'NU4LM_ARCPU-EJ1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-EJ2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'Zalophus_californianus' : [
-	    {
-		name : 'NU4LM_ARCPU-ZF1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'Callorhinus_ursinus' : [
-	    {
-		name : 'NU4LM_ARCPU-CU1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-CU2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'Odobenus_rosmarus' : [
-	    {
-		name : 'NU4LM_ARCPU-OR1',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    },
-	    {
-		name : 'NU4LM_ARCPU-OR2',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }	
-	],
-	'extra_taxon3' : [
-	    {
-		name : 'NU4LM_ARCPU-ET3',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'extra_taxon4' : [
-	    {
-		name : 'NU4LM_ARCPU-ET4',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'extra_taxon5' : [
-	    {
-		name : 'NU4LM_ARCPU-ET5',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	],
-	'extra_taxon6' : [
-	    {
-		name : 'NU4LM_ARCPU-ET6',
-		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
-	    }
-	]
-    }
+   "version": "0.3",
+   "origin": "Family Analyzer Testcase",
+   "originVersion": "0.2",
+   "notes": "Example Notes without meaning",
+   "species": [
+      {
+         "name": "HUMAN",
+         "NCBITaxId": "9601",
+         "database": {
+            "name": "HUMANfake",
+            "version": "0.1",
+            "genes": {
+               "gene": [
+                  {
+                     "id": "1",
+                     "protId": "HUMAN1",
+                     "geneId": "HUMANg1"
+                  },
+                  {
+                     "id": "2",
+                     "protId": "HUMAN2",
+                     "geneId": "HUMANg2"
+                  },
+                  {
+                     "id": "3",
+                     "protId": "HUMAN3",
+                     "geneId": "HUMANg3"
+                  },
+                  {
+                     "id": "5",
+                     "protId": "HUMAN5",
+                     "geneId": "HUMANg5"
+                  }
+               ]
+            }
+         }
+      },
+      {
+         "name": "PANTR",
+         "NCBITaxId": "9483",
+         "database": {
+            "name": "PANTRfake",
+            "version": "0.1",
+            "genes": {
+               "gene": [
+                  {
+                     "id": "11",
+                     "protId": "PANTR1",
+                     "geneId": "PANTRg1"
+                  },
+                  {
+                     "id": "12",
+                     "protId": "PANTR2",
+                     "geneId": "PANTRg2"
+                  },
+                  {
+                     "id": "13",
+                     "protId": "PANTR3",
+                     "geneId": "PANTRg3"
+                  },
+                  {
+                     "id": "14",
+                     "protId": "PANTR4",
+                     "geneId": "PANTRg4"
+                  }
+               ]
+            }
+         }
+      },
+      {
+         "name": "CANFA",
+         "NCBITaxId": "9615",
+         "database": {
+            "name": "CANFAfake",
+            "version": "0.1",
+            "genes": {
+               "gene": [
+                  {
+                     "id": "21",
+                     "protId": "CANFA1",
+                     "geneId": "CANFAg1"
+                  },
+                  {
+                     "id": "22",
+                     "protId": "CANFA2",
+                     "geneId": "CANFAg2"
+                  },
+                  {
+                     "id": "23",
+                     "protId": "CANFA3",
+                     "geneId": "CANFAg3"
+                  }
+               ]
+            }
+         }
+      },
+      {
+         "name": "MOUSE",
+         "NCBITaxId": "10090",
+         "database": {
+            "name": "MOUSEfake",
+            "version": "0.1",
+            "genes": {
+               "gene": [
+                  {
+                     "id": "31",
+                     "protId": "MOUSE1",
+                     "geneId": "MOUSEg1"
+                  },
+                  {
+                     "id": "32",
+                     "protId": "MOUSE2",
+                     "geneId": "MOUSEg2"
+                  },
+                  {
+                     "id": "33",
+                     "protId": "MOUSE3",
+                     "geneId": "MOUSEg3"
+                  },
+                  {
+                     "id": "34",
+                     "protId": "MOUSE4",
+                     "geneId": "MOUSEg4"
+                  }
+               ]
+            }
+         }
+      },
+      {
+         "name": "RATNO",
+         "NCBITaxId": "10116",
+         "database": {
+            "name": "RATNOfake",
+            "version": "0.1",
+            "genes": {
+               "gene": [
+                  {
+                     "id": "41",
+                     "protId": "RATNO1",
+                     "geneId": "RATNOg1"
+                  },
+                  {
+                     "id": "43",
+                     "protId": "RATNO3",
+                     "geneId": "RATNOg3"
+                  }
+               ]
+            }
+         }
+      },
+      {
+         "name": "XENTR",
+         "NCBITaxId": "1",
+         "database": {
+            "name": "XENTRfake",
+            "version": "0.1",
+            "genes": {
+               "gene": [
+                  {
+                     "id": "51",
+                     "protId": "XENTR1",
+                     "geneId": "XENTRg1"
+                  },
+                  {
+                     "id": "53",
+                     "protId": "XENTR3",
+                     "geneId": "XENTRg3"
+                  }
+               ]
+            }
+         }
+      }
+   ],
+   "groups": {
+      "orthologGroup": [
+         {
+            "id": "1",
+            "property": {
+               "name": "TaxRange",
+               "value": "Vertebrata"
+            },
+            "geneRef": {
+               "id": "51"
+            },
+            "orthologGroup": {
+               "property": {
+                  "name": "TaxRange",
+                  "value": "Mammalia"
+               },
+               "geneRef": {
+                  "id": "21"
+               },
+               "orthologGroup": {
+                  "property": {
+                     "name": "TaxRange",
+                     "value": "Euarchontoglires"
+                  },
+                  "orthologGroup": [
+                     {
+                        "property": {
+                           "name": "TaxRange",
+                           "value": "Primates"
+                        },
+                        "geneRef": [
+                           {
+                              "id": "1"
+                           },
+                           {
+                              "id": "11"
+                           }
+                        ]
+                     },
+                     {
+                        "property": {
+                           "name": "TaxRange",
+                           "value": "Rodents"
+                        },
+                        "geneRef": [
+                           {
+                              "id": "31"
+                           },
+                           {
+                              "id": "41"
+                           }
+                        ]
+                     }
+                  ]
+               }
+            }
+         },
+         {
+            "id": "2",
+            "property": {
+               "name": "TaxRange",
+               "value": "Mammalia"
+            },
+            "geneRef": {
+               "id": "22"
+            },
+            "orthologGroup": {
+               "property": {
+                  "name": "TaxRange",
+                  "value": "Euarchontoglires"
+               },
+               "orthologGroup": {
+                  "property": {
+                     "name": "TaxRange",
+                     "value": "Primates"
+                  },
+                  "geneRef": [
+                     {
+                        "id": "2"
+                     },
+                     {
+                        "id": "12"
+                     }
+                  ]
+               },
+               "geneRef": {
+                  "id": "32"
+               }
+            }
+         },
+         {
+            "id": "3",
+            "property": {
+               "name": "TaxRange",
+               "value": "Vertebrata"
+            },
+            "geneRef": {
+               "id": "53"
+            },
+            "orthologGroup": {
+               "property": {
+                  "name": "TaxRange",
+                  "value": "Mammalia"
+               },
+               "geneRef": {
+                  "id": "23"
+               },
+               "paralogGroup": [
+                  "orthologGroup": {
+                        "property": {
+                           "name": "TaxRange",
+                           "value": "Euarchontoglires"
+                        },
+                        "geneRef": {
+                           "id": "33"
+                        },
+                        "orthologGroup": {
+                           "property": {
+                              "name": "TaxRange",
+                              "value": "Primates"
+                           },
+                           "geneRef": [
+                              {
+                                 "id": "3"
+                              },
+                              {
+                                 "id": "13"
+                              }
+                           ]
+                        }
+                     },
+                     {
+                        "property": {
+                           "name": "TaxRange",
+                           "value": "Euarchontoglires"
+                        },
+                        "geneRef": [
+                           {
+                              "id": "34"
+                           },
+                           {
+                              "id": "14"
+                           }
+                        ]
+                     }
+               ]
+            }
+         }
+      ]
+   }
 };
+
+
+// var data = {
+//     'oma' : {
+// 	// 'anc1' : [],
+// 	// 'anc5' : [],
+// 	// 'anc2' : [],
+// 	// 'anc4' : [],
+// 	// 'anc6' : [
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC61',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC62',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC63',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC64',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC65',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     }
+// 	// ],
+// 	// 'anc7' : [
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC71',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     }	    
+// 	// ],
+// 	// 'anc8' : [
+// 	// ],
+// 	// 'anc9' : [
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC91',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC92',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },	    
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC93',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC94',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },	    
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC95',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC96',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     }
+// 	// ],
+// 	// 'anc10' : [
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC101',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC102',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     },	    	    
+// 	// ],
+// 	// 'anc11' : [
+// 	//     {
+// 	// 	name : 'NU4LM_ARCPU-ANC111',
+// 	// 	desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	//     }
+// 	// ],
+// 	'Otaria_byronia' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Otaria_byronia'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Otaria_byronia'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB3',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Otaria_byronia'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB4-ANC1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc1'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB5-ANC5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc5'
+// 	    }
+// 	],
+// 	'Arctocephalus_pusillus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Arctocephalus_pusillus'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Arctocephalus_pusillus'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP3',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Arctocephalus_pusillus'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP4-ANC1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc1'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP5-ANC5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc5'
+// 	    }
+// 	],
+// 	'Neophoca_cinerea' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Neophoca_cinerea'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Neophoca_cinerea'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC3-ANC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc2'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC4-ANC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc2'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC5-ANC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc2'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC6-ANC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc2'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC7-ANC4',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc4'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC8-ANC5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc5'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC8-ANC5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc5'
+// 	    }
+// 	],
+// 	'Phocarctos_hookeri' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Phocarctos_hookeri'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Phocarctos_hookeri'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH3-ANC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc2'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH4-ANC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc2'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH5-ANC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc2'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH6-ANC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc2'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH7-ANC4',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc4'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH8-ANC5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc5'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH9-ANC5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc5'
+// 	    }
+// 	],
+// 	'extra_taxon1' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET11',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'extra_taxon1'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET12-ANC4',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc4'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET13-ANC5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc5'
+// 	    }
+// 	],
+// 	'extra_taxon2' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET21',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'extra_taxon2'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET22-ANC4',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc4'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET23-ANC5-1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'anc5'
+// 	    }
+// 	],
+// 	'Eumetopias_jubatus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-EJ1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Eumetopias_jubatus'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-EJ2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Eumetopias_jubatus'
+// 	    }
+// 	],
+// 	'Zalophus_californianus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ZF1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Zalophus_californianus'
+// 	    }
+// 	],
+// 	'Callorhinus_ursinus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-CU1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Callorhinus_ursinus'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-CU2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Callorhinus_ursinus'
+// 	    }
+// 	],
+// 	'Odobenus_rosmarus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-OR1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Odobenus_rosmarus'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OR2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'Odobenus_rosmarus'
+// 	    }	
+// 	],
+// 	'extra_taxon3' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET3',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'extra_taxon3'
+// 	    }
+// 	],
+// 	'extra_taxon4' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET4',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'extra_taxon4'
+// 	    }
+// 	],
+// 	'extra_taxon5' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'extra_taxon5'
+// 	    }
+// 	],
+// 	'extra_taxon6' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET6',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L',
+// 		born : 'extra_taxon6'
+// 	    }
+// 	]
+//     },
+//     'ensembl' : {
+// 	'Otaria_byronia' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB3',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB4',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OB5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'Arctocephalus_pusillus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP3',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP4',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-AP5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'Neophoca_cinerea' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC3',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-NC4',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'Phocarctos_hookeri' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-PH1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'extra_taxon1' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'extra_taxon2' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'Eumetopias_jubatus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-EJ1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-EJ2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'Zalophus_californianus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ZF1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'Callorhinus_ursinus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-CU1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-CU2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'Odobenus_rosmarus' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-OR1',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    },
+// 	    {
+// 		name : 'NU4LM_ARCPU-OR2',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }	
+// 	],
+// 	'extra_taxon3' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET3',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'extra_taxon4' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET4',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'extra_taxon5' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET5',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	],
+// 	'extra_taxon6' : [
+// 	    {
+// 		name : 'NU4LM_ARCPU-ET6',
+// 		desc : 'NADH-ubiquinone oxidoreductase chain 4L'
+// 	    }
+// 	]
+//     }
+// };
+
