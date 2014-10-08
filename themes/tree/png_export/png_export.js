@@ -40,24 +40,24 @@ var tnt_theme_tree_png_export = function() {
 	// The clean label shows the names substituting underscores with spaces
 	var clean_label = tnt.tree.label.text() // Same as default but without underscores
 	    .text(function (d) {
-		return d.name.replace(/_/g, ' ');
+		return d.node_name().replace(/_/g, ' ');
 	    });
 
 	// The prefix label shows the first 7 characters of the labels appending '...' at the end
 	var prefix_label = tnt.tree.label.text() // Showing only 7 characters
 	    .text(function (d) {
-		return d.name.substr(0,6) + "...";
+		return d.node_name().substr(0,6) + "...";
 	    });
 
 	// The common label shows the common name of the species
 	var common_label = tnt.tree.label.text()
 	    .text(function (d) {
-		return scientific_to_common[d.name]
+		return scientific_to_common[d.node_name()]
 	    })
 
 	var separated_label = tnt.tree.label.text()
 	    .text(function (d) {
-		return scientific_to_common[d.name]
+		return scientific_to_common[d.node_name()]
 	    })
 	    .height(function (d) {
 		return 50;
@@ -66,7 +66,7 @@ var tnt_theme_tree_png_export = function() {
 	// The image label shows a picture of the species
 	var image_label = tnt.tree.label.img()
 	    .src(function (d) {
-		return names_to_pics[d.name];
+		return names_to_pics[d.node_name()];
 	    })
 	    .width(function () {
 		return 50;
@@ -105,6 +105,7 @@ var tnt_theme_tree_png_export = function() {
 	//     .add_label(image_label);
 
 	// The joined label shows a picture + the common name
+
 	var joined_label = tnt.tree.label.composite()
 	    .add_label(image_label)
 	// This is the same 'common label' as the one above
@@ -203,14 +204,14 @@ var tnt_theme_tree_png_export = function() {
 	    .attr("value", "joined")
 	    .text("joined img + text");
 
-	var png_export = tnt.utils.png()
+	var png_export = tnt.utils.png.export()
 	    .filename('tnt_tree.png');
 
 	var export_button = d3.select(div)
 	    .append("button")
 	    .text("Export as PNG")
 	    .on('click', function () {
-		png_export(div);
+		png_export(d3.select(div).select("svg"));
 	    });
 
 	tree_vis

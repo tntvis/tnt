@@ -3,13 +3,16 @@ tnt.utils.png = function () {
     var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 
     var scale_factor = 1;
-    var filename = 'image.png';
+    // var filename = 'image.png';
 
-    var exporter = function (div) {
-	var svg = div.querySelector('svg');
+    var img_cbak = function () {};
+
+    var exporter = function (from_svg) {
+	from_svg = from_svg.node();
+	// var svg = div.querySelector('svg');
 
 	var inline_images = function (cbak) {
-	    var images = d3.select(svg)
+	    var images = d3.select(from_svg)
 		.selectAll('image');
 
 	    var remaining = images[0].length;
@@ -72,9 +75,9 @@ tnt.utils.png = function () {
 	};
 
 	inline_images (function () {
-	    var svg = div.querySelector('svg');
+	    // var svg = div.querySelector('svg');
 	    var outer = document.createElement("div");
-	    var clone = svg.cloneNode(true);
+	    var clone = from_svg.cloneNode(true);
 	    var width = parseInt(clone.getAttribute('width'));
 	    var height = parseInt(clone.getAttribute('height'));
 
@@ -91,7 +94,9 @@ tnt.utils.png = function () {
 	    clone.insertBefore (styling(clone), clone.firstChild);
 
 	    var svg = doctype + outer.innerHTML;
+	    svg = svg.replace ("none", "block"); // In case the svg is not being displayed, it is ignored in FF
 	    var image = new Image();
+
 	    image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
 	    image.onload = function() {
 		var canvas = document.createElement('canvas');
@@ -99,12 +104,14 @@ tnt.utils.png = function () {
 		canvas.height = image.height;
 		var context = canvas.getContext('2d');
 		context.drawImage(image, 0, 0);
-		
-		var a = document.createElement('a');
-		a.download = filename;
-		a.href = canvas.toDataURL('image/png');
-		document.body.appendChild(a);
-		a.click();
+
+		var src = canvas.toDataURL('image/png');
+		img_cbak (src);
+		// var a = document.createElement('a');
+		// a.download = filename;
+		// a.href = canvas.toDataURL('image/png');
+		// document.body.appendChild(a);
+		// a.click();
 	    };
 	});
 
@@ -117,13 +124,46 @@ tnt.utils.png = function () {
 	return exporter;
     };
 
-    exporter.filename = function (f) {
+    exporter.callback = function (cbak) {
 	if (!arguments.length) {
-	    return filename;
+	    return img_cbak;
 	}
-	filename = f;
+	img_cbak = cbak;
+	return exporter;
+    };
+
+    // exporter.filename = function (f) {
+    // 	if (!arguments.length) {
+    // 	    return filename;
+    // 	}
+    // 	filename = f;
+    // 	return exporter;
+    // };
+
+    return exporter;
+};
+
+tnt.utils.png.export = function () {
+
+    var filename = 'image.png';
+
+    var exporter = tnt.utils.png()
+	.callback (function (src) {
+	    var a = document.createElement('a');
+	    a.download = filename;
+	    a.href = src;
+	    document.body.appendChild(a);
+	    a.click();
+	});
+
+    exporter.filename = function (fn) {
+	if (!arguments.length) {
+	    return filename; 
+	}
+	filename = fn;
 	return exporter;
     };
 
     return exporter;
 };
+
