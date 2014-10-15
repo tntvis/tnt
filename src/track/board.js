@@ -3,11 +3,17 @@
 tnt.board = function() {
 
     //// Private vars
-    var svg;
+    var axis_svg;
+    var tracks_svg;
+    var pane_svg;
+    // var svg;
+    var img_div;
     var div_id;
     var tracks = [];
+    var axis_track;
     var min_width = 50;
     var height    = 0;    // This is the global height including all the tracks
+    var axis_height = 30;
     var width     = 920;
     var height_offset = 20;
     var loc = {
@@ -24,6 +30,8 @@ tnt.board = function() {
     var svg_g;
     var xScale;
     var zoomEventHandler = d3.behavior.zoom();
+    var zoom_img;
+
     var limits = {
 	left : 0,
 	right : 1000,
@@ -35,6 +43,8 @@ tnt.board = function() {
     var drag_allowed = true;
 
     var exports = {
+	axis : true,
+	performance : false,
 	ease          : d3.ease("cubic-in-out"),
 	extend_canvas : {
 	    left : 0,
@@ -58,23 +68,45 @@ tnt.board = function() {
 	    .attr("id", "tnt_" + div_id)
 	    .style("position", "relative")
 	    .classed("tnt_framed", exports.show_frame ? true : false)
-	    .style("width", (width + cap_width*2 + exports.extend_canvas.right + exports.extend_canvas.left) + "px")
+	    .style("width", (width + cap_width*2 + exports.extend_canvas.right + exports.extend_canvas.left) + "px");
 
 	var groupDiv = browserDiv
 	    .append("div")
-	    .attr("class", "tnt_groupDiv");
+	    .attr("class", "tnt_groupDiv")
+	    .style("overflow", "hidden"); // move to sass/css
 
-	// The SVG
-	svg = groupDiv
+	// The axis SVG
+	axis_svg = groupDiv
+	    .append ("svg")
+	    .attr ("class", "tnt_axis_svg")
+	    .attr ("width", width)
+	    .attr ("height", height_offset);
+
+	// The tracks SVG
+	tracks_svg = groupDiv
 	    .append("svg")
-	    .attr("class", "tnt_svg")
+	    .attr("class", "tnt_tracks_svg")
 	    .attr("width", width)
 	    .attr("height", height)
 	    .attr("pointer-events", "all");
 
-	svg_g = svg
+	// The image div for high performance
+	img_div = groupDiv
+	    .append ("div")
+	    .style ("position", "relative") // move to sass/css
+	    .style ("display", "block"); // move to sass/css
+
+	// The pane + caps svg
+	pane_svg = groupDiv
+	    .append ("svg")
+	    .attr ("width", width)
+	    .attr ("height", height)
+	    .style ("position", "relative") // move to css / sass?
+	    .style ("bottom", height + "px");
+
+	svg_g = pane_svg
 	    .append("g")
-            .attr("transform", "translate(0,20)")
+            // .attr("transform", "translate(0,20)") // ???
             .append("g")
 	    .attr("class", "tnt_g");
 
@@ -137,6 +169,31 @@ tnt.board = function() {
     // track_vis always starts on loc.from & loc.to
     api.method ('start', function () {
 
+	// We add axis if needed
+	if (axis_track && axis_track.g) {
+	    axis_track.display().reset.call(axis_track);
+	}
+	axis_track = tnt.track()
+	    .background_color ("white")
+	    .height (axis_height)
+	    .display (tnt.track.feature.empty());
+
+	if (exports.axis === true) {
+	    axis_track
+//		.height (axis_height)
+		.display (tnt.track.feature.axis()
+			  .orientation ("top")
+			 );
+	}
+
+	var axis_g = axis_svg
+	    .append ("g")
+	    .attr ("class", "tnt_axis")
+	    .attr ("transform", "translate (0, 18)");
+	
+	axis_track.g = axis_g;
+	_init_track(axis_track);
+
 	// Reset the tracks
 	for (var i=0; i<tracks.length; i++) {
 	    if (tracks[i].g) {
@@ -161,9 +218,16 @@ tnt.board = function() {
 	    }
 	    plot();
 
+	    _update_track(axis_track, loc);
 	    for (var i=0; i<tracks.length; i++) {
 		_update_track(tracks[i], loc);
 	    }
+
+	    // svg -> png conversion
+	    if (exports.performance) {
+		zoom_img.get_backup_img();
+	    }
+   
 	};
 
 	// If limits.right is a function, we have to call it asynchronously and
@@ -180,6 +244,7 @@ tnt.board = function() {
     });
 
     api.method ('update', function () {
+	_update_track (axis_track);
 	for (var i=0; i<tracks.length; i++) {
 	    _update_track (tracks[i]);
 	}
@@ -210,6 +275,7 @@ tnt.board = function() {
 		       .scaleExtent([(loc.to-loc.from)/(limits.zoom_out-1), (loc.to-loc.from)/limits.zoom_in])
 		       .on("zoom", _move)
 		     );
+	    zoom_img = tnt.track.zoom_img (tracks_svg, img_div, zoomEventHandler);
 	}
 
     };
@@ -265,10 +331,13 @@ tnt.board = function() {
 	tracks = new_tracks;
 	_place_tracks();
 
+	if (exports.performance) {
+	    zoom_img.get_backup_img();
+	}
     });
 
     api.method ('remove_track', function (track) {
-	track.g.remove();
+    	track.g.remove();
     });
 
     api.method ('add_track', function (track) {
@@ -312,6 +381,9 @@ tnt.board = function() {
 	    // Replot
 	    width = w;
 	    plot();
+	    axis_track.g.select("rect").attr("width", w);
+	    axis_track.display().reset.call(axis_track);
+	    axis_track.display().update.call(axis_track, xScale);
 	    for (var i=0; i<tracks.length; i++) {
 		tracks[i].g.select("rect").attr("width", w);
 		tracks[i].display().reset.call(tracks[i]);
@@ -342,6 +414,7 @@ tnt.board = function() {
 	    // We create a new dummy scale in x to avoid dragging the previous one
 	    // TODO: There may be a cheaper way of doing this?
 	    zoomEventHandler.x(d3.scale.linear()).on("zoom", null);
+	    zoom_img = tnt.track.zoom_img (tracks_svg, img_div, zoomEventHandler);
 	}
 	return track_vis;
     });
@@ -351,10 +424,15 @@ tnt.board = function() {
 	for (var i=0; i<tracks.length; i++) {
 	    var track = tracks[i];
 	    if (track.g.attr("transform")) {
-		track.g
-		    .transition()
-		    .duration(dur)
-		    .attr("transform", "translate(0," + h + ")");
+		if (exports.performance) {
+		    track.g
+			.attr("transform", "translate(0," + h + ")");
+		} else {
+		    track.g
+			.transition()
+			.duration(dur)
+			.attr("transform", "translate(0," + h + ")");
+		}
 	    } else {
 		track.g
 		    .attr("transform", "translate(0," + h + ")");
@@ -364,11 +442,12 @@ tnt.board = function() {
 	}
 
 	// svg
-	svg.attr("height", h + height_offset);
+	tracks_svg.attr("height", h);
+	pane_svg.attr("height", h);
 
 	// div
 	d3.select("#tnt_" + div_id)
-	    .style("height", (h + 10 + height_offset) + "px");
+	    .style("height", (h + axis_track.height() +  10) + "px");
 
 	// caps
 	d3.select("#tnt_" + div_id + "_5pcap")
@@ -380,7 +459,9 @@ tnt.board = function() {
 
 	// pane
 	pane
-	    .attr("height", h + height_offset);
+	    .attr("height", h);
+
+	pane_svg.style("bottom", (h + 4) + "px");
 
 	// tooWide_text. TODO: Is this still needed?
 	// var tooWide_text = d3.select("#tnt_" + div_id + "_tooWide");
@@ -392,11 +473,14 @@ tnt.board = function() {
     }
 
     var _init_track = function (track) {
-	track.g = svg.select("g").select("g")
-	    .append("g")
-	    .attr("class", "tnt_track")
-	    .attr("height", track.height());
 
+	if (track.g === undefined) { // axis tracks already have a g assigned
+	    track.g = tracks_svg
+		.append("g")
+		.attr("class", "tnt_track")
+		.attr("height", track.height());
+
+	}
 	// Rect for the background color
 	track.g
 	    .append("rect")
@@ -408,6 +492,7 @@ tnt.board = function() {
 	    .style("pointer-events", "none");
 
 	if (track.display()) {
+	    track.display().static(exports.performance);
 	    track.display().init.call(track, width);
 	}
 	
@@ -465,21 +550,23 @@ tnt.board = function() {
 	track_vis.from(~~currDomain[0]);
 	track_vis.to(~~currDomain[1]);
 
+	_update_track(axis_track, loc);
 	for (var i = 0; i < tracks.length; i++) {
 	    var track = tracks[i];
 	    _update_track(track, loc);
+	}
+
+	if (exports.performance) {
+	    zoom_img.get_backup_img();
 	}
     };
     // The deferred_cbak is deferred at least this amount of time or re-scheduled if deferred is called before
     var _deferred = tnt.utils.defer_cancel(_move_cbak, 300);
 
-    // api.method('update', function () {
-    // 	_move();
-    // });
-
     var _move = function (new_xScale) {
 	if (new_xScale !== undefined && drag_allowed) {
 	    zoomEventHandler.x(new_xScale);
+	    zoom_img = tnt.track.zoom_img (tracks_svg, img_div, zoomEventHandler);
 	}
 
 	// Show the red bars at the limits
@@ -510,10 +597,19 @@ tnt.board = function() {
 
 	_deferred();
 
-	for (var i = 0; i < tracks.length; i++) {
-	    var track = tracks[i];
-	    track.display().move.call(track,xScale);
+	// move svg elements
+	axis_track.display().move.call(axis_track, xScale);
+
+	// move image if available
+	if (exports.performance) {
+	    zoom_img();
+	} else {
+	    for (var i = 0; i < tracks.length; i++) {
+		var track = tracks[i];
+		track.display().move.call(track,xScale);
+	    }
 	}
+
     };
 
     // api.method({

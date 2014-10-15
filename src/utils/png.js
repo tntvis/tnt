@@ -94,8 +94,10 @@ tnt.utils.png = function () {
 	    clone.insertBefore (styling(clone), clone.firstChild);
 
 	    var svg = doctype + outer.innerHTML;
-	    svg = svg.replace ("none", "block"); // In case the svg is not being displayed, it is ignored in FF
+	    svg = svg.replace ("display: none", "display: block"); // In case the svg is not being displayed, it is ignored in FF
 	    var image = new Image();
+
+	    // console.log(svg);
 
 	    image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
 	    image.onload = function() {

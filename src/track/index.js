@@ -1,5 +1,6 @@
-import "board.js";
 import "track.js";
+import "svg_img.js";
+import "board.js";
 import "data.js";
 import "layout.js";
 import "feature.js";

@@ -26,7 +26,6 @@ tnt.tree_annot = function () {
 	    return t;
 	},
 	annotation : undefined,
-	ruler : "none",
 	key   : undefined
     };
 
@@ -79,9 +78,9 @@ tnt.tree_annot = function () {
 
 	// An axis track
 	tnt.track.id = function () {
-	    return "axis-top";
+	    return "axis";
 	};
-	var axis_top = tnt.track()
+	var axis = tnt.track()
 	    .height(0)
 	    .background_color("white")
 	    .display(tnt.track.feature.axis()
@@ -99,18 +98,18 @@ tnt.tree_annot = function () {
 		    );
 
 	if (tree_conf.annotation) {
-	    if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
-		tree_conf.annotation
-		    .add_track(axis_top);
-	    }
+	    // if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
+	    // 	tree_conf.annotation
+	    // 	    .add_track(axis_top);
+	    // }
 
 	    tree_conf.annotation
 		.add_track(tracks);
 
-	    if (tree_conf.ruler === 'both' || tree_conf.ruler === "bottom") {
-		tree_conf.annotation
-		    .add_track(axis);
-	    }
+	    // if (tree_conf.ruler === 'both' || tree_conf.ruler === "bottom") {
+	    // 	tree_conf.annotation
+	    // 	    .add_track(axis);
+	    // }
 
 	    tree_conf.annotation(annot_div.node());
 	    tree_conf.annotation.start();
@@ -123,9 +122,9 @@ tnt.tree_annot = function () {
 		var leaves = tree_conf.tree.root().get_all_leaves();
 		var new_tracks = [];
 
-		if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
-		    new_tracks.push(axis_top);
-		}
+		// if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
+		//     new_tracks.push(axis_top);
+		// }
 
 		for (var i=0; i<leaves.length; i++) {
 		    // We first see if we have a track for the leaf:
@@ -157,9 +156,9 @@ tnt.tree_annot = function () {
 		    }
 		    new_tracks.push(curr_track);
 		}
-		if (tree_conf.ruler === 'both' || tree_conf.ruler === 'bottom') {
-		    new_tracks.push(axis);
-		}
+		// if (tree_conf.ruler === 'both' || tree_conf.ruler === 'bottom') {
+		//     new_tracks.push(axis);
+		// }
 
 		tree_conf.annotation.reorder(new_tracks);
 	    }
@@ -189,30 +188,30 @@ tnt.tree_annot = function () {
 // 	var start_index = (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') ? 1 : 0;
 // 	var end_index = (tree_conf.ruler === 'both' || tree_conf.ruler === 'bottom') ? 1 : 0;
 
-	var start_index = 0;
-	var n_index = 0;
+	// var start_index = 0;
+	// var n_index = 0;
 
-	if (tree_conf.ruler === "both") {
-	    start_index = 1;
-	    n_index = 2;
-	} else if (tree_conf.ruler === "top") {
-	    start_index = 1;
-	    n_index = 1;
-	} else if (tree_conf.ruler === "bottom") {
-	    n_index = 1;
-	}
+	// if (tree_conf.ruler === "both") {
+	//     start_index = 1;
+	//     n_index = 2;
+	// } else if (tree_conf.ruler === "top") {
+	//     start_index = 1;
+	//     n_index = 1;
+	// } else if (tree_conf.ruler === "bottom") {
+	//     n_index = 1;
+	// }
 
 	// Reset top track -- axis
-	if (start_index > 0) {
-	    tracks[0].display().reset.call(tracks[0]);
-	}
+	// if (start_index > 0) {
+	//     tracks[0].display().reset.call(tracks[0]);
+	// }
 	// Reset bottom track -- axis
-	if (n_index > start_index) {
-	    var n = tracks.length - 1;
-	    tracks[n].display().reset.call(tracks[n]);
-	}
+	// if (n_index > start_index) {
+	//     var n = tracks.length - 1;
+	//     tracks[n].display().reset.call(tracks[n]);
+	// }
 
-	for (var i=start_index; i<=(tracks.length - n_index); i++) {
+	for (var i=0; i<=tracks.length; i++) {
 	    var t = tracks[i];
 	    t.display().reset.call(t);
 	    var leaf;

@@ -2,12 +2,12 @@
 
 tnt.track = function () {
 
+    var display;
+
     var read_conf = {
 	// Unique ID for this track
 	id : tnt.track.id()
     };
-
-    var display;
 
     var conf = {
 	// foreground_color : d3.rgb('#000000'),

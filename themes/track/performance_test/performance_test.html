@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>TnT Themes</title>
+
+<div id="body">
+
+  <!-- D3 -->
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+  <!-- tnt -->
+  <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
+  <script src="../../../lib/tnt.js"></script>
+
+  <script src="performance_test.js"></script>
+
+  <h1>A Performance Test of Tree + Annotation</h1>
+  <div id="myboard"></div>
+  <script>
+    (function() {
+        var theme = tnt_theme_track_performance_test();
+        theme (document.getElementById("myboard"));
+    })();
+ 
+  </script>
+
+  <footer>
+    <aside>Released under <a href="http://www.opensource.org/licenses/apache2.0.php">Apache 2.0</a>.</aside>
+    Copyright 2014 <a href="http://www.ebi.ac.uk/~mp" rel="author">Miguel Pignatelli</a>
+  </footer>
+
+</div>

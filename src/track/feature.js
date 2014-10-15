@@ -4,7 +4,7 @@ tnt.track.feature = function () {
 
     ////// Vars exposed in the API
     var exports = {
-	create   : function () {throw "create_elem is not defined in the base feature object"},
+	create   : function () {throw "create method is not defined in the base feature object"},
 	mover    : function () {throw "move_elem is not defined in the base feature object"},
 	updater  : function () {},
 	on_click : function () {},
@@ -12,7 +12,8 @@ tnt.track.feature = function () {
 	guider   : function () {},
 	index    : undefined,
 	layout   : tnt.track.layout.identity(),
-	foreground_color : '#000'
+	foreground_color : '#000',
+	static   : false
     };
 
 
@@ -581,30 +582,44 @@ tnt.track.feature.ensembl = function () {
 
 	var height_offset = ~~(track.height() - (track.height()  * .8)) / 2;
 
-	new_elems
+	var rects = new_elems
 	    .append("rect")
 	    .attr("x", function (d) {
 		return xScale (d.start);
 	    })
 	    .attr("y", height_offset)
-// 	    .attr("rx", 3)
-// 	    .attr("ry", 3)
+	    // .attr("rx", 3)
+	    // .attr("ry", 3)
 	    .attr("width", function (d) {
 		return (xScale(d.end) - xScale(d.start));
 	    })
 	    .attr("height", track.height() - ~~(height_offset * 2))
-	    .attr("fill", track.background_color())
-	    .transition()
-	    .duration(500)
-	    .attr("fill", function (d) { 
-		if (d.type === 'high') {
-		    return d3.rgb(feature.foreground_color());
-		}
-		if (d.type === 'low') {
-		    return d3.rgb(feature.foreground_color2());
-		}
-		return d3.rgb(feature.foreground_color3());
-	    });
+	if (feature.static()) {
+	    rects
+		.attr("fill", function (d) { 
+		    if (d.type === 'high') {
+			return d3.rgb(feature.foreground_color());
+		    }
+		    if (d.type === 'low') {
+			return d3.rgb(feature.foreground_color2());
+		    }
+		    return d3.rgb(feature.foreground_color3());
+		});
+	} else {
+	    rects
+		.attr("fill", feature.foreground_color())
+		.transition()
+		.duration(500)
+		.attr("fill", function (d) { 
+		    if (d.type === 'high') {
+			return d3.rgb(feature.foreground_color());
+		    }
+		    if (d.type === 'low') {
+			return d3.rgb(feature.foreground_color2());
+		    }
+		    return d3.rgb(feature.foreground_color3());
+		});
+	}
     });
 
     feature.updater (function (blocks, xScale) {
@@ -695,7 +710,7 @@ tnt.track.feature.block = function () {
 
     feature.create(function (new_elems, xScale) {
 	var track = this;
-	new_elems
+	var rects = new_elems
 	    .append("rect")
 	    .attr("x", function (d, i) {
 		// TODO: start, end should be adjustable via the tracks API
@@ -705,17 +720,30 @@ tnt.track.feature.block = function () {
 	    .attr("width", function (d, i) {
 		return (xScale(feature.to()(d, i)) - xScale(feature.from()(d, i)));
 	    })
-	    .attr("height", track.height())
-	    .attr("fill", track.background_color())
-	    .transition()
-	    .duration(500)
-	    .attr("fill", function (d) {
-		if (d.color === undefined) {
-		    return feature.foreground_color();
-		} else {
-		    return d.color;
-		}
-	    });
+	    .attr("height", track.height());
+
+	if (feature.static()) {
+	    rects
+		.attr("fill", function (d) {
+		    if (d.color === undefined) {
+			return feature.foreground_color();
+		    } else {
+			return d.color;
+		    }
+		});
+	} else {
+	    rects
+		.attr("fill", track.background_color())
+		.transition()
+		.duration(500)
+		.attr("fill", function (d) {
+		    if (d.color === undefined) {
+			return feature.foreground_color();
+		    } else {
+			return d.color;
+		    }
+		});
+	}
     });
 
     feature.updater(function (elems, xScale) {
@@ -741,13 +769,21 @@ tnt.track.feature.block = function () {
 
 };
 
+tnt.track.feature.empty = function () {
+    var feature = {};
+    feature.init = function () {};
+    feature.update = function () {};
+    feature.move = function () {};
+    return feature;
+};
 
 tnt.track.feature.axis = function () {
     var xAxis;
     var orientation = "top";
 
     // Axis doesn't inherit from tnt.track.feature
-    var feature = {};
+    var feature = tnt.track.feature();
+    // var feature = {};
     feature.reset = function () {
 	xAxis = undefined;
 	var track = this;

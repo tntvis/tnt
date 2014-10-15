@@ -5,7 +5,7 @@ var tnt_theme_tree_tree_annotation_simple = function () {
 
     // Create tree and annot
     var tree = tnt.tree();
-    var annot = tnt.board();
+    var annot = tnt.board().axis(true).performance(true);
 
 
     var theme = function (ta, div) {
@@ -147,7 +147,7 @@ var tnt_theme_tree_tree_annotation_simple = function () {
 
 	ta.tree(tree);
 	ta.annotation(annot);
-	ta.ruler("both");
+//	ta.ruler("both"); // no more ruler in tree_annot -- now is a property of the board
 	ta.track(track);
 
 	ta(div);
