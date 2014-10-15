@@ -557,6 +557,7 @@ tnt.board = function() {
 	}
 
 	if (exports.performance) {
+	    track_vis.start();
 	    zoom_img.get_backup_img();
 	}
     };
