@@ -2,12 +2,12 @@ tnt.eRest = function() {
 
     // Prefixes to use the REST API.
     // These are modified in the localREST setter
-    var prefix = "http://beta.rest.ensembl.org";
-    var prefix_region = prefix + "/feature/region/";
+    var prefix = "http://grch37.rest.ensembl.org";
+    var prefix_region = prefix + "/overlap/region/";
     var prefix_ensgene = prefix + "/lookup/id/";
     var prefix_xref = prefix + "/xrefs/symbol/";
     var prefix_homologues = prefix + "/homology/id/";
-    var prefix_chr_info = prefix + "/assembly/info/";
+    var prefix_chr_info = prefix + "/info/assembly/";
     var prefix_aln_region = prefix + "/alignment/block/region/";
     var prefix_gene_tree = prefix + "/genetree/id/";
 
@@ -30,7 +30,7 @@ tnt.eRest = function() {
     */
     api.method ('localREST', function() {
 	prefix = "http://127.0.0.1:3000";
-	prefix_region = prefix + "/feature/region/";
+	prefix_region = prefix + "/overlap/region/";
 	prefix_ensgene = prefix + "/lookup/id/";
 	prefix_xref = prefix + "/xrefs/symbol/";
 	prefix_homologues = prefix + "/homology/id/";
