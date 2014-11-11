@@ -1,4 +1,4 @@
-var tnt_theme_track_performance_test = function () {
+var tnt_theme = tnt_theme_track_performance_test = function () {
     // loc.searchObject.tracks && loc.searchObject.elements
     var loc = parse_url(document.URL);
 
@@ -9,22 +9,16 @@ var tnt_theme_track_performance_test = function () {
 	performance = true;
     }
 
-    // Board
-    var board = tnt.board()
-	.axis(true)
-	.performance(performance)
-	.from(0)
-	.width(800)
-	.to(1000)
-	.right(1000);
-
     // Blocks
-    var blocks = get_blocks(loc.searchObject.elements, d3.scale.linear().range([0,1000]).domain([0,loc.searchObject.elements]));
+    var nblocks = 10;
+    var blocks = get_blocks(nblocks, d3.scale.linear().range([0,1000]).domain([0,nblocks]));
 
     // Track
-    var track = function () {
+    var track = function (i) {
 	return tnt.track()
-	    .height (+loc.searchObject.height || 30)
+	    .height (+loc.searchObject.height || 20)
+	    .track_name ("track_"+i)
+	    .foreground_color("steelblue")
 	    .data (tnt.track.data()
 		   .update (tnt.track.retriever.sync()
 			    .retriever (function () {
@@ -33,19 +27,25 @@ var tnt_theme_track_performance_test = function () {
 			   )
 		  )
 	    .display (tnt.track.feature.block()
-		      .foreground_color("steelblue")
 		      .index (function (d) {
 			  return d.start;
 		      })
 		     );
     };
 
-    var theme = function (div) {
+    var theme = function (board, div) {
+	board
+	    .axis(true)
+	    .use_image(true)
+	    .use_server(true)
+	    .from(0)
+	    .width(800)
+	    .to(1000)
+	    .right(1000);
 
-
-	for (var i=0; i<loc.searchObject.tracks; i++) {
+	for (var i=0; i<20; i++) {
 	    board
-		.add_track (track());
+		.add_track (track(i));
 	}
 
 	board(div);

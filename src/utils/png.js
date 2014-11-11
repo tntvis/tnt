@@ -1,5 +1,32 @@
 tnt.utils.png = function () {
 
+    var img_cbak = function () {};
+
+    var exporter = function (from_svg) {
+	from_svg = from_svg.node();
+	console.log(from_svg);
+
+	from_svg.toDataURL ("image/png", {
+	    callback : function (data) {
+		img_cbak (data);
+	    }
+	});
+	
+    };
+
+    exporter.callback = function (cbak) {
+	if (!arguments.length) {
+	    return img_cbak;
+	}
+	img_cbak = cbak;
+	return exporter;
+    };
+
+    return exporter;
+};
+
+tnt.utils.png_old = function () {
+
     var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 
     var scale_factor = 1;
@@ -42,9 +69,11 @@ tnt.utils.png = function () {
 	}
 
 	var move_children = function (src, dest) {
-	    while (src.children.length > 0) {
-		var child = src.children[0];
-		dest.appendChild(child);
+	    if (src.children) {
+		while (src.children.length > 0) {
+		    var child = src.children[0];
+		    dest.appendChild(child);
+		}
 	    }
 	    return dest;
 	};
@@ -98,7 +127,7 @@ tnt.utils.png = function () {
 	    var image = new Image();
 
 	    // console.log(svg);
-
+	    var src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
 	    image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
 	    image.onload = function() {
 		var canvas = document.createElement('canvas');
@@ -133,14 +162,6 @@ tnt.utils.png = function () {
 	img_cbak = cbak;
 	return exporter;
     };
-
-    // exporter.filename = function (f) {
-    // 	if (!arguments.length) {
-    // 	    return filename;
-    // 	}
-    // 	filename = f;
-    // 	return exporter;
-    // };
 
     return exporter;
 };

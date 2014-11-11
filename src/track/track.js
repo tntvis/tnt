@@ -10,9 +10,10 @@ tnt.track = function () {
     };
 
     var conf = {
-	// foreground_color : d3.rgb('#000000'),
+	foreground_color : d3.rgb('#000000'),
 	background_color : d3.rgb('#CCCCCC'),
 	height           : 250,
+	track_name       : '',
 	// data is the object (normally a tnt.track.data object) used to retrieve and update data for the track
 	data             : tnt.track.data.empty()
     };

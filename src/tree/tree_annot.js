@@ -68,7 +68,8 @@ tnt.tree_annot = function () {
 		    return leaf.property(tree_conf.key);
 		};
 		var track = tree_conf.track(leaves[i])
-		    .height(height);
+		    .height(height)
+		    .track_name(leaf.node_name());
 
 		tracks.push (track);
 

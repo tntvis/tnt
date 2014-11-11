@@ -30,7 +30,6 @@ tnt.board = function() {
     var svg_g;
     var xScale;
     var zoomEventHandler = d3.behavior.zoom();
-    var zoom_img;
 
     var limits = {
 	left : 0,
@@ -43,8 +42,13 @@ tnt.board = function() {
     var drag_allowed = true;
 
     var exports = {
-	axis : true,
-	performance : false,
+	async_limits  : undefined,
+	axis          : true,
+	render        : null,
+	// use_image     : false,
+	// use_server    : false,
+	// use_websocket : false,
+	// is_server      : false,
 	ease          : d3.ease("cubic-in-out"),
 	extend_canvas : {
 	    left : 0,
@@ -166,9 +170,13 @@ tnt.board = function() {
 	return val;
     });
 
+    // api.method ('png_callback', function (cbak) {
+    // 	png_callback = cbak;
+    // 	return track_vis;
+    // });
+
     // track_vis always starts on loc.from & loc.to
     api.method ('start', function () {
-
 	// We add axis if needed
 	if (axis_track && axis_track.g) {
 	    axis_track.display().reset.call(axis_track);
@@ -205,8 +213,8 @@ tnt.board = function() {
 	_place_tracks();
 
 	// The continuation callback
-	var cont = function (resp) {
-	    limits.right = resp;
+	var cont = function () {
+	    // limits.right = resp;
 
 	    // zoomEventHandler.xExtent([limits.left, limits.right]);
 	    if ((loc.to - loc.from) < limits.zoom_in) {
@@ -223,24 +231,30 @@ tnt.board = function() {
 		_update_track(tracks[i], loc);
 	    }
 
-	    // svg -> png conversion
-	    if (exports.performance) {
-		zoom_img.get_backup_img();
+	    if (exports.render) {
+		exports.render.update(get_conf());
 	    }
+	    // svg -> png rendering
+	    // if (exports.use_image) {
+	    // 	if (exports.use_server) {
+	    // 	    zoom_img.get_backup_img(get_conf());
+	    // 	} else {
+	    // 	zoom_img.get_backup_img();
+	    // 	}
+	    // }
    
 	};
 
-	// If limits.right is a function, we have to call it asynchronously and
-	// then starting the plot once we have set the right limit (plot)
-	// If not, we assume that it is an objet with new (maybe partially defined)
-	// definitions of the limits and we can plot directly
-	// TODO: Right now, only right can be called as an async function which is weak
-	if (typeof (limits.right) === 'function') {
-	    limits.right(cont);
+	// If async_limits is a function, we have to call it asynchronously and
+	// then starting the plot once we have set the correct limits (plot)
+	// If not, we assume that all the limits have been set before using the API
+	var async_limits = exports.async_limits;
+	if (async_limits && typeof (async_limits) === 'function') {
+	// if (typeof (limits.right) === 'function') {
+	    async_limits(cont);
 	} else {
-	    cont(limits.right);
+	    cont();
 	}
-
     });
 
     api.method ('update', function () {
@@ -257,7 +271,7 @@ tnt.board = function() {
 	    data_updater({
 		'loc' : where,
 		'on_success' : function () {
-		    track.display().update.call(track, xScale);
+		    track.display() && track.display().update.call(track, xScale);
 		}
 	    });
 	}
@@ -275,7 +289,18 @@ tnt.board = function() {
 		       .scaleExtent([(loc.to-loc.from)/(limits.zoom_out-1), (loc.to-loc.from)/limits.zoom_in])
 		       .on("zoom", _move)
 		     );
-	    zoom_img = tnt.track.zoom_img (tracks_svg, img_div, zoomEventHandler);
+	    // zoom_img = tnt_track_render (tracks_svg, img_div, zoomEventHandler)
+	    if (exports.render) {
+		exports.render
+		    .conf ({
+			tracks_svg : tracks_svg,
+			img_div    : img_div,
+			zoom       : zoomEventHandler
+		    });
+		// .render(exports.render);
+		// .use_server(exports.use_server)
+		// .use_websocket(exports.use_websocket)
+	    }
 	}
 
     };
@@ -331,12 +356,47 @@ tnt.board = function() {
 	tracks = new_tracks;
 	_place_tracks();
 
-	if (exports.performance) {
-	    zoom_img.get_backup_img();
+	if (exports.render) {
+	    exports.render.update(get_conf());
 	}
+	// if (exports.use_image) {
+	//     if (exports.use_server) {
+	// 	zoom_img.get_backup_img(get_conf());
+	//     } else {
+	// 	zoom_img.get_backup_img();
+	//     }
+	// }
     });
 
+    var get_conf = function () {
+	var conf_tracks = [];
+	for (var i=0; i<tracks.length; i++) {
+	    var track = tracks[i];
+	    conf_tracks.push ({
+		"name" : track.track_name(),
+		"height" : track.height(),
+		"v_offset" : track.v_offset,
+		"bgColor" : d3.rgb(track.background_color()),
+		"fgColor" : d3.rgb(track.foreground_color())
+	    });
+	}
+
+	return {
+	    "loc" : loc,
+	    "tracks" : conf_tracks,
+	    "conf" : {
+	    	'height'   : height,
+	    	'width'    : width,
+	    	'bgColor'  : d3.rgb(bgColor)
+	    }
+	}
+    };
+
+    // TODO: Implement getting a new image when removing a track
     api.method ('remove_track', function (track) {
+	if (exports.render) {
+	    throw ("A new image is needed here");
+	}
     	track.g.remove();
     });
 
@@ -414,7 +474,12 @@ tnt.board = function() {
 	    // We create a new dummy scale in x to avoid dragging the previous one
 	    // TODO: There may be a cheaper way of doing this?
 	    zoomEventHandler.x(d3.scale.linear()).on("zoom", null);
-	    zoom_img = tnt.track.zoom_img (tracks_svg, img_div, zoomEventHandler);
+	    exports.render
+		.zoom(zoomEventHandler);
+	    // zoom_img = tnt.track.zoom_img (tracks_svg, img_div, zoomEventHandler)
+		// .render(exports.render);
+		// .use_server(exports.use_server)
+		// .use_websocket(exports.use_websocket)
 	}
 	return track_vis;
     });
@@ -423,8 +488,9 @@ tnt.board = function() {
 	var h = 0;
 	for (var i=0; i<tracks.length; i++) {
 	    var track = tracks[i];
+	    track.v_offset = h
 	    if (track.g.attr("transform")) {
-		if (exports.performance) {
+		if (exports.render) {
 		    track.g
 			.attr("transform", "translate(0," + h + ")");
 		} else {
@@ -469,6 +535,9 @@ tnt.board = function() {
 	// tooWide_text
 	//     .attr("y", ~~(h/2) - bb.height/2);
 
+
+	// The total height is recorded. ** WARNING - test! ** 
+	height = h;
 	return track_vis;
     }
 
@@ -492,7 +561,7 @@ tnt.board = function() {
 	    .style("pointer-events", "none");
 
 	if (track.display()) {
-	    track.display().static(exports.performance);
+	    track.display().static(exports.render !== undefined);
 	    track.display().init.call(track, width);
 	}
 	
@@ -556,18 +625,24 @@ tnt.board = function() {
 	    _update_track(track, loc);
 	}
 
-	if (exports.performance) {
+	// TODO: prev updates shouldn't be called if we are re-starting the vis right?
+	if (exports.render) {
 	    track_vis.start();
-	    zoom_img.get_backup_img();
 	}
     };
+
     // The deferred_cbak is deferred at least this amount of time or re-scheduled if deferred is called before
-    var _deferred = tnt.utils.defer_cancel(_move_cbak, 300);
+    var _deferred = tnt.utils.defer_cancel(_move_cbak, 1000);
 
     var _move = function (new_xScale) {
 	if (new_xScale !== undefined && drag_allowed) {
 	    zoomEventHandler.x(new_xScale);
-	    zoom_img = tnt.track.zoom_img (tracks_svg, img_div, zoomEventHandler);
+	    exports.render
+		.zoom(zoomEventHandler);
+	    // zoom_img = tnt.track.zoom_img (tracks_svg, img_div, zoomEventHandler)
+		// .render(exports.render);
+		// .use_server(exports.use_server)
+		// .use_websocket(exports.use_websocket)
 	}
 
 	// Show the red bars at the limits
@@ -592,7 +667,8 @@ tnt.board = function() {
 	// Avoid moving past the limits
 	if (domain[0] < limits.left) {
 	    zoomEventHandler.translate([zoomEventHandler.translate()[0] - xScale(limits.left) + xScale.range()[0], zoomEventHandler.translate()[1]]);
-	} else if (domain[1] > limits.right) {
+	}
+	else if (domain[1] > limits.right) {
 	    zoomEventHandler.translate([zoomEventHandler.translate()[0] - xScale(limits.right) + xScale.range()[1], zoomEventHandler.translate()[1]]);
 	}
 
@@ -602,8 +678,9 @@ tnt.board = function() {
 	axis_track.display().move.call(axis_track, xScale);
 
 	// move image if available
-	if (exports.performance) {
-	    zoom_img();
+	if (exports.render) {
+	    exports.render.move();
+	    // zoom_img();
 	} else {
 	    for (var i = 0; i < tracks.length; i++) {
 		var track = tracks[i];

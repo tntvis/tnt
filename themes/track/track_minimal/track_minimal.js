@@ -3,12 +3,17 @@ var tnt_theme_track_track_minimal = function() {
     var theme = function(board, div) {
 	board(div);
 
-	board.right (1000);
+	board
+	    .right (300)
+	    .zoom_out (300)
+	    .from(0)
+	    .to(50)
 
 	// Block Track1
 	var block_track = tnt.track()
-	    .height(10000)
+	    .height(50)
 	    .background_color("#FFCFDD")
+	    .foreground_color("blue")
 	    .data(tnt.track.data()
 		  .update(
 		      tnt.track.retriever.sync()
@@ -23,7 +28,6 @@ var tnt_theme_track_track_minimal = function() {
 		  )
 		 )
 	    .display(tnt.track.feature.block()
-		     .foreground_color("blue")
 		     .index(function (d) {
 			 return d.start;
 		     }));
@@ -31,7 +35,6 @@ var tnt_theme_track_track_minimal = function() {
 	// Axis Track1
 	board
 	    .axis(true)
-	    .performance(true);
 	// var axis_track = tnt.track()
 	//     .height(30)
 	//     .background_color("white")
@@ -40,10 +43,10 @@ var tnt_theme_track_track_minimal = function() {
 	// 	    );
 
 	// Location Track1
-	var loc_track = tnt.track()
-	    .height(30)
-	    .background_color("white")
-	    .display(tnt.track.feature.location());
+	// var loc_track = tnt.track()
+	//     .height(30)
+	//     .background_color("white")
+	//     .display(tnt.track.feature.location());
 
 	board
 //	    .add_track(loc_track)

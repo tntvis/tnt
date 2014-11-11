@@ -12,7 +12,7 @@ tnt.track.feature = function () {
 	guider   : function () {},
 	index    : undefined,
 	layout   : tnt.track.layout.identity(),
-	foreground_color : '#000',
+	// foreground_color : '#000', // moved to track
 	static   : false
     };
 
@@ -221,7 +221,7 @@ tnt.track.feature.sequence = function () {
 	    .text(config.sequence)
 	    .transition()
 	    .duration(500)
-	    .attr('fill', feature.foreground_color());
+	    .attr('fill', track.foreground_color());
     });
 
     feature.mover (function (nts, xScale) {
@@ -300,7 +300,7 @@ tnt.track.feature.gene = function () {
 	    .duration(500)
 	    .attr("fill", function (d) {
 		if (d.color === undefined) {
-		    return feature.foreground_color();
+		    return track.foreground_color();
 		} else {
 		    return d.color
 		}
@@ -327,7 +327,7 @@ tnt.track.feature.gene = function () {
 	    .transition()
 	    .duration(500)
 	    .attr("fill", function() {
-		return feature.foreground_color();
+		return track.foreground_color();
 	    });	    
     });
 
@@ -417,7 +417,7 @@ tnt.track.feature.area = function () {
 	    .classed("tnt_elem", true)
 	    .datum(data_points)
 	    .attr("d", area)
-	    .attr("fill", d3.rgb(feature.foreground_color()).brighter());
+	    .attr("fill", d3.rgb(track.foreground_color()).brighter());
 	
     });
 
@@ -511,7 +511,7 @@ tnt.track.feature.line = function () {
 	    .append("path")
 	    .attr("class", "tnt_elem")
 	    .attr("d", line(data_points))
-	    .style("stroke", feature.foreground_color())
+	    .style("stroke", track.foreground_color())
 	    .style("stroke-width", 4)
 	    .style("fill", "none");
 
@@ -562,7 +562,7 @@ tnt.track.feature.ensembl = function () {
 	    .attr("x2", width)
 	    .attr("y1", height_offset)
 	    .attr("y2", height_offset)
-	    .style("stroke", feature.foreground_color())
+	    .style("stroke", track.foreground_color())
 	    .style("stroke-width", 1);
 
 	track.g
@@ -572,7 +572,7 @@ tnt.track.feature.ensembl = function () {
 	    .attr("x2", width)
 	    .attr("y1", track.height() - height_offset)
 	    .attr("y2", track.height() - height_offset)
-	    .style("stroke", feature.foreground_color())
+	    .style("stroke", track.foreground_color())
 	    .style("stroke-width", 1);
 
     });
@@ -598,7 +598,7 @@ tnt.track.feature.ensembl = function () {
 	    rects
 		.attr("fill", function (d) { 
 		    if (d.type === 'high') {
-			return d3.rgb(feature.foreground_color());
+			return d3.rgb(track.foreground_color());
 		    }
 		    if (d.type === 'low') {
 			return d3.rgb(feature.foreground_color2());
@@ -607,12 +607,12 @@ tnt.track.feature.ensembl = function () {
 		});
 	} else {
 	    rects
-		.attr("fill", feature.foreground_color())
+		.attr("fill", track.foreground_color())
 		.transition()
 		.duration(500)
 		.attr("fill", function (d) { 
 		    if (d.type === 'high') {
-			return d3.rgb(feature.foreground_color());
+			return d3.rgb(track.foreground_color());
 		    }
 		    if (d.type === 'low') {
 			return d3.rgb(feature.foreground_color2());
@@ -677,7 +677,7 @@ tnt.track.feature.vline = function () {
 	    })
 	    .attr("y1", 0)
 	    .attr("y2", track.height())
-	    .attr("stroke", feature.foreground_color())
+	    .attr("stroke", track.foreground_color())
 	    .attr("stroke-width", 1);
     });
 
@@ -726,7 +726,7 @@ tnt.track.feature.block = function () {
 	    rects
 		.attr("fill", function (d) {
 		    if (d.color === undefined) {
-			return feature.foreground_color();
+			return track.foreground_color();
 		    } else {
 			return d.color;
 		    }
@@ -738,7 +738,7 @@ tnt.track.feature.block = function () {
 		.duration(500)
 		.attr("fill", function (d) {
 		    if (d.color === undefined) {
-			return feature.foreground_color();
+			return track.foreground_color();
 		    } else {
 			return d.color;
 		    }

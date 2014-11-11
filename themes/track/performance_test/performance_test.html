@@ -7,6 +7,10 @@
   <!-- D3 -->
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
+  <!-- canvg && SVG.toDataURL-->
+  <script src="../../../lib/canvg/canvg.js"></script>
+  <script src="../../../lib/SVG.toDataURL/svg_todataurl.js"></script>
+
   <!-- tnt -->
   <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
   <script src="../../../lib/tnt.js"></script>
@@ -17,8 +21,9 @@
   <div id="myboard"></div>
   <script>
     (function() {
-        var theme = tnt_theme_track_performance_test();
-        theme (document.getElementById("myboard"));
+        var board = tnt.board();
+        var theme = tnt_theme();
+        theme (board, document.getElementById("myboard"));
     })();
  
   </script>
