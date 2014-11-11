@@ -54,6 +54,17 @@
        })()
      </script>
 
+  {% when 'compact' %}
+  <script src={{ site.baseurl }}/lib/compact.js></script>
+  <link rel="stylesheet" href={{ site.baseurl }}/lib/compact.css type="text/css"/>
+  <script>
+    (function () {
+    var gB = tnt.board.genome().species("human").gene("brca2").width(950);
+    var theme = tnt_theme_track_compact();
+    theme(gB, document.getElementById('example_tree'));
+    })()
+  </script>
+
   {% when 'legend' %}
   <pre>Values in the range:<br/>
   <span id="range_vals"></span></pre>
