@@ -45,6 +45,7 @@ tnt.board = function() {
 	async_limits  : undefined,
 	axis          : true,
 	render        : null,
+	refresh       : 300,
 	// use_image     : false,
 	// use_server    : false,
 	// use_websocket : false,
@@ -214,7 +215,8 @@ tnt.board = function() {
 
 	// The continuation callback
 	var cont = function () {
-	    // limits.right = resp;
+	    // async_limits needs to be called only once
+	    exports.async_limits = undefined;
 
 	    // zoomEventHandler.xExtent([limits.left, limits.right]);
 	    if ((loc.to - loc.from) < limits.zoom_in) {
@@ -234,20 +236,14 @@ tnt.board = function() {
 	    if (exports.render) {
 		exports.render.update(get_conf());
 	    }
-	    // svg -> png rendering
-	    // if (exports.use_image) {
-	    // 	if (exports.use_server) {
-	    // 	    zoom_img.get_backup_img(get_conf());
-	    // 	} else {
-	    // 	zoom_img.get_backup_img();
-	    // 	}
-	    // }
-   
 	};
 
 	// If async_limits is a function, we have to call it asynchronously and
 	// then starting the plot once we have set the correct limits (plot)
 	// If not, we assume that all the limits have been set before using the API
+	// In the continuation callback, async_limits is reset (set to undef).
+	// this is to avoid re-setting loc.to to loc.right everytime start is called
+	// (it is called several times when 'render' is used for example)
 	var async_limits = exports.async_limits;
 	if (async_limits && typeof (async_limits) === 'function') {
 	// if (typeof (limits.right) === 'function') {
@@ -271,7 +267,7 @@ tnt.board = function() {
 	    data_updater({
 		'loc' : where,
 		'on_success' : function () {
-		    track.display() && track.display().update.call(track, xScale);
+		    track.display().update.call(track, xScale);
 		}
 	    });
 	}
@@ -632,7 +628,7 @@ tnt.board = function() {
     };
 
     // The deferred_cbak is deferred at least this amount of time or re-scheduled if deferred is called before
-    var _deferred = tnt.utils.defer_cancel(_move_cbak, 1000);
+    var _deferred = tnt.utils.defer_cancel(_move_cbak, exports.refresh);
 
     var _move = function (new_xScale) {
 	if (new_xScale !== undefined && drag_allowed) {

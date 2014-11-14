@@ -774,6 +774,8 @@ tnt.track.feature.empty = function () {
     feature.init = function () {};
     feature.update = function () {};
     feature.move = function () {};
+    feature.static = function () {};
+    feature.reset = function () {};
     return feature;
 };
 

@@ -62,7 +62,7 @@ var tnt_track_render = function () {
     };
 
     rend.msg = function (conf) {
-	console.log(JSON.stringify(conf));
+	// console.log(JSON.stringify(conf));
 	return JSON.stringify(conf);
     };
 
@@ -158,7 +158,8 @@ tnt.track.render.websocket = function () {
 
     wsconn.onopen = function () {
 	console.log("WebSocket connection stablished");
-	wsconn.send(msg);
+	// console.log("SENDING MSG (ONOPEN):" + msg)
+	// wsconn.send(msg);
     };
 
     wsconn.onmessage = function (resp) {
