@@ -119,7 +119,8 @@ tnt.tree = function () {
 
 	// LINKS
 	var link = vis.selectAll("path.tnt_tree_link")
-	    .data(curr.links, function(d){return d.target._id});
+	    // .data(curr.links, function(d){return d.target._id});
+	    .data(curr.links, function (d) {return d.target.name});
 	
 	link
 	    .enter()
@@ -135,7 +136,8 @@ tnt.tree = function () {
 
 	// NODES
 	var node = vis.selectAll("g.tnt_tree_node")
-	    .data(curr.nodes, function(d) {return d._id});
+	    // .data(curr.nodes, function(d) {return d._id});
+	    .data(curr.nodes, function (d) {return d.name});
 
 	var new_node = node
 	    .enter().append("g")
