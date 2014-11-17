@@ -7,7 +7,7 @@ tnt.tree = function () {
 	layout           : tnt.tree.layout.vertical(),
 	on_click         : function () {},
 	on_dbl_click     : function () {},
-	on_mouseover    : function () {},
+	on_mouseover     : function () {},
 	link_color       : 'steelblue',
 	node_color       : 'steelblue',
 	node_circle_size : 4.5,
@@ -119,8 +119,7 @@ tnt.tree = function () {
 
 	// LINKS
 	var link = vis.selectAll("path.tnt_tree_link")
-	    // .data(curr.links, function(d){return d.target._id});
-	    .data(curr.links, function (d) {return d.target.name});
+	    .data(curr.links, function(d){return d.target._id});
 	
 	link
 	    .enter()
@@ -136,8 +135,7 @@ tnt.tree = function () {
 
 	// NODES
 	var node = vis.selectAll("g.tnt_tree_node")
-	    // .data(curr.nodes, function(d) {return d._id});
-	    .data(curr.nodes, function (d) {return d.name});
+	    .data(curr.nodes, function(d) {return d._id});
 
 	var new_node = node
 	    .enter().append("g")
