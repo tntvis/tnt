@@ -111,7 +111,6 @@ tnt.tree.layout.radial = function () {
 
     api.method ("adjust_cluster_size", function (params) {
 	var r = (layout.width()/2) - layout.max_leaf_label_width() - 20
-	console.log("WIDTH: " + layout.width() + " R: " + r);
 	layout.cluster.size([360, r]);
 	return layout;
     });
