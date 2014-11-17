@@ -43,6 +43,8 @@ tnt.tree.layout = function () {
 
 tnt.tree.layout.vertical = function () {
     var layout = tnt.tree.layout();
+    // Elements like 'labels' depend on the layout type. This exposes a way of identifying the layout type
+    layout.type = "vertical";
 
     var api = tnt.utils.api (layout)
 	.getset ('width', 360)
@@ -74,6 +76,9 @@ tnt.tree.layout.vertical = function () {
 
 tnt.tree.layout.radial = function () {
     var layout = tnt.tree.layout();
+    // Elements like 'labels' depend on the layout type. This exposes a way of identifying the layout type
+    layout.type = 'radial';
+
     var default_width = 360;
     var r = default_width / 2;
 

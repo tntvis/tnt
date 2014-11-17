@@ -22,11 +22,11 @@ var tnt_theme_tree_layout_transition = function() {
 	sel
 	    .append("option")
 	    .attr("value", "vertical")
-	    .attr("selected", 1)
 	    .text("vertical");
 	sel
 	    .append("option")
 	    .attr("value", "radial")
+	    .attr("selected", 1)
 	    .text("radial");
 
 	var trans_speed = menu_pane
@@ -50,7 +50,7 @@ var tnt_theme_tree_layout_transition = function() {
 
 	tree_vis
 	    .data(tnt.tree.parse_newick(newick))
-	    .layout(tnt.tree.layout.vertical().width(width).scale(scale))
+	    .layout(tnt.tree.layout.radial().width(width).scale(scale))
 	    .duration(2000);
 
 	// The visualization is started at this point

@@ -23,14 +23,6 @@ tnt.tree = function () {
     // Ease of the transitions
     var ease = "cubic-in-out";
 
-    // If labels should be skipped
-    // TODO: Replace this with a valid tnt.tree.label that does nothing
-    // var skip_labels = false;
-
-    // TODO: Don't know if this is useful or not
-    // Probably this can go and see if this can be set with the API
-    var curr_species = "Homo_sapiens";
-
     // By node data
     var sp_counts = {};
  
@@ -108,7 +100,6 @@ tnt.tree = function () {
 	svg = tree_div
 	    .append("svg")
 	    .attr("width", conf.layout.width())
-//	    .attr("height", (n_leaves * label.height()()) + 20)
 	    .attr("height", conf.layout.height(cluster_size_params) + 30)
 	    .attr("fill", "none");
 
@@ -191,7 +182,7 @@ tnt.tree = function () {
 
 	new_node
 	    .each (function (d) {
-	    	conf.label.call(this, tnt.tree.node(d));
+	    	conf.label.call(this, tnt.tree.node(d), conf.layout.type);
 	    });
 
 	// Update plots an updated tree
@@ -270,7 +261,6 @@ tnt.tree = function () {
 	    	.attr("d", diagonal);
 
 
-
 	    // New nodes are created without radius
 	    // The radius is created after the links
 	    var new_node = node
@@ -333,11 +323,11 @@ tnt.tree = function () {
 		    return d3.functor(conf.node_color)(tnt.tree.node(d));
 		});
 
-	    // TODO: Shouldn't this be done only on new nodes? Old nodes should already have the labels
+	    // We need to re-create all the labels again in case they have changed lively (or the layout)
 	    node
 		.each (conf.label.remove)
 		    .each (function (d) {
-			conf.label.call(this, tnt.tree.node(d));
+			conf.label.call(this, tnt.tree.node(d), conf.layout.type);
 		    });
 	    
 	    node

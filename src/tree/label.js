@@ -6,14 +6,17 @@ tnt.tree.label = function () {
     // on update
     // We also have the problem that we may be transitioning from
     // text to img labels and we need to remove the label of a different type
-    var label = function (node) {
+    var label = function (node, layout_type) {
 	if (typeof (node) !== 'function') {
             throw(node);
         }
 
-	label.display().call(this, node)
+	label.display().call(this, node, layout_type)
 	    .attr("class", "tnt_tree_label")
-	    .attr("transform", "translate (" + label.transform()()[0] + " " + label.transform()()[1] + ")")
+	    .attr("transform", function (d) {
+		var t = label.transform()(node, layout_type);
+		return "translate (" + t.translate[0] + " " + t.translate[1] + ")rotate(" + t.rotate + ")";
+	    })
 	    .on("click", function(){
 		if (label.on_click() !== undefined) {
 		    d3.event.stopPropagation();
@@ -27,7 +30,7 @@ tnt.tree.label = function () {
 	.getset ('width', function () { throw "Need a width callback" })
 	.getset ('height', function () { throw "Need a height callback" })
 	.getset ('display', function () { throw "Need a display callback" })
-	.getset ('transform', function () { return [10, 5] })
+	.getset ('transform', function () { throw "Need a transform callback" })
 	.getset ('on_click');
 
     api.method ('remove', function () {
@@ -50,9 +53,15 @@ tnt.tree.label.text = function () {
 	    return d.data().name;
 	})
 
-    label.display (function (node) {
+    label.display (function (node, layout_type) {
 	var l = d3.select(this)
 	    .append("text")
+	    .attr("text-anchor", function (d) {
+		if (layout_type === "radial") {
+		    return (d.x%360 < 180) ? "start" : "end";
+		}
+		return "start";
+	    })
 	    .text(function(){
 		return label.text()(node)
 	    })
@@ -61,6 +70,25 @@ tnt.tree.label.text = function () {
 
 	return l;
     });
+
+    label.transform (function (node, layout_type) {
+	var d = node.data();
+	var t = {
+	    translate : [10, 5],
+	    rotate : 0
+	};
+	if (layout_type === "radial") {
+	    t.translate[1] = t.translate[1] - (d.x%360 < 180 ? 0 : label.fontsize())
+	    t.rotate = (d.x%360 < 180 ? 0 : 180)
+	}
+	return t;
+    });
+
+
+    // label.transform (function (node) {
+    // 	var d = node.data();
+    // 	return "translate(10 5)rotate(" + (d.x%360 < 180 ? 0 : 180) + ")";
+    // });
 
     label.width (function (node) {
 	var svg = d3.select("body")
@@ -93,7 +121,7 @@ tnt.tree.label.img = function () {
     var api = tnt.utils.api (label)
 	.getset ('src', function () {})
 
-    label.display (function (node) {
+    label.display (function (node, layout_type) {
 	if (label.src()(node)) {
 	    var l = d3.select(this)
 		.append("image")
@@ -102,13 +130,25 @@ tnt.tree.label.img = function () {
 		.attr("xlink:href", label.src()(node));
 	    return l;
 	}
-	// TODO:
+	// fallback text in case the img is not found?
 	return d3.select(this)
-	    .append("text");
+	    .append("text")
+	    .text("");
     });
 
-    label.transform (function () {
-	return ([10, -(label.height()() / 2)]);
+    label.transform (function (node, layout_type) {
+	var d = node.data();
+	var t = {
+	    translate : [10, (-label.height()() / 2)],
+	    rotate : 0
+	};
+	if (layout_type === 'radial') {
+	    t.translate[0] = t.translate[0] + (d.x%360 < 180 ? 0 : label.width()()),
+	    t.translate[1] = t.translate[1] + (d.x%360 < 180 ? 0 : label.height()()),
+	    t.rotate = (d.x%360 < 180 ? 0 : 180)
+	}
+
+	return t;
     });
 
     return label;
@@ -119,9 +159,9 @@ tnt.tree.label.composite = function () {
 
     var labels = [];
 
-    var label = function (node) {
+    var label = function (node, layout_type) {
 	for (var i=0; i<labels.length; i++) {
-	    labels[i].call(this, node);
+	    labels[i].call(this, node, layout_type);
 	}
     };
 
@@ -137,13 +177,24 @@ tnt.tree.label.composite = function () {
 	tnt.utils.api (display._super_)
 	    .get ('transform', display.transform());
 
-	display.transform( function (node) {
+	display.transform( function (node, layout_type) {
 	    var curr_offset = 0;
+	    var d = node.data();
 	    for (var i=0; i<curr_labels.length; i++) {
 		curr_offset += curr_labels[i].width()(node);
-		curr_offset += curr_labels[i].transform()(node)[0];
+		if ((layout_type === 'radial') && (d.x%360 > 180)) {
+		    curr_offset += 10
+		} else {
+		    curr_offset += curr_labels[i].transform()(node, layout_type).translate[0];
+		}
 	    }
-	    return ([curr_offset + display._super_.transform()(node)[0], display._super_.transform()(node)[1]]);
+
+	    var tsuper = display._super_.transform()(node, layout_type);
+	    var t = {
+		translate : [curr_offset + tsuper.translate[0], tsuper.translate[1]],
+		rotate : tsuper.rotate
+	    }
+	    return t;
 	});
 
 	labels.push(display);
@@ -155,7 +206,7 @@ tnt.tree.label.composite = function () {
 	    var tot_width = 0;
 	    for (var i=0; i<labels.length; i++) {
 		tot_width += parseInt(labels[i].width()(node));
-		tot_width += parseInt(labels[i]._super_.transform()(node)[0]);
+		tot_width += parseInt(labels[i]._super_.transform()(node).translate[0]);
 	    }
 
 	    return tot_width;

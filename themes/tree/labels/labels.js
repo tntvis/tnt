@@ -207,7 +207,7 @@ var tnt_theme_tree_labels = function() {
 	tree_vis
 	    .data(tnt.tree.parse_newick(newick))
 	    .duration(2000)
-	    .layout(tnt.tree.layout.vertical().width(600).scale(false))
+	    .layout(tnt.tree.layout.radial().width(600).scale(false))
 	    .label(original_label);
 
 	// The visualization is started at this point
