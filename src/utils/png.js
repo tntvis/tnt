@@ -143,7 +143,7 @@ tnt.utils.png = function () {
     return exporter;
 };
 
-tnt.utils.png.export = function () {
+tnt.utils.png.download = function () {
 
     var filename = 'image.png';
 
