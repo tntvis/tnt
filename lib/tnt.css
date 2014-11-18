@@ -36,9 +36,9 @@ text.tnt_tree_label {
   display: inline-block;
   vertical-align: top; }
 
-body {
-  font-size: 100%; }
-
+/* body { */
+/*     font-size : 100%; */
+/* } */
 svg text {
   -webkit-user-select: none;
   /* Chrome/Safari */
