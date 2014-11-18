@@ -61,6 +61,7 @@ tnt.tree = function () {
 
         var tree_div = d3.select(div)
             .append("div")
+	    .style("width", (conf.layout.width() +  "px"))
 	    .attr("class", "tnt_groupDiv");
 
 	var cluster = conf.layout.cluster;
