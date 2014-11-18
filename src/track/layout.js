@@ -25,7 +25,7 @@ tnt.track.layout.feature = function() {
     // vars exposed in the API:
     var conf = {
 	height   : 150,
-	scale    : undefined,
+	scale    : undefined
     };
 
     var conf_ro = {

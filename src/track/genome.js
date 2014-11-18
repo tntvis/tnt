@@ -11,7 +11,7 @@ tnt.board.genome = function() {
     var conf = {
 	gene           : undefined,
 	xref_search    : function () {},
-	ensgene_search : function () {},
+	ensgene_search : function () {}
     };
     var gene;
     var limits = {

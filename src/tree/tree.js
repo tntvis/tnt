@@ -10,7 +10,7 @@ tnt.tree = function () {
 	on_mouseover     : function () {},
 	link_color       : 'steelblue',
 	node_color       : 'steelblue',
-	node_circle_size : 4.5,
+	node_circle_size : 4.5
     };
 
     // Keep track of the focused node
