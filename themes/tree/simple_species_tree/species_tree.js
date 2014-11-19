@@ -5,9 +5,7 @@ var tnt_theme_tree_simple_species_tree = function() {
 
 	tree_vis
 	    .data(tnt.tree.parse_newick(newick))
-	    .node_circle_size(2)
-	    .node_color("black")
-	    .link_color("black")
+	    .node_display(tree_vis.node_display().size(4).fill("orange"))
 	    .layout(tnt.tree.layout.vertical()
 		    .width(650)
 		    .scale(false)

@@ -1,132 +1,132 @@
 var tnt_theme = function () {
 
-	var height = 45;
-	var color = "steelblue";
-	var threshold;
+    var height = 45;
+    var color = "steelblue";
+    var threshold;
 
-	//Create tree and annot
-	var tree = tnt.tree();
-	var annot = tnt.board();
+    //Create tree and annot
+    var tree = tnt.tree();
+    var annot = tnt.board();
 
-	//Start theme
-	var theme = function(ta, div) {
+    //Start theme
+    var theme = function(ta, div) {
 
-		//TREE SIDE
-		//START
-		var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;";
+	//TREE SIDE
+	//START
+	var newick = "(((((homo_sapiens:9,pan_troglodytes:9)207598:34,callithrix_jacchus:43)314293:52,mus_musculus:95)314146:215,taeniopygia_guttata:310)32524:107,danio_rerio:417)117571:135;";
 
-		//Newick Input
-		d3.select(div).append("em").text("Input Tree (Newick): ");
+	//Newick Input
+	d3.select(div).append("em").text("Input Tree (Newick): ");
 
-		var inputform = d3.select(div)
-							.append("input");
+	var inputform = d3.select(div)
+	    .append("input");
 
-		var button_enter = d3.select(div)
-							.append("button")
-							.text("Enter")
-							.on("click", function() {
+	var button_enter = d3.select(div)
+	    .append("button")
+	    .text("Enter")
+	    .on("click", function() {
 
-								newick = inputform.node().value;
+		newick = inputform.node().value;
 
-								tree.data (tnt.tree.parse_newick(newick));
-								ta.update();
+		tree.data (tnt.tree.parse_newick(newick));
+		ta.update();
 
-								//Update tracks afterwards
-								switchtrack(sel.node().value);
+		//Update tracks afterwards
+		switchtrack(sel.node().value);
 
-							});
+	    });
 
-		//Scaling and unscaling of the tree
-		var button_scale = d3.select(div)
-							.append("button")
-							.text("Scale")
-							.on("click", function() {
-								button_scale.attr("hidden","hidden")
-								button_unscale.attr("hidden",null)
+	//Scaling and unscaling of the tree
+	var button_scale = d3.select(div)
+	    .append("button")
+	    .text("Scale")
+	    .on("click", function() {
+		button_scale.attr("hidden","hidden")
+		button_unscale.attr("hidden",null)
 
-								tree.layout (tnt.tree.layout.vertical()
-									.width(430)
-									.scale(true)
-								);
-								ta.update();
-							});
+		tree.layout (tnt.tree.layout.vertical()
+			     .width(430)
+			     .scale(true)
+			    );
+		ta.update();
+	    });
 
-		var button_unscale = d3.select(div)
-								.append("button")
-								.text("Unscale")
-								.attr("hidden","hidden")
-								.on("click", function() {
-								button_unscale.attr("hidden","hidden")
-								button_scale.attr("hidden",null)
+	var button_unscale = d3.select(div)
+	    .append("button")
+	    .text("Unscale")
+	    .attr("hidden","hidden")
+	    .on("click", function() {
+		button_unscale.attr("hidden","hidden")
+		button_scale.attr("hidden",null)
 
 
-								tree.layout (tnt.tree.layout.vertical()
-										.width(430)
-										.scale(false)
-									);
-									ta.update();
-							    });
+		tree.layout (tnt.tree.layout.vertical()
+			     .width(430)
+			     .scale(false)
+			    );
+		ta.update();
+	    });
 
-		//Configure the tree
-		tree
-			.data (tnt.tree.parse_newick(newick))
-			.layout (tnt.tree.layout.vertical()
-				.width(430)
-				.scale(false)
-				)
-			.label (tnt.tree.label.text()
-					.text(function (node) {
-						return node.data().name;
-					})
-					.fontsize(13)
-					.height(height)
-			       );
+	//Configure the tree
+	tree
+	    .data (tnt.tree.parse_newick(newick))
+	    .layout (tnt.tree.layout.vertical()
+		     .width(430)
+		     .scale(false)
+		    )
+	    .label (tnt.tree.label.text()
+		    .text(function (node) {
+			return node.data().name;
+		    })
+		    .fontsize(13)
+		    .height(height)
+		   );
 
-		//collapse nodes on dbl click
-		tree.on_dbl_click (function(node){
-			node.toggle();
-			ta.update();
-		})
+	//collapse nodes on dbl click
+	tree.on_dbl_click (function(node){
+	    node.toggle();
+	    ta.update();
+	})
 
-		//Tooltips on tree
-		var node_tooltip = function (node) {
+	//Tooltips on tree
+	var node_tooltip = function (node) {
 	    var obj = {};
 	    obj.header = {
-			label : "Name",
-			value : node.node_name()
+		label : "Name",
+		value : node.node_name()
 	    };
 	    obj.rows = [];
 	    obj.rows.push ({
-			label : 'Distance to root',
-			value : node.root_dist()
+		label : 'Distance to root',
+		value : node.root_dist()
 	    });
 	    obj.rows.push ({
-			label : 'id',
-			value : node.id()
+		label : 'id',
+		value : node.id()
 	    });
 
 	    if(node.parent() != null) {
-	    obj.rows.push ({
-			label : 'parent id',
-			value : node.parent().id()
+		obj.rows.push ({
+		    label : 'parent id',
+		    value : node.parent().id()
 	    	});
-		}
+	    }
 
 	    if (!node.is_leaf()) {
 		obj.rows.push ({
 		    label : 'Action',
 		    link : function (node) {
-				node.toggle();
-				ta.update();
-				switchtrack(sel.node().value);
+			node.toggle();
+			ta.update();
+			switchtrack(sel.node().value);
 
-		    	},
+		    },
 		    obj : node,
 		    value : "Collapse subtree"
-			});
-		}
+		});
+	    }
 
-		if (node.is_collapsed()) {
+	    if (node.is_collapsed()) {
 		obj.rows.push ({
 		    label : 'Action',
 		    link : function (node) {
@@ -141,387 +141,380 @@ var tnt_theme = function () {
 	    }
 
 	    tnt.tooltip.table().call (this, obj);
-		};
+	};
 
-		//Add click event
-		tree.on_click(node_tooltip);
+	//Add click event
+	tree.on_click(node_tooltip);
 
-		//NODE SIDE
-		//START
-		//We have to edit the node_color and node_size function from tree
-		tree.node_color(function (node) {
-			if (node.is_collapsed()) {
-				return "turquoise"
-			} else {
-				return color
-			}
+	//NODE SIDE
+	//START
+	//We have to edit the node_color and node_size function from tree
+	var collapsed_node = tnt.tree.node_display.triangle()
+	    .size(6)
+	    .fill("turquoise");
+	var leaf_node = tnt.tree.node_display.circle()
+	    .size(6)
+	    .fill(color);
+	var int_node = tnt.tree.node_display.circle()
+	    .size(3)
+	    .fill("turquoise");
+	var node_display = tnt.tree.node_display.cond()
+	    .add("collapsed", function (node) {
+		return node.is_collapsed();
+	    }, collapsed_node)
+	    .add("leaf", function (node) {
+		return node.is_leaf();
+	    }, leaf_node)
+	    .add("internal", function (node) {
+		return !node.is_leaf();
+	    }, int_node);
+	tree.node_display(node_display);
+	//END
 
-		});
+	//LINK SIDE
+	//START
 
-		tree.node_circle_size(function (node) {
-			if (node.is_leaf()) {
-				return 6.0
-			} else {
-				return 3.0
-			}
-		})
-		//END
+	tree.link_color(color);
 
-		//LINK SIDE
-		//START
-
-		tree.link_color(function (node1,node2) {
-			return color
-		});
-
-		//END
+	//END
 
 
-		//END
+	//END
 
-		//TRACK SIDE
-		//START
-		//Edit general board size and properties
-		annot
-			.from(0)
-			.to(4000)
-			.width(500)
-			.zoom_out(4000)
-			.right(4000);
+	//TRACK SIDE
+	//START
+	//Edit general board size and properties
+	annot
+	    .from(0)
+	    .to(4000)
+	    .width(500)
+	    .zoom_out(4000)
+	    .right(4000);
 
-		//Switch track function
-		var switchtrack = function(track) {
-			switch(track) {
-								case 'blocks' :
-									ta.track(track_blocks);
-									break;
-								case 'lines' :
-									ta.track(track_lines);
-									break;
-								case 'pd' :
-									ta.track(track_protein);
-									break;
-							}
-		}
+	//Switch track function
+	var switchtrack = function(track) {
+	    switch(track) {
+	    case 'blocks' :
+		ta.track(track_blocks);
+		break;
+	    case 'lines' :
+		ta.track(track_lines);
+		break;
+	    case 'pd' :
+		ta.track(track_protein);
+		break;
+	    }
+	}
 
-		//Selection button via d3 for changing tracks
-		var sel = d3.select(div)
-						.append("select")
-						.on("change", function () {
-						switchtrack(this.value);
+	//Selection button via d3 for changing tracks
+	var sel = d3.select(div)
+	    .append("select")
+	    .on("change", function () {
+		switchtrack(this.value);
 
-						});
-		sel
-			.append("option")
-			.attr("selected", 1)
-			.attr("value","lines")
-			.text("Line");
-		sel
-			.append("option")
-			.attr("value","blocks")
-			.text("Block");
+	    });
+	sel
+	    .append("option")
+	    .attr("selected", 1)
+	    .attr("value","lines")
+	    .text("Line");
+	sel
+	    .append("option")
+	    .attr("value","blocks")
+	    .text("Block");
 
-		sel
-			.append("option")
-			.attr("value","pd")
-			.text("Protein Domain");
+	sel
+	    .append("option")
+	    .attr("value","pd")
+	    .text("Protein Domain");
 
-		//Generate first track - lines
-		var track_lines = function (leaf_node) {
- 		        var leaf = leaf_node.data();
-			var sp = leaf.name;
-			return tnt.track()
-						//We edit basic background color of track and its data
-						.background_color("#EBF5FF")
-						.data(tnt.track.data()
-								.update (tnt.track.retriever.sync()
-											.retriever(function () {
-												return data[sp] ? data[sp].line : [];
-											}) 
-											)
-								)
+	//Generate first track - lines
+	var track_lines = function (leaf_node) {
+ 	    var leaf = leaf_node.data();
+	    var sp = leaf.name;
+	    return tnt.track()
+	    //We edit basic background color of track and its data
+		.background_color("#EBF5FF")
+		.data(tnt.track.data()
+		      .update (tnt.track.retriever.sync()
+			       .retriever(function () {
+				   return data[sp] ? data[sp].line : [];
+			       }) 
+			      )
+		     )
 
-						//Display properties
-						//We use feature 'area' and set color and index
-						.display(tnt.track.feature.area()
-									.foreground_color(color)
-									.index (function (d) {
-										return d.pos;
-									})
-								)
-		};
+	    //Display properties
+	    //We use feature 'area' and set color and index
+		.display(tnt.track.feature.area()
+			 .foreground_color(color)
+			 .index (function (d) {
+			     return d.pos;
+			 })
+			)
+	};
 
-		//Generate second track - blocks
-		var track_blocks = function (leaf_node) {
-   		        var leaf = leaf_node.data();
-			var sp = leaf.name;
-			return tnt.track()
-						//We edit basic background color of track and its data
-						.background_color("#EBF5FF")
-						.data(tnt.track.data()
-								.update (tnt.track.retriever.sync()
-											.retriever(function () {
-												return data[sp] ? data[sp].blocks : [];
-											}) 
-											)
-								)
+	//Generate second track - blocks
+	var track_blocks = function (leaf_node) {
+   	    var leaf = leaf_node.data();
+	    var sp = leaf.name;
+	    return tnt.track()
+	    //We edit basic background color of track and its data
+		.background_color("#EBF5FF")
+		.data(tnt.track.data()
+		      .update (tnt.track.retriever.sync()
+			       .retriever(function () {
+				   return data[sp] ? data[sp].blocks : [];
+			       }) 
+			      )
+		     )
 
-						//Display properties
-						//We use feature 'area' and set color and index
-						.display(tnt.track.feature.ensembl()
-									.foreground_color(color)
-									.index (function (d) {
-										return d.start;
-									})
-								)
-		};
-		//TRACK SIDE
-		//END
+	    //Display properties
+	    //We use feature 'area' and set color and index
+		.display(tnt.track.feature.ensembl()
+			 .foreground_color(color)
+			 .index (function (d) {
+			     return d.start;
+			 })
+			)
+	};
+	//TRACK SIDE
+	//END
 
-		var track_protein = function (leaf_node) {
-		        var leaf = leaf_node.data();
-			var sp = leaf.name;
-			//We edit basic background color of track and its data
-			return tnt.track()
-						.background_color("#EBF5FF")
-						.data(tnt.track.data()
-								.update (tnt.track.retriever.sync()
-											.retriever(function () {
-												return data[sp] ? data[sp].pd : [];
-											}) 
-											)
-								)
+	var track_protein = function (leaf_node) {
+	    var leaf = leaf_node.data();
+	    var sp = leaf.name;
+	    //We edit basic background color of track and its data
+	    return tnt.track()
+		.background_color("#EBF5FF")
+		.data(tnt.track.data()
+		      .update (tnt.track.retriever.sync()
+			       .retriever(function () {
+				   return data[sp] ? data[sp].pd : [];
+			       }) 
+			      )
+		     )
 
-						//Display properties
-						//We use feature 'area' and set color and index
-						.display(protein_feature
-									.foreground_color(color)
-									.index (function (d) {
-										return d.start;
-									})
-								)
-		};
+	    //Display properties
+	    //We use feature 'area' and set color and index
+		.display(protein_feature
+			 .foreground_color(color)
+			 .index (function (d) {
+			     return d.start;
+			 })
+			)
+	};
 
-		//Protein domain feature
+	//Protein domain feature
 
-		var protein_feature = tnt.track.feature() 
-			.create ( function (new_elems, x_scale) {
-			var track = this;
-			track.g
-				.append("svg:line")
-    			.attr("x1", 0)
-    			.attr("y1", ~~(track.height() / 2))
-    			.attr("x2", annot.width())
-    			.attr("y2", ~~(track.height() / 2))
-    			.style("stroke", "grey")
-    			.style("stroke-width", 5)
-    			.style("opacity",0.3)
-    			
-			var padding = ~~(track.height() - (track.height() * 0.8)) / 2;
+	var protein_feature = tnt.track.feature() 
+	    .create ( function (new_elems, x_scale) {
+		var track = this;
+		track.g
+		    .append("svg:line")
+    		    .attr("x1", 0)
+    		    .attr("y1", ~~(track.height() / 2))
+    		    .attr("x2", annot.width())
+    		    .attr("y2", ~~(track.height() / 2))
+    		    .style("stroke", "grey")
+    		    .style("stroke-width", 5)
+    		    .style("opacity",0.3)
+    		
+		var padding = ~~(track.height() - (track.height() * 0.8)) / 2;
 
-			new_elems
-				.append("rect")
-		    	.attr("x", function (d) {
-				return x_scale (d.start);
-	    		})
-		    	.attr("y", padding)
-		    	.attr("width", function (d) {
-				return (x_scale(d.end) - x_scale(d.start));
-	    		})
-		    	.attr("height", track.height() - ~~(padding * 2))
-		    	.attr("fill", function (d) {
-		    		switch(d.type) {
-		    			case 'PAZ' :
-		    				return 'orange'
-		    				break;
-		    			case 'Piwi' :
-		    				return 'steelblue'
-		    				break;
-		    			case 'Disorder' :
-		    				return 'grey'
-		    				break;
-		    		}
-		    	})
-		    	.style("opacity", function (d) {
-		    		if (d.type == 'Disorder') {
-		    			return 0.5
-		    		} else {
-		    			return 1.0
-		    		}
-		    	})
+		new_elems
+		    .append("rect")
+		    .attr("x", function (d) {
+			return x_scale (d.start);
+	    	    })
+		    .attr("y", padding)
+		    .attr("width", function (d) {
+			return (x_scale(d.end) - x_scale(d.start));
+	    	    })
+		    .attr("height", track.height() - ~~(padding * 2))
+		    .attr("fill", function (d) {
+		    	switch(d.type) {
+		    	case 'PAZ' :
+		    	    return 'orange'
+		    	    break;
+		    	case 'Piwi' :
+		    	    return 'steelblue'
+		    	    break;
+		    	case 'Disorder' :
+		    	    return 'grey'
+		    	    break;
+		    	}
+		    })
+		    .style("opacity", function (d) {
+		    	if (d.type == 'Disorder') {
+		    	    return 0.5
+		    	} else {
+		    	    return 1.0
+		    	}
+		    })
 
-				
-			})
+		
+	    })
 
-		protein_feature.mover(function (blocks, x_scale) {
-			blocks
+	protein_feature.mover(function (blocks, x_scale) {
+	    blocks
 	    	.select("rect")
 	    	.attr("x", function (d) {
-				return x_scale(d.start);
+		    return x_scale(d.start);
 	    	})
 	    	.attr("width", function (d) {
-				return (x_scale(d.end) - x_scale(d.start));
+		    return (x_scale(d.end) - x_scale(d.start));
 	    	});
     	});
 
-		var protein_tooltip = function (protein) {
-	    	var obj = {};
-	    	obj.header = {
-			label : "Type",
-			value : protein.type
-	    	};
-	    	obj.rows = [];
-	    	obj.rows.push ({
-			label : "Coordinates",
-			value : protein.start + " - " + protein.end
-	    	});
+	var protein_tooltip = function (protein) {
+	    var obj = {};
+	    obj.header = {
+		label : "Type",
+		value : protein.type
+	    };
+	    obj.rows = [];
+	    obj.rows.push ({
+		label : "Coordinates",
+		value : protein.start + " - " + protein.end
+	    });
 
-	    	tnt.tooltip.table().call (this, obj);
-		};
-
-		protein_feature.on_click (protein_tooltip);
-
-		var sel_color = d3.select(div)
-			.append("select")
-			.on("change",function() {
-				color = this.value;
-				switchtrack(sel.node().value);
-				ta.update();
-			})
-
-		sel_color.append("option")
-			.attr("selected",true)
-			.text("steelblue");
-		sel_color.append("option")
-			.text("lightcoral");
-		sel_color.append("option")
-			.text("khaki")
-		sel_color.append("option")
-			.text("tan")
-		sel_color.append("option")
-			.text("indigo")
-
-		//START
-		//Smart scaling 
-		var button_smartscale = d3.select(div)
-								.append("button")
-								.text("Smartscale")
-								.on("click", function() {
-									smartscale();
-								});
-
-		var smartscale = function () {
-			var root_dists = _.map (tree.root().get_all_nodes(), function (node) {
-	    			return node.root_dist();
-			});
-			
-			//Calculating threshold using interquantil distance (see Box Diagramm)
-    		var quantile = root_dists.sort(d3.ascending);
-
-    		console.log(quantile);
-
-    		//Calculating interquantil distance
-    		var interq_dist = d3.quantile(quantile,0.75) - d3.quantile(quantile,0.25);
- 
-    		var threshold = d3.quantile(quantile,0.75) + 1.5 * interq_dist;
-
-    		console.log(threshold);
-
-    		// Cut off all values over threshold
-    		quantile = quantile.slice(0,d3.bisectLeft(quantile, threshold));
-
-    		console.log(quantile);
-
-    		//New layout for long branches
-    		var smartlayout = function () {
-    			var layout = tnt.tree.layout.vertical();
-
-    			var api = tnt.utils.api (layout);
-
-    			//New scale method
-    			api.method('scale_branch_lengths', function (curr) {
-					if (layout.scale() === false) {
-	    				return
-					}
-
-				var nodes = curr.nodes;
-				var tree = curr.tree;
-
-				var root_dists = nodes.map (function (d) {
-	    			return d._root_dist;
-				});
-
-    			var yscale = layout.yscale(quantile);
-
-				tree.apply (function (node) {
-					if (node.root_dist() < threshold ) {
-					node.property("y", yscale(node.root_dist()));	
-					} else {
-						node.property("y", yscale(d3.max(quantile)));
-						}
-	        		
-	   				});
-    			});
-
-    			return layout
-    		}
-
-    		console.log(smartlayout());
-    		tree.layout(smartlayout().width(400).scale(true));
-
-    		tree.node_color(function (node) {
-				if (node.is_collapsed()) {
-					return "turquoise"
-				} else {
-					if (node.root_dist() > threshold) {
-						return "black"
-					} else {
-						return color
-					}
-				}
-
-			});
-
-			tree.node_circle_size(function (node) {
-				if (node.is_leaf()) {
-					if (node.root_dist() > threshold) {
-						return 2.0
-					} else {
-						return 6.0
-					}
-				} else {
-					return 3.0
-				}
-			})
-
-
-    		ta.update();
-
-
-
-		}//END
-
-		//Set tree to our configured tree
-		ta.tree(tree); 
-
-		//Set annotation to our annotation
-		ta.annotation(annot);
-
-		//Set ruler for the board
-		ta.ruler("bottom");
-
-		//Set track lines as first track
-		ta.track(track_lines);
-
-		//Use our theme on div
-		ta(div);
-
+	    tnt.tooltip.table().call (this, obj);
 	};
-	//End theme
 
-	//Now we could add API methods like theme.method....
+	protein_feature.on_click (protein_tooltip);
 
-	return theme;
+	var sel_color = d3.select(div)
+	    .append("select")
+	    .on("change",function() {
+		color = this.value;
+		switchtrack(sel.node().value);
+		ta.update();
+	    })
+
+	sel_color.append("option")
+	    .attr("selected",true)
+	    .text("steelblue");
+	sel_color.append("option")
+	    .text("lightcoral");
+	sel_color.append("option")
+	    .text("khaki")
+	sel_color.append("option")
+	    .text("tan")
+	sel_color.append("option")
+	    .text("indigo")
+
+	//START
+	//Smart scaling 
+	var button_smartscale = d3.select(div)
+	    .append("button")
+	    .text("Smartscale")
+	    .on("click", function() {
+		smartscale();
+	    });
+
+	var smartscale = function () {
+	    var root_dists = _.map (tree.root().get_all_nodes(), function (node) {
+	    	return node.root_dist();
+	    });
+	    
+	    //Calculating threshold using interquantil distance (see Box Diagramm)
+    	    var quantile = root_dists.sort(d3.ascending);
+
+    	    console.log(quantile);
+
+    	    //Calculating interquantil distance
+    	    var interq_dist = d3.quantile(quantile,0.75) - d3.quantile(quantile,0.25);
+	    
+    	    var threshold = d3.quantile(quantile,0.75) + 1.5 * interq_dist;
+
+    	    console.log(threshold);
+
+    	    // Cut off all values over threshold
+    	    quantile = quantile.slice(0,d3.bisectLeft(quantile, threshold));
+
+    	    console.log(quantile);
+
+    	    //New layout for long branches
+    	    var smartlayout = function () {
+    		var layout = tnt.tree.layout.vertical();
+
+    		var api = tnt.utils.api (layout);
+
+    		//New scale method
+    		api.method('scale_branch_lengths', function (curr) {
+		    if (layout.scale() === false) {
+	    		return
+		    }
+
+		    var nodes = curr.nodes;
+		    var tree = curr.tree;
+
+		    var root_dists = nodes.map (function (d) {
+	    		return d._root_dist;
+		    });
+
+    		    var yscale = layout.yscale(quantile);
+
+		    tree.apply (function (node) {
+			if (node.root_dist() < threshold ) {
+			    node.property("y", yscale(node.root_dist()));	
+			} else {
+			    node.property("y", yscale(d3.max(quantile)));
+			}
+	        	
+	   	    });
+    		});
+
+    		return layout
+    	    }
+
+    	    tree.layout(smartlayout().width(400).scale(true));
+	    var long_node = tnt.tree.node_display.circle()
+		.fill("black")
+		.size(2);
+
+	    node_display.reset(); // We reset the node_display
+	    node_display
+		.add("long", function (node) {
+		    return node.is_leaf() && node.root_dist()>threshold;
+		}, long_node)
+	    	.add("collapsed", function (node) {
+		    return node.is_collapsed();
+		}, collapsed_node)
+		.add("leaf", function (node) {
+		    return node.is_leaf();
+		}, leaf_node)
+		.add("internal", function (node) {
+		    return !node.is_leaf();
+		}, int_node);
+
+    	    ta.update();
+
+
+
+	}//END
+
+	//Set tree to our configured tree
+	ta.tree(tree); 
+
+	//Set annotation to our annotation
+	ta.annotation(annot);
+
+	//Set ruler for the board
+	ta.ruler("bottom");
+
+	//Set track lines as first track
+	ta.track(track_lines);
+
+	//Use our theme on div
+	ta(div);
+
+    };
+    //End theme
+
+    //Now we could add API methods like theme.method....
+
+    return theme;
 
 };
 
@@ -540,21 +533,21 @@ var data = {
 	    }
 	],
 	'pd' : [
-		{
+	    {
 		type  : 'PAZ',
 		start : 1433,
 		end   : 1460
-		},
-		{
+	    },
+	    {
 		type  : 'Piwi',
 		start : 450,
 		end   : 523
-		},
-		{
+	    },
+	    {
 		type  : 'Disorder',
 		start : 633,
 		end   : 655	
-		}
+	    }
 	]
     },
     'pan_troglodytes' : {
@@ -574,21 +567,21 @@ var data = {
 	    }
 	],
 	'pd' : [
-		{
+	    {
 		type  : 'PAZ',
 		start : 3233,
 		end   : 3260
-		},
-		{
+	    },
+	    {
 		type  : 'Piwi',
 		start : 1350,
 		end   : 1423
-		},
-		{
+	    },
+	    {
 		type  : 'Disorder',
 		start : 2433,
 		end   : 2455	
-		}
+	    }
 	]
     },
     'callithrix_jacchus' : {
@@ -601,21 +594,21 @@ var data = {
 	    }
 	],
 	'pd' : [
-		{
+	    {
 		type  : 'PAZ',
 		start : 1133,
 		end   : 1260
-		},
-		{
+	    },
+	    {
 		type  : 'Piwi',
 		start : 2550,
 		end   : 2623
-		},
-		{
+	    },
+	    {
 		type  : 'Disorder',
 		start : 3433,
 		end   : 3455	
-		}
+	    }
 	]
     },
     'mus_musculus' : {
@@ -632,21 +625,21 @@ var data = {
 	    }
 	],
 	'pd' : [
-		{
+	    {
 		type  : 'PAZ',
 		start : 2733,
 		end   : 2760
-		},
-		{
+	    },
+	    {
 		type  : 'Piwi',
 		start : 1550,
 		end   : 1723
-		},
-		{
+	    },
+	    {
 		type  : 'Disorder',
 		start : 3433,
 		end   : 3455	
-		}
+	    }
 	]
     },
     'taeniopygia_guttata' : {
@@ -658,21 +651,21 @@ var data = {
 	    }
 	],
 	'pd' : [
-		{
+	    {
 		type  : 'PAZ',
 		start : 1233,
 		end   : 1260
-		},
-		{
+	    },
+	    {
 		type  : 'Piwi',
 		start : 3450,
 		end   : 3623
-		},
-		{
+	    },
+	    {
 		type  : 'Disorder',
 		start : 2333,
 		end   : 2345	
-		}
+	    }
 	]
     },
     'danio_rerio' : {
@@ -684,21 +677,21 @@ var data = {
 	    }
 	],
 	'pd' : [
-		{
+	    {
 		type  : 'PAZ',
 		start : 1233,
 		end   : 1260
-		},
-		{
+	    },
+	    {
 		type  : 'Piwi',
 		start : 3250,
 		end   : 3423
-		},
-		{
+	    },
+	    {
 		type  : 'Disorder',
 		start : 2533,
 		end   : 2555	
-		}
+	    }
 	]
     }
 };

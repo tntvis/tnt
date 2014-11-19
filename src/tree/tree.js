@@ -3,14 +3,13 @@ tnt.tree = function () {
 
     var conf = {
 	duration         : 500,      // Duration of the transitions
+	node_display     : tnt.tree.node_display.circle(),
 	label            : tnt.tree.label.text(),
 	layout           : tnt.tree.layout.vertical(),
 	on_click         : function () {},
 	on_dbl_click     : function () {},
 	on_mouseover     : function () {},
-	link_color       : 'steelblue',
-	node_color       : 'steelblue',
-	node_circle_size : 4.5
+	link_color       : 'black'
     };
 
     // Keep track of the focused node
@@ -156,24 +155,23 @@ tnt.tree = function () {
 	    })
 	    .attr("transform", transform);
 
+	// display node shape
 	new_node
-	    .append('circle')
-	    .attr("r", function (d) {
-		return d3.functor(conf.node_circle_size)(tnt.tree.node(d));
-	    })	 
-	    .attr('fill', function (d) {
-		return d3.functor(conf.node_color)(tnt.tree.node(d));
-	    })
-	    .attr('stroke', function (d) {
-		return d3.functor(conf.node_color)(tnt.tree.node(d));
-	    })
-	    .attr('stroke-width', '2px');
+	    .each (function (d) {
+		conf.node_display.call(this, tnt.tree.node(d))
+	    });
+
+	// display node label
+	new_node
+	    .each (function (d) {
+	    	conf.label.call(this, tnt.tree.node(d), conf.layout.type);
+	    });
 
 	new_node.on("click", function (node) {
 	    conf.on_click.call(this, tnt.tree.node(node));
 	});
 
-	new_node.on("mouseover", function (node) {
+	new_node.on("mouseenter", function (node) {
 	    conf.on_mouseover.call(this, tnt.tree.node(node));
 	});
 
@@ -181,10 +179,6 @@ tnt.tree = function () {
 	    conf.on_dbl_click.call(this, tnt.tree.node(node));
 	});
 
-	new_node
-	    .each (function (d) {
-	    	conf.label.call(this, tnt.tree.node(d), conf.layout.type);
-	    });
 
 	// Update plots an updated tree
 	api.method ('update', function() {
@@ -226,7 +220,7 @@ tnt.tree = function () {
 	    conf.layout.scale_branch_lengths(curr);
 	    curr.links = cluster.links(curr.nodes);
 
-        // NODES
+            // NODES
 	    var node = vis.selectAll("g.tnt_tree_node")
 		.data(curr.nodes, function(d) {return d._id});
 
@@ -238,8 +232,6 @@ tnt.tree = function () {
 		.exit()
 		.remove();
 
-
-	    // New links are inserted in the prev positions
 	    link
 		.enter()
 		.append("path")
@@ -247,23 +239,19 @@ tnt.tree = function () {
 		.attr("id", function (d) {
 		    return "tnt_tree_link_" + div_id + "_" + d.target._id;
 		})
-		// .attr("fill", "none")
 		.attr("stroke", function (d) {
 		    return d3.functor(conf.link_color)(tnt.tree.node(d.source), tnt.tree.node(d.target));
 		})
 		.attr("d", diagonal);
 
 	    link
-	    //  TODO: Here we will be moving links that have been already moved in the previous filter
-	    //  if transitions are slow, this is a good place to optimize
 	    	.transition()
 		.ease(ease)
 	    	.duration(conf.duration)
 	    	.attr("d", diagonal);
 
 
-	    // New nodes are created without radius
-	    // The radius is created after the links
+	    // Nodes
 	    var new_node = node
 		.enter()
 		.append("g")
@@ -283,24 +271,16 @@ tnt.tree = function () {
 		})
 		.attr("transform", transform);
    
-	    new_node
-		.append('circle')
-		.attr("r", 1e-6)
-		.attr('stroke', function (d) {
-		    return d3.functor(conf.node_color)(tnt.tree.node(d));
-		})
-		.attr('stroke-width', '2px')
-		.transition()
-		.duration(conf.duration)
-		.attr("r", function (d) {
-		    return d3.functor(conf.node_circle_size)(tnt.tree.node(d));
-		});
+	    // Exiting nodes are just removed
+	    node
+		.exit()
+		.remove();
 
 	    new_node.on("click", function (node) {
 		conf.on_click.call(this, tnt.tree.node(node));
 	    });
 
-	    new_node.on("mouseover", function (node) {
+	    new_node.on("mouseenter", function (node) {
 		conf.on_mouseover.call(this, tnt.tree.node(node));
 	    });
 
@@ -309,38 +289,25 @@ tnt.tree = function () {
 	    });
 
 
-	    // node color, size and labels are dynamic properties
+	    // We need to re-create all the nodes again in case they have changed lively (or the layout)
+	    node.selectAll("*").remove();
 	    node
-		.select("circle")
-		.transition()
-		.attr('fill', function (d) {
-		    return d3.functor(conf.node_color)(tnt.tree.node(d));
-		})
-		.attr('r', function (d) {
-		    return d3.functor(conf.node_circle_size)(tnt.tree.node(d));
-		})
-		// node strokes are dynamic properties
-		.attr('stroke', function (d) {
-		    return d3.functor(conf.node_color)(tnt.tree.node(d));
-		});
+		    .each(function (d) {
+			conf.node_display.call(this, tnt.tree.node(d))
+		    });
 
 	    // We need to re-create all the labels again in case they have changed lively (or the layout)
 	    node
-		.each (conf.label.remove)
 		    .each (function (d) {
 			conf.label.call(this, tnt.tree.node(d), conf.layout.type);
 		    });
-	    
+
 	    node
 		.transition()
 		.ease(ease)
 		.duration(conf.duration)
 		.attr("transform", transform);
 
-	    // Exiting nodes are just removed
-	    node
-		.exit()
-		.remove();
 	});
     };
 

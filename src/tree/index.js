@@ -1,4 +1,5 @@
 import "tree.js";
+import "node_display.js";
 import "label.js";
 import "diagonal.js";
 import "layout.js";

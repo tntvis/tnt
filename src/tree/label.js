@@ -17,6 +17,7 @@ tnt.tree.label = function () {
 		var t = label.transform()(node, layout_type);
 		return "translate (" + t.translate[0] + " " + t.translate[1] + ")rotate(" + t.rotate + ")";
 	    })
+	// TODO: this click event is probably never fired since there is an onclick event in the node g element?
 	    .on("click", function(){
 		if (label.on_click() !== undefined) {
 		    d3.event.stopPropagation();
@@ -32,12 +33,6 @@ tnt.tree.label = function () {
 	.getset ('display', function () { throw "Need a display callback" })
 	.getset ('transform', function () { throw "Need a transform callback" })
 	.getset ('on_click');
-
-    api.method ('remove', function () {
-	d3.select(this)
-	    .selectAll(".tnt_tree_label")
-	    .remove();
-    });
 
     return label;
 };
@@ -223,12 +218,6 @@ tnt.tree.label.composite = function () {
 		}
 	    }
 	    return max_height;
-	}
-    });
-
-    api.method ('remove', function (node) {
-	for (var i=0; i<labels.length; i++) {
-	    labels[i].remove.call(this, node);
 	}
     });
 

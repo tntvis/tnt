@@ -11,19 +11,32 @@ var tnt_theme_tree_hog = function () {
 	// TREE /////
 	/////////////
 
-	var node_color = function (node) {
-	    if (node.is_collapsed()) {
-		return "grey";
-	    }
-	    return "black";
-	};
-
-	var node_size = function (node) {
-	    if (node.is_leaf()) {
-		return 4;
-	    }
-	    return 2;
-	};
+	// Nodes shapes / colors
+	var collapsed_node = tnt.tree.node_display.triangle()
+	    .fill("grey")
+	    .size(4);
+	var leaf_node = tnt.tree.node_display.circle()
+	    .fill("black")
+	    .size(4);
+	var int_node = tnt.tree.node_display.circle()
+	    .fill("black")
+	    .size(2);
+	var highlight_node = tnt.tree.node_display.circle()
+	    .fill("brown")
+	    .size(6);
+	var node_display = tnt.tree.node_display.cond()
+	    .add ("highlight", function (node) {
+		return false;
+	    }, highlight_node)
+	    .add ("collapsed", function (node) {
+		return node.is_collapsed()
+	    }, collapsed_node)
+	    .add ("leaf", function (node) {
+		return node.is_leaf();
+	    }, leaf_node)
+	    .add ("internal", function (node) {
+		return !node.is_leaf();
+	    }, int_node);
 
 	// mouse over a node
 	var mouse_over_node = function (node) {
@@ -32,32 +45,11 @@ var tnt_theme_tree_hog = function () {
 	    curr_taxa = name;
 	    annot.update();
 
-	    // change the node shape and color
-	    tree.node_circle_size (function (n) {
-		if (node.id() === n.id()) {
-		    return 6
-		}
-		return node_size(n)
-	    });
-	    tree.node_color (function (n) {
-		if (node.id() === n.id()) {
-		    return "brown";
-		}
-		return node_color(n);
-	    });
-
-	    // // uncollapse previously collapsed nodes
-	    // for (var j=0; j<collapsed_nodes.length; j++) {
-	    // 	collapsed_nodes[j].toggle();
-	    // }
-
-	    // // collapse nodes
-	    // var nodes_to_collapse = collapsing_nodes[curr_taxa];
-	    // console.log(nodes_to_collapse);
-	    // for (var i=0; i<nodes_to_collapse.length; i++) {
-	    // 	nodes_to_collapse[i].toggle();
-	    // }
-	    // collapsed_nodes = nodes_to_collapse;
+	    
+	    var highlight_condition = function (n) {
+		return node.id() === n.id();
+	    };
+	    node_display.update("highlight", highlight_condition, highlight_node);
 
 	    ta.update();
 	};
@@ -87,12 +79,10 @@ var tnt_theme_tree_hog = function () {
 		   )
 	    .link_color ("black")
 	    .on_mouseover (mouse_over_node)
-	    .node_color (node_color)
-	    .node_circle_size (node_size)
+	    .node_display(node_display)
 	    .link_color ("black");
 
 	curr_taxa = tree.root().node_name();
-	// var collapsing_nodes = nodes_to_collapse (tree);
 
 	/////////////////////////
 	//// PARSE HOG INFO /////
@@ -293,34 +283,6 @@ var tnt_theme_tree_hog = function () {
 	}
 	return maxs;
     };
-
-    // var nodes_to_collapse = function (tree) {
-    // 	var n2c = {};
-    // 	var nodes = tree.root().get_all_nodes();
-    // 	for (var i=0; i<nodes.length; i++) {
-    // 	    var node = nodes[i];
-    // 	    if (node.is_leaf()) {
-    // 		continue;
-    // 	    }
-    // 	    n2c[node.node_name()] = [];
-    // 	    node.upstream (function (ancestor) {
-    // 		if (ancestor.id() !== node.id()) {
-    // 		    var children = ancestor.children();
-    // 		    for (var i=0; i<children.length; i++) {
-    // 			if (children[i].present (function (nn) {
-    // 			    return nn.id() === node.id()
-    // 			})) {
-    // 			} else {
-    // 			    if (! children[i].is_leaf()) {
-    // 				n2c[node.node_name()].push (children[i]);
-    // 			    }
-    // 			}
-    // 		    }
-    // 		}
-    // 	    })
-    // 	}
-    // 	return n2c;
-    // };
 
     return theme;
 };
