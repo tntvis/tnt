@@ -1,12 +1,7 @@
 tnt.tooltip = function() {
     "use strict";
 
-    // Style options
-    var bgColor;
-    var fgColor;
-
     var drag = d3.behavior.drag();
-    // var allow_drag = true;
     var tooltip_div;
 
     var conf = {
@@ -17,10 +12,6 @@ tnt.tooltip = function() {
 	fill : function () { throw "fill is not defined in the base object" },
 	width : 0
     };
-
-    // var position = "right";
-    // var fill = function () { throw "fill is not defined in the base object" };
-    // var width = function () { throw "width is not defined in the base object" };
 
     var tooltip = function (data) {
 	drag
@@ -80,20 +71,12 @@ tnt.tooltip = function() {
     var api = tnt.utils.api(tooltip)
 	.getset(conf);
     api.check('position', function (val) {
-	return (val === 'left') || (val === 'right');
+    	return (val === 'left') || (val === 'right');
     }, "Only 'left' or 'right' values are allowed for position");
 
     tooltip.close = function () {
 	d3.select(this).selectAncestor('div').remove();
     };
-
-    // tooltip.filler = function (cbak) {
-    // 	if (!arguments.length) {
-    // 	    return fill;
-    // 	}
-    // 	fill = cbak;
-    // 	return tooltip;
-    // };
 
     tooltip.header = function(obj) {
 	tooltip_div
@@ -106,39 +89,6 @@ tnt.tooltip = function() {
 	    .append("div")
 	    .html(obj.data);
     };
-
-
-    // tooltip.background_color = function (color) {
-    // 	if (!arguments.length) {
-    // 	    return bgColor;
-    // 	}
-    // 	bgColor = color;
-    // 	return tooltip;
-    // };
-
-    // tooltip.foreground_color = function (color) {
-    // 	if (!arguments.length) {
-    // 	    return fgColor;
-    // 	}
-    // 	fgColor = color;
-    // 	return tooltip;
-    // };
-
-    // tooltip.allow_drag = function (bool) {
-    // 	if (!arguments.length) {
-    // 	    return allow_drag;
-    // 	}
-    // 	allow_drag = bool;
-    // 	return tooltip;
-    // };
-
-    // tooltip.position = function (p) {
-    // 	if (!arguments.length) {
-    // 	    return position;
-    // 	}
-    // 	position = p;
-    // 	return tooltip;
-    // };
 
     return tooltip;
 };
