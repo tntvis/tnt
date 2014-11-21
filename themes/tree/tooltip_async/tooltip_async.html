@@ -12,15 +12,15 @@
   <script src="../../../lib/tnt.js"></script>
 
   <!-- Tree.js -->
-  <script src="tooltip.js"></script>
+  <script src="tooltip_async.js"></script>
 
-  <h1>Tree - Tooltips</h1>
+  <h1>Tree - Tooltips (Async)</h1>
   <div id="mytree"></div>
 
   <script>
     (function() {
     var tree_vis = tnt.tree()
-    var theme = tnt_theme_tree_tooltip();
+    var theme = tnt_theme_tree_tooltip_async();
     theme(tree_vis, document.getElementById("mytree"));
     }());
   </script>
