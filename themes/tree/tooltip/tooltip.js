@@ -13,17 +13,31 @@ var tnt_theme_tree_tooltip = function() {
 		    .scale(false))
 	    .on_click(tree_vis.tooltip());
 
-	var t = tnt.tooltip.table();
+	var t = tnt.tooltip.table()
+	    .position("right")
+	    .width(100);
 	var tree_tooltip = function (node) {
 	    var obj = {};
 	    obj.header = {
 		label : "LABEL",
 		value : "VALUE"
 	    };
+	    obj.rows = [];
 	    t.call (this, obj);
 	};
 
-	tree_vis.label().on_click(tree_tooltip);
+	// var t = tnt.tooltip.plain()
+	//     .position("left")
+	//     .width(300);
+
+	// var in_tooltip = "<img src='./chrome_logo.png'/>";
+	// var plain_tooltip = function () {
+	//     t.call(this, in_tooltip);
+	// }
+
+
+	// tree_vis.label().on_click(tree_tooltip);
+	tree_vis.on_click(tree_tooltip);
 
 	// The visualization is started at this point
 	tree_vis(div);
