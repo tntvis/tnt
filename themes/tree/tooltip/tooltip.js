@@ -10,28 +10,17 @@ var tnt_theme_tree_tooltip = function() {
 	    .duration(2000)
 	    .layout(tnt.tree.layout.vertical()
 		    .width(600)
-		    .scale(false))
-	    .on_click(tree_vis.tooltip());
+		    .scale(false));
 
-	var t = tnt.tooltip.table()
-	    .position("right")
-	    .width(180);
 	var tree_tooltip = function (node) {
 	    var obj = {};
-	    obj.header = "LABEL: VALUE";
+	    obj.header = "Name: " + node.node_name();
 	    obj.rows = [];
-	    t.call (this, obj);
+	    tnt.tooltip.table()
+		.position("right")
+		.width(180)
+		.call (this, obj);
 	};
-
-	// var t = tnt.tooltip.plain()
-	//     .position("left")
-	//     .width(300);
-
-	// var in_tooltip = "<img src='./chrome_logo.png'/>";
-	// var plain_tooltip = function () {
-	//     t.call(this, in_tooltip);
-	// }
-
 
 	// tree_vis.label().on_click(tree_tooltip);
 	tree_vis.on_click(tree_tooltip);
