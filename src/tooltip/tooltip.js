@@ -45,6 +45,9 @@ tnt.tooltip = function() {
  	    .classed("tnt_tooltip_active", true)  // TODO: Is this needed/used???
 	    .call(drag);
 
+	// prev tooltips with the same header
+	d3.select("#tnt_tooltip_" + data.header.replace(/ |:/g, '_')).remove();
+
 	if ((d3.event === null) && (event)) {
 	    d3.event = event;
 	}
@@ -67,9 +70,15 @@ tnt.tooltip = function() {
 		offset = 0
 	    }
 	}
+
+	tooltip_div.attr("id", "tnt_tooltip_" + data.header.replace(/ |:/g, '_'));
+
+	// We place the tooltip
 	tooltip_div
 	    .style("left", (mouse[0] - offset) + "px")
 	    .style("top", mouse[1] + "px");
+	    // .style("left", mouseX)
+	    // .style("top", mouseY);
 
 	// Close
 	if (conf.show_closer) {
@@ -126,7 +135,7 @@ tnt.tooltip.table = function () {
 	    .attr("class", "tnt_zmenu_header")
 	    .append("th")
 	    .attr("colspan", 2)
-	    .text(obj.header.label + ": " + obj.header.value);
+	    .text(obj.header);
 
 	// Tooltip rows
 	var table_rows = obj_info_table.selectAll(".tnt_zmenu_row")

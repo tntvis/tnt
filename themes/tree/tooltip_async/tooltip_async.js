@@ -24,35 +24,33 @@ var tnt_theme_tree_tooltip_async = function() {
 	    var s = tnt.tooltip.plain()
 		.position("auto")
 		.width(180)
-		.show_closer(false);
+		.show_closer(false)
+		.allow_drag(false);
 
-	    // Save the clicked element and the current event to pass to the tooltip maker
+	    // Save the clicked element
+	    var event = d3.event;
 	    var elem = this;
-	    var event = d3.event
 
 	    ensRest.call({
 		url : ensRest.url.assembly({
 		    species : node.node_name()
 		}),
 		success : function (resp) {
-		    s.close();
+		    // s.close();
 		    var obj = {};
-		    obj.header = {
-			label : "Name",
-			value : node.node_name()
-		    };
+		    obj.header = "Name: " + node.node_name();
 		    obj.rows = [];
 		    obj.rows.push({
 			label : "Assembly",
 			value : resp.assembly_name
 		    })
-		    // Pass the clicked element and the event
+		    // Pass the clicked element (this is not the element here anymore)
 		    t.call (elem, obj, event);
 		}
 	    });
 	    s.call(elem, {header : "Name: " + node.node_name(),
 			  body : "<img height='20' src='./spinner.gif'/>"
-			 }, event);
+			 });
 	};
 
 	// Attach on-click events to the nodes
