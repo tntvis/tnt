@@ -46,7 +46,7 @@ tnt.tooltip = function() {
 	    .call(drag);
 
 	// prev tooltips with the same header
-	d3.select("#tnt_tooltip_" + data.header.replace(/ |:/g, '_')).remove();
+	d3.select("#tnt_tooltip_" + tooltip.get_name(data)).remove();
 
 	if ((d3.event === null) && (event)) {
 	    d3.event = event;
@@ -71,7 +71,7 @@ tnt.tooltip = function() {
 	    }
 	}
 
-	tooltip_div.attr("id", "tnt_tooltip_" + data.header.replace(/ |:/g, '_'));
+	tooltip_div.attr("id", "tnt_tooltip_" + tooltip.get_name(data));
 
 	// We place the tooltip
 	tooltip_div
@@ -109,6 +109,10 @@ tnt.tooltip = function() {
 
     api.method('close', function () {
 	tooltip_div.remove();
+    });
+
+    api.method('get_name', function (obj) {
+	return obj.header.replace(/ |:|\./g, '_');
     });
    
     return tooltip;
