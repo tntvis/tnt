@@ -70,6 +70,7 @@ div {
 	position : absolute;
 	top      : 0px;
 	opacity  : 0;
+	border   : 2px solid;
 	background-color : #FFFFFF;
 	@include small-font;
 

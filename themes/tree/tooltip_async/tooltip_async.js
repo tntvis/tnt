@@ -5,28 +5,37 @@ var tnt_theme_tree_tooltip_async = function() {
 
     var tree_theme = function (tree_vis, div) {
 
-	var newick = "((Homo_sapiens, Pan_troglodytes), Mus_musculus)";
+	var newick = "(((C.elegans,Fly),(((((((((Tasmanian Devil,Wallaby,Opossum),((Armadillo,Sloth),(Rock hyrax,Tenrec,Elephant),(((Rabbit,Pika),(((Rat,Mouse),Kangaroo rat,Squirrel),Guinea Pig)),((Mouse lemur,Bushbaby),((((((Chimp,Human,Gorilla),Orangutan),Gibbon),Macaque),Marmoset),Tarsier)),Tree Shrew),((Microbat,Flying fox),(Hedgehog,Shrew),((Panda,Dog,Domestic ferret),Cat),((Cow,Sheep),Pig,Alpaca,Dolphin),Horse))),Platypus),((((Collared flycatcher,Zebra finch),(Chicken,Turkey),Duck),Chinese softshell turtle),Anole lizard)),Xenopus),Coelacanth),(((Zebrafish,Cave fish),((((Medaka,Platyfish),Stickleback),(Fugu,Tetraodon),Tilapia),Cod)),Spotted gar)),Lamprey),(C.savignyi,C.intestinalis))),S.cerevisiae);"
 
 	tree_vis
 	    .data(tnt.tree.parse_newick(newick))
 	    .duration(2000)
 	    .layout(tnt.tree.layout.radial()
-		    .width(600)
+		    .width(800)
 		    .scale(false))
 	    .on_click(tree_vis.tooltip());
 
-	var t = tnt.tooltip.table()
-	    .position("auto")
-	    .width(180);
-
-
+	
 	var tree_tooltip = function (node) {
+	    var t = tnt.tooltip.table()
+		.position("auto")
+		.width(180);
+
+	    var s = tnt.tooltip.plain()
+		.position("auto")
+		.width(180)
+		.show_closer(false);
+
+	    // Save the clicked element and the current event to pass to the tooltip maker
+	    var elem = this;
+	    var event = d3.event
+
 	    ensRest.call({
 		url : ensRest.url.assembly({
 		    species : node.node_name()
 		}),
 		success : function (resp) {
-		    console.log(resp);
+		    s.close();
 		    var obj = {};
 		    obj.header = {
 			label : "Name",
@@ -37,13 +46,21 @@ var tnt_theme_tree_tooltip_async = function() {
 			label : "Assembly",
 			value : resp.assembly_name
 		    })
-		    t.call (this, obj);
+		    // Pass the clicked element and the event
+		    t.call (elem, obj, event);
 		}
 	    });
+	    s.call(elem, {header : "Name: " + node.node_name(),
+			  body : "<img height='20' src='./spinner.gif'/>"
+			 }, event);
 	};
 
-	// tree_vis.label().on_click(tree_tooltip);
+	// Attach on-click events to the nodes
 	tree_vis.on_click(tree_tooltip);
+
+	// Attach on-click events to the labels
+	// tree_vis.label().on_click(tree_tooltip);
+
 
 	// The visualization is started at this point
 	tree_vis(div);

@@ -6,9 +6,7 @@ d3.selection.prototype.move_to_front = function() {
 
 
 d3.selection.prototype.selectAncestor = function(type) {
-
     type = type.toLowerCase();
-
     var selfNode = this.node();
     if (selfNode.parentNode === null) {
 	console.log("No more parents");

@@ -9,11 +9,12 @@ tnt.tooltip = function() {
 	foreground_color : "black",
 	position : "auto",
 	allow_drag : true,
+	show_closer : true,
 	fill : function () { throw "fill is not defined in the base object" },
 	width : 0
     };
 
-    var tooltip = function (data) {
+    var tooltip = function (data, event) {
 	drag
 	    .origin(function(){
 		return {x:parseInt(d3.select(this).style("left")),
@@ -27,7 +28,7 @@ tnt.tooltip = function() {
 			.style("top", d3.event.y + "px")
 		}
 	    });
-
+	
 	// TODO: Why do we need the div element?
 	// It looks like if we anchor the tooltip in the "body"
 	// The tooltip is not located in the right place (appears at the bottom)
@@ -44,7 +45,11 @@ tnt.tooltip = function() {
  	    .classed("tnt_gene_info_active", true)  // TODO: Is this needed/used???
 	    .call(drag);
 
+	if ((d3.event === null) && (event)) {
+	    d3.event = event;
+	}
 	var mouse = d3.mouse(container.node());
+	d3.event = null;
 	var offset;
 	switch (conf.position) {
 	case "right" :
@@ -67,21 +72,24 @@ tnt.tooltip = function() {
 	    .style("top", mouse[1] + "px");
 
 	// Close
-	tooltip_div.append("span")
-	    .style("position", "absolute")
-	    .style("right", "-10px")
-	    .style("top", "-10px")
-	    .append("img")
-	    .attr("src", tnt.tooltip.images.close)
-	    .attr("width", "20px")
-	    .attr("height", "20px")
-	    .on("click", function () {tooltip.close.call(this)});
-
+	if (conf.show_closer) {
+	    tooltip_div.append("span")
+		.style("position", "absolute")
+		.style("right", "-10px")
+		.style("top", "-10px")
+		.append("img")
+		.attr("src", tnt.tooltip.images.close)
+		.attr("width", "20px")
+		.attr("height", "20px")
+		.on("click", function () {
+		    tooltip.close();
+		});
+	}
+	
 	conf.fill.call(tooltip_div, data);
 
 	// Is it correct / needed to return self here?
 	return tooltip;
-
     };
 
     var api = tnt.utils.api(tooltip)
@@ -91,9 +99,9 @@ tnt.tooltip = function() {
     }, "Only 'left' or 'right' values are allowed for position");
 
     tooltip.close = function () {
-	d3.select(this).selectAncestor('div').remove();
+	tooltip_div.remove();
     };
-
+    
     tooltip.header = function(obj) {
 	tooltip_div
 	    .append("div")
@@ -169,15 +177,31 @@ tnt.tooltip.table = function () {
 tnt.tooltip.plain = function () {
     // table tooltips are based on general tooltips
     var tooltip = tnt.tooltip();
-
-    tooltip.fill (function (obj) {
+    
+    tooltip.fill (function (obj) {	
 	var tooltip_div = this;
-	tooltip_div
-	// TODO: This is likely to contain CSS bugs... (ie, not working on some cases)
-	    .style("width", tooltip.width() + "px")
-	    .append("div")
-	    .style("overflow", "auto")
-	    .html(obj)
+
+	var obj_info_table = tooltip_div
+	    .append("table")
+	    .attr("class", "tnt_zmenu")
+	    .attr("border", "solid")
+	    .style("border-color", tooltip.foreground_color())
+	    .style("width", tooltip.width() + "px");
+
+	obj_info_table
+	    .append("tr")
+	    .attr("class", "tnt_gene_info_header")
+	    .append("th")
+	    .style("background-color", tooltip.background_color())
+	    .style("color", tooltip.foreground_color())
+	    .text(obj.header);
+
+	obj_info_table
+	    .append("tr")
+	    .attr("class", "tnt_tooltip_rows")
+	    .append("td")
+	    .style("text-align", "center")
+	    .html(obj.body)	
     });
 
     return tooltip;
