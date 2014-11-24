@@ -65,7 +65,7 @@ text {
 
 // The tooltip for gene info
 div {
-    .tnt_gene_info {
+    .tnt_tooltip {
 	display  : block;
 	position : absolute;
 	top      : 0px;
@@ -87,7 +87,7 @@ div {
 	}
 
     }
-    .tnt_gene_info_active {
+    .tnt_tooltip_active {
 	opacity : 1;
 	z-index : 1001;
     }
