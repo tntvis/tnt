@@ -9,7 +9,8 @@ tnt.tree = function () {
 	on_click         : function () {},
 	on_dbl_click     : function () {},
 	on_mouseover     : function () {},
-	link_color       : 'black'
+	link_color       : 'black',
+	id               : "_id"
     };
 
     // Keep track of the focused node
@@ -119,7 +120,7 @@ tnt.tree = function () {
 
 	// LINKS
 	var link = vis.selectAll("path.tnt_tree_link")
-	    .data(curr.links, function(d){return d.target._id});
+	    .data(curr.links, function(d){return d.target[conf.id]});
 	
 	link
 	    .enter()
@@ -135,7 +136,7 @@ tnt.tree = function () {
 
 	// NODES
 	var node = vis.selectAll("g.tnt_tree_node")
-	    .data(curr.nodes, function(d) {return d._id});
+	    .data(curr.nodes, function(d) {return d[conf.id]});
 
 	var new_node = node
 	    .enter().append("g")
@@ -222,11 +223,11 @@ tnt.tree = function () {
 
             // NODES
 	    var node = vis.selectAll("g.tnt_tree_node")
-		.data(curr.nodes, function(d) {return d._id});
+		.data(curr.nodes, function(d) {return d[conf.id]});
 
 	    // LINKS
 	    var link = vis.selectAll("path.tnt_tree_link")
-		.data(curr.links, function(d){return d.target._id});
+		.data(curr.links, function(d){return d.target[conf.id]});
 
 	    var exit_link = link
 		.exit()
@@ -375,14 +376,10 @@ tnt.tree = function () {
 
     api.method ('tooltip', function () {
 	// var tooltip = tnt.tooltip().type("table");
-	var tooltip = tnt.tooltip.table();
 	var tree_tooltip = function (node) {
 	    node = node.data();
 	    var obj = {};
-	    obj.header = {
-		label : "Name",
-		value : node.name
-	    };
+	    obj.header = "Name: " + node.name;
 	    obj.rows = [];
 	    obj.rows.push({
 		label : "_id",
@@ -394,18 +391,19 @@ tnt.tree = function () {
 	    });
 	    obj.rows.push({
 		label : "Length",
-		value : node.length
+		value : node.branch_length
 	    });
 	    obj.rows.push({
 		label : "N.Children",
 		value : node.children ? node.children.length : 0
 	    });
-	    tooltip.call(this, obj);
+	    
+	    tnt.tooltip.table()
+		.call(this, obj);
 	};
 
 	return tree_tooltip;
     });
-
 
     return tree;
 };

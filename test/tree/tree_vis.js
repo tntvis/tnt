@@ -22,9 +22,7 @@ describe ('tnt tree_vis', function () {
 	.data (tree_data.tree)
 	.label(label);
 
-    it ('Accepts data', function () {
-	assert.isDefined (tree);
-    });
+    it ('Accepts data');
 
    
 });

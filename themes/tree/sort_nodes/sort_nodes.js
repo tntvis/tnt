@@ -49,6 +49,7 @@ var tnt_theme_tree_sort_nodes = function() {
 	var sel2 = menu_pane2
 	    .append("select")
 	    .on("change", function (d) {
+		// Create a new color scale
 		var prop = this.value;
 		var vals = [];
 		for (var sp in species_data) {
@@ -59,12 +60,12 @@ var tnt_theme_tree_sort_nodes = function() {
 		    .domain(extent)
 		    .range(["steelblue", "red"]);
 
-		tree_vis.node_color(function (node) {
+		tree_vis.node_display(tree_vis.node_display().fill(function (node) {
 		    if (node.is_leaf()) {
-			return scale(node.data()[prop]);
+			return scale(species_data[node.node_name()][prop]);
 		    }
-		    return "steelblue";
-		});
+		    return "black";
+		}));
 		tree_vis.update();
 	    });
 
@@ -108,12 +109,12 @@ var tnt_theme_tree_sort_nodes = function() {
 	    .data(tree_data)
 	    .duration(2000)
 	    .layout(tnt.tree.layout.vertical().width(600).scale(false))
-	    .node_color(function (node) {
-		if (node.is_leaf()) {
-		    return scale(node.data()[prop]);
-		}
-		return "steelblue";
-	    })
+	    .node_display(tree_vis.node_display().fill (function(node) {
+	    	if (node.is_leaf()) {
+		    return scale(species_data[node.node_name()][prop]);
+	    	}
+	    	return "black";
+	    }))
 	    .on_click (tree_vis.tooltip(tnt.tooltip.table()));
 
 	tree_vis
@@ -121,7 +122,6 @@ var tnt_theme_tree_sort_nodes = function() {
 	    .height(function(){return 20});
 
 	var root = tree_vis.root();
-	transfer_properties(root, species_data);
 	root.sort (function (node1, node2) {
 	    var highest1 = get_highest_val(node1, 'Chromosome pairs');
 	    var highest2 = get_highest_val(node2, 'Chromosome pairs');
@@ -137,28 +137,16 @@ var tnt_theme_tree_sort_nodes = function() {
     var get_highest_val = function (node, prop) {
         var highest = 0;
         node.apply(function (n) {
-            if (n.property(prop) === "") {
+	    if (species_data[n.node_name()] === undefined) {
 		return;
             }
-	    var val = parseFloat(n.property(prop));
+	    var val = parseFloat(species_data[n.node_name()][prop]);
             if (val > highest) {
                 highest = val;
             }
         });
         return highest;
     };
-
-    var transfer_properties = function (root, nodes_data) {
-	var leaves = root.get_all_leaves();
-	for (var i=0; i<leaves.length; i++) {
-	    var sp_data = nodes_data[leaves[i].node_name()]
-	    for (var prop in sp_data) {
-		if (sp_data.hasOwnProperty(prop)) {
-		    leaves[i].property(prop, sp_data[prop]);
-		}
-	    }
-	}
-    }
 
     return tree_theme;
 };
@@ -185,13 +173,6 @@ var species_data = {
 	'Ensembl date' : new Date(2005, 11),
 	'Cuteness factor' : 9
     },
-    // 'Drosophila melanogaster' : {
-    // 	'Chromosome pairs' : 4,
-    // 	'Protein-coding genes' : 13937,
-    // 	'Genome length' : 0.17,
-    // 	'Ensembl date' : new Date(2003,02),
-    // 	'Cuteness factor' : 2
-    // },
     'Mus musculus' : {
 	'Chromosome pairs' : 20,
 	'Protein-coding genes' : 23148,

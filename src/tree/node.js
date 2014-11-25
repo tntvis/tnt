@@ -86,31 +86,25 @@ tnt.tree.node = function (data) {
     // We bind the data that has been passed
     node.data(data);
 
-    api.method ('find_node_by_field', function(value, field) {
-	if (typeof (field) === 'function') {
-	    if (field (data) === value) {
-		return node;
-	    }
-	} else {
-	    if (data[field] === value) {
-		return node;
-	    }
+    api.method ('find_node', function (cbak, deep) {
+	if (cbak(node)) {
+	    return node;
 	}
-	if (data._children !== undefined) {
-	    for (var j=0; j<data._children.length; j++) {
-		var c = tnt.tree.node(data._children[j]);
-		var f = c.find_node_by_field(value, field);
-		if (f !== undefined) {
-		    return f;
+
+	if (data.children !== undefined) {
+	    for (var j=0; j<data.children.length; j++) {
+		var found = tnt.tree.node(data.children[j]).find_node(cbak);
+		if (found) {
+		    return found;
 		}
 	    }
 	}
 
-	if (data.children !== undefined) {
-	    for (var i=0; i<data.children.length; i++) {
-		var n = tnt.tree.node(data.children[i]);
-		var found = n.find_node_by_field(value, field);
-		if (found !== undefined) {
+	if (deep && (data._children !== undefined)) {
+	    for (var i=0; i<data._children.length; i++) {
+		tnt.tree.node(data._children[i]).find_node(cbak)
+		var found = tnt.tree.node(data.children[j]).find_node(cbak);
+		if (found) {
 		    return found;
 		}
 	    }
@@ -118,7 +112,9 @@ tnt.tree.node = function (data) {
     });
 
     api.method ('find_node_by_name', function(name) {
-	return node.find_node_by_field(name, 'name');
+	return node.find_node (function (node) {
+	    return node.node_name() === name
+	});
     });
 
     api.method ('toggle', function() {
@@ -337,7 +333,7 @@ tnt.tree.node = function (data) {
     });
 
     // cbak is called with two nodes
-    // and should return -1,0,1
+    // and should return a negative number, 0 or a positive number
     api.method ('sort', function (cbak) {
 	if (data.children === undefined) {
 	    return;
@@ -349,6 +345,7 @@ tnt.tree.node = function (data) {
 	}
 
 	new_children.sort(cbak);
+
 	data.children = [];
 	for (var i=0; i<new_children.length; i++) {
 	    data.children.push(new_children[i].data());
@@ -359,6 +356,8 @@ tnt.tree.node = function (data) {
 	}
     });
 
+    // TODO: This method only 'apply's to non collapsed nodes (ie ._children is not visited)
+    // Would it be better to have an extra flag (true/false) to visit also collapsed nodes?
     api.method ('apply', function(cbak) {
 	cbak(node);
 	if (data.children !== undefined) {

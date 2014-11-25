@@ -163,14 +163,13 @@ describe('tnt Tree', function () {
 			node.deeper.new_deep = val
 		    }, 'bb');
 		    assert.strictEqual (root.property (function (node) {
-			console.log(node.deeper);
 			return node.deeper.new_deep;
 		    }), 'bb');
 		});
 
 	    });
 
-	    describe('find_node_by_field', function () {
+	    describe('find_node', function () {
 		var tree_from_newick = tnt.tree.node(tnt.tree.parse_newick("((human,chimp)anc1,mouse)anc2"));
 		var tree_from_json   = tnt.tree.node(_t.tree);
 
@@ -178,36 +177,24 @@ describe('tnt Tree', function () {
 		    assert.isDefined (tree_from_newick);
 		    assert.typeOf (tree_from_newick, 'function');
 
-		    var node = tree_from_newick.find_node_by_field ('human', 'name');
-		    assert.isDefined (node);
-		    assert.strictEqual (node.data().name, 'human');
+		    var human_node = tree_from_newick.find_node (function (node) {
+			return (node.node_name() === 'human');
+		    });
+		    assert.isDefined (human_node);
+		    assert.strictEqual(human_node.node_name(), 'human');
 		});
 
-		it ("Accepts a callback as a second argument", function () {
-		    var cbak = function (node_data) {
-			return node_data.name;
-		    };
-		    var node = tree_from_newick.find_node_by_field ('human', cbak);
-		    assert.isDefined (node);
-		    assert.strictEqual (node.data().name, 'human');
-		});
-
-		it ("Can reach deep properties", function () {
+		it ("Finds a node by a deep attribute", function () {
 		    assert.isDefined (tree_from_json);
 		    assert.typeOf (tree_from_json, 'function');
-		    var cbak = function (node_data) {
-			if (node_data.children === undefined) {
-			    console.log(node_data.id.accession);
-			    return node_data.id.accession;
-			}
-		    };
-		    var node = tree_from_json.find_node_by_field ('ENSGACG00000003104', cbak);
-		    assert.isDefined (node);
-		    assert.strictEqual (node.data().id.accession, 'ENSGACG00000003104');
+		    var n = tree_from_json.find_node (function (node) {
+			return node.is_leaf() && node.data().id.accession === "ENSGACG00000003104";
+		    });
+		    assert.isDefined(n);
+		    assert.strictEqual(n.data().id.accession, "ENSGACG00000003104");
 		});
 
-		it ("Can find nodes under collapsed nodes");
-
+		it ("Finds nodes under collapsed nodes");
 	    });
 
 	    describe('find_node_by_name', function () {
