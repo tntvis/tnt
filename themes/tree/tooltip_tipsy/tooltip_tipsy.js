@@ -9,17 +9,21 @@ var tnt_theme_tree_tooltip_tipsy = function() {
 	    .duration(2000)
 	    .layout(tnt.tree.layout.vertical()
 		    .width(600)
-		    .scale(false))
-
+		    .scale(false));
 	tree_vis
 
 	tree_vis.root().apply(function (node) {
 	    node.property('title', node.property('name'));
 	});
-
+	
 	// The visualization is started at this point
 	tree_vis(div);
-
+	d3.selectAll("#mytree .tnt_tree_node")
+	    .each(function (d) {
+		d3.select(this)
+		    .attr("data-title", d.title);
+	    });
+	
 	$('#mytree').tipsy({fade:true});
     };
 
