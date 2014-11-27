@@ -60,8 +60,8 @@ api :
                 - name : on_click
                   path : tree
                   args : callback
-                  desc : specifies the behaviour on nodes when they are clicked [REVISE]
-                  full : Specifies the behaviour of the node when they are clicked. It accepts a callback that is called every time a click event is fired on a node. This callback receives the node as its argument. By default the nodes do not react to mouse clicks.
+                  desc : specifies the behaviour of mouse clicks on nodes
+                  full : Specifies the behaviour of mouse clicks on nodes. It accepts a callback that is called every time a click event is fired on a node. This callback receives the clicked <a href="#Nodes">tnt.tree.node</a> as its argument. By default the nodes do not react to mouse clicks.
                   example : |
                             var tree_vis = tnt.tree()
 
@@ -71,19 +71,22 @@ api :
                                 tree_vis.update();
                             });
 
-                            // show a tooltip on click
-                            tree_vis.on_click (tree_vis.tooltip());
                 - name : on_dbl_lick
                   path : tree
                   args : callback
-                  desc : specifies the behaviour on nodes when they are double-clicked [REVISE]
-                  full : Specifies the behaviour of nodes when they are double clicked. It accepts a callback that is called every time a double click event is fired on a node. This callback receives the node as its argument. By default the nodes do not react to mouse clicks
-                  example : null
+                  desc : specifies the behaviour of mouse double-click events on nodes
+                  full : Specifies the behaviour of mouse double-click events on nodes. It accepts a callback that is called every time a double click event is fired on a node. This callback receives the <a href="#Nodes">tnt.tree.node</a> as its argument. By default the nodes do not react to mouse clicks
+                  example : |
+                            var tree_vis = tnt.tree()
+
+                            tree_vis.on_dbl_click (function (node) {
+                                console.log("Clicked node: " + node.node_name());
+                            });
                 - name : link_color
                   path : tree
                   args : string | callback
-                  desc : specifies the color of branches [REVISE]
-                  full : Specifies the color of the branches in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like '#00FF00'). To get per branch colors use a callback instead. This callback will be called on each branch with the source and destination nodes (ie. tnt.tree.node objects).
+                  desc : specifies the color of branches
+                  full : Specifies the color of the branches in the tree. This color can be given as a string specifying the name of the color (like "blue") or its hexadecimal code (like '#00FF00'). To get per branch colors use a callback instead. This callback will be called on each branch with the source and destination <a href="#Nodes">tnt.tree.nodes</a> as arguments.
                   example : |
                             var tree_vis = tnt.tree()
                                              .link_color (function (source, target) {
@@ -154,8 +157,8 @@ api :
                        var root = tnt.tree.node(tree_object);
                        var human_node = root.find_node_by_field ('human', 'name');
              elements :
-                - name : tree
-                  path : root
+                - name : root
+                  path : tree
                   args : null
                   desc : retrieves the root node of the tree used in the visualization
                   full : Retrieves the root node of the tree used in the visualization. This object is used to manipulate and query the tree in different ways (see below for the supported methods).
