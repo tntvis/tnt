@@ -1,0 +1,18 @@
+---
+layout : default
+title : TnT Examples
+type : examples
+gists : 
+   - title : simple
+     category : t
+     description : Simple tree display with TnT
+     id : 1a7e564440a7052973da
+
+---
+
+<p>These snippets aim to document some important parts of the API by providing simple working code examples</p>
+<ul>
+{% for gist in page.gists %}
+<li><a href=http://bl.ocks.org/emepyc/{{ gist.id }}>{{ gist.description }}</li>
+{% endfor %}
+</ul>
