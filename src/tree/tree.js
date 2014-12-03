@@ -345,6 +345,10 @@ tnt.tree = function () {
 	var newtree = tnt.tree.node(base.data);
 
 	tree.root(newtree);
+
+	//Events if data is changed the root is served as response
+	tnt.trigger("tree:data:change", base.data);
+
 	return tree;
     });
 
