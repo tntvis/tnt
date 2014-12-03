@@ -71,6 +71,14 @@ tnt.tree.layout.vertical = function () {
     	return layout;
     });
 
+
+    //Event: Tree layout changes it returns an response object
+    var event_response = {
+        layout : layout.type
+    }
+
+    tnt.trigger("tree:layout:change",event_response);
+
     return layout;
 };
 
@@ -114,6 +122,13 @@ tnt.tree.layout.radial = function () {
 	layout.cluster.size([360, r]);
 	return layout;
     });
+
+    //Event: Tree layout changes it returns an response object
+    var event_response = {
+        layout : layout.type
+    }
+
+    tnt.trigger("tree:layout:change",event_response);
 
     return layout;
 };
