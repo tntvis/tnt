@@ -128,10 +128,17 @@ tnt.tree.node = function (data) {
 		node.n_hidden (hidden-1);
 		data._children = data.children;
 		data.children = undefined;
+
+		//Event if node collapse send the node
+		tnt.trigger("node:collapse",data);
+
 	    } else {             // Collapsed -> uncollapse
 		node.n_hidden(0);
 		data.children = data._children;
 		data._children = undefined;
+
+		//Event if node uncollapse send the node
+		tnt.trigger("node:uncollapse",data);
 	    }
 	}
     });
