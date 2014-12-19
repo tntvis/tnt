@@ -64,6 +64,7 @@ var tnt_theme_tree_labels = function() {
 		return 50;
 	    });
 
+
 	// The image label shows a picture of the species
 	var image_label = tnt.tree.label.img()
 	    .src(function (node) {
@@ -107,15 +108,43 @@ var tnt_theme_tree_labels = function() {
 
 	// The joined label shows a picture + the common name
 	var joined_label = tnt.tree.label.composite()
-	    .add_label(image_label)
-	// This is the same 'common label' as the one above
-	// but we are not reusing that one because add_label
-	// adjusts automatically the transform of the labels
+	    .add_label (tnt.tree.label.img()
+			.src (function (node) {
+			    return names_to_pics[node.data().name];
+			})
+			.width(function () {
+			    return 50;
+			})
+			.height(function () {
+			    return 50;
+			}))
 	    .add_label(tnt.tree.label.text()
 		       .text(function (node) {
 			   return scientific_to_common[node.data().name]
 		       }));
 
+	// text - image - text shows the node id, the pic of the species and its name
+	var text_img_text = tnt.tree.label.composite()
+	    .add_label(tnt.tree.label.text()
+		       .text(function (node) {
+			   return node.id();
+		       }))
+	    .add_label (tnt.tree.label.img()
+			.src (function (node) {
+			    return names_to_pics[node.data().name];
+			})
+			.width(function () {
+			    return 50;
+			})
+			.height(function () {
+			    return 50;
+			}))
+	    .add_label(tnt.tree.label.text()
+		       .text(function (node) {
+			   return scientific_to_common[node.node_name()]
+		       }));
+
+	
 	// The menu to change the labels dynamically
 	var menu_pane = d3.select(div)
 	    .append("div")
@@ -153,8 +182,11 @@ var tnt_theme_tree_labels = function() {
 		case "joined" :
 		    tree_vis.label(joined_label);
 		    break;
+		case "three" :
+		    tree_vis.label(text_img_text);
+		    break;
 		}
-
+		
 		tree_vis.update();
 	    });
 
@@ -194,6 +226,11 @@ var tnt_theme_tree_labels = function() {
 	    .attr("value", "image")
 	    .text("species image");
 
+	label_type_menu
+	    .append("option")
+	    .attr("value", "three")
+	    .text("text - image - text");
+
 	// label_type_menu
 	//     .append("option")
 	//     .attr("value", "mixed")
@@ -207,7 +244,7 @@ var tnt_theme_tree_labels = function() {
 	tree_vis
 	    .data(tnt.tree.parse_newick(newick))
 	    .duration(2000)
-	    .layout(tnt.tree.layout.radial().width(600).scale(false))
+	    .layout(tnt.tree.layout.vertical().width(600).scale(false))
 	    .label(original_label);
 
 	// The visualization is started at this point

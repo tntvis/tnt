@@ -96,7 +96,7 @@ tnt.tree.label.text = function () {
 	    .style('font-size', label.fontsize() + "px")
 	    .text(label.text()(node));
 
-	var width = text.node().getBBox().width;
+	var width = text.node().getComputedTextLength();
 	svg.remove();
 
 	return width;
@@ -153,44 +153,37 @@ tnt.tree.label.img = function () {
 tnt.tree.label.composite = function () {
 
     var labels = [];
-
+    
     var label = function (node, layout_type) {
+	var curr_xoffset = 0;
+
 	for (var i=0; i<labels.length; i++) {
-	    labels[i].call(this, node, layout_type);
+	    var display = labels[i];
+
+	    (function (offset) {
+		display.transform (function (node, layout_type) {
+		    var tsuper = display._super_.transform()(node, layout_type);
+		    var t = {
+			translate : [offset + tsuper.translate[0], tsuper.translate[1]],
+			rotate : tsuper.rotate
+		    };
+		    return t;
+		})
+	    })(curr_xoffset);
+
+	    curr_xoffset += 10;
+	    curr_xoffset += display.width()(node);
+
+	    display.call(this, node, layout_type);
 	}
     };
 
     var api = tnt.utils.api (label)
 
-    api.method ('add_label', function (display) {
-	var curr_labels = [];
-	for (var i=0; i<labels.length; i++) {
-	    curr_labels.push(labels[i]);
-	}
-
+    api.method ('add_label', function (display, node) {
 	display._super_ = {};
 	tnt.utils.api (display._super_)
 	    .get ('transform', display.transform());
-
-	display.transform( function (node, layout_type) {
-	    var curr_offset = 0;
-	    var d = node.data();
-	    for (var i=0; i<curr_labels.length; i++) {
-		curr_offset += curr_labels[i].width()(node);
-		if ((layout_type === 'radial') && (d.x%360 > 180)) {
-		    curr_offset += 10
-		} else {
-		    curr_offset += curr_labels[i].transform()(node, layout_type).translate[0];
-		}
-	    }
-
-	    var tsuper = display._super_.transform()(node, layout_type);
-	    var t = {
-		translate : [curr_offset + tsuper.translate[0], tsuper.translate[1]],
-		rotate : tsuper.rotate
-	    }
-	    return t;
-	});
 
 	labels.push(display);
 	return label;
