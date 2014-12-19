@@ -112,7 +112,7 @@ tnt.tooltip = function() {
     });
 
     api.method('get_name', function (obj) {
-	return obj.header.replace(/ |:|\./g, '_');
+	return obj.header.replace(/ |:|\.|\(|\)/g, '_');
     });
    
     return tooltip;
