@@ -124,11 +124,22 @@ var tnt_theme_tree_labels = function() {
 		       }));
 
 	// text - image - text shows the node id, the pic of the species and its name
+	// First text (may be variable)
+	var text1 = tnt.tree.label.text()
+	    .text (function (node) {
+		return node.id();
+	    });
+	var root = tnt.tree.node(tnt.tree.parse_newick(newick));
+	var max_width_text1 = d3.max(root.get_all_leaves(), function (node) {
+	    return text1.width()(node);
+	});
+	
 	var text_img_text = tnt.tree.label.composite()
 	    .add_label(tnt.tree.label.text()
 		       .text(function (node) {
 			   return node.id();
-		       }))
+		       })
+		       .width(function () {return max_width_text1}))
 	    .add_label (tnt.tree.label.img()
 			.src (function (node) {
 			    return names_to_pics[node.data().name];
@@ -231,15 +242,11 @@ var tnt_theme_tree_labels = function() {
 	    .attr("value", "three")
 	    .text("text - image - text");
 
-	// label_type_menu
-	//     .append("option")
-	//     .attr("value", "mixed")
-	//     .text("text + image");
-
 	label_type_menu
 	    .append("option")
 	    .attr("value", "joined")
 	    .text("joined img + text");
+
 
 	tree_vis
 	    .data(tnt.tree.parse_newick(newick))
@@ -250,6 +257,6 @@ var tnt_theme_tree_labels = function() {
 	// The visualization is started at this point
 	tree_vis(div);
     };
-
+    
     return tree_theme;
 };
