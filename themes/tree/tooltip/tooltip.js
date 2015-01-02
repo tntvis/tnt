@@ -17,6 +17,7 @@ var tnt_theme_tree_tooltip = function() {
 	    obj.header = "Name: " + node.node_name();
 	    obj.rows = [];
 	    tnt.tooltip.table()
+		.id(node.id())
 		.width(180)
 		.call (this, obj);
 	};
