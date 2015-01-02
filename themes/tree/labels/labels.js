@@ -135,10 +135,7 @@ var tnt_theme_tree_labels = function() {
 	});
 	
 	var text_img_text = tnt.tree.label.composite()
-	    .add_label(tnt.tree.label.text()
-		       .text(function (node) {
-			   return node.id();
-		       })
+	    .add_label(text1
 		       .width(function () {return max_width_text1}))
 	    .add_label (tnt.tree.label.img()
 			.src (function (node) {
