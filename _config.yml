@@ -209,10 +209,16 @@ api :
                                 tree_vis.update();
                             });
                 - name : is_collapsed
-                  path : data
+                  path : node
                   args : null
                   desc : returns true on collapsed nodes [REVISE -- Only on terminals? Should not be on any node with a collpased node upstream?]
                   full : Returns true if the branch is collapsed at the current node
+                  example : null
+                - name : n_hidden
+                  path : node
+                  args : null
+                  desc : returns the number of hidden nodes in a collapsed node
+                  full : Returns the number of hidden nodes in a collapsed node
                   example : null
                 - name : lca
                   path : node
