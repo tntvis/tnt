@@ -1,6 +1,33 @@
 {
-  "name": "anonymous",
-  "version": "0.0.1",
+  "name": "tnt",
+  "version": "1.0.0",
+  "description": "TnT library for displaying trees and track-based annotations",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+  },
+  "respository": {
+    "type": "git",
+    "url": "https://github.com/emepyc/tnt"
+  },
+  "keywords": [
+    "tnt",
+    "javascript",
+    "tree",
+    "phylogenetic",
+    "track",
+    "feature",
+    "annotation",
+    "bioinformatics"
+  ],
+  "author": "Miguel Pignatelli",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/emepyc/tnt/issues"
+  },
+  "homepage": "http://emepyc.github.io/tnt/",
   "dependencies": {
     "chai": "^1.9.2",
     "express": "^3.5.3",
@@ -8,7 +35,16 @@
     "mocha-phantomjs": "^3.3.2",
     "phantomjs": "~1.9.7-1",
     "smash": "0",
+    "tnt.board": "file:../tnt.board",
+    "tnt.ensembl": "file:../tnt.ensembl",
+    "tnt.genome": "file:../tnt.genome",
+    "tnt.tooltip": "file:../tnt.tooltip",
+    "tnt.tree": "file:../tnt.tree",
+    "tnt.tree.node": "file:../tnt.tree.node",
     "uglify-js": "2",
     "underscore": "^1.6.0"
+  },
+  "devDependencies": {
+    "gulp-css-purge": "^1.0.27"
   }
 }
