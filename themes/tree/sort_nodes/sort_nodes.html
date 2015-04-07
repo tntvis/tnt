@@ -7,9 +7,9 @@
   <!-- D3.js -->
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
-  <!-- ePeek -->
-  <link rel="stylesheet" href="../../../lib/tnt.css" type="text/css" />
-  <script src="../../../lib/tnt.js"></script>
+  <!-- TnT -->
+  <link rel="stylesheet" href="../../../build/index.css" type="text/css" />
+  <script src="../../../build/tnt.js"></script>
 
   <!-- Tree.js -->
   <script src="sort_nodes.js"></script>
@@ -19,7 +19,7 @@
 
   <script>
     (function() {
-    var tree_vis = tnt.tree()
+    var tree_vis = tnt.tree();
     var theme = tnt_theme_tree_sort_nodes();
     theme(tree_vis, document.getElementById("my_tree"));
     }());

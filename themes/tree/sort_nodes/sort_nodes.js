@@ -115,7 +115,6 @@ var tnt_theme_tree_sort_nodes = function() {
 	    	}
 	    	return "black";
 	    }))
-	    .on_click (tree_vis.tooltip(tnt.tooltip.table()));
 
 	tree_vis
 	    .label()
