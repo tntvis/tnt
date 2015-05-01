@@ -255,6 +255,12 @@ var tnt_theme_tree_ensembl_genetree_annot = function() {
 			   .update ( tnt.track.retriever.sync()
 				     .retriever (function (loc) {
 					 var seq_range = (loc.to - loc.from) <= 50 ? seq_info[id].slice(loc.from, loc.to) : [];
+					 console.log({
+					     'conservation' : function (d) {return conservation[id] || []},
+					     // 'gaps'         : reduce_gaps(aln_gaps[id], loc) || [],
+					     // 'boundaries'   : filter_exon_boundaries(exon_boundaries[id], loc) || [],
+					     'sequence'     : seq_range
+					 });
 					 return {
 					     'conservation' : function (d) {return conservation[id] || []}, 
 					     // 'gaps'         : reduce_gaps(aln_gaps[id], loc) || [],
