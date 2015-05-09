@@ -457,8 +457,74 @@ api :
                   desc : returns the parent of the node
                   full : Returns the parent of the current node
 
+           - name : Nodes display
+             preamble : The size and shape of the nodes is also configurable and specified by the <i>node_display</i> object. There are different predefined shapes available in TnT like circles, squares and triangles, but it is easy to build your own SVG shapes. The size of the nodes have an impact in the height of trees with vertical layouts. See the <a href=#Layouts>layouts</a> section for details.
+             example : |
+                       var tree_vis = tnt.tree()
+                                         .data (tnt.tree.parse_newick (newick))
+                                         .node_display (tnt.tree.node_display.circle()
+                                                          .size(4)
+                                                          .fill("black")
+                                         .layout (tnt.tree.layout.vertical()
+                                                   .width(600)
+                                                )
+                                         .label (tnt.tree.label.text()
+                                                  .text (function (node) {
+                                                      return node.node_name();
+                                                  })
+                                                 );
+                          tree_vis (div);
+             elements :
+                - name : node_display
+                  path : tree
+                  args : tnt.tree.node_display
+                  desc : specifies the size and shape of the tree nodes
+                  full : Specifies the size and shape of the nodes in the tree. Accepts an optional argument of type tnt.tree.node_display. If called without arguments returns the currect display object.
+                  example : |
+                           var tree_vis = tnt.tree()
+                                            .node_display (tnt.tree.node_display.circle()
+                                                            .size (4)
+                                                            .fill ("blue")
+                                                           );
+                - name : size
+                  path : tree.node_display
+                  args : integer
+                  desc : specifies the size of the nodes
+                  full : Specifies the size of the nodes. This size has an impact in the total height of the trees with vertical layouts as the height of a node is calculated as the maximum height between its node's size and its label's height. The expected argument is an integer represented the size of the node in pixels. If called without arguments, the currect node's size is returned.
+                  example : |
+                           var node_display = tnt.tree.node_display.circle()
+                                                .size (4);
+                - name : fill
+                  path : tree.node_display
+                  args : string | callback
+                  desc : sets the color of the nodes
+                  full : Specifies the color of the nodes. This color can be given as a color name (like "blue") or its hexadecimal code (like "#00FF00"). To get per node colors use a callback instead. This callback will be called on each node passing the tnt.tree.node object as its argument. The default color for nodes is "black".
+                  example : |
+                           var node_display = tnt.tree.node_display.circle()
+                                               .fill ("white");
+                - name : circle
+                  path : tree.node_display
+                  args : null
+                  desc : nodes as circles
+                  full : Sets circle shapes for nodes. These node's display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
+                  example : |
+                           var node_display = tnt.tree.node_display.circle();
+                - name : square
+                  path : tree.node_display
+                  args : null
+                  desc : nodes as squares
+                  full : Sets square shapes for nodes. These node's display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
+                  example : |
+                           var node_display = tnt.tree.node_display.square();
+                - name : triangle
+                  path : tree.node_display
+                  args : null
+                  desc : nodes as triangles
+                  full : Sets triangle shapes for nodes. These node's display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
+                  example : |
+                            var node_display = tnt.tree.node_display.triangle();
            - name : Layouts
-             preamble : The layout specifies the shape of the tree. Currently TnT supports two types of layouts, "vertical" and "radial". Both layouts have a common set of methods that control different aspects, for example the width of "vertical" trees and the diameter for "radial" trees. In the case of "vertical" trees, the height is calculated on the fly and equal to the maximum leaf height multiplied by the number of leaves. For each leaf, its height is calculated as the maximum value between the nodes height and the label height (see <a href="#label">tnt.tree.label</> and <a href="#node_display">tnt.tree.node_display</a>)
+             preamble : The layout specifies the shape of the tree. Currently TnT supports two types of layouts, "vertical" and "radial". Both layouts have a common set of methods that control different aspects, for example the width of "vertical" trees and the diameter for "radial" trees. In the case of "vertical" trees, the height is calculated on the fly and equal to the maximum leaf height multiplied by the number of leaves. For each leaf, its height is calculated as the maximum value between the nodes height and the label height (see <a href="#label">tnt.tree.label</> and <a href="#Nodes_display">tnt.tree.node_display</a>)
              example : |
                        var tree_vis = tnt.tree()
                                          .data (tnt.tree.parse_newick (newick))
