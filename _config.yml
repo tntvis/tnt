@@ -488,20 +488,33 @@ api :
                                                            );
                 - name : size
                   path : tree.node_display
-                  args : integer
+                  args : integer | callback
                   desc : specifies the size of the nodes
-                  full : Specifies the size of the nodes. This size has an impact in the total height of the trees with vertical layouts as the height of a node is calculated as the maximum height between its node's size and its label's height. The expected argument is an integer represented the size of the node in pixels. If called without arguments, the currect node's size is returned.
+                  full : Specifies the size of the nodes. The expected argument is an integer represented the size of the node in pixels. If called without arguments, the currect node's size is returned. To obtain per node sizes use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. This size has an impact in the total height of the trees with vertical layouts as the height of a node is calculated as the maximum height between its node's size and its label's height. The height of the node is calculated as the maximum height of all the nodes (in case that different nodes have different sizes).
                   example : |
                            var node_display = tnt.tree.node_display.circle()
                                                 .size (4);
                 - name : fill
                   path : tree.node_display
                   args : string | callback
-                  desc : sets the color of the nodes
-                  full : Specifies the color of the nodes. This color can be given as a color name (like "blue") or its hexadecimal code (like "#00FF00"). To get per node colors use a callback instead. This callback will be called on each node passing the tnt.tree.node object as its argument. The default color for nodes is "black".
+                  desc : sets the fill color of the nodes
+                  full : Specifies the fill color of the nodes. This color can be given as a color name (like "blue") or its hexadecimal code (like "#00FF00"). To get per node fill colors use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default color for nodes is "black".
                   example : |
                            var node_display = tnt.tree.node_display.circle()
                                                .fill ("white");
+                - name : stroke
+                  path : tree.node_display
+                  args : string | callback
+                  desc : sets the stroke color for nodes
+                  full : Specifies the stroke color of nodes. This color can be given as a color name (like ("red") or its hexadecimal code (like "#FF0000"). To get per node stroke colors use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default stroke color is "black",
+                  example : |
+                            var node_display = tnt.tree.node_display.circle()
+                                                .stroke ("red");
+                - name : stroke_width
+                  path : tree.node_display
+                  args : integer
+                  desc : sets the stroke width for nodes
+                  full : Specifies the stroke with of nodes. T
                 - name : circle
                   path : tree.node_display
                   args : null
@@ -652,7 +665,7 @@ api :
                   path : tree.label.text
                   args : string | callback
                   desc : sets the color of the text
-                  full : Specifies the color of the text label. This color can be given as a string specifying the name of the color (like "black") or its hexadecimal code (like '#000000'). To get per label colors use a callback instead. This callback will be called on each node passing the tnt.tree.node object as its argument. The default color of the text labels is "black".
+                  full : Specifies the color of the text label. This color can be given as a string specifying the name of the color (like "black") or its hexadecimal code (like '#000000'). To get per label colors use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default color of the text labels is "black".
                   example : |
                             var text_label = tnt.tree.label.text()
                                 .color (function (node) {
