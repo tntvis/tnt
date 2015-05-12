@@ -307,9 +307,9 @@ api :
 
                 - name : flatten
                   path : node
-                  args : null
+                  args : boolean
                   desc : flattens all the descendants of the given node
-                  full : Flattens all the descendants of the given node. On leaves, no action is made
+                  full : Flattens all the descendants of the given node. When called on a node, all the leaves under that node are attached directly to it. If called on a leaf, no action is made. By default, the intermediate (internal) nodes are discarded. It accepts an optional boolean value to keep them when set to <i>true</i>
                   example : |
                            var root = tnt.tree.node (tnt.tree.parse_newick (newick));
                            var flattened_tree = root.flatten();
