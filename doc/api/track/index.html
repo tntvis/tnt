@@ -6,7 +6,7 @@ theme : null
 api_toplevel : track
 ---
 <h2>Board</h2>
-<p><i>tnt.board</i> creates a new track-based visualization. Typically, each track displays a set of features defined during their setup. Boards can be panned or zoomed within their defined limits. New boards are created using the <a href="#board">tnt.board</a> method. Once it is created new tracks can be added with <a href="#add_track">tnt.board.add_track</a>.
+<p><i>tnt.board</i> creates a new track-based visualization. Typically, each track displays a set of features defined during their setup. Boards can be panned or zoomed within their defined limits. New boards are created using the <a href="#board">tnt.board</a> method. Once it is created new tracks can be added with <a href="#add_track">tnt.board.add_track</a></p>
 
   {% highlight javascript linenos %}
   var myBoard = tnt.board().from(0).to(500).left(0).right(500);
@@ -34,7 +34,7 @@ api_toplevel : track
   {% endhighlight %}
 
 
-Each new track needs to know how to get the data to display (this can by synchonously or asynchronously). A new call to get new data is performed everytime the board changes its state (while panning / zooming or programmatically). This allows the client application to only deal with the data that is meant to be shown on screen (imagine a genome browser that has to keep in memory the whole set of genomic features to display in, say, a whole chromosome!). Each track should also define how to represent each of the features to display. TnT offers predefined common displays (like rectangles, lines, areas, etc) ready to use. New displays can also be created using the <a href="www.d3js.org">d3</a> library. Composite displays are also allowed and a very powerful tool for displaying complex data. Many examples of how to create different visualizations can be seen in the <a href="examples-brokenLink?">examples (BROKEN LINK)</a> page. A minimal example would look like this:</p>
+<p>Each new track needs to know how to get the data to display (this can by synchonously or asynchronously). A new call to get new data is performed everytime the board changes its state (while panning / zooming or programmatically). This allows the client application to only deal with the data that is meant to be shown on screen (imagine a genome browser that has to keep in memory the whole set of genomic features to display in, say, a whole chromosome!). Each track should also define how to represent each of the features to display. TnT offers predefined common displays (like rectangles, lines, areas, etc) ready to use. New displays can also be created using the <a href="www.d3js.org">d3</a> library. Composite displays are also allowed and a very powerful tool for displaying complex data. Many examples of how to create different visualizations can be seen in the <a href="examples-brokenLink?">examples (BROKEN LINK)</a> page. A minimal example would look like this:</p>
 
 {% highlight javascript linenos %}
 var myBoard = tnt.board().from(20).to(500)

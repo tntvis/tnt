@@ -305,6 +305,15 @@ api :
                             var leaves = ... // get leaves
                             var subtree = root.subtree (leaves);
 
+                - name : flatten
+                  path : node
+                  args : null
+                  desc : flattens all the descendants of the given node
+                  full : Flattens all the descendants of the given node. On leaves, no action is made
+                  example : |
+                           var root = tnt.tree.node (tnt.tree.parse_newick (newick));
+                           var flattened_tree = root.flatten();
+
                 - name : present
                   path : node
                   args : callback
@@ -506,34 +515,45 @@ api :
                   path : tree.node_display
                   args : string | callback
                   desc : sets the stroke color for nodes
-                  full : Specifies the stroke color of nodes. This color can be given as a color name (like ("red") or its hexadecimal code (like "#FF0000"). To get per node stroke colors use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default stroke color is "black",
+                  full : Specifies the stroke color of nodes. This color can be given as a color name ("red") or its hexadecimal code ("#FF0000"). To get per node stroke colors use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default stroke color is "black"
                   example : |
                             var node_display = tnt.tree.node_display.circle()
                                                 .stroke ("red");
+
+                            var node_display = tnt.tree.node_display.circle()
+                                                .stroke (function (node) {
+                                                    if (node.is_collapse()) {
+                                                        return "grey";
+                                                    }
+                                                    return "black";
+                                                });
                 - name : stroke_width
                   path : tree.node_display
                   args : integer
                   desc : sets the stroke width for nodes
-                  full : Specifies the stroke with of nodes. T
+                  full : Specifies the stroke with of nodes. The expected argument is the stroke width in pixels. To get per node stroke widths use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default stroke-width is 1px
+                  example : |
+                           var node_display = tnt.tree.node_display.circle()
+                                               .stroke-width (2);
                 - name : circle
                   path : tree.node_display
                   args : null
                   desc : nodes as circles
-                  full : Sets circle shapes for nodes. These node's display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
+                  full : Sets circle shapes for nodes. This display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
                   example : |
                            var node_display = tnt.tree.node_display.circle();
                 - name : square
                   path : tree.node_display
                   args : null
                   desc : nodes as squares
-                  full : Sets square shapes for nodes. These node's display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
+                  full : Sets square shapes for nodes. This display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
                   example : |
                            var node_display = tnt.tree.node_display.square();
                 - name : triangle
                   path : tree.node_display
                   args : null
                   desc : nodes as triangles
-                  full : Sets triangle shapes for nodes. These node's display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
+                  full : Sets triangle shapes for nodes. This display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
                   example : |
                             var node_display = tnt.tree.node_display.triangle();
            - name : Layouts
@@ -1083,3 +1103,144 @@ api :
                   desc : gets the elements in the layout
                 - name : feature.scale
                   desc : specifies the scale to convert data to visualization coordinates
+
+    - name : utils
+      elements :
+           - name : Tooltips
+             preamble : |
+                         TnT comes with a basic tooltip library. This library is not restricted to TnT and can be used in any other web page without tnt, but it has not been developed as a general tooltip library that matches all scenarios. There are some limitations (explained below). It is also possible to use TnT with other tooltip libraries too. See the examples page for different uses of the library.
+             example : |
+                     var myTooltip = function (data) {
+                          var obj = {};
+                          obj.header = "NAME";
+                          obj.rows = [];
+                          obj.rows.push ({
+                              "label" : "type",
+                              "value" : data.type
+                          });
+                          tnt.tooltip.table()
+                             .width(200)
+                             .call(this, obj);
+                     };
+
+                     var container = d3.select("#container")
+                           .style("height", "2000px");
+                     container
+                           .append("svg")
+                           .attr("height", 300)
+                           .attr("width", 300)
+                           .append("circle")
+                           .datum({name:"this is me", type:"this is my type"})
+                           .attr("cx", 150)
+                           .attr("cy", 150)
+                           .attr("r", 50)
+                           .attr("fill", "red")
+                           .on("click", myTooltip);
+             elements :
+                - name : tooltip
+                  path : tnt
+                  args : null
+                  desc : creates a new tooltip instance
+                  full : Creates a new tooltip instance that can be configured with the methods explained below. To display the tooltip the returned function has to be called with <i>this</i> set to the DOM element the tooltip is related to and the data to be used for rendering. This generic tooltip object only knows how to position the tooltip in the page and creates the DOM elements appropriately, but it does not know about how to render or display the data. See below for other objects that creates specific instances of this tooltip and formats the data in specific ways (like tables or lists)
+                  example : |
+                            var data = {
+                                 "header" : "tooltip header",
+                                 "rows" : [ {
+                                      "label" : "color",
+                                      "value" : "blue"
+                                   }
+                                 ]
+                            };
+
+                            var fill_cbak = function (data) {
+                                // ...
+                            };
+                            tnt.tooltip()
+                              .width (200)
+                              .id (1)
+                              .fill (fill_cbak)
+                              .call (this, obj);
+
+                - name : position
+                  path : tnt.tooltip
+                  args : string
+                  desc : sets the relative position of the tooltip with respect to the mouse
+                  full : Sets the relative position of the tooltip with respect to the mouse. Possible values are "left" and "right". By default, "right" positioning is used and the left upper corner of the tooltip is positioned where the mouse is. If call without arguments, returns the current positioning value.
+                  example : |
+                         var tooltip = tnt.tooltip.table()
+                                         .position ("left");
+                - name : allow_drag
+                  path : tnt.tooltip
+                  args : boolean
+                  desc : determines if the tooltip is draggable or not
+                  full : Determines if the tooltip is draggable or not. By default, this option is set to <i>true</i>. If no argument is provided, returns the current value.
+                  example : |
+                          var tooltip = tnt.tooltip.table()
+                                          .allow_drag (false);
+                - name : show_closer
+                  path : tnt.tooltip
+                  args : boolean
+                  desc : determines if the closing cross is displayed
+                  full : Determines if the closing cross is displayed on the tooltip. If set to false, the tooltip can not be closed directly by the user (clicking on the cross), but only programmatically calling the <a href="#close">close</a> method. By default this option is set to <i>true</i>. If called without arguments, the current value is returned.
+                  example : |
+                         var tooltip = tnt.tooltip.table()
+                                         .show_closer (false);
+                - name : width
+                  path : tnt.tooltip
+                  args : integer
+                  desc : sets the minimum width of the tooltip
+                  full : Sets the minimum width of the tooltip. This width is not enforced if elements inside of the tooltip (like images) have greater <i>width</i>. The numeric argument determines the width in pixels. If called without arguments, returns the current value of this method
+                  example : |
+                          var tooltip = tnt.tooltip.table()
+                                          .width (200) // 200 pixels
+                - name : id
+                  path : tnt.tooltip
+                  args : integer | string
+                  desc : sets an id for the tooltip
+                  full : Sets an id for the tooltip. This controls the number of tooltips that can be displayed simultaneously in the same page. Everytime a tooltip is created, any previous tooltips with the same <i>id</i> is removed. This is typically used to allow different tooltips to co-exist in the same page or restrict their number. For example, if the <i>id</i> is always set to the same value, everytime a tooltip is created any previous tooltip is destroyed. Another option is to have a different <i>id</i> per different type of element in the page, allowing only one type of tooltip per element. If called without arguments, the current <i>id</i> of the tooltip is returned
+                  example : |
+                           var myTooltip = function (data) {
+                             var obj = {};
+                             obj.header = "Circle";
+                             obj.rows = [];
+                             obj.rows.push ({
+                                 "label" : "type",
+                                 "value" : data.type
+                             });
+                             tnt.tooltip.table()
+                                 .width (200)
+                                 .id (data.type)
+                                 .call (this, obj);
+                           };
+                - name : fill
+                  path : tnt.tooltip
+                  args : callback
+                  desc : specifies the rendering of the tooltip
+                  full : This method specifies the rendering of the tooltip. The callback is run passing the container element as a d3 selection as <i>this</i> and the data obj as the argument. See <a href="#table">tnt.tooltip.table</a> or <a href="#plain">tnt.tooltip.plain</a> for examples of how to use this method. If called without arguments, the current callback is returned
+                  example : |
+                           var t = tnt.tooltip()
+                                   .width (200)
+                                   .fill (function (data) {
+                                       var container = this;
+
+                                       var table = container
+                                            .append ("table")
+                                            .style ("width", t.width() + "px");
+
+                                       table
+                                            .append ("tr")
+                                            .append ("th")
+                                            .text (data.header);
+
+                                       table
+                                            .append ("tr")
+                                            .append ("td")
+                                            .style ("text-align", "center")
+                                            .html (data.body);
+                                   });
+                - name : plain
+                  path : tnt.tooltip
+                  args : null
+                  desc : tooltips showing data in a loosely structured way
+                  full : Returns a tooltip that accept a data object consisting in two fields, <i>header</i> and <i>body</i>. The former typically contains a string that will be used as the header of the tooltip. The latter will be rendered as the body of the tooltip and can contain any valid html
+               
