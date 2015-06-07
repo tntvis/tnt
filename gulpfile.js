@@ -65,11 +65,15 @@ gulp.task('init', ['clean'], function() {
 
 // sass-import
 gulp.task('sass', function () {
-    return gulp.src("index.scss")
-	.pipe(sass())
+    return gulp.src('./index.scss')
+        .pipe(sass({
+	    errLogToConsole: true
+	}))
 	.pipe(csspurge())
-	.pipe(gulp.dest(buildDir));
+        .pipe(rename(outputFile + '.css'))
+        .pipe(gulp.dest(buildDir));
 });
+
 
 // browserify debug
 gulp.task('build-browser',['init', 'sass'], function() {
