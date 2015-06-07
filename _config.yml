@@ -59,31 +59,20 @@ api :
                                              .duration(750);
                             tree_vis.duration(); // returns 750
 
-                - name : on_click
+                - name : on.
                   path : tree
-                  args : callback
-                  desc : specifies an action when nodes are clicked
-                  full : Specifies an action when nodes are clicked. It accepts a callback that is called every time a click event is fired on a node. This callback receives the clicked <a href="#Nodes">tnt.tree.node</a> as its argument. By default the nodes do not react to mouse clicks.
+                  args : string, callback
+                  desc : adds an event listener to each node
+                  full : Adds an event listener to each node. Its first argument is a string with the event name. <i>"click"</i>, <i>"dblclick"</i>, <i>"mouseover"</i> and <i>"mouseout"</i> are accepted. The second argument is a callback that receives the <a href="#Nodes">tnt.tree.node</a> as its argument.
                   example : |
-                            var tree_vis = tnt.tree()
+                            var tree_vis = tnt.tree();
 
                             // collapse node on click
-                            tree_vis.on_click (function (node) {
-                                node.toggle (node)
-                                tree_vis.update();
+                            tree_vis.on("click", function (node) {
+                                 node.toggle();
+                                 tree_vis.update();
                             });
 
-                - name : on_dbl_lick
-                  path : tree
-                  args : callback
-                  desc : specifies the behaviour of mouse double-click events on nodes
-                  full : Specifies the behaviour of mouse double-click events on nodes. It accepts a callback that is called every time a double click event is fired on a node. This callback receives the <a href="#Nodes">tnt.tree.node</a> as its argument. By default the nodes do not react to mouse clicks
-                  example : |
-                            var tree_vis = tnt.tree()
-
-                            tree_vis.on_dbl_click (function (node) {
-                                console.log("Clicked node: " + node.node_name());
-                            });
 
                 - name : branch_color
                   path : tree
@@ -938,7 +927,7 @@ api :
                   path : tree
                   args : string
                   desc : parses newick formatted trees
-                  full : Parses a newick formatted tree returning a tnt.tree.node object. This method 
+                  full : Parses a newick formatted tree returning a tnt.tree.node object. This method
 
                 - name : parse_nhx
                   path : tree
@@ -1036,7 +1025,7 @@ api :
                 - name : data.update
                   desc : specifies how the data is updated
                 - name : data.retriever.sync
-                  desc : specifies a synchronous data retriever 
+                  desc : specifies a synchronous data retriever
                 - name : data.retriever.async
                   desc : specifies an asynchronous data retriever
                 - name : async.url
@@ -1243,4 +1232,3 @@ api :
                   args : null
                   desc : tooltips showing data in a loosely structured way
                   full : Returns a tooltip that accept a data object consisting in two fields, <i>header</i> and <i>body</i>. The former typically contains a string that will be used as the header of the tooltip. The latter will be rendered as the body of the tooltip and can contain any valid html
-               
