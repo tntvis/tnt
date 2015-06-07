@@ -14,6 +14,7 @@
   },
   "keywords": [
     "tnt",
+    "d3",
     "javascript",
     "tree",
     "phylogenetic",
@@ -34,7 +35,6 @@
     "mocha": "^1.17.1",
     "mocha-phantomjs": "^3.3.2",
     "phantomjs": "~1.9.7-1",
-    "smash": "0",
     "tnt.board": "file:../tnt.board",
     "tnt.ensembl": "file:../tnt.ensembl",
     "tnt.genome": "file:../tnt.genome",
