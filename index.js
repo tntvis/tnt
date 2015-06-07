@@ -9,4 +9,4 @@ tnt.tree = require ("tnt.tree");
 tnt.tree.node = require ("tnt.tree.node");
 tnt.board = require ("tnt.board");
 tnt.board.genome = require("tnt.genome");
-tnt.legend = require ("tnt.legend");
+//tnt.legend = require ("tnt.legend");
