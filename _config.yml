@@ -568,7 +568,7 @@ api :
                   path : tree.layout
                   args : boolean
                   desc : specifies if the branches should be scaled based on the tree's branch lengths
-                  full : Specifies if the branches should be scaled based on the tree's branch lengths (<i>true</i>) or not (<i>false</i>) (<i>false</i> by default). If called without arguments, returns the current scale value.
+                  full : Specifies if the branches should be scaled based on the tree's branch lengths (<i>true</i>) or not (<i>false</i>) (<i>true</i> by default). If called without arguments, returns the current scale value.
                   example : |
                             var layout = tnt.tree.layout.radial()
                                             .scale(true);
