@@ -202,7 +202,7 @@ api :
                             var tree_vis = tnt.tree()
                                              .data(...)
                                              .layout(...);
-                            tree_vis.on_click (function (node) { // clicked node
+                            tree_vis.on ("click", function (node) { // clicked node
                                 node.toggle();
                                 tree_vis.update();
                             });
