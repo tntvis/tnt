@@ -8,7 +8,7 @@ api :
       elements :
            - name : Tree Visualization
              preamble : |
-                        Trees can be created using the tnt.tree method. The returned tree is configurable via the methods explained below. An example of use looks like:
+                        Trees can be created using the <a href="#tree">tnt.tree</a> method. The returned <i>tree</i> is configurable via the methods explained below. An example of use looks like:
              example : |
                         var mytree = tnt.tree()
                                      .data (tnt.tree.parse_newick (newick))
@@ -63,7 +63,7 @@ api :
                   path : tree
                   args : string, callback
                   desc : adds an event listener to each node
-                  full : Adds an event listener to each node. Its first argument is a string with the event name. <i>"click"</i>, <i>"dblclick"</i>, <i>"mouseover"</i> and <i>"mouseout"</i> are accepted. The second argument is a callback that receives the <a href="#Nodes">tnt.tree.node</a> as its argument.
+                  full : Adds an event listener to each node. Its first argument is a string with the event name. <i>click</i>, <i>dblclick</i>, <i>mouseover</i> and <i>mouseout</i> are accepted. The second argument is a callback that receives the <a href="#Nodes">tnt.tree.node</a> as its argument and is executed when the event is fired.
                   example : |
                             var tree_vis = tnt.tree();
 
@@ -72,6 +72,17 @@ api :
                                  node.toggle();
                                  tree_vis.update();
                             });
+
+
+                - name : root
+                  path : tree
+                  args : tnt.tree.node
+                  desc : sets the root node (tnt.tree.node) of the tree used in the visualization
+                  full : Sets the root <a href="#Nodes">node</a> of the tree used in the visualization. This object is used to manipulate and query the tree in different ways (see below for the supported methods). If called without arguments, the current root <a href="#Nodes">tnt.tree.node</a> is returned.
+                  example : |
+                            var tree_vis = tnt.tree()
+                                             .data (tnt.tree.parse_newick (newick));
+                            var root = tree_vis.root();
 
 
                 - name : branch_color
@@ -106,6 +117,32 @@ api :
                                               .node_display (tnt.tree.node_display.circle()
                                                               .size(5)
                                                               .fill("blue");
+
+                - name : label
+                  path : tree
+                  args : tnt.tree.label
+                  desc : specifies the label type to be used in the tree visualization
+                  full : Specifies the label to be used in the tree visualization. Accepts an argument of type tnt.tree.label. Returns the current label object if called without arguments. By default, a <a href="#text">tnt.tree.label.text</a> is used displaying the <i>name</i> field of the node.
+                  example : |
+                            var tree_vis = tnt.tree()
+                                            .data(...)
+                                            .label (tnt.tree.label.text()
+                                                .height(30)
+                                                .text (function (node) {
+                                                    return node.property("scientific_name");
+                                                })
+                                            );
+
+                            var curr_label = tree_vis.label();
+
+                - name : layout
+                  path : tree
+                  args : tnt.tree.layout
+                  desc : specifies the layout to be used in the tree visualization
+                  full : Specifies the layout to be used in the tree visualization. Accepts an optional argument of type tnt.tree.layout. If called without arguments, returns the current layout object
+                  example : |
+                            var tree_vis = tnt.tree()
+                                             .layout (tnt.tree.layout.vertical());
 
 
            - name : Nodes
@@ -148,15 +185,14 @@ api :
                        lca.find_node_by_name('human');
 
              elements :
-                - name : root
-                  path : tree
-                  args : tnt.tree.node
-                  desc : sets the root node (tnt.tree.node) of the tree used in the visualization
-                  full : Sets the root node of the tree used in the visualization. This object is used to manipulate and query the tree in different ways (see below for the supported methods). If called without arguments, the current root tnt.tree.node is returned.
+                - name : node
+                  path : tnt.tree
+                  args : object
+                  desc : creates a new <i>tnt.tree.node</i> object
+                  full : Creates a new <a href="#Nodes">tnt.tree.node</a> object.
                   example : |
-                            var tree_vis = tnt.tree()
-                                             .data (tnt.tree.parse_newick (newick));
-                            var root = tree_vis.root();
+                            var node = tnt.tree.node (tnt.tree.parse_newick (newick));
+                            var tree_object = node.data();
 
                 - name : data
                   path : node
@@ -474,26 +510,53 @@ api :
                           tree_vis (div);
              elements :
                 - name : node_display
-                  path : tree
-                  args : tnt.tree.node_display
-                  desc : specifies the size and shape of the tree nodes
-                  full : Specifies the size and shape of the nodes in the tree. Accepts an optional argument of type tnt.tree.node_display. If called without arguments returns the currect display object.
+                  path : tnt.tree
+                  class : abstract
+                  args : null
+                  desc : creates a new node renderer
+                  full : Creates a new node renderer. This renderer defines the size and shape of the nodes in the tree. TnT offers some predefined shapes renderers for <i>circles</i> (<a href="#circle">tnt.tree.node_display.circle</a>), <i>squares</i> (<a href="#square">tnt.tree.node_display.square</a>) or <i>triangles</i> (<a href="#triangle">tnt.tree.node_display.triangle</a>). It is possible to define other shapes by passing definint a new <a href="#display">display</a> method. For example, this is how <i>circle</i> nodes are defined in <a href="#circle">tnt.tree.node_display.circle</a>
                   example : |
-                           var tree_vis = tnt.tree()
-                                            .node_display (tnt.tree.node_display.circle()
-                                                            .size (4)
-                                                            .fill ("blue")
-                                                           );
+                            var circle_display = tree.node_display();
+                                .display (function (node) {
+                                    d3.select(this)
+                                        .append("circle")
+                                        .attr("r", function (d) {
+                                            return d3.functor(n.size())(node);
+                                        })
+                                        .attr("fill", function (d) {
+                                            return d3.functor(n.fill())(node);
+                                        })
+                                        .attr("stroke", function (d) {
+                                            return d3.functor(n.stroke())(node);
+                                        })
+                                        .attr("stroke-width", function (d) {
+                                            return d3.functor(n.stroke_width())(node);
+                                        })
+                                });
+
+                            var tree_vis = tnt.tree()
+                                .node_display (circle_display
+                                    .size(10)
+                                    .stroke("black")
+                                    .fill("red")
+                                );
+
+                - name : display
+                  path : node_display
+                  args : callback
+                  desc : defines how to render a node
+                  full : Defines how to render a node. The expected argument is a callback that is called on each <a href="#Nodes">node</a> to display. Inside the argument, <i>this</i> is set to the <i>g</i> element where the node is rendered. If called without arguments, the current <a href="#display"></a> callback is returned. This callback is <i>undefined</i> in the abstract <a href="#node_module">tnt.tree.node_display</a> and defined in the specific node shapes (<a href="#circle">tnt.tree.node_display.circle</a> or <a href="#square">tnt.tree.node_display.square</a> for example)
+
                 - name : size
-                  path : tree.node_display
+                  path : node_display
                   args : integer | callback
                   desc : specifies the size of the nodes
-                  full : Specifies the size of the nodes. The expected argument is an integer represented the size of the node in pixels. If called without arguments, the currect node's size is returned. To obtain per node sizes use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. This size has an impact in the total height of the trees with vertical layouts as the height of a node is calculated as the maximum height between its node's size and its label's height. The height of the node is calculated as the maximum height of all the nodes (in case that different nodes have different sizes).
+                  full : Specifies the size of the nodes. The expected argument is an integer representing the size of the node in pixels. If called without arguments, the currect node's size is returned. To obtain per node sizes use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. This size has an impact in the total height of the trees with vertical layouts as the height of a node is calculated as the maximum height between its node's size and its label's height. The height of the node is calculated as the maximum height of all the nodes (in case that different nodes have different sizes).
                   example : |
                            var node_display = tnt.tree.node_display.circle()
                                                 .size (4);
                 - name : fill
-                  path : tree.node_display
+                  path : node_display
                   args : string | callback
                   desc : sets the fill color of the nodes
                   full : Specifies the fill color of the nodes. This color can be given as a color name (like "blue") or its hexadecimal code (like "#00FF00"). To get per node fill colors use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default color for nodes is "black".
@@ -501,7 +564,7 @@ api :
                            var node_display = tnt.tree.node_display.circle()
                                                .fill ("white");
                 - name : stroke
-                  path : tree.node_display
+                  path : node_display
                   args : string | callback
                   desc : sets the stroke color for nodes
                   full : Specifies the stroke color of nodes. This color can be given as a color name ("red") or its hexadecimal code ("#FF0000"). To get per node stroke colors use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default stroke color is "black"
@@ -517,7 +580,7 @@ api :
                                                     return "black";
                                                 });
                 - name : stroke_width
-                  path : tree.node_display
+                  path : node_display
                   args : integer
                   desc : sets the stroke width for nodes
                   full : Specifies the stroke with of nodes. The expected argument is the stroke width in pixels. To get per node stroke widths use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default stroke-width is 1px
@@ -532,21 +595,21 @@ api :
                   example : |
                            var node_display = tnt.tree.node_display.circle();
                 - name : square
-                  path : tree.node_display
+                  path : tnt.tree.node_display
                   args : null
                   desc : nodes as squares
                   full : Sets square shapes for nodes. This display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
                   example : |
                            var node_display = tnt.tree.node_display.square();
                 - name : triangle
-                  path : tree.node_display
+                  path : tnt.tree.node_display
                   args : null
                   desc : nodes as triangles
                   full : Sets triangle shapes for nodes. This display is a tnt.tree.node_display object, so it has all the methods described above for tnt.tree.node_display objects
                   example : |
                             var node_display = tnt.tree.node_display.triangle();
            - name : Layouts
-             preamble : The layout specifies the shape of the tree. Currently TnT supports two types of layouts, "vertical" and "radial". Both layouts have a common set of methods that control different aspects, for example the width of "vertical" trees and the diameter for "radial" trees. In the case of "vertical" trees, the height is calculated on the fly and equal to the maximum leaf height multiplied by the number of leaves. For each leaf, its height is calculated as the maximum value between the nodes height and the label height (see <a href="#label">tnt.tree.label</> and <a href="#Nodes_display">tnt.tree.node_display</a>)
+             preamble : The layout specifies the shape of the tree. Currently TnT supports two types of layouts, "vertical" and "radial". Both layouts have a common set of methods that control different aspects, for example the width of "vertical" trees and the diameter for "radial" trees. In the case of "vertical" trees, the height is calculated dynamically based on the maximum leaf height multiplied by the number of leaves. For each leaf, its height is calculated as the maximum value between the nodes height and the label height (see <a href="#label">tnt.tree.label</a> and <a href="#Nodes_display">tnt.tree.node_display</a>)
              example : |
                        var tree_vis = tnt.tree()
                                          .data (tnt.tree.parse_newick (newick))
@@ -555,17 +618,8 @@ api :
                                                      .scale (false)
                                          );
              elements :
-                - name : layout
-                  path : tree
-                  args : tnt.tree.layout
-                  desc : specifies the layout to be used in the tree visualization
-                  full : Specifies the layout to be used in the tree visualization. Accepts an optional argument of type tnt.tree.layout. If called without arguments, returns the current layout object
-                  example : |
-                            var tree_vis = tnt.tree()
-                                             .layout (tnt.tree.layout.vertical());
-
                 - name : scale
-                  path : tree.layout
+                  path : layout
                   args : boolean
                   desc : specifies if the branches should be scaled based on the tree's branch lengths
                   full : Specifies if the branches should be scaled based on the tree's branch lengths (<i>true</i>) or not (<i>false</i>) (<i>true</i> by default). If called without arguments, returns the current scale value.
@@ -576,7 +630,7 @@ api :
                                             .layout(layout);
 
                 - name : width
-                  path : tree.layout
+                  path : layout
                   args : integer | string
                   desc : specifies the width of the tree layout
                   full : Specifies the width of the tree layout in pixels. If called without arguments returns the current width.
@@ -585,7 +639,7 @@ api :
                                             .width(300)
 
                 - name : vertical
-                  path : tree.layout
+                  path : tnt.tree.layout
                   args : null
                   desc : vertical layout
                   full : Returns a vertical layout. This layout is a tnt.tree.layout, so it has all the methods explained above for tnt.tree.layout objects
@@ -593,7 +647,7 @@ api :
                             var layout = tnt.tree.layout.vertical();
 
                 - name : radial
-                  path : tree.layout
+                  path : tnt.tree.layout
                   args : null
                   desc : radial layout
                   full : Returns a radial layout. This layout is a tnt.tree.layout, so it has all the methods explained above for tnt.tree.layout objects
@@ -601,80 +655,102 @@ api :
                             var layout = tnt.tree.layout.radial();
 
            - name : Labels
-             preamble : Specifies the information that annotates each node. By default a <a href="#text">tnt.tree.label.text</a> is used and the 'name' field of the node's data is used. The height of the labels also affects the space between nodes. See below for different examples of labels
+             preamble : Specifies the information that annotates each node. The height of the labels also affects the space between nodes (and the total height of the tree in the vertical layout). See below for different examples of labels
              example : |
                        var tree_vis = tnt.tree()
                                         .data(...)
-                                        .display(...)
                                         .label (tnt.tree.label.text()
                                                  .height (20)
-                                                 text (function (node) {
+                                                 .text (function (node) {
                                                     return node.data().scientific_name;
                                                  });
              elements :
                 - name : label
-                  path : tree
-                  args : tnt.tree.label
-                  desc : specifies the label type to be used in the tree visualization
-                  full : Specifies the label to be used in the tree visualization. Accepts an argument of type tnt.tree.label. Returns the current label object if called without arguments.
+                  path : tnt.tree
+                  args : null
+                  class : abstract
+                  desc : creates a new label <i>renderer</i>.
+                  full : Creates a new label <i>renderer</i>. This <i>renderer</i> is called on every node to display information along the displayed node. tnt.tree.label is a general interface for labels. TnT also defines specific renderers for text and image labels.
                   example : |
                             var tree_vis = tnt.tree()
-                                            .label (tnt.tree.label());
-                            var curr_label = tree_vis.label();
+                                .data (...)
+                                .label (tnt.tree.label()
+                                    .display (...)
+                                    .transform (...)
+                                    .width (...)
+                                    .height (...)
+                                )
+                - name : display
+                  path : label
+                  args : callback
+                  desc : specifies how to render the label
+                  full : Specifies how to render the label. It accepts a callback as its argument. This callback is called when each node is rendered passing the current <a href="#Nodes">node</a> and the <a href="#Layouts">layout type</a> (ie, "radial" or "vertical"). If called without arguments, returns the current display callback.
 
                 - name : width
-                  path : tree.label
+                  path : label
                   args : integer
                   desc : specifies the width of the label
-                  full : Specifies the width of the label. If called without arguments returns the current width of the label.
+                  full : Specifies the width of the label. If called without arguments returns the current width.
                   example : |
                             var label = tnt.tree.label.img()
                                           .width (30);
 
                 - name : height
-                  path : tree.label
+                  path : label
                   args : integer
                   desc : specifies the height of the label
-                  full : Specifies the height of the label. If called without arguments returns the current height for the label. This value affects the total height of the tree if using a <a href="#vertical">vertical layout</a>.
+                  full : Specifies the height of the label. If called without arguments returns the current height. This value affects the total height of the tree if using a <a href="#vertical">vertical layout</a>.
                   example : |
                             var label = tnt.tree.label.text()
                                           .height (30);
 
-                - name : on_click
-                  path : tree.label
-                  args : callback
-                  desc : specifies an action when the label is clicked
-                  full : Specifies an action when labels are clicked. It accepts a callback that is called every time a click event is fired on a label. This callback receives the clicked <a href="#Nodes">tnt.tree.node</a> as its argument. By default the labels do not react to mouse clicks (or executes the node's <a href="on_click">on_click</a> callback if set).
+                - name : on.
+                  path : label
+                  args : string, callback
+                  desc : adds an event listener to each label
+                  full : Adds an event listener to each label. Its first argument is a string with the event name. <i>click</i>, <i>dblclick</i>, <i>mouseover</i> and <i>mouseout</i> are accepted event names. The second argument is a callback that receives the corresponding <a href="#Nodes>tnt.tree.node</a> as its argument and is executed when the event is fired. By default, labels inherit events listeners defined on their corresponding nodes (See node's <a href="#on.">on</a> method) unless the same event listener is defined in the label.
                   example : |
                             var mylabel = tnt.tree.label.text()
-                                             .on_click (function (node) {
-                                                 console.log (node.data());
-                                             });
+                                .on ("click", function (node) {
+                                    console.log (node.data());
+                                });
+
                             var tree_vis = tnt.tree()
-                                             .label (mylabel);
+                                .label (mylabel);
 
                 - name : text
-                  path : tree.label
+                  path : tnt.tree.label
                   args : null
-                  desc : text based labels
-                  full : Returns a label of type <i>text</i>. This label is a <a href="#Labels">tnt.tree.label</a> and hence has the same methods described for general labels plus the ones described below. The <a href="#width">width</a> of text labels is automatically set based on the defined fontsize (see below).
+                  desc : creates a text label renderer
+                  full : Creates a text label renderer. This renderer is a <a href="#Labels">tnt.tree.label</a> renderer and hence has the same methods described for general labels. It also defines additional methods described below. In text labels, the <a href="#width">width</a> of the label is automatically set based on the defined fontsize (see below).
                   example : |
-                            var label = tnt.tree.label.text();
+                            var label = tnt.tree.label.text()
+                                .fontsize (30)
 
                 - name : fontsize
-                  path : tree.label.text
-                  args : integer
-                  desc : sets the fontsize of the label
-                  full : Sets the fontsize of the text label.
+                  path : label.text
+                  args : integer | callback
+                  desc : sets the fontsize of the text label
+                  full : Sets the fontsize of the text label. The font size is specified as an integer meaning the pixel size of the font. To get per label font sizes use a callback instead. This callback is called on each node passing the corresponding <a href="#Nodes>tnt.tree.node</a> as its argument and should return the font size (in pixels) for that label. If called without arguments the current value (string or callback) is returned.
                   example : |
                             var text_label = tnt.tree.label.text()
                                 .fontsize (9);
 
+                            // Define a different font size for leaves or
+                            // internal nodes
+                            var text_label = tnt.tree.label.text()
+                                .fontsize (function (node) {
+                                    if (node.is_leaf() {
+                                        return 12;
+                                    })
+                                    return 14;
+                                })
+
                 - name : color
-                  path : tree.label.text
+                  path : label.text
                   args : string | callback
                   desc : sets the color of the text
-                  full : Specifies the color of the text label. This color can be given as a string specifying the name of the color (like "black") or its hexadecimal code (like '#000000'). To get per label colors use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument. The default color of the text labels is "black".
+                  full : Specifies the color of the text label. This color can be given as a string specifying the name of the color (like "black") or its hexadecimal code (like '#000000'). To get per label colors use a callback instead. This callback is called on each node passing the tnt.tree.node object as its argument and should return the color for that label. The default color of the text labels is "black". If called without arguments, the current value (string or callback) is returned.
                   example : |
                             var text_label = tnt.tree.label.text()
                                 .color (function (node) {
@@ -685,7 +761,7 @@ api :
                                 });
 
                 - name : text
-                  path : tree.label.text
+                  path : label.text
                   args : string | callback
                   desc : specifies the text to display in the label
                   full : Specifies the text to display in the text label. The argument can be a literal string or a callback. If the latter, the callback is called with the node object (tnt.tree.node) as its argument
@@ -696,10 +772,10 @@ api :
                                 });
 
                 - name : img
-                  path : tree.label
+                  path : tnt.tree.label
                   args : null
-                  desc : image based labels
-                  full : Returns a label of type <i>image</i>. This label is a <a href="#Labels>tnt.tree.label</a> and hence has the same methods described for general labels plus some specific described below.
+                  desc : creates an image label renderer
+                  full : Creates an image label renderer. This label is a <a href="#Labels>tnt.tree.label</a> and hence has the same methods described for general labels plus some specific methods described below.
                   example : |
                             var img_label = tnt.tree.label.img()
                                .src (function (node) {
@@ -713,10 +789,10 @@ api :
                                });
 
                 - name : src
-                  path : tree.label.img
+                  path : label.img
                   args : callback
                   desc : specifies the path where the image labels can be found
-                  full : Specifies the path where the image labels are to be found. The argument is a callback that is called on each node with the node object (ie the tnt.tree.node) as its argument
+                  full : Specifies the path where the image labels are located. The argument is a callback that is called on each node with the node object (ie the tnt.tree.node) as its argument
                   example : |
                             var img_label = tnt.tree.label.img()
                                .src (function (node) {
@@ -724,10 +800,10 @@ api :
                                });
 
                 - name : composite
-                  path : tree.label
+                  path : tnt.tree.label
                   args : null
-                  desc : labels made of two or more simple labels
-                  full : Returns a label made of two or more simple labels. The total <a href="#width">width</a> of the composite label is the sum of widths of the individual labels (plus some offset) while its <a href="#height">height</a> is set to the maximum height of the individual labels.
+                  desc : creates a composite renderer made of two or more simple labels
+                  full : Returns a label renderer made of two or more simple labels. The total <a href="#width">width</a> of the composite label is the sum of widths of the individual labels (plus a fixed offset) while its <a href="#height">height</a> is set to the maximum height of the individual labels.
                   example : |
                             var img_label = tnt.tree.label.img()
                                .src (function (node) {
@@ -744,12 +820,13 @@ api :
                                text (function (node) {
                                  return node.node_name();
                                });
-                            var comp_label = tnt.tree.label.composite()
+
+                            var composite_label = tnt.tree.label.composite()
                                .add_label (img_label)
                                .add_label (text_label);
 
                 - name : add_label
-                  path : tree.label.composite
+                  path : label.composite
                   args : tnt.tree.label
                   desc : adds a new simple label to the composite label
                   full : Addes a new simple label to the composite label. The order of the added labels is important because the new labels are moved right to accommodate previous ones
