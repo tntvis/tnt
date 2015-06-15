@@ -39,6 +39,7 @@
     "tnt.board": "file:../tnt.board",
     "tnt.ensembl": "file:../tnt.ensembl",
     "tnt.genome": "file:../tnt.genome",
+    "tnt.newick": "0.0.3",
     "tnt.tooltip": "file:../tnt.tooltip",
     "tnt.tree": "file:../tnt.tree",
     "tnt.tree.node": "file:../tnt.tree.node",

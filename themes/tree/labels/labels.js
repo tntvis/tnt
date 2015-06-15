@@ -36,7 +36,7 @@ var tnt_theme_tree_labels = function() {
 
 	// The original label shows the name of the node (default)
 	var original_label = tnt.tree.label.text()
-	    .on_click(function (node) {console.log(node)}); // Default options (ie. unchanged names)
+	    .on("click", function (node) {console.log(node)}); // Default options (ie. unchanged names)
 
 	// The clean label shows the names substituting underscores with spaces
 	var clean_label = tnt.tree.label.text() // Same as default but without underscores
@@ -133,7 +133,7 @@ var tnt_theme_tree_labels = function() {
 	var max_width_text1 = d3.max(root.get_all_leaves(), function (node) {
 	    return text1.width()(node);
 	});
-	
+
 	var text_img_text = tnt.tree.label.composite()
 	    .add_label(text1
 		       .width(function () {return max_width_text1}))
@@ -152,7 +152,7 @@ var tnt_theme_tree_labels = function() {
 			   return scientific_to_common[node.node_name()]
 		       }));
 
-	
+
 	// The menu to change the labels dynamically
 	var menu_pane = d3.select(div)
 	    .append("div")
@@ -194,7 +194,7 @@ var tnt_theme_tree_labels = function() {
 		    tree_vis.label(text_img_text);
 		    break;
 		}
-		
+
 		tree_vis.update();
 	    });
 
@@ -254,6 +254,6 @@ var tnt_theme_tree_labels = function() {
 	// The visualization is started at this point
 	tree_vis(div);
     };
-    
+
     return tree_theme;
 };
