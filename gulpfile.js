@@ -12,6 +12,7 @@ var csspurge = require('gulp-css-purge');
 var gzip = require('gulp-gzip');
 var del = require('del');
 var rename = require('gulp-rename');
+var debug = require('gulp-debug');
 
 // path tools
 var path = require('path');
@@ -52,8 +53,8 @@ gulp.task('watch', function() {
 
 
 // will remove everything in build
-gulp.task('clean', function (cb) {
-    del ([buildDir], cb);
+gulp.task('clean', function () {
+    return del ([buildDir]);
 });
 
 // just makes sure that the build dir exists
@@ -64,8 +65,9 @@ gulp.task('init', ['clean'], function() {
 });
 
 // sass-import
-gulp.task('sass', function () {
-    return gulp.src('./index.scss')
+gulp.task('sass', ['init'], function () {
+    return gulp
+	.src('./index.scss')
         .pipe(sass({
 	    errLogToConsole: true
 	}))
@@ -76,7 +78,7 @@ gulp.task('sass', function () {
 
 
 // browserify debug
-gulp.task('build-browser',['init', 'sass'], function() {
+gulp.task('build-browser',['sass'], function() {
     return gulp.src(browserFile)
 	.pipe(browserify({debug:true}))
 	.pipe(rename(outputFileSt))
