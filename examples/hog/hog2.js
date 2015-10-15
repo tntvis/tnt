@@ -255,7 +255,7 @@ var tree_hog = function () {
     	    .zoom_in(1)
     	    .allow_drag(false)
     	    .to(5)
-    	    .width(800) // TODO: This shouldn't be hardcoded?
+    	    .width(500) // TODO: This shouldn't be hardcoded?
     	    .right(5);
 
         var track = function (leaf) {
