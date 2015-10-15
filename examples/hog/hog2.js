@@ -1,7 +1,7 @@
 "use strict";
 var tree_hog = function () {
 
-    var height = 30;
+    var label_height = 30;
     var curr_taxa = '';
     var annot;
     var is_node_frozen = false;
@@ -112,7 +112,7 @@ var tree_hog = function () {
     		    )
     	    .label (tnt.tree.label.text()
     		    .fontsize(12)
-    		    .height(height)
+    		    .height(label_height)
     		    .text (function (node) {
         			var data = node.data();
         			if (node.is_collapsed()) {
@@ -149,6 +149,7 @@ var tree_hog = function () {
         	    var padding = ~~(track.height() - (track.height() * 0.8)) / 2; // TODO: can this be factored out??
         	    	// otherwise it is repeated with every create event
 
+                var height = track.height() - ~~(padding * 2);
                 var dom1 = x_scale.domain()[1];
 
         		new_hog
@@ -156,9 +157,10 @@ var tree_hog = function () {
         		    .attr ("class", "hog_boundary")
         		    .attr ("x1", function (d) {
                         var width = d3.min([x_scale(dom1/d.max), height]);
-                        var x = x_scale((dom1/d.max) * d.max_in_hog);
-                        var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
-
+                        // var x = x_scale((dom1/d.max) * d.max_in_hog);
+                        // var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+                        var x = width * (d.max_in_hog-1);
+                        var xnext = width * d.max_in_hog;
                         return x + (xnext - x + width)/2 + ~~(padding/2)-1;
 
                         //return (x + width) + ~~(padding/2) - 1;
@@ -166,10 +168,12 @@ var tree_hog = function () {
         		    })
         		    .attr ("x2", function (d, i) {
                         var width = d3.min([x_scale(dom1/d.max), height]);
-                        var x = x_scale((dom1/d.max) * d.max_in_hog);
-
-                        var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+                        // var x = x_scale((dom1/d.max) * d.max_in_hog);
+                        // var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+                        var x = width * (d.max_in_hog-1);
+                        var xnext = width * d.max_in_hog;
                         return x + (xnext - x + width)/2 + ~~(padding/2)-1;
+
                         // return (x + width) + ~~(padding/2) - 1;
 
             			//return (d.total_genes * track.height()) + (d.hog * 20) + 10;
@@ -183,21 +187,26 @@ var tree_hog = function () {
             	var track = this;
             	var padding = ~~(track.height() - (track.height() * 0.8)) / 2; // TODO: can this be factored out??
 
+                var height = track.height() - ~~(padding * 2);
                 var dom1 = x_scale.domain()[1];
 
             	hogs.select("line")
             	    .transition()
             	    .attr("x1", function (d) {
                         var width = d3.min([x_scale(dom1/d.max), height]);
-                        var x = x_scale((dom1/d.max) * d.max_in_hog);
-                        var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+                        // var x = x_scale((dom1/d.max) * d.max_in_hog);
+                        // var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+                        var x = width * (d.max_in_hog-1);
+                        var xnext = width * d.max_in_hog;
 
                         return x + (xnext - x + width)/2 + ~~(padding/2)-1;
             	    })
             	    .attr("x2", function (d) {
                         var width = d3.min([x_scale(dom1/d.max), height]);
-                        var x = x_scale((dom1/d.max) * d.max_in_hog);
-                        var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+                        // var x = x_scale((dom1/d.max) * d.max_in_hog);
+                        // var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+                        var x = width * (d.max_in_hog-1);
+                        var xnext = width * d.max_in_hog;
 
                         return x + (xnext - x + width)/2 + ~~(padding/2)-1;
             	    });
@@ -219,7 +228,10 @@ var tree_hog = function () {
                     .attr ("class", "hog_gene")
                     .attr ("x", function (d) {
                         //return (d.pos * track.height()) + (d.hog * 20) + padding;
-                        var x = x_scale((dom1 / d.max) * d.pos);
+                        var width = d3.min([x_scale(dom1 / d.max), height]);
+                        console.log(" 1--" + x_scale(dom1/d.max) + " -- " + height);
+                        var x = width * d.pos;
+                        //var x = x_scale((dom1 / d.max) * d.pos);
                         return x + padding;
                     })
                     .attr ("y", padding)
@@ -240,7 +252,9 @@ var tree_hog = function () {
         		elems.select ("rect")
         		    .transition()
         		    .attr("x", function (d) {
-                        var x = x_scale((dom1 / d.max) * d.pos);
+                        var width = d3.min([x_scale(dom1 / d.max), height]);
+                        var x = width * d.pos;
+                        //var x = x_scale((dom1 / d.max) * d.pos);
                         return x + padding;
         		    })
                     .attr("width", function (d) {
