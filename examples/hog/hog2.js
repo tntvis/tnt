@@ -4,6 +4,7 @@ var tree_hog = function () {
     var height = 30;
     var curr_taxa = '';
     var annot;
+    var is_node_frozen = false;
     // var collapsed_nodes = [];
 
     var theme = function (ta, div) {
@@ -45,35 +46,63 @@ var tree_hog = function () {
                 }
             });
 
-    	// var node_display = tnt.tree.node_display.cond()
-    	//     .add ("highlight", function (node) {
-        //         return false;
-        //     }, highlight_node)
-        //     .add ("collapsed", function (node) {
-        //         return node.is_collapsed();
-    	//     }, collapsed_node)
-    	//     .add ("leaf", function (node) {
-        //         return node.is_leaf();
-    	//     }, leaf_node)
-    	//     .add ("internal", function (node) {
-        //         return !node.is_leaf();
-    	//     }, int_node);
 
-    	// mouse over a node
-    	var mouse_over_node = function (node) {
-    	    // Update annotation board
-    	    var name = node.node_name();
-    	    curr_taxa = name;
-    	    annot.update();
+        //// TOOLTIPS
+        var click_node = function (node) {
+            var obj = {};
+            obj.header = node.node_name();
+            obj.rows = [];
+            obj.rows.push({
+                label: 'Freeze',
+                link: function () {
+                    is_node_frozen = !is_node_frozen;
+                },
+                obj: node,
+                value: is_node_frozen ? "Unfreeze tree node" : "Freeze tree node"
+            });
 
+            if (node.is_collapsed()) {
+                obj.rows.push({
+                    label: 'Action',
+                    link: function (node) {
+                        node.toggle();
+                        ta.update();
+                    },
+                    obj: node,
+                    value: "Uncollapse subtree"
+                });
+            }
 
-    	    highlight_condition = function (n) {
+            if (!node.is_leaf()) {
+                obj.rows.push({
+                    label: 'Action',
+                    link: function (node) {
+                        node.toggle();
+                        ta.update();
+                    },
+                    obj: node,
+                    value: "Collapse subtree"
+                });
+            }
+            tnt.tooltip.table().call(this, obj);
+        };
+
+        // mouse over a node
+        var mouse_over_node = function (node) {
+            // Update annotation board
+            if (is_node_frozen){
+                return;
+            }
+            var name = node.node_name();
+            curr_taxa = name;
+            annot.update();
+
+            highlight_condition = function (n) {
                 return node.id() === n.id();
             };
-    	    // node_display.update("highlight", highlight_condition, highlight_node);
-            //
-    	    ta.update();
-    	};
+            ta.update();
+        };
+
 
     	var tree = tnt.tree()
     	    .data (tnt.tree.parse_newick (tree_newick3))
@@ -98,6 +127,7 @@ var tree_hog = function () {
         			return 'black';
     		    })
     		   )
+            .on ("click", click_node)
     	    .on ("mouseover", mouse_over_node)
     	    .node_display(node_display)
     	    .branch_color ("black");
@@ -116,17 +146,33 @@ var tree_hog = function () {
     	    })
     	    .create (function (new_hog, x_scale) {
         		var track = this;
-        	    	var padding = ~~(track.height() - (track.height() * 0.8)) / 2; // TODO: can this be factored out??
+        	    var padding = ~~(track.height() - (track.height() * 0.8)) / 2; // TODO: can this be factored out??
         	    	// otherwise it is repeated with every create event
 
-        		var new_boundary = new_hog
+                var dom1 = x_scale.domain()[1];
+
+        		new_hog
         		    .append ("line")
         		    .attr ("class", "hog_boundary")
-        		    .attr ("x1", function (d, i) {
-            			return (d.total_genes * track.height()) + (d.hog * 20) + 10;
+        		    .attr ("x1", function (d) {
+                        var width = d3.min([x_scale(dom1/d.max), height]);
+                        var x = x_scale((dom1/d.max) * d.max_in_hog);
+                        var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+
+                        return x + (xnext - x + width)/2 + ~~(padding/2)-1;
+
+                        //return (x + width) + ~~(padding/2) - 1;
+            			//return (d.total_genes * track.height()) + (d.hog * 20) + 10;
         		    })
         		    .attr ("x2", function (d, i) {
-            			return (d.total_genes * track.height()) + (d.hog * 20) + 10;
+                        var width = d3.min([x_scale(dom1/d.max), height]);
+                        var x = x_scale((dom1/d.max) * d.max_in_hog);
+
+                        var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+                        return x + (xnext - x + width)/2 + ~~(padding/2)-1;
+                        // return (x + width) + ~~(padding/2) - 1;
+
+            			//return (d.total_genes * track.height()) + (d.hog * 20) + 10;
         		    })
         		    .attr("y1", 0)
         		    .attr("y2", track.height())
@@ -137,13 +183,23 @@ var tree_hog = function () {
             	var track = this;
             	var padding = ~~(track.height() - (track.height() * 0.8)) / 2; // TODO: can this be factored out??
 
+                var dom1 = x_scale.domain()[1];
+
             	hogs.select("line")
             	    .transition()
-            	    .attr("x1", function (d, i) {
-            			return (d.total_genes * track.height()) + (d.hog * 20) + 10;
+            	    .attr("x1", function (d) {
+                        var width = d3.min([x_scale(dom1/d.max), height]);
+                        var x = x_scale((dom1/d.max) * d.max_in_hog);
+                        var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+
+                        return x + (xnext - x + width)/2 + ~~(padding/2)-1;
             	    })
-            	    .attr("x2", function (d, i) {
-            			return (d.total_genes * track.height()) + (d.hog * 20) + 10;
+            	    .attr("x2", function (d) {
+                        var width = d3.min([x_scale(dom1/d.max), height]);
+                        var x = x_scale((dom1/d.max) * d.max_in_hog);
+                        var xnext = x_scale((dom1/d.max) * (d.max_in_hog + 1));
+
+                        return x + (xnext - x + width)/2 + ~~(padding/2)-1;
             	    });
         	});
 
@@ -155,30 +211,43 @@ var tree_hog = function () {
     	    	var track = this;
     	    	var padding = ~~(track.height() - (track.height() * 0.8)) / 2; // TODO: can this be factored out??
     	    	// otherwise it is repeated with every create event
-    	    	var side = track.height() - ~~(padding * 2);
+    	    	var height = track.height() - ~~(padding * 2);
+                var dom1 = x_scale.domain()[1];
 
                 new_elems
                     .append ("rect")
                     .attr ("class", "hog_gene")
                     .attr ("x", function (d) {
-                        return (d.pos * track.height()) + (d.hog * 20) + padding;
+                        //return (d.pos * track.height()) + (d.hog * 20) + padding;
+                        var x = x_scale((dom1 / d.max) * d.pos);
+                        return x + padding;
                     })
                     .attr ("y", padding)
-                    .attr ("width", side)
-                    .attr ("height", side)
+                    .attr ("width", function (d) {
+                        var width = d3.min([x_scale(dom1 / d.max), height]);
+                        return width - 2*padding;
+                    })
+                    .attr ("height", height)
                     .attr ("fill", "grey");
     	    })
     	    .updater (function (elems, x_scale) {
         		var track = this;
         	    var padding = ~~(track.height() - (track.height() * 0.8)) / 2; // TODO: can this be factored out??
         	    // otherwise it is repeated with every create event
-        	    var side = track.height() - ~~(padding * 2);
+                var height = track.height() - ~~(padding * 2);
+                var dom1 = x_scale.domain()[1];
 
         		elems.select ("rect")
         		    .transition()
         		    .attr("x", function (d) {
-            			return (d.pos * track.height()) + (d.hog * 20) + padding;
-        		    });
+                        var x = x_scale((dom1 / d.max) * d.pos);
+                        return x + padding;
+        		    })
+                    .attr("width", function (d) {
+                        //var width = x_scale(dom1 / d.max);
+                        var width = d3.min([x_scale(dom1 / d.max), height]);
+                        return width - 2*padding;
+                    });
         	});
 
     	annot = tnt.board()
@@ -186,7 +255,7 @@ var tree_hog = function () {
     	    .zoom_in(1)
     	    .allow_drag(false)
     	    .to(5)
-    	    .width(500) // TODO: This shouldn't be hardcoded?
+    	    .width(800) // TODO: This shouldn't be hardcoded?
     	    .right(5);
 
         var track = function (leaf) {
@@ -235,19 +304,22 @@ var tree_hog = function () {
             			    id : gene,
             			    hog : hog,
             			    pos : total_pos,
+                            max : d3.sum(maxs),
             			    max_in_hog : maxs[hog],
-            			    pos_in_hog : gene_pos
+            			    pos_in_hog : gene_pos,
             			});
             			hog_gene_names.push (gene);
         		    }
         		    total_pos++;
         		}
         		hogs_boundaries.push({
-                    total_genes : total_pos,
+                    max : d3.sum(maxs),
+                    max_in_hog : total_pos,
             		hog : hog,
             		id  : hog_gene_names.length ? hog_gene_names.join('_') : ("hog_" + hog)
                 });
     	    }
+
 
     	    return {
                 "genes" : genes,
@@ -262,23 +334,9 @@ var tree_hog = function () {
 
     };
 
-    // converts the argument into an arrays
-    // if the argument is already an array, just returns it
-    // NOTE: AFAIK, this is not used now
-    var obj2array = function (o) {
-    	if (o === undefined) {
-    	    return [];
-    	}
-
-    	if (Object.prototype.toString.call(o) === '[object Array]') {
-    	    return o;
-    	}
-
-    	return [o];
-    };
-
     // get maximum number of genes per hog accross species
     var get_maxs = function (ps2) {
+        var total_max = 0;
     	var maxs = {};
     	var i, sp, internal;
     	for (sp in ps2) {

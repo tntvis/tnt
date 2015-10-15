@@ -36,7 +36,7 @@
     "tnt.genome": "^0.0.34",
     "tnt.newick": "^0.0.4",
     "tnt.tooltip": "^0.0.11",
-    "tnt.tree": "^0.0.24",
+    "tnt.tree": "^0.0.26",
     "tnt.tree.node": "^0.0.5",
     "tnt.utils": "^0.0.1",
     "underscore": "^1.8.3"
