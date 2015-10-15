@@ -229,7 +229,6 @@ var tree_hog = function () {
                     .attr ("x", function (d) {
                         //return (d.pos * track.height()) + (d.hog * 20) + padding;
                         var width = d3.min([x_scale(dom1 / d.max), height]);
-                        console.log(" 1--" + x_scale(dom1/d.max) + " -- " + height);
                         var x = width * d.pos;
                         //var x = x_scale((dom1 / d.max) * d.pos);
                         return x + padding;
