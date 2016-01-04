@@ -1,0 +1,56 @@
+---
+layout : api
+title : API Reference
+type : api
+theme : null
+api_toplevel : tnt
+---
+<h2>TnT</h2>
+<p><i>TnT</i> is a javascript library built on top of TnT Tree and TnT Board to visualise trees and track-based annotations. There are several components that need to be set up in this visualisation: the <i>tree</i>, the <i>board</i> where the annotation is displayed and a <i>track</i> function that creates tracks for each <i>leaf</i> in the tree. All the methods available in TnT Tree and TnT Board are available plus some specific to TnT to synchronise the tree with the board.</p>
+
+{% highlight javascript linenos %}
+// The tree
+var tree = tnt.tree()
+    .data(tnt.tree.parse_newick("((human, chimp),mouse)"))
+    .width(500)
+
+// The board
+var board = tnt.board()
+    .width(400)
+    .from(0)
+    .to(1000)
+    .max(1000);
+
+// The function to create tracks for each tree leaf
+var track = function (leaf) {
+    var data = leaf.data();
+
+    return tnt.board.track()
+        .color("white")
+        .data(tnt.board.track.data.sync()
+            .retriever (function () {
+                var elems = [];
+                // populate elems and then return them
+                return elems;
+            })
+        )
+        .display(tnt.board.track.feature.block()
+            .color("steelblue")
+            .index(function (d) {
+                return d.start;
+            })
+        );
+}
+
+
+// The TnT Vis
+var vis = tnt()
+    .tree(tree)
+    .board(board)
+    .track(track);
+
+vis(document.getElementById("mydiv"));
+
+{% endhighlight %}
+
+<p>In the snippet above, a <i>tree</i>, a <i>board</i> and a function to create <i>tracks</i> based on tree leaves are defined, configured and attached to a new <i>TnT</i> visualisation. This visualisation is then called using a <i>div</i> element as its container.</p>
