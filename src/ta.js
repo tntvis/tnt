@@ -11,7 +11,7 @@ var ta = function () {
     	tree : undefined,
     	track : function () {
     	    var t = tnt.board.track()
-                .background_color("#EBF5FF")
+                .color("#EBF5FF")
                 .data(tnt.board.track.data()
                     .update(tnt.board.track.retriever.sync()
                         .retriever (function () {
@@ -19,7 +19,7 @@ var ta = function () {
                         })
                     ))
                 .display(tnt.board.track.feature.block()
-                    .foreground_color("steelblue")
+                    .color("steelblue")
                     .index(function (d) {
                         return d.start;
                     })
@@ -83,7 +83,7 @@ var ta = function () {
     	};
     	var axis_top = tnt.board.track()
     	    .height(0)
-    	    .background_color("white")
+    	    .color("white")
     	    .display(tnt.board.track.feature.axis()
     		     .orientation("top")
     		    );
@@ -93,7 +93,7 @@ var ta = function () {
     	};
     	var axis = tnt.board.track()
     	    .height(18)
-    	    .background_color("white")
+    	    .color("white")
     	    .display(tnt.board.track.feature.axis()
     		     .orientation("bottom")
              );
@@ -137,8 +137,7 @@ var ta = function () {
         		    } else {
             			id = leaves[i].property(tree_conf.key);
         		    }
-        		    var curr_track = tree_conf.annotation.find_track_by_id(id);
-        		    //var curr_track = tree_conf.annotation.find_track_by_id(tree_conf.key===undefined ? leaves[i].id() : d3.functor(tree_conf.key) (leaves[i]))//leaves[i].property(tree_conf.key));
+        		    var curr_track = tree_conf.annotation.find_track(id);
         		    if (curr_track === undefined) {
             			// New leaf -- no track for it
             			(function (leaf) {
@@ -161,7 +160,7 @@ var ta = function () {
         		    new_tracks.push(axis);
         		}
 
-        		tree_conf.annotation.reorder(new_tracks);
+        		tree_conf.annotation.tracks(new_tracks);
     	    }
     	});
 

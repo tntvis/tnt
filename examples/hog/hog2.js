@@ -1,5 +1,5 @@
-"use strict";
 var tree_hog = function () {
+    "use strict";
 
     var label_height = 30;
     var curr_taxa = '';
@@ -269,26 +269,21 @@ var tree_hog = function () {
     	    .allow_drag(false)
     	    .to(5)
     	    .width(500) // TODO: This shouldn't be hardcoded?
-    	    .right(5);
+    	    .max(5);
 
         var track = function (leaf) {
             var sp = leaf.node_name();
             return tnt.board.track()
-                //.background_color('#E8E8E8')
-                .data (tnt.board.track.data()
-                    .update ( tnt.board.track.data.retriever.sync()
-                        .retriever (function () {
-                            // return _.flatten(per_species2[sp].Vertebrates);
-                            // return per_species2[sp].Vertebrates;
-                            if (per_species3[sp] === undefined) {
-                                return {
-                                    genes : [],
-                                    hogs : []
-                                };
-                            }
-                            return genes_2_xcoords (per_species3[sp][curr_taxa], maxs[curr_taxa]);
-                        })
-                    )
+                .data (tnt.board.track.data.sync()
+                    .retriever (function () {
+                        if (per_species3[sp] === undefined) {
+                            return {
+                                genes : [],
+                                hogs : []
+                            };
+                        }
+                        return genes_2_xcoords (per_species3[sp][curr_taxa], maxs[curr_taxa]);
+                    })
                 )
                 .display (tnt.board.track.feature.composite()
                     .add ("genes", hog_gene_feature)
