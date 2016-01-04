@@ -1,105 +1,13 @@
-<div id="example_tree"></div>
+<div id="mydiv"></div>
 
 {% case page.theme %}
   {% when 'front' %}
-     <script src={{ site.baseurl }}/lib/front.js></script>
+     <script src={{ site.baseurl }}/themes/front.js></script>
      <script>
        (function () {
-       var ta = tnt.tree_annot();
-       var theme = tnt_theme()
-       theme(ta, document.getElementById('example_tree'));
+           var vis = tnt();
+           var theme = tnt_theme()
+           theme(vis, document.getElementById('mydiv'));
        })();
      </script>
-
-  {% when 'minimal' %}
-     <script src={{ site.baseurl }}/lib/minimal.js></script>
-     <script>
-       (function () {
-       var t = tnt.tree();
-       var theme = tnt_theme()
-       theme(t, document.getElementById('example_tree'));
-       })();
-     </script>
-
-  {% when 'minimal2' %}
-     <script src={{ site.baseurl }}/lib/minimal2.js></script>
-     <script>
-       (function () {
-       var t = tnt.tree();
-       var theme = tnt_theme()
-                       .newick("(((human, chimp), mouse))")
-       theme(t, document.getElementById('example_tree'));
-       })();
-     </script>
-
-  {% when 'minimal3' %}
-     <script src={{ site.baseurl }}/lib/minimal3.js></script>
-     <script>
-       (function () {
-       var t = tnt.tree();
-       var theme = tnt_theme();
-       theme(t, document.getElementById('example_tree'));
-       })();
-     </script>
-
-  {% when 'hog' %}
-     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-     <link rel="stylesheet" href={{ site.baseurl }}/lib/hog.css type="text/css"/>
-     <script src={{ site.baseurl }}/lib/hog.js></script>
-     <script>
-       (function () {
-       var t = tnt.tree_annot();
-       var theme = tnt_theme_tree_hog();
-       theme(t, document.getElementById('example_tree'));
-       })()
-     </script>
-
-  {% when 'compact' %}
-  <script src={{ site.baseurl }}/lib/compact.js></script>
-  <link rel="stylesheet" href={{ site.baseurl }}/lib/compact.css type="text/css"/>
-  <script>
-    (function () {
-    var gB = tnt.board.genome().species("human").gene("brca2").width(950);
-    var theme = tnt_theme_track_compact();
-    theme(gB, document.getElementById('example_tree'));
-    })()
-  </script>
-
-  {% when 'legend' %}
-  <pre>Values in the range:<br/>
-  <span id="range_vals"></span></pre>
-  <script>
-    (function() {
-        var legend = tnt.utils.legend(document.getElementById("example_tree"))
-             .row_height(12)
-             .fontsize(14);
-        var col1 = legend.add_column().width(180); // width of the column is passed
-        col1.add_row (legend.header().fontsize(19).text("Hello world").height(30))
-            .add_row (legend.line().color("red").text("Red line"))
-            .add_row (legend.line().color("blue").text("Blue line"));
-
-        var col2 = legend.add_column().width(180);
-        col2.add_row (legend.header().fontsize(19).text("Second column").height(30))
-            .add_row (legend.line().color("green").text("Green line").fontsize(19))
-            .add_row (legend.square().color("black").text("Black square"));
-
-        var col3 = legend.add_column().width(180);
-        col3.add_row (legend.header().fontsize(19).text("Third column").height(30))
-            .add_row (legend.circle().color("yellow").text("Yellow circle"))
-            .add_row (legend.empty());
-
-        var col4 = legend.add_column().width(240);
-        col4.add_row (legend.header().fontsize(19).text("Fourth column").height(30))
-            .add_row (legend.gradient().from(0).to(100).color1("yellow").color2("red").text("A gradient").height(24));
-
-        var col5 = legend.add_column().width(240);
-        col5.add_row (legend.header().fontsize(19).text("Fifth column").height(30))
-            .add_row (legend.range().from(20).to(80).color1("yellow").color2("red").text("A range gradient").height(24).on_change(function () {var extent = this.extent(); d3.select("#range_vals").text(~~extent[0] + " - " + ~~extent[1]);}));
-
-        legend.show();
-    })();
-
-  </script>
-
-
 {% endcase %}
