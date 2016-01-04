@@ -31,7 +31,6 @@
   "dependencies": {
     "biojs-events": "0.0.4",
     "tnt.api": "0.0.1",
-    "tnt.ensembl": "file:../tnt.ensembl",
     "tnt.newick": "0.0.4"
   },
   "devDependencies": {

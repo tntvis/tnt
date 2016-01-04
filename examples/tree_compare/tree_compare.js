@@ -6,8 +6,6 @@ var tnt_theme_tree_compare = function () {
     // Create tree and annot
     var tree = tnt.tree();
     var board = tnt.board();
-    var label_now;
-
 
     var theme = function (ta, div) {
 

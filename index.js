@@ -4,7 +4,6 @@ if (typeof tnt === "undefined") {
 var eventsystem = require ("biojs-events");
 eventsystem.mixin (tnt);
 tnt.utils = require ("tnt.utils");
-tnt.ensembl = require("tnt.ensembl");
 tnt.tree = require ("tnt.tree");
 tnt.tree.node = require ("tnt.tree.node");
 tnt.tree.parse_newick = require("tnt.newick").parse_newick;
