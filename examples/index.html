@@ -2,29 +2,25 @@
 layout : default
 title : TnT Examples
 type : examples
-gists : 
-   - title : simple
+gists :
+   - title : tree updates
      category : t
-     description : Simple tree display with TnT
-     id : 1a7e564440a7052973da
+     description : Example showing tree updates
+     id : 18dd29b33fcac6978c37
 
-   - title : tooltip
+   - title : ensembl gene tree
      category : t
-     description : Adding tooltips to a TnT tree
-     id : 0ae4f9fb9647edbf7386
+     description : Example showing the Ensembl gene tree for BRCA2
+     id : 42d5054ad16986734dc8
 
-   - title : web component
+   - title : tree and board updates
      category : t
-     description : TnT as a polymer web component
-     id : 5b018c2d42048090057b
+     description : Example showing updates both on the tree and the board
+     id : 140c20de268ecdeccd18
 
-   - title : web component communication
-     category : t
-     description : Example of web component communication
-     id : 6d80e22f5f69c2eaa47f
 ---
 
-<p>These snippets aim to document some important parts of the API by providing simple working code examples</p>
+<p>These examples document parts of the TnT API. More examples for <a href="http://emepyc.github.io/tnt.tree/examples/">TnT Tree</a> and <a href="http://emepyc.github.io/tnt.board/examples/">TnT Board</a> are also available in their respective pages.</p>
 <ul>
 {% for gist in page.gists %}
 <li><a href=http://bl.ocks.org/emepyc/{{ gist.id }}>{{ gist.description }}</li>
