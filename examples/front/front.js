@@ -3,9 +3,9 @@ var tnt_theme = function () {
     // The height of tree labels and tracks
     var height = 30;
 
-    // Create tree and annot
+    // Create tree and board
     var tree = tnt.tree();
-    var annot = tnt.board();
+    var board = tnt.board();
 
     var theme = function (ta, div) {
 
@@ -82,7 +82,7 @@ var tnt_theme = function () {
         });
 
         // TRACK SIDE
-        annot
+        board
             .from(0)
             .to(4000)
             .width(300)
@@ -153,7 +153,7 @@ var tnt_theme = function () {
         };
 
         ta.tree(tree);
-        ta.annotation(annot);
+        ta.board(board);
         ta.ruler("both");
         ta.track(track_lines);
 

@@ -4,7 +4,7 @@ var render = function() {
     var height = 30;
 
     var tree = tnt.tree();
-    var annot = tnt.board();
+    var board = tnt.board();
 
     var sequence_feature = function () {
         var fontsize = 10;
@@ -202,7 +202,7 @@ var render = function() {
             var seq_info = get_seq_info(leaves);
 
             // TRACK SIDE
-            annot
+            board
                 .from(0)
                 .width(300);
 
@@ -250,7 +250,7 @@ var render = function() {
             });
 
             ta.tree(tree);
-            ta.annotation(annot
+            ta.board(board
                 .to(max_val)
                 .max(max_val)
                 .zoom_out(max_val)

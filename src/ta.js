@@ -27,7 +27,7 @@ var ta = function () {
 
     	    return t;
     	},
-    	annotation : undefined,
+    	board : undefined,
     	ruler : "none",
     	key   : undefined
     };
@@ -98,28 +98,28 @@ var ta = function () {
     		     .orientation("bottom")
              );
 
-    	if (tree_conf.annotation) {
+    	if (tree_conf.board) {
     	    if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
-        		tree_conf.annotation
+        		tree_conf.board
         		    .add_track(axis_top);
     	    }
 
-    	    tree_conf.annotation
+    	    tree_conf.board
         		.add_track(tracks);
 
     	    if (tree_conf.ruler === 'both' || tree_conf.ruler === "bottom") {
-        		tree_conf.annotation
+        		tree_conf.board
         		    .add_track(axis);
     	    }
 
-    	    tree_conf.annotation(annot_div.node());
-    	    tree_conf.annotation.start();
+    	    tree_conf.board(annot_div.node());
+    	    tree_conf.board.start();
     	}
 
     	api.method('update', function () {
     	    tree_conf.tree.update();
 
-    	    if (tree_conf.annotation) {
+    	    if (tree_conf.board) {
         		var leaves = tree_conf.tree.root().get_all_leaves();
         		var new_tracks = [];
 
@@ -137,7 +137,7 @@ var ta = function () {
         		    } else {
             			id = leaves[i].property(tree_conf.key);
         		    }
-        		    var curr_track = tree_conf.annotation.find_track(id);
+        		    var curr_track = tree_conf.board.find_track(id);
         		    if (curr_track === undefined) {
             			// New leaf -- no track for it
             			(function (leaf) {
@@ -160,7 +160,7 @@ var ta = function () {
         		    new_tracks.push(axis);
         		}
 
-        		tree_conf.annotation.tracks(new_tracks);
+        		tree_conf.board.tracks(new_tracks);
     	    }
     	});
 
@@ -184,7 +184,7 @@ var ta = function () {
     	}
 
     	// If it is reset -- apply the changes
-    	var tracks = tree_conf.annotation.tracks();
+    	var tracks = tree_conf.board.tracks();
     	// var start_index = (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') ? 1 : 0;
     	// var end_index = (tree_conf.ruler === 'both' || tree_conf.ruler === 'bottom') ? 1 : 0;
 
@@ -240,7 +240,7 @@ var ta = function () {
     	}
 
     	tree_conf.track = new_track;
-    	tree_conf.annotation.start();
+    	tree_conf.board.start();
     };
 
     return tree_annot;

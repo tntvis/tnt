@@ -3,7 +3,7 @@ var tree_hog = function () {
 
     var label_height = 30;
     var curr_taxa = '';
-    var annot;
+    var board;
     var is_node_frozen = false;
     // var collapsed_nodes = [];
 
@@ -95,7 +95,7 @@ var tree_hog = function () {
             }
             var name = node.node_name();
             curr_taxa = name;
-            annot.update();
+            board.update();
 
             highlight_condition = function (n) {
                 return node.id() === n.id();
@@ -263,7 +263,7 @@ var tree_hog = function () {
                     });
         	});
 
-    	annot = tnt.board()
+    	board = tnt.board()
     	    .from(0)
     	    .zoom_in(1)
     	    .allow_drag(false)
@@ -336,7 +336,7 @@ var tree_hog = function () {
     	};
 
     	ta.tree(tree);
-    	ta.annotation(annot);
+    	ta.board(board);
     	ta.track(track);
     	ta(div);
 
