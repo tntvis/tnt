@@ -1,22 +1,22 @@
 # TnT
 TnT is a javascript library for displaying trees and associated track-based annotations. It is built on top of [TnT Tree](http://emepyc.github.io/tnt.tree/) and [TnT Board](http://emepyc.github.io/tnt.board/). It has been designed with a powerful [API](http://emepyc.github.io/tnt/api/index.html), written with flexibility in mind, that allows the creation of expressive, dynamic and powerful tree and track-based visualisations.
 
-Check the complete [documentation](http://emepyc.github.io/tnt/).
+Check the complete [documentation](http://tntvis.github.io/tnt/).
 
-See more [examples](http://emepyc.github.io/tnt/examples/)
+Check out the [examples](http://tntvis.github.io/tnt/examples/)
 
 ## Installation
 
 - npm:
 
 ```
-npm install tnt
+npm install tntvis
 ```
 
 - github:
 
 ```
-git clone https://github.com/emepyc/tnt
+git clone https://github.com/tntvis/tnt
 cd tnt
 npm install
 gulp build-browser

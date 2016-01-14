@@ -22,8 +22,8 @@ var mkdirp = require('mkdirp');
 // browserify build config
 var buildDir = "build";
 var browserFile = "browser.js";
-var packageConfig = require('./package.json');
-var outputFile = packageConfig.name;
+//var packageConfig = require('./package.json');
+var outputFile = "tnt";
 
 // auto config for browserify
 var outputFileSt = outputFile + ".js";

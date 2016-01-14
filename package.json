@@ -1,5 +1,5 @@
 {
-  "name": "tnt",
+  "name": "tntvis",
   "version": "0.1.0",
   "description": "TnT library for displaying trees and track-based annotations",
   "main": "index.js",
