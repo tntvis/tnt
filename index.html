@@ -60,7 +60,7 @@ var vis = tnt()
 
 vis(document.getElementById("mydiv"));
 {% endhighlight %}
-<p>The above example creates a new <a href="http://emepyc.github.io/tnt.tree/api/tree/index.html#tree">tree</a> and <a href="http://emepyc.github.io/tnt.board/api/track/index.html#board">board</a>. It also creates a new <a href={{ site.baseurl }}/api/tnt/index.html#track>track</a> function that creates new tnt.board.<a href="http://emepyc.github.io/tnt.board/api/track/index.html#Track">track</a>s from <i>tree leaves</i>. Once all these elements are defined and configured they are attached in a new <a href={{ site.baseurl }}/api/tnt/index.html#tnt>tnt</a> visualisation. This visualisation is then started using the given <i>DOM element</i> as its container.</p>
+<p>The above example creates a new <a href="http://tntvis.github.io/tnt.tree/api/tree/index.html#tree">tree</a> and <a href="http://tntvis.github.io/tnt.board/api/track/index.html#board">board</a>. It also creates a new <a href={{ site.baseurl }}/api/tnt/index.html#track>track</a> function that creates new tnt.board.<a href="http://tntvis.github.io/tnt.board/api/track/index.html#Track">track</a>s from <i>tree leaves</i>. Once all these elements are defined and configured they are attached in a new <a href={{ site.baseurl }}/api/tnt/index.html#tnt>tnt</a> visualisation. This visualisation is then started using the given <i>DOM element</i> as its container.</p>
 
 <h2><a name="Installation" href="#Installation">#</a>Installation</h2>
 <p>TnT can be used linking to the library directly. It depends on <a href="d3js.org">d3.js</a> and this library needs to be linked before TnT.</p>
@@ -70,8 +70,8 @@ vis(document.getElementById("mydiv"));
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
 <!-- TnT -->
-<link rel="stylesheet" href="http://emepyc.github.io/tnt/build/tnt.css" type="text/css" />
-<script src="http://emepyc.github.io/tnt/build/tnt.min.js" charset="utf-8"></script>
+<link rel="stylesheet" href="http://tntvis.github.io/tnt/build/tnt.css" type="text/css" />
+<script src="http://tntvis.github.io/tnt/build/tnt.min.js" charset="utf-8"></script>
 {% endhighlight %}
 
 <p>It is also possible to install the source code and build the library locally:</p>
@@ -85,7 +85,7 @@ npm install tntvis
     <li>
         Building from <b>Git</b>:
         {% highlight bash %}
-git clone https://github.com/emepyc/tnt
+git clone https://github.com/tntvis/tnt
 cd tnt
 npm install
 npm build-browser
@@ -95,9 +95,9 @@ npm build-browser
 
 
 <h2><a name="Browsers" href="#Browsers">#</a>Browser support</h2>
-<p>TnT works on HTML5, CSS3 and SVG-compliant browser, which generally means any "modern browser". The TnT library and the other TnT-related libraries are tested regularly against Chrome (Chromium) and major changes are regularly tested in recent versions of Firefox, Safari (Webkit) and Opera. It has been also tested in IE versions 9+. If you find any problem, please <a href="https://github.com/emepyc/tnt/issues">let me know</a>.</p>
+<p>TnT works on HTML5, CSS3 and SVG-compliant browser, which generally means any "modern browser". The TnT library and the other TnT-related libraries are tested regularly against Chrome (Chromium) and major changes are regularly tested in recent versions of Firefox, Safari (Webkit) and Opera. It has been also tested in IE versions 9+. If you find any problem, please <a href="https://github.com/tntvis/tnt/issues">let me know</a>.</p>
 
 <p>The TnT library depends only on the <a href="http://d3js.org">D3.js</a> library. Check its <a href="https://github.com/mbostock/d3/wiki#browser-support">browser's compatibility note</a> for more information. TnT themes may depend on other libraries and components for enhanced functionality. Check the documentation of the corresponding TnT theme for more information</p>
 
 <h2><a name="Feedback" href="#Feedback">#</a>Feedback</h2>
-<p>Please, send any feedback to <a href="mailto:emepyc@gmail.com">emepyc@gmail.com</a>. Bug reports and feature requests are also welcome <a href="https://github.com/emepyc/tnt/issues">here</a>
+<p>Please, send any feedback to <a href="mailto:emepyc@gmail.com">emepyc@gmail.com</a>. Bug reports and feature requests are also welcome <a href="https://github.com/tntvis/tnt/issues">here</a>
