@@ -12,6 +12,8 @@ var tnt_theme_tree_compare = function () {
         var newick = "(((((homo_sapiens,pan_troglodytes),callithrix_jacchus),mus_musculus),taeniopygia_guttata),danio_rerio);";
         var newick2 = "(((((mus_musculus,homo_sapiens),taeniopygia_guttata),danio_rerio);";
 
+	console.log(tnt.tree.node);
+	
     	var label_en = tnt.tree.label.text()
                 .text(function (node) {
                     if (node.children) {
