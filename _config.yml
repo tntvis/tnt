@@ -41,7 +41,7 @@ api :
                         .width (400)
                         .max (1000);
 
-                    var tree_annot = tnt.tree_annot()
+                    var ta = tnt()
                         .board (board);
 
                 - name : track
