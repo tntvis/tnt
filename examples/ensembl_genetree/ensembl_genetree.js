@@ -37,7 +37,7 @@ var render = function() {
                 .attr('fill', feature.color());
         });
 
-        feature.mover (function (nts) {
+        feature.move (function (nts) {
             var xScale = feature.scale();
             nts.select ("text")
                 .attr("x", function (d) {
