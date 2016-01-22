@@ -1,74 +1,74 @@
 {
-    "name": "tntvis",
-    "version": "0.1.0",
-    "description": "TnT library for displaying trees and track-based annotations",
-    "main": "index.js",
-    "directories": {
-        "test": "test"
-    },
-    "scripts": {
-        "test": "gulp test"
-    },
-    "respository": {
-        "type": "git",
-        "url": "https://github.com/tntvis/tnt"
-    },
-    "keywords": [
-        "tnt",
-        "d3",
-        "javascript",
-        "tree",
-        "phylogenetic",
-        "track",
-        "feature",
-        "annotation",
-        "bioinformatics",
-        "biojs"
+  "name": "tntvis",
+  "version": "0.1.1",
+  "description": "TnT library for displaying trees and track-based annotations",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "respository": {
+    "type": "git",
+    "url": "https://github.com/tntvis/tnt"
+  },
+  "keywords": [
+    "tnt",
+    "d3",
+    "javascript",
+    "tree",
+    "phylogenetic",
+    "track",
+    "feature",
+    "annotation",
+    "bioinformatics",
+    "biojs"
+  ],
+  "author": "Miguel Pignatelli",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/tntvis/tnt/issues"
+  },
+  "homepage": "http://tntvis.github.io/tnt/",
+  "dependencies": {
+    "biojs-events": "0.0.4",
+    "tnt.api": "^0.1.1",
+    "tnt.board": "^0.1.4",
+    "tnt.newick": "^0.0.4",
+    "tnt.tree": "^0.1.1",
+    "tnt.tree.node": "^0.1.0",
+    "tnt.utils": "^0.1.1"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "del": "^2.2.0",
+    "gulp": "^3.9.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-css-purge": "^1.0.27",
+    "gulp-debug": "^2.1.2",
+    "gulp-gzip": "^1.2.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.1.1",
+    "gulp-uglify": "^1.5.1",
+    "gulp-watch": "^4.3.5",
+    "jshint": "^2.8.0",
+    "mkdirp": "^0.5.1"
+  },
+  "sniper": {
+    "js": [
+      "http://d3js.org/d3.v3.min.js",
+      "http://tntvis.github.io/tnt/build/tnt.min.js",
+      "/snippets/data/data.js"
     ],
-    "author": "Miguel Pignatelli",
-    "license": "Apache-2.0",
-    "bugs": {
-        "url": "https://github.com/tntvis/tnt/issues"
-    },
-    "homepage": "http://tntvis.github.io/tnt/",
-    "dependencies": {
-        "biojs-events": "0.0.4",
-        "tnt.api": "^0.1.1",
-        "tnt.board": "^0.1.4",
-        "tnt.newick": "^0.0.4",
-        "tnt.tree": "^0.1.1",
-        "tnt.tree.node": "^0.1.0",
-        "tnt.utils": "^0.1.1"
-    },
-    "devDependencies": {
-        "chai": "^3.4.1",
-        "del": "^2.2.0",
-        "gulp": "^3.9.0",
-        "gulp-browserify": "^0.5.1",
-        "gulp-css-purge": "^1.0.27",
-        "gulp-debug": "^2.1.2",
-        "gulp-gzip": "^1.2.0",
-        "gulp-jshint": "^2.0.0",
-        "gulp-mocha": "^2.2.0",
-        "gulp-rename": "^1.2.2",
-        "gulp-sass": "^2.1.1",
-        "gulp-uglify": "^1.5.1",
-        "gulp-watch": "^4.3.5",
-        "jshint": "^2.8.0",
-        "mkdirp": "^0.5.1"
-    },
-    "sniper": {
-        "js": [
-            "http://d3js.org/d3.v3.min.js",
-            "http://tntvis.github.io/tnt/build/tnt.min.js",
-            "/snippets/data/data.js"
-        ],
-        "css": [
-            "http://tntvis.github.io/tnt/build/tnt.css"
-        ],
-        "snippets": [
-            "snippets"
-        ],
-        "first": "front"
-    }
+    "css": [
+      "http://tntvis.github.io/tnt/build/tnt.css"
+    ],
+    "snippets": [
+      "snippets"
+    ],
+    "first": "front"
+  }
 }
