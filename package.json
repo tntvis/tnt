@@ -30,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/tntvis/tnt/issues"
   },
-  "homepage": "https://tntvis.github.io/tnt/",
+  "homepage": "https://github.com/tntvis/tnt",
   "dependencies": {
     "biojs-events": "0.0.4",
     "tnt.api": "^0.1.1",
