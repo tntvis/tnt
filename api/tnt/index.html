@@ -8,7 +8,7 @@ api_toplevel : tnt
 <h2>TnT</h2>
 <p><i>TnT</i> is a javascript library built on top of TnT Tree and TnT Board to visualise trees and track-based annotations. There are several components that need to be set up in this visualisation: the <i>tree</i>, the <i>board</i> where the annotation is displayed and a <i>track</i> function that creates tracks for each <i>leaf</i> in the tree. All the methods available in TnT Tree and TnT Board are available plus some specific to TnT to synchronise the tree with the board.</p>
 
-{% highlight javascript linenos %}
+{% highlight javascript %}
 // The tree
 var tree = tnt.tree()
     .data(tnt.tree.parse_newick("((human, chimp),mouse)"))
