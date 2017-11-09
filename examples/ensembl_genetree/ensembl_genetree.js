@@ -249,14 +249,29 @@ var render = function() {
                 return d.data().sequence.mol_seq.seq.length;
             });
 
+            var axis_top = tnt.board.track()
+                .height(0)
+                .color("white")
+                .display(tnt.board.track.feature.axis()
+                    .orientation("top")
+                );
+
+            var axis_bottom = tnt.board.track()
+                .height(18)
+                .color("white")
+                .display(tnt.board.track.feature.axis()
+                    .orientation("bottom")
+                );
+
             ta.tree(tree);
+            ta.top(axis_top);
+            ta.bottom(axis_bottom);
             ta.board(board
                 .to(max_val)
                 .max(max_val)
                 .zoom_out(max_val)
                 .zoom_in(30)
             );
-            ta.ruler("both");
             ta.track(track);
 
             ta(div);

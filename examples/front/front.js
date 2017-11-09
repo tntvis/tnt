@@ -152,9 +152,25 @@ var tnt_theme = function () {
                 );
         };
 
+        var axis_top = tnt.board.track()
+            .height(0)
+            .color("white")
+            .display(tnt.board.track.feature.axis()
+        	     .orientation("top")
+        	    );
+
+        var axis_bottom = tnt.board.track()
+            .height(18)
+            .color("white")
+            .display(tnt.board.track.feature.axis()
+        	     .orientation("bottom")
+            );
+
+
         ta.tree(tree);
         ta.board(board);
-        ta.ruler("both");
+        ta.top(axis_top);
+        ta.bottom(axis_bottom);
         ta.track(track_lines);
 
         ta(div);

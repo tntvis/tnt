@@ -28,7 +28,9 @@ var ta = function () {
     	    return t;
     	},
     	board : undefined,
-    	ruler : "none",
+		top: undefined,
+		bottom: undefined,
+    	// ruler : "none",
     	key   : undefined
     };
 
@@ -78,38 +80,38 @@ var ta = function () {
     	}
 
     	// An axis track
-    	tnt.board.track.id = function () {
-    	    return "axis-top";
-    	};
-    	var axis_top = tnt.board.track()
-    	    .height(0)
-    	    .color("white")
-    	    .display(tnt.board.track.feature.axis()
-    		     .orientation("top")
-    		    );
+    	// tnt.board.track.id = function () {
+    	//     return "axis-top";
+    	// };
+    	// var axis_top = tnt.board.track()
+    	//     .height(0)
+    	//     .color("white")
+    	//     .display(tnt.board.track.feature.axis()
+    	// 	     .orientation("top")
+    	// 	    );
 
-    	tnt.board.track.id = function () {
-    	    return "axis-bottom";
-    	};
-    	var axis = tnt.board.track()
-    	    .height(18)
-    	    .color("white")
-    	    .display(tnt.board.track.feature.axis()
-    		     .orientation("bottom")
-             );
+    	// tnt.board.track.id = function () {
+    	//     return "axis-bottom";
+    	// };
+    	// var axis = tnt.board.track()
+    	//     .height(18)
+    	//     .color("white")
+    	//     .display(tnt.board.track.feature.axis()
+    	// 	     .orientation("bottom")
+		//     );
 
     	if (tree_conf.board) {
-    	    if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
-        		tree_conf.board
-        		    .add_track(axis_top);
+    		if (tree_conf.top) {
+                tree_conf.board
+        		    .add_track(tree_conf.top);
     	    }
 
     	    tree_conf.board
         		.add_track(tracks);
 
-    	    if (tree_conf.ruler === 'both' || tree_conf.ruler === "bottom") {
+    		if (tree_conf.bottom) {
         		tree_conf.board
-        		    .add_track(axis);
+        		    .add_track(tree_conf.bottom);
     	    }
 
     	    tree_conf.board(annot_div.node());
@@ -123,8 +125,8 @@ var ta = function () {
         		var leaves = tree_conf.tree.root().get_all_leaves();
         		var new_tracks = [];
 
-        		if (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') {
-        		    new_tracks.push(axis_top);
+        		if (tree_conf.top) {
+        		    new_tracks.push(tree_conf.top);
         		}
 
         		for (var i=0; i<leaves.length; i++) {
@@ -156,8 +158,8 @@ var ta = function () {
         		    }
         		    new_tracks.push(curr_track);
         		}
-        		if (tree_conf.ruler === 'both' || tree_conf.ruler === 'bottom') {
-        		    new_tracks.push(axis);
+        		if (tree_conf.bottom) {
+        		    new_tracks.push(tree_conf.bottom);
         		}
 
         		tree_conf.board.tracks(new_tracks);
@@ -191,15 +193,25 @@ var ta = function () {
     	var start_index = 0;
     	var n_index = 0;
 
-    	if (tree_conf.ruler === "both") {
-    	    start_index = 1;
-    	    n_index = 2;
-    	} else if (tree_conf.ruler === "top") {
-    	    start_index = 1;
-    	    n_index = 1;
-    	} else if (tree_conf.ruler === "bottom") {
-    	    n_index = 1;
-    	}
+    	if (tree_conf.top && tree_conf.bottom) {
+    		start_index = 1;
+    		n_index = 2;
+		} else if (tree_conf.top) {
+    		start_index = 1;
+    		n_index = 1;
+		} else if (tree_conf.bottom) {
+    		n_index = 1;
+		}
+
+    	// if (tree_conf.ruler === "both") {
+    	//     start_index = 1;
+    	//     n_index = 2;
+    	// } else if (tree_conf.ruler === "top") {
+    	//     start_index = 1;
+    	//     n_index = 1;
+    	// } else if (tree_conf.ruler === "bottom") {
+    	//     n_index = 1;
+    	// }
 
     	// Reset top track -- axis
     	if (start_index > 0) {
