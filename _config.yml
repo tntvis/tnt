@@ -116,15 +116,6 @@ api :
                     tnt()
                         .top(axis_bottom)
 
-                - name : ruler
-                  path : tnt
-                  args : string
-                  desc : sets the ruler (x-axis) to be displayed in the board
-                  full : Sets the ruler (x-axis) to be displayed in the board. Possible values are "top", "bottom", "both" and "none".
-                  example : |
-                    tnt()
-                        .ruler("both");
-
                 - name : key
                   path : tnt
                   args : string | callback
