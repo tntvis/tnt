@@ -86,6 +86,36 @@ api :
                     tree.root().find_node_by_name ('Mammals').toggle();
                     vis.update();
 
+                - name : top
+                  path : tnt
+                  args : tnt.board.track
+                  desc : sets the top track to be displayed in the board
+                  full : Sets the top track to be displayed in the board. This track will not be part of the tracks being linked to the tree leaves. Typically this can be an axis, but can be configured as required.
+                  example: |
+                    var axis_top = tnt.board.track()
+                            .height(0)
+                            .color("white")
+                            .display(tnt.board.track.feature.axis()
+                                .orientation("top")
+                            );
+                    tnt()
+                        .top(axis_top)
+
+                - name : bottom
+                  path : tnt
+                  args : tnt.board.track
+                  desc : sets the bottom track to be displayed in the board
+                  full : Sets the bottom track to be displayed in the board. This track will not be part of the tracks being linked to the tree leaves. Typically this can be an axis, but can be configured as required.
+                  example: |
+                    var axis_bottom = tnt.board.track()
+                            .height(0)
+                            .color("white")
+                            .display(tnt.board.track.feature.axis()
+                                .orientation("bottom")
+                            );
+                    tnt()
+                        .top(axis_bottom)
+
                 - name : ruler
                   path : tnt
                   args : string
