@@ -1,3 +1,4 @@
+var tnt;
 if (typeof tnt === "undefined") {
     module.exports = tnt = require("./src/ta.js");
 }
