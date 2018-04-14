@@ -1,6 +1,6 @@
-var tnt;
+// var tnt;
 if (typeof tnt === "undefined") {
-    module.exports = tnt = require("./src/ta.js");
+    tnt = require("./src/ta.js");
 }
 var eventsystem = require ("biojs-events");
 eventsystem.mixin (tnt);
@@ -10,3 +10,5 @@ tnt.tree.node = require ("tnt.tree.node");
 tnt.tree.parse_newick = require("tnt.newick").parse_newick;
 tnt.tree.parse_nhx = require("tnt.newick").parse_nhx;
 tnt.board = require ("tnt.board");
+
+module.exports = tnt;
