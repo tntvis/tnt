@@ -54,21 +54,25 @@ var ta = function () {
             .attr("id", "tnt_annot_container_" + div_id)
             .attr("class", "tnt_annot_container");
 
-        var drag = annot_div
+        var curr_tree_width = tree_conf.tree.layout().width();
+        var drag = group_div
             .append("div")
-            .attr("id", "tnt_annot_drag");
+            .attr("id", "tnt_annot_drag")
+            .style("left", curr_tree_width + "px");
 
         // Dragging
         drag.on("mousedown", function () {
             var resizing_pos = d3.event.clientX;
+            curr_tree_width = tree_conf.tree.layout().width();
+            var curr_board_width = tree_conf.board.width();
 
             var deferred = defer_cancel(function mousemove(clientX) {
                 var current_pos = clientX;
                 var diff = current_pos - resizing_pos;
-                var curr_tree_width = tree_conf.tree.layout().width();
+                // var curr_tree_width = tree_conf.tree.layout().width();
                 tree_conf.tree.layout().width(curr_tree_width + diff);
 
-                var curr_board_width = tree_conf.board.width();
+                // var curr_board_width = tree_conf.board.width();
                 tree_conf.board.width(curr_board_width - diff);
 
                 tree_conf.tree.update();
@@ -80,6 +84,9 @@ var ta = function () {
             var w = d3.select(window)
                 .on("mousemove", function () {
                     deferred(d3.event.clientX);
+                    var curr_tree_width = tree_conf.tree.layout().width();
+                    var diff = d3.event.clientX - resizing_pos;
+                    drag.style("left", (curr_tree_width + diff) + "px");
                 })
                 .on("mouseup", mouseup);
 
@@ -205,8 +212,6 @@ var ta = function () {
 
         // If it is reset -- apply the changes
         var tracks = tree_conf.board.tracks();
-        // var start_index = (tree_conf.ruler === 'both' || tree_conf.ruler === 'top') ? 1 : 0;
-        // var end_index = (tree_conf.ruler === 'both' || tree_conf.ruler === 'bottom') ? 1 : 0;
 
         var start_index = 0;
         var n_index = 0;
@@ -220,16 +225,6 @@ var ta = function () {
         } else if (tree_conf.bottom) {
             n_index = 1;
         }
-
-        // if (tree_conf.ruler === "both") {
-        //     start_index = 1;
-        //     n_index = 2;
-        // } else if (tree_conf.ruler === "top") {
-        //     start_index = 1;
-        //     n_index = 1;
-        // } else if (tree_conf.ruler === "bottom") {
-        //     n_index = 1;
-        // }
 
         // Reset top track -- axis
         if (start_index > 0) {
