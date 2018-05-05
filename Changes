@@ -1,8 +1,16 @@
 0.1.1
-	Biojs keyword and snippets added
+    Biojs keyword and snippets added
+
 0.1.2
-	Updated dependencies
+    Updated dependencies
+
 0.1.3
-        Updated dependencies
+    Updated dependencies
+
 0.2.0
-	Added resizing by dragging
+    Added resizing by dragging
+
+0.3.1
+    Added drag event
+
+

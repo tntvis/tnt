@@ -1,7 +1,10 @@
 var apijs = require("tnt.api");
+var defer_cancel = require("tnt.utils").defer_cancel;
 
 var ta = function () {
     "use strict";
+
+    var dispatch = d3.dispatch ("drag");
 
     var no_track = true;
     var div_id;
@@ -30,7 +33,7 @@ var ta = function () {
         board: undefined,
         top: undefined,
         bottom: undefined,
-        key: undefined
+        key: undefined,
     };
 
     var tree_annot = function (div) {
@@ -55,17 +58,12 @@ var ta = function () {
             .append("div")
             .attr("id", "tnt_annot_drag");
 
-
         // Dragging
         drag.on("mousedown", function () {
             var resizing_pos = d3.event.clientX;
 
-            var w = d3.select(window)
-                .on("mousemove", mousemove)
-                .on("mouseup", mouseup);
-
-            function mousemove() {
-                var current_pos = d3.event.clientX;
+            var deferred = defer_cancel(function mousemove(clientX) {
+                var current_pos = clientX;
                 var diff = current_pos - resizing_pos;
                 var curr_tree_width = tree_conf.tree.layout().width();
                 tree_conf.tree.layout().width(curr_tree_width + diff);
@@ -76,7 +74,14 @@ var ta = function () {
                 tree_conf.tree.update();
                 tree_conf.board.update();
                 resizing_pos = current_pos;
-            }
+                dispatch.drag.call(this);
+            }, 300);
+
+            var w = d3.select(window)
+                .on("mousemove", function () {
+                    deferred(d3.event.clientX);
+                })
+                .on("mouseup", mouseup);
 
             function mouseup() {
                 // TODO: Does this remove other listeners on the window?
@@ -268,7 +273,8 @@ var ta = function () {
         tree_conf.board.start();
     };
 
-    return tree_annot;
+    // return tree_annot;
+    return d3.rebind (tree_annot, dispatch, "on");
 };
 
 module.exports = exports = ta;
