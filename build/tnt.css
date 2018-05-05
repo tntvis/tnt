@@ -47,8 +47,8 @@ svg text {
 #tnt_annot_drag {
 	width: 8px;
 	position: absolute;
-	left: -4px;
 	top: 0;
 	bottom: 0;
 	cursor: col-resize;
+	border-left: 1px dotted grey;
 }
