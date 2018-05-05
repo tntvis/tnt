@@ -10,7 +10,10 @@
 0.2.0
     Added resizing by dragging
 
-0.3.1
+0.3.0
     Added drag event
+
+0.3.1
+    Improved drag (dotted separation)
 
 
