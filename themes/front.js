@@ -152,8 +152,24 @@ var tnt_theme = function () {
                 );
         };
 
+        var axis_top = tnt.board.track()
+            .height(0)
+            .color("white")
+            .display(tnt.board.track.feature.axis()
+                .orientation("top")
+            );
+
+        var axis_bottom = tnt.board.track()
+            .height(18)
+            .color("white")
+            .display(tnt.board.track.feature.axis()
+                .orientation("bottom")
+            );
+
         ta.tree(tree);
         ta.board(board);
+        ta.top(axis_to);
+        ta.bottom(axis_bottom);
         ta.ruler("both");
         ta.track(track_lines);
 
