@@ -1,6 +1,6 @@
 {
   "name": "tntvis",
-  "version": "0.1.13",
+  "version": "0.2.0",
   "description": "TnT library for displaying trees and track-based annotations",
   "main": "index.js",
   "directories": {
