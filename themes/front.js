@@ -170,7 +170,6 @@ var tnt_theme = function () {
         ta.board(board);
         ta.top(axis_top);
         ta.bottom(axis_bottom);
-        ta.ruler("both");
         ta.track(track_lines);
 
         ta(div);
