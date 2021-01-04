@@ -168,7 +168,7 @@ var tnt_theme = function () {
 
         ta.tree(tree);
         ta.board(board);
-        ta.top(axis_to);
+        ta.top(axis_top);
         ta.bottom(axis_bottom);
         ta.ruler("both");
         ta.track(track_lines);
